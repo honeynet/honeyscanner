@@ -9,7 +9,7 @@
         "code": "83             else:\n84                 nat_ssh = reactor.listenTCP(0, ServerFactory(dst_ip, ssh_port), interface='0.0.0.0')\n85                 nat_telnet = reactor.listenTCP(0, ServerFactory(dst_ip, telnet_port), interface='0.0.0.0')\n",
         "col_offset": 90,
         "end_col_offset": 99,
-        "filename": "/Users/aristofanischionis/Desktop/Msc DTU/courses/thesis/honeyscanner/honeyscanner/passive_attacks/static_analyzer/cowrie-2.1.0/src/backend_pool/nat.py",
+        "filename": "/Users/aristofanischionis/Desktop/MscDTU/courses/thesis/Honeyscanner/honeyscanner/passive_attacks/static_analyzer/cowrie-2.1.0/src/backend_pool/nat.py",
         "issue_confidence": "MEDIUM",
         "issue_cwe": {
           "id": 605,
@@ -29,7 +29,7 @@
         "code": "84                 nat_ssh = reactor.listenTCP(0, ServerFactory(dst_ip, ssh_port), interface='0.0.0.0')\n85                 nat_telnet = reactor.listenTCP(0, ServerFactory(dst_ip, telnet_port), interface='0.0.0.0')\n86                 self.bindings[guest_id] = [0, nat_ssh, nat_telnet]\n",
         "col_offset": 96,
         "end_col_offset": 105,
-        "filename": "/Users/aristofanischionis/Desktop/Msc DTU/courses/thesis/honeyscanner/honeyscanner/passive_attacks/static_analyzer/cowrie-2.1.0/src/backend_pool/nat.py",
+        "filename": "/Users/aristofanischionis/Desktop/MscDTU/courses/thesis/Honeyscanner/honeyscanner/passive_attacks/static_analyzer/cowrie-2.1.0/src/backend_pool/nat.py",
         "issue_confidence": "MEDIUM",
         "issue_cwe": {
           "id": 605,
@@ -49,7 +49,7 @@
         "code": "5 \n6 import ftplib\n7 import getopt\n",
         "col_offset": 0,
         "end_col_offset": 13,
-        "filename": "/Users/aristofanischionis/Desktop/Msc DTU/courses/thesis/honeyscanner/honeyscanner/passive_attacks/static_analyzer/cowrie-2.1.0/src/cowrie/commands/ftpget.py",
+        "filename": "/Users/aristofanischionis/Desktop/MscDTU/courses/thesis/Honeyscanner/honeyscanner/passive_attacks/static_analyzer/cowrie-2.1.0/src/cowrie/commands/ftpget.py",
         "issue_confidence": "HIGH",
         "issue_cwe": {
           "id": 319,
@@ -69,7 +69,7 @@
         "code": "23         self.source_address = kwargs.pop(\"source_address\", None)\n24         ftplib.FTP.__init__(self, *args, **kwargs)\n25 \n",
         "col_offset": 8,
         "end_col_offset": 50,
-        "filename": "/Users/aristofanischionis/Desktop/Msc DTU/courses/thesis/honeyscanner/honeyscanner/passive_attacks/static_analyzer/cowrie-2.1.0/src/cowrie/commands/ftpget.py",
+        "filename": "/Users/aristofanischionis/Desktop/MscDTU/courses/thesis/Honeyscanner/honeyscanner/passive_attacks/static_analyzer/cowrie-2.1.0/src/cowrie/commands/ftpget.py",
         "issue_confidence": "HIGH",
         "issue_cwe": {
           "id": 319,
@@ -89,7 +89,7 @@
         "code": "54                 if resp[0] != '1':\n55                     raise ftplib.error_reply(resp)\n56             except Exception:\n",
         "col_offset": 26,
         "end_col_offset": 50,
-        "filename": "/Users/aristofanischionis/Desktop/Msc DTU/courses/thesis/honeyscanner/honeyscanner/passive_attacks/static_analyzer/cowrie-2.1.0/src/cowrie/commands/ftpget.py",
+        "filename": "/Users/aristofanischionis/Desktop/MscDTU/courses/thesis/Honeyscanner/honeyscanner/passive_attacks/static_analyzer/cowrie-2.1.0/src/cowrie/commands/ftpget.py",
         "issue_confidence": "HIGH",
         "issue_cwe": {
           "id": 319,
@@ -109,7 +109,7 @@
         "code": "67                 if resp[0] != '1':\n68                     raise ftplib.error_reply(resp)\n69                 conn, sockaddr = sock.accept()\n",
         "col_offset": 26,
         "end_col_offset": 50,
-        "filename": "/Users/aristofanischionis/Desktop/Msc DTU/courses/thesis/honeyscanner/honeyscanner/passive_attacks/static_analyzer/cowrie-2.1.0/src/cowrie/commands/ftpget.py",
+        "filename": "/Users/aristofanischionis/Desktop/MscDTU/courses/thesis/Honeyscanner/honeyscanner/passive_attacks/static_analyzer/cowrie-2.1.0/src/cowrie/commands/ftpget.py",
         "issue_confidence": "HIGH",
         "issue_cwe": {
           "id": 319,
@@ -129,7 +129,7 @@
         "code": "74         if resp[:3] == '150':\n75             size = ftplib.parse150(resp)\n76         return conn, size\n",
         "col_offset": 19,
         "end_col_offset": 40,
-        "filename": "/Users/aristofanischionis/Desktop/Msc DTU/courses/thesis/honeyscanner/honeyscanner/passive_attacks/static_analyzer/cowrie-2.1.0/src/cowrie/commands/ftpget.py",
+        "filename": "/Users/aristofanischionis/Desktop/MscDTU/courses/thesis/Honeyscanner/honeyscanner/passive_attacks/static_analyzer/cowrie-2.1.0/src/cowrie/commands/ftpget.py",
         "issue_confidence": "HIGH",
         "issue_cwe": {
           "id": 319,
@@ -149,7 +149,7 @@
         "code": "90         except Exception:\n91             out_addr = ('0.0.0.0', 0)\n92 \n",
         "col_offset": 24,
         "end_col_offset": 33,
-        "filename": "/Users/aristofanischionis/Desktop/Msc DTU/courses/thesis/honeyscanner/honeyscanner/passive_attacks/static_analyzer/cowrie-2.1.0/src/cowrie/commands/nc.py",
+        "filename": "/Users/aristofanischionis/Desktop/MscDTU/courses/thesis/Honeyscanner/honeyscanner/passive_attacks/static_analyzer/cowrie-2.1.0/src/cowrie/commands/nc.py",
         "issue_confidence": "MEDIUM",
         "issue_cwe": {
           "id": 605,
@@ -169,7 +169,7 @@
         "code": "64             default = \"default\"\n65             lgateway = \"0.0.0.0\"\n66         else:\n",
         "col_offset": 23,
         "end_col_offset": 32,
-        "filename": "/Users/aristofanischionis/Desktop/Msc DTU/courses/thesis/honeyscanner/honeyscanner/passive_attacks/static_analyzer/cowrie-2.1.0/src/cowrie/commands/netstat.py",
+        "filename": "/Users/aristofanischionis/Desktop/MscDTU/courses/thesis/Honeyscanner/honeyscanner/passive_attacks/static_analyzer/cowrie-2.1.0/src/cowrie/commands/netstat.py",
         "issue_confidence": "MEDIUM",
         "issue_cwe": {
           "id": 605,
@@ -189,7 +189,7 @@
         "code": "66         else:\n67             default = \"0.0.0.0\"\n68             lgateway = \"*\"\n",
         "col_offset": 22,
         "end_col_offset": 31,
-        "filename": "/Users/aristofanischionis/Desktop/Msc DTU/courses/thesis/honeyscanner/honeyscanner/passive_attacks/static_analyzer/cowrie-2.1.0/src/cowrie/commands/netstat.py",
+        "filename": "/Users/aristofanischionis/Desktop/MscDTU/courses/thesis/Honeyscanner/honeyscanner/passive_attacks/static_analyzer/cowrie-2.1.0/src/cowrie/commands/netstat.py",
         "issue_confidence": "MEDIUM",
         "issue_cwe": {
           "id": 605,
@@ -209,7 +209,7 @@
         "code": "69         else:\n70             s = hashlib.md5((self.host).encode(\"utf-8\")).hexdigest()\n71             self.ip = '.'.join([str(int(x, 16)) for x in (s[0:2], s[2:4], s[4:6], s[6:8])])\n",
         "col_offset": 16,
         "end_col_offset": 56,
-        "filename": "/Users/aristofanischionis/Desktop/Msc DTU/courses/thesis/honeyscanner/honeyscanner/passive_attacks/static_analyzer/cowrie-2.1.0/src/cowrie/commands/ping.py",
+        "filename": "/Users/aristofanischionis/Desktop/MscDTU/courses/thesis/Honeyscanner/honeyscanner/passive_attacks/static_analyzer/cowrie-2.1.0/src/cowrie/commands/ping.py",
         "issue_confidence": "HIGH",
         "issue_cwe": {
           "id": 327,
@@ -229,7 +229,7 @@
         "code": "73         else:\n74             s = hashlib.md5(host).hexdigest()\n75             self.ip = '.'.join([str(int(x, 16)) for x in\n",
         "col_offset": 16,
         "end_col_offset": 33,
-        "filename": "/Users/aristofanischionis/Desktop/Msc DTU/courses/thesis/honeyscanner/honeyscanner/passive_attacks/static_analyzer/cowrie-2.1.0/src/cowrie/commands/ssh.py",
+        "filename": "/Users/aristofanischionis/Desktop/MscDTU/courses/thesis/Honeyscanner/honeyscanner/passive_attacks/static_analyzer/cowrie-2.1.0/src/cowrie/commands/ssh.py",
         "issue_confidence": "HIGH",
         "issue_cwe": {
           "id": 327,
@@ -249,7 +249,7 @@
         "code": "62         randnum2 = random.randint(100, 900)\n63         randhash = hashlib.sha1(b'{}'.format(randnum)).hexdigest()\n64         randhash2 = hashlib.sha1(b'{}'.format(randnum2)).hexdigest()\n",
         "col_offset": 19,
         "end_col_offset": 54,
-        "filename": "/Users/aristofanischionis/Desktop/Msc DTU/courses/thesis/honeyscanner/honeyscanner/passive_attacks/static_analyzer/cowrie-2.1.0/src/cowrie/commands/yum.py",
+        "filename": "/Users/aristofanischionis/Desktop/MscDTU/courses/thesis/Honeyscanner/honeyscanner/passive_attacks/static_analyzer/cowrie-2.1.0/src/cowrie/commands/yum.py",
         "issue_confidence": "HIGH",
         "issue_cwe": {
           "id": 327,
@@ -269,7 +269,7 @@
         "code": "63         randhash = hashlib.sha1(b'{}'.format(randnum)).hexdigest()\n64         randhash2 = hashlib.sha1(b'{}'.format(randnum2)).hexdigest()\n65         yield self.sleep(1, 2)\n",
         "col_offset": 20,
         "end_col_offset": 56,
-        "filename": "/Users/aristofanischionis/Desktop/Msc DTU/courses/thesis/honeyscanner/honeyscanner/passive_attacks/static_analyzer/cowrie-2.1.0/src/cowrie/commands/yum.py",
+        "filename": "/Users/aristofanischionis/Desktop/MscDTU/courses/thesis/Honeyscanner/honeyscanner/passive_attacks/static_analyzer/cowrie-2.1.0/src/cowrie/commands/yum.py",
         "issue_confidence": "HIGH",
         "issue_cwe": {
           "id": 327,
@@ -289,7 +289,7 @@
         "code": "60 \n61     def checklogin(self, thelogin, thepasswd, src_ip='0.0.0.0'):\n62         for credentials, policy in self.userdb.items():\n",
         "col_offset": 53,
         "end_col_offset": 62,
-        "filename": "/Users/aristofanischionis/Desktop/Msc DTU/courses/thesis/honeyscanner/honeyscanner/passive_attacks/static_analyzer/cowrie-2.1.0/src/cowrie/core/auth.py",
+        "filename": "/Users/aristofanischionis/Desktop/MscDTU/courses/thesis/Honeyscanner/honeyscanner/passive_attacks/static_analyzer/cowrie-2.1.0/src/cowrie/core/auth.py",
         "issue_confidence": "MEDIUM",
         "issue_cwe": {
           "id": 605,
@@ -309,7 +309,7 @@
         "code": "100     else:\n101         listen_addr = '0.0.0.0'\n102 \n",
         "col_offset": 22,
         "end_col_offset": 31,
-        "filename": "/Users/aristofanischionis/Desktop/Msc DTU/courses/thesis/honeyscanner/honeyscanner/passive_attacks/static_analyzer/cowrie-2.1.0/src/cowrie/core/passive_attacks.py",
+        "filename": "/Users/aristofanischionis/Desktop/MscDTU/courses/thesis/Honeyscanner/honeyscanner/passive_attacks/static_analyzer/cowrie-2.1.0/src/cowrie/core/utils.py",
         "issue_confidence": "MEDIUM",
         "issue_cwe": {
           "id": 605,
@@ -329,7 +329,7 @@
         "code": "83             with open(self.state_dump, 'rb') as f:\n84                 self.logbook.update(pickle.load(f))\n85 \n",
         "col_offset": 36,
         "end_col_offset": 50,
-        "filename": "/Users/aristofanischionis/Desktop/Msc DTU/courses/thesis/honeyscanner/honeyscanner/passive_attacks/static_analyzer/cowrie-2.1.0/src/cowrie/output/abuseipdb.py",
+        "filename": "/Users/aristofanischionis/Desktop/MscDTU/courses/thesis/Honeyscanner/honeyscanner/passive_attacks/static_analyzer/cowrie-2.1.0/src/cowrie/output/abuseipdb.py",
         "issue_confidence": "HIGH",
         "issue_cwe": {
           "id": 502,
@@ -349,7 +349,7 @@
         "code": "101                 ),\n102                 verify=False,\n103                 auth=HTTPBasicAuth(\n104                     self.api_user,\n105                     self.api_passwd\n106                 ),\n107                 timeout=60\n108             )\n109             if res and res.ok:\n110                 print(\"Sample found in Sandbox, with ID: {}\".format(res.json().get(\"sample\", {}).get(\"id\", 0)))\n111                 res = True\n112         except Exception as e:\n113             print(e)\n114 \n",
         "col_offset": 18,
         "end_col_offset": 13,
-        "filename": "/Users/aristofanischionis/Desktop/Msc DTU/courses/thesis/honeyscanner/honeyscanner/passive_attacks/static_analyzer/cowrie-2.1.0/src/cowrie/output/cuckoo.py",
+        "filename": "/Users/aristofanischionis/Desktop/MscDTU/courses/thesis/Honeyscanner/honeyscanner/passive_attacks/static_analyzer/cowrie-2.1.0/src/cowrie/output/cuckoo.py",
         "issue_confidence": "HIGH",
         "issue_cwe": {
           "id": 295,
@@ -380,7 +380,7 @@
         "code": "132                 ),\n133                 verify=False\n134             )\n135             if res and res.ok:\n136                 print(\"Cuckoo Request: {}, Task created with ID: {}\".format(res.status_code, res.json()[\"task_id\"]))\n137             else:\n138                 print(\"Cuckoo Request failed: {}\".format(res.status_code))\n139         except Exception as e:\n140             print(\"Cuckoo Request failed: {}\".format(e))\n141         return\n142 \n143     def posturl(self, scanUrl):\n144         \"\"\"\n145         Send a URL to Cuckoo\n",
         "col_offset": 18,
         "end_col_offset": 13,
-        "filename": "/Users/aristofanischionis/Desktop/Msc DTU/courses/thesis/honeyscanner/honeyscanner/passive_attacks/static_analyzer/cowrie-2.1.0/src/cowrie/output/cuckoo.py",
+        "filename": "/Users/aristofanischionis/Desktop/MscDTU/courses/thesis/Honeyscanner/honeyscanner/passive_attacks/static_analyzer/cowrie-2.1.0/src/cowrie/output/cuckoo.py",
         "issue_confidence": "HIGH",
         "issue_cwe": {
           "id": 295,
@@ -411,7 +411,7 @@
         "code": "122         try:\n123             res = requests.post(\n124                 urljoin(\n125                     self.url_base,\n126                     \"tasks/create/file\"\n127                 ).encode(\"utf-8\"),\n128                 files=files,\n129                 auth=HTTPBasicAuth(\n130                     self.api_user,\n131                     self.api_passwd\n132                 ),\n133                 verify=False\n134             )\n135             if res and res.ok:\n",
         "col_offset": 18,
         "end_col_offset": 13,
-        "filename": "/Users/aristofanischionis/Desktop/Msc DTU/courses/thesis/honeyscanner/honeyscanner/passive_attacks/static_analyzer/cowrie-2.1.0/src/cowrie/output/cuckoo.py",
+        "filename": "/Users/aristofanischionis/Desktop/MscDTU/courses/thesis/Honeyscanner/honeyscanner/passive_attacks/static_analyzer/cowrie-2.1.0/src/cowrie/output/cuckoo.py",
         "issue_confidence": "LOW",
         "issue_cwe": {
           "id": 400,
@@ -442,7 +442,7 @@
         "code": "158                 ),\n159                 verify=False\n160             )\n161             if res and res.ok:\n162                 print(\"Cuckoo Request: {}, Task created with ID: {}\".format(res.status_code, res.json()[\"task_id\"]))\n163             else:\n164                 print(\"Cuckoo Request failed: {}\".format(res.status_code))\n165         except Exception as e:\n166             print(\"Cuckoo Request failed: {}\".format(e))\n167         return\n",
         "col_offset": 18,
         "end_col_offset": 13,
-        "filename": "/Users/aristofanischionis/Desktop/Msc DTU/courses/thesis/honeyscanner/honeyscanner/passive_attacks/static_analyzer/cowrie-2.1.0/src/cowrie/output/cuckoo.py",
+        "filename": "/Users/aristofanischionis/Desktop/MscDTU/courses/thesis/Honeyscanner/honeyscanner/passive_attacks/static_analyzer/cowrie-2.1.0/src/cowrie/output/cuckoo.py",
         "issue_confidence": "HIGH",
         "issue_cwe": {
           "id": 295,
@@ -473,7 +473,7 @@
         "code": "148         try:\n149             res = requests.post(\n150                 urljoin(\n151                     self.url_base,\n152                     \"tasks/create/url\"\n153                 ).encode(\"utf-8\"),\n154                 data=data,\n155                 auth=HTTPBasicAuth(\n156                     self.api_user,\n157                     self.api_passwd\n158                 ),\n159                 verify=False\n160             )\n161             if res and res.ok:\n",
         "col_offset": 18,
         "end_col_offset": 13,
-        "filename": "/Users/aristofanischionis/Desktop/Msc DTU/courses/thesis/honeyscanner/honeyscanner/passive_attacks/static_analyzer/cowrie-2.1.0/src/cowrie/output/cuckoo.py",
+        "filename": "/Users/aristofanischionis/Desktop/MscDTU/courses/thesis/Honeyscanner/honeyscanner/passive_attacks/static_analyzer/cowrie-2.1.0/src/cowrie/output/cuckoo.py",
         "issue_confidence": "LOW",
         "issue_cwe": {
           "id": 400,
@@ -504,7 +504,7 @@
         "code": "123                     failed = True\n124                 sha1_local = hashlib.sha1()\n125                 sha1_local.update(log_output.encode('utf8'))\n",
         "col_offset": 29,
         "end_col_offset": 43,
-        "filename": "/Users/aristofanischionis/Desktop/Msc DTU/courses/thesis/honeyscanner/honeyscanner/passive_attacks/static_analyzer/cowrie-2.1.0/src/cowrie/output/dshield.py",
+        "filename": "/Users/aristofanischionis/Desktop/MscDTU/courses/thesis/Honeyscanner/honeyscanner/passive_attacks/static_analyzer/cowrie-2.1.0/src/cowrie/output/dshield.py",
         "issue_confidence": "HIGH",
         "issue_cwe": {
           "id": 327,
@@ -524,7 +524,7 @@
         "code": "134                     failed = True\n135                 md5_local = hashlib.md5()\n136                 md5_local.update(log_output.encode('utf8'))\n",
         "col_offset": 28,
         "end_col_offset": 41,
-        "filename": "/Users/aristofanischionis/Desktop/Msc DTU/courses/thesis/honeyscanner/honeyscanner/passive_attacks/static_analyzer/cowrie-2.1.0/src/cowrie/output/dshield.py",
+        "filename": "/Users/aristofanischionis/Desktop/MscDTU/courses/thesis/Honeyscanner/honeyscanner/passive_attacks/static_analyzer/cowrie-2.1.0/src/cowrie/output/dshield.py",
         "issue_confidence": "HIGH",
         "issue_cwe": {
           "id": 327,
@@ -544,7 +544,7 @@
         "code": "86 def msgauth(rand, ident, secret):\n87     hash = hashlib.sha1(bytes(rand) + secret).digest()\n88     return msghdr(OP_AUTH, strpack8(ident) + hash)\n",
         "col_offset": 11,
         "end_col_offset": 45,
-        "filename": "/Users/aristofanischionis/Desktop/Msc DTU/courses/thesis/honeyscanner/honeyscanner/passive_attacks/static_analyzer/cowrie-2.1.0/src/cowrie/output/hpfeeds.py",
+        "filename": "/Users/aristofanischionis/Desktop/MscDTU/courses/thesis/Honeyscanner/honeyscanner/passive_attacks/static_analyzer/cowrie-2.1.0/src/cowrie/output/hpfeeds.py",
         "issue_confidence": "HIGH",
         "issue_cwe": {
           "id": 327,
@@ -564,7 +564,7 @@
         "code": "91                 files={fileName: open(artifact, \"rb\")},\n92                 verify=False\n93             )\n94             if res and res.ok:\n95                 print(\"Submited to MalShare\")\n96             else:\n97                 print(\"MalShare Request failed: {}\".format(res.status_code))\n",
         "col_offset": 18,
         "end_col_offset": 13,
-        "filename": "/Users/aristofanischionis/Desktop/Msc DTU/courses/thesis/honeyscanner/honeyscanner/passive_attacks/static_analyzer/cowrie-2.1.0/src/cowrie/output/malshare.py",
+        "filename": "/Users/aristofanischionis/Desktop/MscDTU/courses/thesis/Honeyscanner/honeyscanner/passive_attacks/static_analyzer/cowrie-2.1.0/src/cowrie/output/malshare.py",
         "issue_confidence": "HIGH",
         "issue_cwe": {
           "id": 295,
@@ -588,7 +588,7 @@
         "code": "88         try:\n89             res = requests.post(\n90                 \"https://malshare.com/api.php?mode=cli\",\n91                 files={fileName: open(artifact, \"rb\")},\n92                 verify=False\n93             )\n94             if res and res.ok:\n",
         "col_offset": 18,
         "end_col_offset": 13,
-        "filename": "/Users/aristofanischionis/Desktop/Msc DTU/courses/thesis/honeyscanner/honeyscanner/passive_attacks/static_analyzer/cowrie-2.1.0/src/cowrie/output/malshare.py",
+        "filename": "/Users/aristofanischionis/Desktop/MscDTU/courses/thesis/Honeyscanner/honeyscanner/passive_attacks/static_analyzer/cowrie-2.1.0/src/cowrie/output/malshare.py",
         "issue_confidence": "LOW",
         "issue_cwe": {
           "id": 400,
@@ -612,7 +612,7 @@
         "code": "46         from cryptography.hazmat.primitives.asymmetric import dsa\n47         dsaKey = dsa.generate_private_key(key_size=1024, backend=default_backend())\n48         publicKeyString = keys.Key(dsaKey).public().toString('openssh')\n",
         "col_offset": 17,
         "end_col_offset": 83,
-        "filename": "/Users/aristofanischionis/Desktop/Msc DTU/courses/thesis/honeyscanner/honeyscanner/passive_attacks/static_analyzer/cowrie-2.1.0/src/cowrie/ssh/keys.py",
+        "filename": "/Users/aristofanischionis/Desktop/MscDTU/courses/thesis/Honeyscanner/honeyscanner/passive_attacks/static_analyzer/cowrie-2.1.0/src/cowrie/ssh/keys.py",
         "issue_confidence": "HIGH",
         "issue_cwe": {
           "id": 326,
@@ -632,7 +632,7 @@
         "code": "178             cmp=ccompCS)\n179         hassh = md5(hasshAlgorithms.encode('utf-8')).hexdigest()\n180 \n",
         "col_offset": 16,
         "end_col_offset": 52,
-        "filename": "/Users/aristofanischionis/Desktop/Msc DTU/courses/thesis/honeyscanner/honeyscanner/passive_attacks/static_analyzer/cowrie-2.1.0/src/cowrie/ssh/transport.py",
+        "filename": "/Users/aristofanischionis/Desktop/MscDTU/courses/thesis/Honeyscanner/honeyscanner/passive_attacks/static_analyzer/cowrie-2.1.0/src/cowrie/ssh/transport.py",
         "issue_confidence": "HIGH",
         "issue_cwe": {
           "id": 327,
@@ -652,7 +652,7 @@
         "code": "290             cmp=ccompCS)\n291         hassh = md5(hasshAlgorithms.encode('utf-8')).hexdigest()\n292 \n",
         "col_offset": 16,
         "end_col_offset": 52,
-        "filename": "/Users/aristofanischionis/Desktop/Msc DTU/courses/thesis/honeyscanner/honeyscanner/passive_attacks/static_analyzer/cowrie-2.1.0/src/cowrie/ssh_proxy/server_transport.py",
+        "filename": "/Users/aristofanischionis/Desktop/MscDTU/courses/thesis/Honeyscanner/honeyscanner/passive_attacks/static_analyzer/cowrie-2.1.0/src/cowrie/ssh_proxy/server_transport.py",
         "issue_confidence": "HIGH",
         "issue_cwe": {
           "id": 327,
@@ -672,7 +672,7 @@
         "code": "54                   'F10', 'F11', 'F12'):\n55         exec('%s = object()' % (keyID,))\n56 \n",
         "col_offset": 8,
         "end_col_offset": 40,
-        "filename": "/Users/aristofanischionis/Desktop/Msc DTU/courses/thesis/honeyscanner/honeyscanner/passive_attacks/static_analyzer/cowrie-2.1.0/src/cowrie/test/fake_transport.py",
+        "filename": "/Users/aristofanischionis/Desktop/MscDTU/courses/thesis/Honeyscanner/honeyscanner/passive_attacks/static_analyzer/cowrie-2.1.0/src/cowrie/test/fake_transport.py",
         "issue_confidence": "HIGH",
         "issue_cwe": {
           "id": 78,
@@ -692,7 +692,7 @@
         "code": "19 os.environ[\"HONEYPOT_DATA_PATH\"] = \"../data\"\n20 os.environ[\"HONEYPOT_DOWNLOAD_PATH\"] = \"/tmp\"\n21 os.environ[\"SHELL_FILESYSTEM\"] = \"../share/cowrie/fs.pickle\"\n",
         "col_offset": 39,
         "end_col_offset": 45,
-        "filename": "/Users/aristofanischionis/Desktop/Msc DTU/courses/thesis/honeyscanner/honeyscanner/passive_attacks/static_analyzer/cowrie-2.1.0/src/cowrie/test/test_awk.py",
+        "filename": "/Users/aristofanischionis/Desktop/MscDTU/courses/thesis/Honeyscanner/honeyscanner/passive_attacks/static_analyzer/cowrie-2.1.0/src/cowrie/test/test_awk.py",
         "issue_confidence": "MEDIUM",
         "issue_cwe": {
           "id": 377,
@@ -712,7 +712,7 @@
         "code": "19 os.environ[\"HONEYPOT_DATA_PATH\"] = \"../data\"\n20 os.environ[\"HONEYPOT_DOWNLOAD_PATH\"] = \"/tmp\"\n21 os.environ[\"SHELL_FILESYSTEM\"] = \"../share/cowrie/fs.pickle\"\n",
         "col_offset": 39,
         "end_col_offset": 45,
-        "filename": "/Users/aristofanischionis/Desktop/Msc DTU/courses/thesis/honeyscanner/honeyscanner/passive_attacks/static_analyzer/cowrie-2.1.0/src/cowrie/test/test_cat.py",
+        "filename": "/Users/aristofanischionis/Desktop/MscDTU/courses/thesis/Honeyscanner/honeyscanner/passive_attacks/static_analyzer/cowrie-2.1.0/src/cowrie/test/test_cat.py",
         "issue_confidence": "MEDIUM",
         "issue_cwe": {
           "id": 377,
@@ -732,7 +732,7 @@
         "code": "19 os.environ[\"HONEYPOT_DATA_PATH\"] = \"../data\"\n20 os.environ[\"HONEYPOT_DOWNLOAD_PATH\"] = \"/tmp\"\n21 os.environ[\"SHELL_FILESYSTEM\"] = \"../share/cowrie/fs.pickle\"\n",
         "col_offset": 39,
         "end_col_offset": 45,
-        "filename": "/Users/aristofanischionis/Desktop/Msc DTU/courses/thesis/honeyscanner/honeyscanner/passive_attacks/static_analyzer/cowrie-2.1.0/src/cowrie/test/test_echo.py",
+        "filename": "/Users/aristofanischionis/Desktop/MscDTU/courses/thesis/Honeyscanner/honeyscanner/passive_attacks/static_analyzer/cowrie-2.1.0/src/cowrie/test/test_echo.py",
         "issue_confidence": "MEDIUM",
         "issue_cwe": {
           "id": 377,
@@ -752,7 +752,7 @@
         "code": "16 os.environ[\"HONEYPOT_DATA_PATH\"] = \"../data\"\n17 os.environ[\"HONEYPOT_DOWNLOAD_PATH\"] = \"/tmp\"\n18 os.environ[\"SHELL_FILESYSTEM\"] = \"../share/cowrie/fs.pickle\"\n",
         "col_offset": 39,
         "end_col_offset": 45,
-        "filename": "/Users/aristofanischionis/Desktop/Msc DTU/courses/thesis/honeyscanner/honeyscanner/passive_attacks/static_analyzer/cowrie-2.1.0/src/cowrie/test/test_ftpget.py",
+        "filename": "/Users/aristofanischionis/Desktop/MscDTU/courses/thesis/Honeyscanner/honeyscanner/passive_attacks/static_analyzer/cowrie-2.1.0/src/cowrie/test/test_ftpget.py",
         "issue_confidence": "MEDIUM",
         "issue_cwe": {
           "id": 377,
@@ -772,7 +772,7 @@
         "code": "19 os.environ[\"HONEYPOT_DATA_PATH\"] = \"../data\"\n20 os.environ[\"HONEYPOT_DOWNLOAD_PATH\"] = \"/tmp\"\n21 os.environ[\"SHELL_FILESYSTEM\"] = \"../share/cowrie/fs.pickle\"\n",
         "col_offset": 39,
         "end_col_offset": 45,
-        "filename": "/Users/aristofanischionis/Desktop/Msc DTU/courses/thesis/honeyscanner/honeyscanner/passive_attacks/static_analyzer/cowrie-2.1.0/src/cowrie/test/test_tee.py",
+        "filename": "/Users/aristofanischionis/Desktop/MscDTU/courses/thesis/Honeyscanner/honeyscanner/passive_attacks/static_analyzer/cowrie-2.1.0/src/cowrie/test/test_tee.py",
         "issue_confidence": "MEDIUM",
         "issue_cwe": {
           "id": 377,
@@ -792,7 +792,7 @@
         "code": "19 os.environ[\"HONEYPOT_DATA_PATH\"] = \"../data\"\n20 os.environ[\"HONEYPOT_DOWNLOAD_PATH\"] = \"/tmp\"\n21 os.environ[\"SHELL_FILESYSTEM\"] = \"../share/cowrie/fs.pickle\"\n",
         "col_offset": 39,
         "end_col_offset": 45,
-        "filename": "/Users/aristofanischionis/Desktop/Msc DTU/courses/thesis/honeyscanner/honeyscanner/passive_attacks/static_analyzer/cowrie-2.1.0/src/cowrie/test/test_tftp.py",
+        "filename": "/Users/aristofanischionis/Desktop/MscDTU/courses/thesis/Honeyscanner/honeyscanner/passive_attacks/static_analyzer/cowrie-2.1.0/src/cowrie/test/test_tftp.py",
         "issue_confidence": "MEDIUM",
         "issue_cwe": {
           "id": 377,

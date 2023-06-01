@@ -7,11 +7,10 @@ from vuln_analyzer.vuln_analyzer import VulnerableLibrariesAnalyzer
 from static_analyzer.static_analyzer import StaticAnalyzer
 from container_security_scanner.container_security_scanner import ContainerSecurityScanner
 
+
+# to run: python3 main.py
 # TODOs:
-# TODO: create a function that creates a text file with exploits for vulnanalyzer
-# TODO: modify ContainerSecurityScanner to create a text file with exploits but in the exploits folder
-# TODO: create a function that combines the 3 text files into one and this can be used by the software_exploit attack
-# TODO: Remove duplicates from the combined text file with all cves and exploits
+# TODO: Remove duplicates from the all_cves text file with all cves and exploits
 #  
 versions_list = [
     {        
@@ -97,7 +96,7 @@ def execute_trivy_scanner_code():
 def main_menu():
     print("Select an option:")
     print("1. Vulnerability Analyzer")
-    print("2. Static Analyzer + CVEAnalyzer")
+    print("2. Static Analyzer")
     print("3. Trivy Scanner")
     print("4. All Analyzers")
     print("5. Exit")

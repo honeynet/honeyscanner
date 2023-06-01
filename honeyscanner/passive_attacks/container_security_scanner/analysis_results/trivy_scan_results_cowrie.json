@@ -1025,8 +1025,8 @@
             "V3Score": 7.5
           },
           "redhat": {
-            "V3Vector": "CVSS:3.1/AV:N/AC:H/PR:N/UI:N/S:U/C:N/I:N/A:H",
-            "V3Score": 5.9
+            "V3Vector": "CVSS:3.1/AV:N/AC:L/PR:N/UI:N/S:U/C:N/I:N/A:H",
+            "V3Score": 7.5
           }
         },
         "References": [

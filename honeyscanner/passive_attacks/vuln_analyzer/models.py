@@ -7,7 +7,6 @@ class Vulnerability:
         cve=None,
         vulnerability_id=None,
         advisory=None,
-        poc_url=None,
         cvss_score=None
     ):
         self.name = name
@@ -16,7 +15,6 @@ class Vulnerability:
         self.cve = cve
         self.vulnerability_id = vulnerability_id
         self.advisory = advisory
-        self.poc_url = poc_url
         self.cvss_score = cvss_score
 
     def to_dict(self):
@@ -27,6 +25,5 @@ class Vulnerability:
             "cve": self.cve,
             "vulnerability_id": self.vulnerability_id,
             "advisory": self.advisory,
-            "poc_url": self.poc_url,
             "cvss_score": self.cvss_score
         }
