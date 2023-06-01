@@ -1,4 +1,4 @@
-twisted==18.9.0
+twisted==22.10.0rc1
 cryptography==2.5
 configparser==3.7.1
 pyopenssl==19.0.0
