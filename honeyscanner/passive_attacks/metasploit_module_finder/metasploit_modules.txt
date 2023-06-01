@@ -1,3 +1,0 @@
-exploit/windows/smb/ms17_010_eternalblue
-auxiliary/scanner/smb/smb_ms17_010
-exploit/windows/smb/smb_doublepulsar_rce

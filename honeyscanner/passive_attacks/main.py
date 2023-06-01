@@ -7,7 +7,6 @@ from vuln_analyzer.vuln_analyzer import VulnerableLibrariesAnalyzer
 from static_analyzer.static_analyzer import StaticAnalyzer
 from container_security_scanner.container_security_scanner import ContainerSecurityScanner
 
-
 # to run: python3 main.py
 # TODOs:
 # TODO: Remove duplicates from the all_cves text file with all cves and exploits
