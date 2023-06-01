@@ -11,7 +11,7 @@ setup(
     packages=find_packages(),
     python_requires="==3.9",
     install_requires=[
-        "Flask==2.0.1",
+        "Flask==2.2.5",
         "Flask-Cors==3.0.10",
         "gevent==21.8.0",
         "requests==2.26.0",
