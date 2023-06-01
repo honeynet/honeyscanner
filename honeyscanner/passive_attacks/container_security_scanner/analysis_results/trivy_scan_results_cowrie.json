@@ -1693,6 +1693,69 @@
     ]
   },
   {
+    "Target": "/cowrie/cowrie-git/etc/cowrie.cfg.dist",
+    "Class": "secret",
+    "Secrets": [
+      {
+        "RuleID": "aws-secret-access-key",
+        "Category": "AWS",
+        "Severity": "CRITICAL",
+        "Title": "AWS Secret Access Key",
+        "StartLine": 932,
+        "EndLine": 932,
+        "Code": {
+          "Lines": [
+            {
+              "Number": 930,
+              "Content": "# As per https://github.com/boto/botocore/blob/develop/botocore/credentials.py#L50-L65",
+              "IsCause": false,
+              "Annotation": "",
+              "Truncated": false,
+              "Highlighted": "# As per https://github.com/boto/botocore/blob/develop/botocore/credentials.py#L50-L65",
+              "FirstCause": false,
+              "LastCause": false
+            },
+            {
+              "Number": 931,
+              "Content": "access_key_id = AKIDEXAMPLE",
+              "IsCause": false,
+              "Annotation": "",
+              "Truncated": false,
+              "Highlighted": "access_key_id = AKIDEXAMPLE",
+              "FirstCause": false,
+              "LastCause": false
+            },
+            {
+              "Number": 932,
+              "Content": "secret_access_key = ****************************************",
+              "IsCause": true,
+              "Annotation": "",
+              "Truncated": false,
+              "Highlighted": "secret_access_key = ****************************************",
+              "FirstCause": true,
+              "LastCause": true
+            },
+            {
+              "Number": 933,
+              "Content": "#",
+              "IsCause": false,
+              "Annotation": "",
+              "Truncated": false,
+              "Highlighted": "#",
+              "FirstCause": false,
+              "LastCause": false
+            }
+          ]
+        },
+        "Match": "secret_access_key = ****************************************",
+        "Layer": {
+          "DiffID": "sha256:13a910e6084f14fa81decd6c03ee23708f90d0fb0bc37e074c2c13f7ec29c755",
+          "CreatedBy": "COPY /cowrie /cowrie # buildkit"
+        }
+      }
+    ]
+  },
+  {
     "Target": "/cowrie/cowrie-git/var/lib/cowrie/ssh_host_ecdsa_key",
     "Class": "secret",
     "Secrets": [
@@ -1802,69 +1865,6 @@
           ]
         },
         "Match": "----BEGIN RSA PRIVATE KEY-----******************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************-----END RSA PRIVATE",
-        "Layer": {
-          "DiffID": "sha256:13a910e6084f14fa81decd6c03ee23708f90d0fb0bc37e074c2c13f7ec29c755",
-          "CreatedBy": "COPY /cowrie /cowrie # buildkit"
-        }
-      }
-    ]
-  },
-  {
-    "Target": "/cowrie/cowrie-git/etc/cowrie.cfg.dist",
-    "Class": "secret",
-    "Secrets": [
-      {
-        "RuleID": "aws-secret-access-key",
-        "Category": "AWS",
-        "Severity": "CRITICAL",
-        "Title": "AWS Secret Access Key",
-        "StartLine": 932,
-        "EndLine": 932,
-        "Code": {
-          "Lines": [
-            {
-              "Number": 930,
-              "Content": "# As per https://github.com/boto/botocore/blob/develop/botocore/credentials.py#L50-L65",
-              "IsCause": false,
-              "Annotation": "",
-              "Truncated": false,
-              "Highlighted": "# As per https://github.com/boto/botocore/blob/develop/botocore/credentials.py#L50-L65",
-              "FirstCause": false,
-              "LastCause": false
-            },
-            {
-              "Number": 931,
-              "Content": "access_key_id = AKIDEXAMPLE",
-              "IsCause": false,
-              "Annotation": "",
-              "Truncated": false,
-              "Highlighted": "access_key_id = AKIDEXAMPLE",
-              "FirstCause": false,
-              "LastCause": false
-            },
-            {
-              "Number": 932,
-              "Content": "secret_access_key = ****************************************",
-              "IsCause": true,
-              "Annotation": "",
-              "Truncated": false,
-              "Highlighted": "secret_access_key = ****************************************",
-              "FirstCause": true,
-              "LastCause": true
-            },
-            {
-              "Number": 933,
-              "Content": "#",
-              "IsCause": false,
-              "Annotation": "",
-              "Truncated": false,
-              "Highlighted": "#",
-              "FirstCause": false,
-              "LastCause": false
-            }
-          ]
-        },
-        "Match": "secret_access_key = ****************************************",
         "Layer": {
           "DiffID": "sha256:13a910e6084f14fa81decd6c03ee23708f90d0fb0bc37e074c2c13f7ec29c755",
           "CreatedBy": "COPY /cowrie /cowrie # buildkit"

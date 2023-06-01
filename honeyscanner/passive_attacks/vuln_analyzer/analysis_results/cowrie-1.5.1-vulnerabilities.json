@@ -44,7 +44,7 @@
         "cve": "CVE-2022-4304",
         "vulnerability_id": "pyup.io-53303",
         "advisory": "Cryptography 39.0.1 updates its dependency 'OpenSSL' to v3.0.8 to include security fixes.\r\nhttps://github.com/pyca/cryptography/issues/8229",
-        "cvss_score": null
+        "cvss_score": 5.9
       },
       {
         "name": "cryptography",
