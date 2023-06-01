@@ -96,7 +96,7 @@ def execute_trivy_scanner_code():
 def main_menu():
     print("Select an option:")
     print("1. Vulnerability Analyzer")
-    print("2. Static Analyzer + CVEAnalyzer")
+    print("2. Static Analyzer")
     print("3. Trivy Scanner")
     print("4. All Analyzers")
     print("5. Exit")
