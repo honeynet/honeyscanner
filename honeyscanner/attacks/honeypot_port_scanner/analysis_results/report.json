@@ -1,0 +1,29 @@
+{
+  "ip_address": "127.0.0.1",
+  "status": "online",
+  "hostnames": [],
+  "os": [],
+  "ports": {
+    "2222": {
+      "name": "ssh",
+      "product": "OpenSSH",
+      "version": "6.0p1 Debian 4+deb7u2",
+      "cpe": [],
+      "script": []
+    },
+    "5000": {
+      "name": "rtsp",
+      "product": "AirTunes rtspd",
+      "version": "680.23.1",
+      "cpe": [],
+      "script": []
+    },
+    "7000": {
+      "name": "rtsp",
+      "product": "AirTunes rtspd",
+      "version": "680.23.1",
+      "cpe": [],
+      "script": []
+    }
+  }
+}

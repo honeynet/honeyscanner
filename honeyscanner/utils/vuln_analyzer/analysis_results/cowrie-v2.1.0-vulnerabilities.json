@@ -1,0 +1,170 @@
+{
+  "v2.1.0": {
+    "cryptography": [
+      {
+        "name": "cryptography",
+        "installed_version": "2.9.2",
+        "affected_versions": "<3.3.2",
+        "cve": "CVE-2020-36242",
+        "vulnerability_id": "pyup.io-39606",
+        "advisory": "Cryptography 3.3.2 includes a fix for CVE-2020-36242: certain sequences of update calls to symmetrically encrypt multi-GB values could result in an integer overflow and buffer overflow, as demonstrated by the Fernet class.",
+        "poc_url": null,
+        "cvss_score": 9.1
+      },
+      {
+        "name": "cryptography",
+        "installed_version": "2.9.2",
+        "affected_versions": "<39.0.1",
+        "cve": "CVE-2023-0215",
+        "vulnerability_id": "pyup.io-53305",
+        "advisory": "Cryptography 39.0.1 updates its dependency 'OpenSSL' to v3.0.8 to include security fixes.\r\nhttps://github.com/pyca/cryptography/issues/8229",
+        "poc_url": "https://github.com/nidhi7598/OPENSSL_1.0.2_G2.5_CVE-2023-0215",
+        "cvss_score": 7.5
+      },
+      {
+        "name": "cryptography",
+        "installed_version": "2.9.2",
+        "affected_versions": "<39.0.1",
+        "cve": "CVE-2023-0217",
+        "vulnerability_id": "pyup.io-53306",
+        "advisory": "Cryptography 39.0.1 updates its dependency 'OpenSSL' to v3.0.8 to include security fixes.\r\nhttps://github.com/pyca/cryptography/issues/8229",
+        "poc_url": null,
+        "cvss_score": 7.5
+      },
+      {
+        "name": "cryptography",
+        "installed_version": "2.9.2",
+        "affected_versions": "<39.0.1",
+        "cve": "CVE-2022-3996",
+        "vulnerability_id": "pyup.io-53298",
+        "advisory": "Cryptography 39.0.1 includes a fix for CVE-2022-3996, a DoS vulnerability affecting openssl.\r\nhttps://github.com/pyca/cryptography/issues/7940",
+        "poc_url": null,
+        "cvss_score": 7.5
+      },
+      {
+        "name": "cryptography",
+        "installed_version": "2.9.2",
+        "affected_versions": "<39.0.1",
+        "cve": "CVE-2022-4450",
+        "vulnerability_id": "pyup.io-53299",
+        "advisory": "Cryptography 39.0.1 updates its dependency 'OpenSSL' to v3.0.8 to include security fixes.\r\nhttps://github.com/pyca/cryptography/issues/8229",
+        "poc_url": "https://github.com/nidhi7598/OPENSSL_1.1.1g_G3_CVE-2022-4450",
+        "cvss_score": 7.5
+      },
+      {
+        "name": "cryptography",
+        "installed_version": "2.9.2",
+        "affected_versions": "<39.0.1",
+        "cve": "CVE-2022-4203",
+        "vulnerability_id": "pyup.io-53301",
+        "advisory": "Cryptography 39.0.1 updates its dependency 'OpenSSL' to v3.0.8 to include security fixes.\r\nhttps://github.com/pyca/cryptography/issues/8229",
+        "poc_url": null,
+        "cvss_score": 4.9
+      },
+      {
+        "name": "cryptography",
+        "installed_version": "2.9.2",
+        "affected_versions": "<39.0.1",
+        "cve": "CVE-2023-0216",
+        "vulnerability_id": "pyup.io-53302",
+        "advisory": "Cryptography 39.0.1 updates its dependency 'OpenSSL' to v3.0.8 to include security fixes.\r\nhttps://github.com/pyca/cryptography/issues/8229",
+        "poc_url": null,
+        "cvss_score": 7.5
+      },
+      {
+        "name": "cryptography",
+        "installed_version": "2.9.2",
+        "affected_versions": "<39.0.1",
+        "cve": "CVE-2022-4304",
+        "vulnerability_id": "pyup.io-53303",
+        "advisory": "Cryptography 39.0.1 updates its dependency 'OpenSSL' to v3.0.8 to include security fixes.\r\nhttps://github.com/pyca/cryptography/issues/8229",
+        "poc_url": "https://github.com/Trinadh465/Openssl-1.1.1g_CVE-2022-4304",
+        "cvss_score": 5.9
+      },
+      {
+        "name": "cryptography",
+        "installed_version": "2.9.2",
+        "affected_versions": "<39.0.1",
+        "cve": "CVE-2023-0286",
+        "vulnerability_id": "pyup.io-53304",
+        "advisory": "Cryptography 39.0.1 updates its dependency 'OpenSSL' to v3.0.8 to include security fixes.\r\nhttps://github.com/pyca/cryptography/issues/8229",
+        "poc_url": "https://github.com/nidhi7598/OPENSSL_1.1.1g_G3_CVE-2023-0286",
+        "cvss_score": 7.4
+      },
+      {
+        "name": "cryptography",
+        "installed_version": "2.9.2",
+        "affected_versions": "<39.0.1",
+        "cve": "CVE-2023-0401",
+        "vulnerability_id": "pyup.io-53307",
+        "advisory": "Cryptography 39.0.1 updates its dependency 'OpenSSL' to v3.0.8 to include security fixes.\r\nhttps://github.com/pyca/cryptography/issues/8229",
+        "poc_url": null,
+        "cvss_score": 7.5
+      },
+      {
+        "name": "cryptography",
+        "installed_version": "2.9.2",
+        "affected_versions": "<=3.2",
+        "cve": "CVE-2020-25659",
+        "vulnerability_id": "pyup.io-38932",
+        "advisory": "Cryptography 3.2 and prior are vulnerable to Bleichenbacher timing attacks in the RSA decryption API, via timed processing of valid PKCS#1 v1.5 ciphertext.",
+        "poc_url": null,
+        "cvss_score": 5.9
+      },
+      {
+        "name": "cryptography",
+        "installed_version": "2.9.2",
+        "affected_versions": ">=1.8,<39.0.1",
+        "cve": "CVE-2023-23931",
+        "vulnerability_id": "pyup.io-53048",
+        "advisory": "Cryptography 39.0.1 includes a fix for CVE-2023-23931: In affected versions 'Cipher.update_into' would accept Python objects which implement the buffer protocol, but provide only immutable buffers. This would allow immutable objects (such as 'bytes') to be mutated, thus violating fundamental rules of Python and resulting in corrupted output. This issue has been present since 'update_into' was originally introduced in cryptography 1.8.\r\nhttps://github.com/pyca/cryptography/security/advisories/GHSA-w7pp-m8wf-vj6r",
+        "poc_url": null,
+        "cvss_score": 6.5
+      }
+    ],
+    "treq": [
+      {
+        "name": "treq",
+        "installed_version": "20.4.1",
+        "affected_versions": "<22.1.0",
+        "cve": "CVE-2022-23607",
+        "vulnerability_id": "pyup.io-44726",
+        "advisory": "Treq 22.1.0 includes a fix for CVE-2022-23607: Treq's request methods ('treq.get', 'treq.post', etc.) and 'treq.client.HTTPClient' constructor accept cookies as a dictionary. Such cookies are not bound to a single domain, and are therefore sent to *every* domain (\"supercookies\"). This can potentially cause sensitive information to leak upon an HTTP redirect to a different domain., e.g. should 'https://example.com' redirect to 'http://cloudstorageprovider.com' the latter will receive the cookie 'session'. Treq 22.1.0 and later bind cookies given to request methods ('treq.request', 'treq.get', 'HTTPClient.request', 'HTTPClient.get', etc.) to the origin of the *url* parameter. For users unable to upgrade, instead of passing a dictionary as the *cookies* argument, pass a 'http.cookiejar.CookieJar' instance with properly domain- and scheme-scoped cookies in it.\r\nhttps://github.com/twisted/treq/security/advisories/GHSA-fhpf-pp6p-55qc",
+        "poc_url": null,
+        "cvss_score": 7.4
+      }
+    ],
+    "twisted": [
+      {
+        "name": "twisted",
+        "installed_version": "20.3.0",
+        "affected_versions": "<22.4.0rc1",
+        "cve": "CVE-2022-24801",
+        "vulnerability_id": "pyup.io-47974",
+        "advisory": "Twisted 22.4.0rc1 includes a fix for CVE-2022-24801: Prior to version 22.4.0rc1, the Twisted Web HTTP 1.1 server, located in the 'twisted.web.http' module, parsed several HTTP request constructs more leniently than permitted by RFC 7230. This non-conformant parsing can lead to desync if requests pass through multiple HTTP parsers, potentially resulting in HTTP request smuggling. Users who may be affected use Twisted Web's HTTP 1.1 server and/or proxy and also pass requests through a different HTTP server and/or proxy. The Twisted Web client is not affected. The HTTP 2.0 server uses a different parser, so it is not affected. Two workarounds are available: Ensure any vulnerabilities in upstream proxies have been addressed, such as by upgrading them; or filtering malformed requests by other means, such as configurating an upstream proxy.\r\nhttps://github.com/twisted/twisted/security/advisories/GHSA-c2jg-hw38-jrqq",
+        "poc_url": null,
+        "cvss_score": 8.1
+      },
+      {
+        "name": "twisted",
+        "installed_version": "20.3.0",
+        "affected_versions": ">= 11.1,<22.1",
+        "cve": "CVE-2022-21712",
+        "vulnerability_id": "pyup.io-44844",
+        "advisory": "Twisted 22.1 includes a fix for CVE-2022-21712: In affected versions, twisted exposes cookies and authorization headers when following cross-origin redirects. This issue is present in the 'twisted.web.RedirectAgent' and 'twisted.web. BrowserLikeRedirectAgent' functions. There are no known workarounds.\r\nhttps://github.com/twisted/twisted/security/advisories/GHSA-92x2-jw7w-xvvx",
+        "poc_url": null,
+        "cvss_score": 7.5
+      },
+      {
+        "name": "twisted",
+        "installed_version": "20.3.0",
+        "affected_versions": ">=0.9.4,<22.10.0rc1",
+        "cve": "CVE-2022-39348",
+        "vulnerability_id": "pyup.io-51619",
+        "advisory": "Twisted 22.10.0rc1 includes a fix for CVE-2022-39348: NameVirtualHost Host header injection.\r\nhttps://github.com/twisted/twisted/security/advisories/GHSA-vg46-2rrj-3647",
+        "poc_url": null,
+        "cvss_score": 5.4
+      }
+    ]
+  }
+}

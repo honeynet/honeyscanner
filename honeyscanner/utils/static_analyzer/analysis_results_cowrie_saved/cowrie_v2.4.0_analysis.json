@@ -1,0 +1,980 @@
+{
+  "v2.4.0": {
+    "summary": {
+      "high_severity": 16,
+      "medium_severity": 31
+    },
+    "results": [
+      {
+        "code": "91                 nat_ssh = reactor.listenTCP(  # type: ignore[attr-defined]\n92                     0, ServerFactory(dst_ip, ssh_port), interface=\"0.0.0.0\"\n93                 )\n",
+        "col_offset": 66,
+        "end_col_offset": 75,
+        "filename": "/Users/aristofanischionis/Desktop/Msc DTU/courses/thesis/honeyscanner/honeyscanner/passive_attacks/static_analyzer/cowrie-2.4.0/src/backend_pool/nat.py",
+        "issue_confidence": "MEDIUM",
+        "issue_cwe": {
+          "id": 605,
+          "link": "https://cwe.mitre.org/data/definitions/605.html"
+        },
+        "issue_severity": "MEDIUM",
+        "issue_text": "Possible binding to all interfaces.",
+        "line_number": 92,
+        "line_range": [
+          92
+        ],
+        "more_info": "https://bandit.readthedocs.io/en/1.7.5/plugins/b104_hardcoded_bind_all_interfaces.html",
+        "test_id": "B104",
+        "test_name": "hardcoded_bind_all_interfaces"
+      },
+      {
+        "code": "94                 nat_telnet = reactor.listenTCP(  # type: ignore[attr-defined]\n95                     0, ServerFactory(dst_ip, telnet_port), interface=\"0.0.0.0\"\n96                 )\n",
+        "col_offset": 69,
+        "end_col_offset": 78,
+        "filename": "/Users/aristofanischionis/Desktop/Msc DTU/courses/thesis/honeyscanner/honeyscanner/passive_attacks/static_analyzer/cowrie-2.4.0/src/backend_pool/nat.py",
+        "issue_confidence": "MEDIUM",
+        "issue_cwe": {
+          "id": 605,
+          "link": "https://cwe.mitre.org/data/definitions/605.html"
+        },
+        "issue_severity": "MEDIUM",
+        "issue_text": "Possible binding to all interfaces.",
+        "line_number": 95,
+        "line_range": [
+          95
+        ],
+        "more_info": "https://bandit.readthedocs.io/en/1.7.5/plugins/b104_hardcoded_bind_all_interfaces.html",
+        "test_id": "B104",
+        "test_name": "hardcoded_bind_all_interfaces"
+      },
+      {
+        "code": "4 \n5 import ftplib\n6 import getopt\n",
+        "col_offset": 0,
+        "end_col_offset": 13,
+        "filename": "/Users/aristofanischionis/Desktop/Msc DTU/courses/thesis/honeyscanner/honeyscanner/passive_attacks/static_analyzer/cowrie-2.4.0/src/cowrie/commands/ftpget.py",
+        "issue_confidence": "HIGH",
+        "issue_cwe": {
+          "id": 319,
+          "link": "https://cwe.mitre.org/data/definitions/319.html"
+        },
+        "issue_severity": "HIGH",
+        "issue_text": "A FTP-related module is being imported.  FTP is considered insecure. Use SSH/SFTP/SCP or some other encrypted protocol.",
+        "line_number": 5,
+        "line_range": [
+          5
+        ],
+        "more_info": "https://bandit.readthedocs.io/en/1.7.5/blacklists/blacklist_imports.html#b402-import-ftplib",
+        "test_id": "B402",
+        "test_name": "blacklist"
+      },
+      {
+        "code": "21         self.source_address = kwargs.pop(\"source_address\", None)\n22         ftplib.FTP.__init__(self, *args, **kwargs)\n23 \n",
+        "col_offset": 8,
+        "end_col_offset": 50,
+        "filename": "/Users/aristofanischionis/Desktop/Msc DTU/courses/thesis/honeyscanner/honeyscanner/passive_attacks/static_analyzer/cowrie-2.4.0/src/cowrie/commands/ftpget.py",
+        "issue_confidence": "HIGH",
+        "issue_cwe": {
+          "id": 319,
+          "link": "https://cwe.mitre.org/data/definitions/319.html"
+        },
+        "issue_severity": "HIGH",
+        "issue_text": "FTP-related functions are being called. FTP is considered insecure. Use SSH/SFTP/SCP or some other encrypted protocol.",
+        "line_number": 22,
+        "line_range": [
+          22
+        ],
+        "more_info": "https://bandit.readthedocs.io/en/1.7.5/blacklists/blacklist_calls.html#b321-ftplib",
+        "test_id": "B321",
+        "test_name": "blacklist"
+      },
+      {
+        "code": "54                 if resp[0] != \"1\":\n55                     raise ftplib.error_reply(resp)\n56             except Exception:\n",
+        "col_offset": 26,
+        "end_col_offset": 50,
+        "filename": "/Users/aristofanischionis/Desktop/Msc DTU/courses/thesis/honeyscanner/honeyscanner/passive_attacks/static_analyzer/cowrie-2.4.0/src/cowrie/commands/ftpget.py",
+        "issue_confidence": "HIGH",
+        "issue_cwe": {
+          "id": 319,
+          "link": "https://cwe.mitre.org/data/definitions/319.html"
+        },
+        "issue_severity": "HIGH",
+        "issue_text": "FTP-related functions are being called. FTP is considered insecure. Use SSH/SFTP/SCP or some other encrypted protocol.",
+        "line_number": 55,
+        "line_range": [
+          55
+        ],
+        "more_info": "https://bandit.readthedocs.io/en/1.7.5/blacklists/blacklist_calls.html#b321-ftplib",
+        "test_id": "B321",
+        "test_name": "blacklist"
+      },
+      {
+        "code": "67                 if resp[0] != \"1\":\n68                     raise ftplib.error_reply(resp)\n69                 conn, sockaddr = sock.accept()\n",
+        "col_offset": 26,
+        "end_col_offset": 50,
+        "filename": "/Users/aristofanischionis/Desktop/Msc DTU/courses/thesis/honeyscanner/honeyscanner/passive_attacks/static_analyzer/cowrie-2.4.0/src/cowrie/commands/ftpget.py",
+        "issue_confidence": "HIGH",
+        "issue_cwe": {
+          "id": 319,
+          "link": "https://cwe.mitre.org/data/definitions/319.html"
+        },
+        "issue_severity": "HIGH",
+        "issue_text": "FTP-related functions are being called. FTP is considered insecure. Use SSH/SFTP/SCP or some other encrypted protocol.",
+        "line_number": 68,
+        "line_range": [
+          68
+        ],
+        "more_info": "https://bandit.readthedocs.io/en/1.7.5/blacklists/blacklist_calls.html#b321-ftplib",
+        "test_id": "B321",
+        "test_name": "blacklist"
+      },
+      {
+        "code": "74         if resp[:3] == \"150\":\n75             size = ftplib.parse150(resp)\n76         return conn, size\n",
+        "col_offset": 19,
+        "end_col_offset": 40,
+        "filename": "/Users/aristofanischionis/Desktop/Msc DTU/courses/thesis/honeyscanner/honeyscanner/passive_attacks/static_analyzer/cowrie-2.4.0/src/cowrie/commands/ftpget.py",
+        "issue_confidence": "HIGH",
+        "issue_cwe": {
+          "id": 319,
+          "link": "https://cwe.mitre.org/data/definitions/319.html"
+        },
+        "issue_severity": "HIGH",
+        "issue_text": "FTP-related functions are being called. FTP is considered insecure. Use SSH/SFTP/SCP or some other encrypted protocol.",
+        "line_number": 75,
+        "line_range": [
+          75
+        ],
+        "more_info": "https://bandit.readthedocs.io/en/1.7.5/blacklists/blacklist_calls.html#b321-ftplib",
+        "test_id": "B321",
+        "test_name": "blacklist"
+      },
+      {
+        "code": "105         except Exception:\n106             out_addr = (\"0.0.0.0\", 0)\n107 \n",
+        "col_offset": 24,
+        "end_col_offset": 33,
+        "filename": "/Users/aristofanischionis/Desktop/Msc DTU/courses/thesis/honeyscanner/honeyscanner/passive_attacks/static_analyzer/cowrie-2.4.0/src/cowrie/commands/nc.py",
+        "issue_confidence": "MEDIUM",
+        "issue_cwe": {
+          "id": 605,
+          "link": "https://cwe.mitre.org/data/definitions/605.html"
+        },
+        "issue_severity": "MEDIUM",
+        "issue_text": "Possible binding to all interfaces.",
+        "line_number": 106,
+        "line_range": [
+          106
+        ],
+        "more_info": "https://bandit.readthedocs.io/en/1.7.5/plugins/b104_hardcoded_bind_all_interfaces.html",
+        "test_id": "B104",
+        "test_name": "hardcoded_bind_all_interfaces"
+      },
+      {
+        "code": "73             default = \"default\"\n74             lgateway = \"0.0.0.0\"\n75         else:\n",
+        "col_offset": 23,
+        "end_col_offset": 32,
+        "filename": "/Users/aristofanischionis/Desktop/Msc DTU/courses/thesis/honeyscanner/honeyscanner/passive_attacks/static_analyzer/cowrie-2.4.0/src/cowrie/commands/netstat.py",
+        "issue_confidence": "MEDIUM",
+        "issue_cwe": {
+          "id": 605,
+          "link": "https://cwe.mitre.org/data/definitions/605.html"
+        },
+        "issue_severity": "MEDIUM",
+        "issue_text": "Possible binding to all interfaces.",
+        "line_number": 74,
+        "line_range": [
+          74
+        ],
+        "more_info": "https://bandit.readthedocs.io/en/1.7.5/plugins/b104_hardcoded_bind_all_interfaces.html",
+        "test_id": "B104",
+        "test_name": "hardcoded_bind_all_interfaces"
+      },
+      {
+        "code": "75         else:\n76             default = \"0.0.0.0\"\n77             lgateway = \"*\"\n",
+        "col_offset": 22,
+        "end_col_offset": 31,
+        "filename": "/Users/aristofanischionis/Desktop/Msc DTU/courses/thesis/honeyscanner/honeyscanner/passive_attacks/static_analyzer/cowrie-2.4.0/src/cowrie/commands/netstat.py",
+        "issue_confidence": "MEDIUM",
+        "issue_cwe": {
+          "id": 605,
+          "link": "https://cwe.mitre.org/data/definitions/605.html"
+        },
+        "issue_severity": "MEDIUM",
+        "issue_text": "Possible binding to all interfaces.",
+        "line_number": 76,
+        "line_range": [
+          76
+        ],
+        "more_info": "https://bandit.readthedocs.io/en/1.7.5/plugins/b104_hardcoded_bind_all_interfaces.html",
+        "test_id": "B104",
+        "test_name": "hardcoded_bind_all_interfaces"
+      },
+      {
+        "code": "80         else:\n81             s = hashlib.md5((self.host).encode(\"utf-8\")).hexdigest()\n82             self.ip = \".\".join(\n",
+        "col_offset": 16,
+        "end_col_offset": 56,
+        "filename": "/Users/aristofanischionis/Desktop/Msc DTU/courses/thesis/honeyscanner/honeyscanner/passive_attacks/static_analyzer/cowrie-2.4.0/src/cowrie/commands/ping.py",
+        "issue_confidence": "HIGH",
+        "issue_cwe": {
+          "id": 327,
+          "link": "https://cwe.mitre.org/data/definitions/327.html"
+        },
+        "issue_severity": "HIGH",
+        "issue_text": "Use of weak MD5 hash for security. Consider usedforsecurity=False",
+        "line_number": 81,
+        "line_range": [
+          81
+        ],
+        "more_info": "https://bandit.readthedocs.io/en/1.7.5/plugins/b324_hashlib.html",
+        "test_id": "B324",
+        "test_name": "hashlib"
+      },
+      {
+        "code": "91         else:\n92             s = hashlib.md5(host.encode()).hexdigest()\n93             self.ip = \".\".join(\n",
+        "col_offset": 16,
+        "end_col_offset": 42,
+        "filename": "/Users/aristofanischionis/Desktop/Msc DTU/courses/thesis/honeyscanner/honeyscanner/passive_attacks/static_analyzer/cowrie-2.4.0/src/cowrie/commands/ssh.py",
+        "issue_confidence": "HIGH",
+        "issue_cwe": {
+          "id": 327,
+          "link": "https://cwe.mitre.org/data/definitions/327.html"
+        },
+        "issue_severity": "HIGH",
+        "issue_text": "Use of weak MD5 hash for security. Consider usedforsecurity=False",
+        "line_number": 92,
+        "line_range": [
+          92
+        ],
+        "more_info": "https://bandit.readthedocs.io/en/1.7.5/plugins/b324_hashlib.html",
+        "test_id": "B324",
+        "test_name": "hashlib"
+      },
+      {
+        "code": "67         randnum2 = random.randint(100, 900)\n68         randhash = hashlib.sha1(f\"{randnum}\".encode()).hexdigest()\n69         randhash2 = hashlib.sha1(f\"{randnum2}\".encode()).hexdigest()\n",
+        "col_offset": 19,
+        "end_col_offset": 54,
+        "filename": "/Users/aristofanischionis/Desktop/Msc DTU/courses/thesis/honeyscanner/honeyscanner/passive_attacks/static_analyzer/cowrie-2.4.0/src/cowrie/commands/yum.py",
+        "issue_confidence": "HIGH",
+        "issue_cwe": {
+          "id": 327,
+          "link": "https://cwe.mitre.org/data/definitions/327.html"
+        },
+        "issue_severity": "HIGH",
+        "issue_text": "Use of weak SHA1 hash for security. Consider usedforsecurity=False",
+        "line_number": 68,
+        "line_range": [
+          68
+        ],
+        "more_info": "https://bandit.readthedocs.io/en/1.7.5/plugins/b324_hashlib.html",
+        "test_id": "B324",
+        "test_name": "hashlib"
+      },
+      {
+        "code": "68         randhash = hashlib.sha1(f\"{randnum}\".encode()).hexdigest()\n69         randhash2 = hashlib.sha1(f\"{randnum2}\".encode()).hexdigest()\n70         yield self.sleep(1, 2)\n",
+        "col_offset": 20,
+        "end_col_offset": 56,
+        "filename": "/Users/aristofanischionis/Desktop/Msc DTU/courses/thesis/honeyscanner/honeyscanner/passive_attacks/static_analyzer/cowrie-2.4.0/src/cowrie/commands/yum.py",
+        "issue_confidence": "HIGH",
+        "issue_cwe": {
+          "id": 327,
+          "link": "https://cwe.mitre.org/data/definitions/327.html"
+        },
+        "issue_severity": "HIGH",
+        "issue_text": "Use of weak SHA1 hash for security. Consider usedforsecurity=False",
+        "line_number": 69,
+        "line_range": [
+          69
+        ],
+        "more_info": "https://bandit.readthedocs.io/en/1.7.5/plugins/b324_hashlib.html",
+        "test_id": "B324",
+        "test_name": "hashlib"
+      },
+      {
+        "code": "67     def checklogin(\n68         self, thelogin: bytes, thepasswd: bytes, src_ip: str = \"0.0.0.0\"\n69     ) -> bool:\n",
+        "col_offset": 63,
+        "end_col_offset": 72,
+        "filename": "/Users/aristofanischionis/Desktop/Msc DTU/courses/thesis/honeyscanner/honeyscanner/passive_attacks/static_analyzer/cowrie-2.4.0/src/cowrie/core/auth.py",
+        "issue_confidence": "MEDIUM",
+        "issue_cwe": {
+          "id": 605,
+          "link": "https://cwe.mitre.org/data/definitions/605.html"
+        },
+        "issue_severity": "MEDIUM",
+        "issue_text": "Possible binding to all interfaces.",
+        "line_number": 68,
+        "line_range": [
+          68
+        ],
+        "more_info": "https://bandit.readthedocs.io/en/1.7.5/plugins/b104_hardcoded_bind_all_interfaces.html",
+        "test_id": "B104",
+        "test_name": "hardcoded_bind_all_interfaces"
+      },
+      {
+        "code": "113     else:\n114         listen_addr = \"0.0.0.0\"\n115 \n",
+        "col_offset": 22,
+        "end_col_offset": 31,
+        "filename": "/Users/aristofanischionis/Desktop/Msc DTU/courses/thesis/honeyscanner/honeyscanner/passive_attacks/static_analyzer/cowrie-2.4.0/src/cowrie/core/passive_attacks.py",
+        "issue_confidence": "MEDIUM",
+        "issue_cwe": {
+          "id": 605,
+          "link": "https://cwe.mitre.org/data/definitions/605.html"
+        },
+        "issue_severity": "MEDIUM",
+        "issue_text": "Possible binding to all interfaces.",
+        "line_number": 114,
+        "line_range": [
+          114
+        ],
+        "more_info": "https://bandit.readthedocs.io/en/1.7.5/plugins/b104_hardcoded_bind_all_interfaces.html",
+        "test_id": "B104",
+        "test_name": "hardcoded_bind_all_interfaces"
+      },
+      {
+        "code": "81             with open(self.state_dump, \"rb\") as f:\n82                 self.logbook.update(pickle.load(f))\n83 \n",
+        "col_offset": 36,
+        "end_col_offset": 50,
+        "filename": "/Users/aristofanischionis/Desktop/Msc DTU/courses/thesis/honeyscanner/honeyscanner/passive_attacks/static_analyzer/cowrie-2.4.0/src/cowrie/output/abuseipdb.py",
+        "issue_confidence": "HIGH",
+        "issue_cwe": {
+          "id": 502,
+          "link": "https://cwe.mitre.org/data/definitions/502.html"
+        },
+        "issue_severity": "MEDIUM",
+        "issue_text": "Pickle and modules that wrap it can be unsafe when used to deserialize untrusted data, possible security issue.",
+        "line_number": 82,
+        "line_range": [
+          82
+        ],
+        "more_info": "https://bandit.readthedocs.io/en/1.7.5/blacklists/blacklist_calls.html#b301-pickle",
+        "test_id": "B301",
+        "test_name": "blacklist"
+      },
+      {
+        "code": "103                 urljoin(self.url_base, f\"/files/view/sha256/{sha256}\".encode()),\n104                 verify=False,\n105                 auth=HTTPBasicAuth(self.api_user, self.api_passwd),\n106                 timeout=60,\n107             )\n108             if res and res.ok:\n109                 print(\n110                     \"Sample found in Sandbox, with ID: {}\".format(\n",
+        "col_offset": 18,
+        "end_col_offset": 13,
+        "filename": "/Users/aristofanischionis/Desktop/Msc DTU/courses/thesis/honeyscanner/honeyscanner/passive_attacks/static_analyzer/cowrie-2.4.0/src/cowrie/output/cuckoo.py",
+        "issue_confidence": "HIGH",
+        "issue_cwe": {
+          "id": 295,
+          "link": "https://cwe.mitre.org/data/definitions/295.html"
+        },
+        "issue_severity": "HIGH",
+        "issue_text": "Call to requests with verify=False disabling SSL certificate checks, security issue.",
+        "line_number": 104,
+        "line_range": [
+          102,
+          103,
+          104,
+          105,
+          106,
+          107
+        ],
+        "more_info": "https://bandit.readthedocs.io/en/1.7.5/plugins/b501_request_with_no_cert_validation.html",
+        "test_id": "B501",
+        "test_name": "request_with_no_cert_validation"
+      },
+      {
+        "code": "129                 auth=HTTPBasicAuth(self.api_user, self.api_passwd),\n130                 verify=False,\n131             )\n132             if res and res.ok:\n133                 print(\n134                     \"Cuckoo Request: {}, Task created with ID: {}\".format(\n135                         res.status_code, res.json()[\"task_id\"]\n136                     )\n",
+        "col_offset": 18,
+        "end_col_offset": 13,
+        "filename": "/Users/aristofanischionis/Desktop/Msc DTU/courses/thesis/honeyscanner/honeyscanner/passive_attacks/static_analyzer/cowrie-2.4.0/src/cowrie/output/cuckoo.py",
+        "issue_confidence": "HIGH",
+        "issue_cwe": {
+          "id": 295,
+          "link": "https://cwe.mitre.org/data/definitions/295.html"
+        },
+        "issue_severity": "HIGH",
+        "issue_text": "Call to requests with verify=False disabling SSL certificate checks, security issue.",
+        "line_number": 130,
+        "line_range": [
+          126,
+          127,
+          128,
+          129,
+          130,
+          131
+        ],
+        "more_info": "https://bandit.readthedocs.io/en/1.7.5/plugins/b501_request_with_no_cert_validation.html",
+        "test_id": "B501",
+        "test_name": "request_with_no_cert_validation"
+      },
+      {
+        "code": "125         try:\n126             res = requests.post(\n127                 urljoin(self.url_base, b\"tasks/create/file\"),\n128                 files=files,\n129                 auth=HTTPBasicAuth(self.api_user, self.api_passwd),\n130                 verify=False,\n131             )\n132             if res and res.ok:\n",
+        "col_offset": 18,
+        "end_col_offset": 13,
+        "filename": "/Users/aristofanischionis/Desktop/Msc DTU/courses/thesis/honeyscanner/honeyscanner/passive_attacks/static_analyzer/cowrie-2.4.0/src/cowrie/output/cuckoo.py",
+        "issue_confidence": "LOW",
+        "issue_cwe": {
+          "id": 400,
+          "link": "https://cwe.mitre.org/data/definitions/400.html"
+        },
+        "issue_severity": "MEDIUM",
+        "issue_text": "Requests call without timeout",
+        "line_number": 126,
+        "line_range": [
+          126,
+          127,
+          128,
+          129,
+          130,
+          131
+        ],
+        "more_info": "https://bandit.readthedocs.io/en/1.7.5/plugins/b113_request_without_timeout.html",
+        "test_id": "B113",
+        "test_name": "request_without_timeout"
+      },
+      {
+        "code": "152                 auth=HTTPBasicAuth(self.api_user, self.api_passwd),\n153                 verify=False,\n154             )\n155             if res and res.ok:\n156                 print(\n157                     \"Cuckoo Request: {}, Task created with ID: {}\".format(\n158                         res.status_code, res.json()[\"task_id\"]\n159                     )\n",
+        "col_offset": 18,
+        "end_col_offset": 13,
+        "filename": "/Users/aristofanischionis/Desktop/Msc DTU/courses/thesis/honeyscanner/honeyscanner/passive_attacks/static_analyzer/cowrie-2.4.0/src/cowrie/output/cuckoo.py",
+        "issue_confidence": "HIGH",
+        "issue_cwe": {
+          "id": 295,
+          "link": "https://cwe.mitre.org/data/definitions/295.html"
+        },
+        "issue_severity": "HIGH",
+        "issue_text": "Call to requests with verify=False disabling SSL certificate checks, security issue.",
+        "line_number": 153,
+        "line_range": [
+          149,
+          150,
+          151,
+          152,
+          153,
+          154
+        ],
+        "more_info": "https://bandit.readthedocs.io/en/1.7.5/plugins/b501_request_with_no_cert_validation.html",
+        "test_id": "B501",
+        "test_name": "request_with_no_cert_validation"
+      },
+      {
+        "code": "148         try:\n149             res = requests.post(\n150                 urljoin(self.url_base, b\"tasks/create/url\"),\n151                 data=data,\n152                 auth=HTTPBasicAuth(self.api_user, self.api_passwd),\n153                 verify=False,\n154             )\n155             if res and res.ok:\n",
+        "col_offset": 18,
+        "end_col_offset": 13,
+        "filename": "/Users/aristofanischionis/Desktop/Msc DTU/courses/thesis/honeyscanner/honeyscanner/passive_attacks/static_analyzer/cowrie-2.4.0/src/cowrie/output/cuckoo.py",
+        "issue_confidence": "LOW",
+        "issue_cwe": {
+          "id": 400,
+          "link": "https://cwe.mitre.org/data/definitions/400.html"
+        },
+        "issue_severity": "MEDIUM",
+        "issue_text": "Requests call without timeout",
+        "line_number": 149,
+        "line_range": [
+          149,
+          150,
+          151,
+          152,
+          153,
+          154
+        ],
+        "more_info": "https://bandit.readthedocs.io/en/1.7.5/plugins/b113_request_without_timeout.html",
+        "test_id": "B113",
+        "test_name": "request_without_timeout"
+      },
+      {
+        "code": "132                     failed = True\n133                 sha1_local = hashlib.sha1()\n134                 sha1_local.update(log_output.encode(\"utf8\"))\n",
+        "col_offset": 29,
+        "end_col_offset": 43,
+        "filename": "/Users/aristofanischionis/Desktop/Msc DTU/courses/thesis/honeyscanner/honeyscanner/passive_attacks/static_analyzer/cowrie-2.4.0/src/cowrie/output/dshield.py",
+        "issue_confidence": "HIGH",
+        "issue_cwe": {
+          "id": 327,
+          "link": "https://cwe.mitre.org/data/definitions/327.html"
+        },
+        "issue_severity": "HIGH",
+        "issue_text": "Use of weak SHA1 hash for security. Consider usedforsecurity=False",
+        "line_number": 133,
+        "line_range": [
+          133
+        ],
+        "more_info": "https://bandit.readthedocs.io/en/1.7.5/plugins/b324_hashlib.html",
+        "test_id": "B324",
+        "test_name": "hashlib"
+      },
+      {
+        "code": "146                     failed = True\n147                 md5_local = hashlib.md5()\n148                 md5_local.update(log_output.encode(\"utf8\"))\n",
+        "col_offset": 28,
+        "end_col_offset": 41,
+        "filename": "/Users/aristofanischionis/Desktop/Msc DTU/courses/thesis/honeyscanner/honeyscanner/passive_attacks/static_analyzer/cowrie-2.4.0/src/cowrie/output/dshield.py",
+        "issue_confidence": "HIGH",
+        "issue_cwe": {
+          "id": 327,
+          "link": "https://cwe.mitre.org/data/definitions/327.html"
+        },
+        "issue_severity": "HIGH",
+        "issue_text": "Use of weak MD5 hash for security. Consider usedforsecurity=False",
+        "line_number": 147,
+        "line_range": [
+          147
+        ],
+        "more_info": "https://bandit.readthedocs.io/en/1.7.5/plugins/b324_hashlib.html",
+        "test_id": "B324",
+        "test_name": "hashlib"
+      },
+      {
+        "code": "89         try:\n90             res = requests.post(\n91                 \"https://malshare.com/api.php?api_key=\"\n92                 + self.apiKey\n93                 + \"&action=upload\",\n94                 files={\"upload\": open(artifact, \"rb\")},\n95             )\n96             if res and res.ok:\n",
+        "col_offset": 18,
+        "end_col_offset": 13,
+        "filename": "/Users/aristofanischionis/Desktop/Msc DTU/courses/thesis/honeyscanner/honeyscanner/passive_attacks/static_analyzer/cowrie-2.4.0/src/cowrie/output/malshare.py",
+        "issue_confidence": "LOW",
+        "issue_cwe": {
+          "id": 400,
+          "link": "https://cwe.mitre.org/data/definitions/400.html"
+        },
+        "issue_severity": "MEDIUM",
+        "issue_text": "Requests call without timeout",
+        "line_number": 90,
+        "line_range": [
+          90,
+          91,
+          92,
+          93,
+          94,
+          95
+        ],
+        "more_info": "https://bandit.readthedocs.io/en/1.7.5/plugins/b113_request_without_timeout.html",
+        "test_id": "B113",
+        "test_name": "request_without_timeout"
+      },
+      {
+        "code": "113                 log.msg(\n114                     f\"output_mysql: SELECT `id` FROM `sensors` WHERE `ip` = '{self.sensor}'\"\n115                 )\n",
+        "col_offset": 20,
+        "end_col_offset": 92,
+        "filename": "/Users/aristofanischionis/Desktop/Msc DTU/courses/thesis/honeyscanner/honeyscanner/passive_attacks/static_analyzer/cowrie-2.4.0/src/cowrie/output/mysql.py",
+        "issue_confidence": "LOW",
+        "issue_cwe": {
+          "id": 89,
+          "link": "https://cwe.mitre.org/data/definitions/89.html"
+        },
+        "issue_severity": "MEDIUM",
+        "issue_text": "Possible SQL injection vector through string-based query construction.",
+        "line_number": 114,
+        "line_range": [
+          114
+        ],
+        "more_info": "https://bandit.readthedocs.io/en/1.7.5/plugins/b608_hardcoded_sql_expressions.html",
+        "test_id": "B608",
+        "test_name": "hardcoded_sql_expressions"
+      },
+      {
+        "code": "116             r = yield self.db.runQuery(\n117                 f\"SELECT `id` FROM `sensors` WHERE `ip` = '{self.sensor}'\"\n118             )\n",
+        "col_offset": 16,
+        "end_col_offset": 74,
+        "filename": "/Users/aristofanischionis/Desktop/Msc DTU/courses/thesis/honeyscanner/honeyscanner/passive_attacks/static_analyzer/cowrie-2.4.0/src/cowrie/output/mysql.py",
+        "issue_confidence": "LOW",
+        "issue_cwe": {
+          "id": 89,
+          "link": "https://cwe.mitre.org/data/definitions/89.html"
+        },
+        "issue_severity": "MEDIUM",
+        "issue_text": "Possible SQL injection vector through string-based query construction.",
+        "line_number": 117,
+        "line_range": [
+          117
+        ],
+        "more_info": "https://bandit.readthedocs.io/en/1.7.5/plugins/b608_hardcoded_sql_expressions.html",
+        "test_id": "B608",
+        "test_name": "hardcoded_sql_expressions"
+      },
+      {
+        "code": "124                     log.msg(\n125                         f\"output_mysql: INSERT INTO `sensors` (`ip`) VALUES ('{self.sensor}')\"\n126                     )\n",
+        "col_offset": 24,
+        "end_col_offset": 94,
+        "filename": "/Users/aristofanischionis/Desktop/Msc DTU/courses/thesis/honeyscanner/honeyscanner/passive_attacks/static_analyzer/cowrie-2.4.0/src/cowrie/output/mysql.py",
+        "issue_confidence": "LOW",
+        "issue_cwe": {
+          "id": 89,
+          "link": "https://cwe.mitre.org/data/definitions/89.html"
+        },
+        "issue_severity": "MEDIUM",
+        "issue_text": "Possible SQL injection vector through string-based query construction.",
+        "line_number": 125,
+        "line_range": [
+          125
+        ],
+        "more_info": "https://bandit.readthedocs.io/en/1.7.5/plugins/b608_hardcoded_sql_expressions.html",
+        "test_id": "B608",
+        "test_name": "hardcoded_sql_expressions"
+      },
+      {
+        "code": "127                 yield self.db.runQuery(\n128                     f\"INSERT INTO `sensors` (`ip`) VALUES ('{self.sensor}')\"\n129                 )\n",
+        "col_offset": 20,
+        "end_col_offset": 76,
+        "filename": "/Users/aristofanischionis/Desktop/Msc DTU/courses/thesis/honeyscanner/honeyscanner/passive_attacks/static_analyzer/cowrie-2.4.0/src/cowrie/output/mysql.py",
+        "issue_confidence": "LOW",
+        "issue_cwe": {
+          "id": 89,
+          "link": "https://cwe.mitre.org/data/definitions/89.html"
+        },
+        "issue_severity": "MEDIUM",
+        "issue_text": "Possible SQL injection vector through string-based query construction.",
+        "line_number": 128,
+        "line_range": [
+          128
+        ],
+        "more_info": "https://bandit.readthedocs.io/en/1.7.5/plugins/b608_hardcoded_sql_expressions.html",
+        "test_id": "B608",
+        "test_name": "hardcoded_sql_expressions"
+      },
+      {
+        "code": "123             with open(CowrieConfig.get(\"shell\", \"filesystem\"), \"rb\") as f:\n124                 self.fs = pickle.load(f)\n125         except UnicodeDecodeError:\n",
+        "col_offset": 26,
+        "end_col_offset": 40,
+        "filename": "/Users/aristofanischionis/Desktop/Msc DTU/courses/thesis/honeyscanner/honeyscanner/passive_attacks/static_analyzer/cowrie-2.4.0/src/cowrie/shell/fs.py",
+        "issue_confidence": "HIGH",
+        "issue_cwe": {
+          "id": 502,
+          "link": "https://cwe.mitre.org/data/definitions/502.html"
+        },
+        "issue_severity": "MEDIUM",
+        "issue_text": "Pickle and modules that wrap it can be unsafe when used to deserialize untrusted data, possible security issue.",
+        "line_number": 124,
+        "line_range": [
+          124
+        ],
+        "more_info": "https://bandit.readthedocs.io/en/1.7.5/blacklists/blacklist_calls.html#b301-pickle",
+        "test_id": "B301",
+        "test_name": "blacklist"
+      },
+      {
+        "code": "126             with open(CowrieConfig.get(\"shell\", \"filesystem\"), \"rb\") as f:\n127                 self.fs = pickle.load(f, encoding=\"utf8\")\n128         except Exception as e:\n",
+        "col_offset": 26,
+        "end_col_offset": 57,
+        "filename": "/Users/aristofanischionis/Desktop/Msc DTU/courses/thesis/honeyscanner/honeyscanner/passive_attacks/static_analyzer/cowrie-2.4.0/src/cowrie/shell/fs.py",
+        "issue_confidence": "HIGH",
+        "issue_cwe": {
+          "id": 502,
+          "link": "https://cwe.mitre.org/data/definitions/502.html"
+        },
+        "issue_severity": "MEDIUM",
+        "issue_text": "Pickle and modules that wrap it can be unsafe when used to deserialize untrusted data, possible security issue.",
+        "line_number": 127,
+        "line_range": [
+          127
+        ],
+        "more_info": "https://bandit.readthedocs.io/en/1.7.5/blacklists/blacklist_calls.html#b301-pickle",
+        "test_id": "B301",
+        "test_name": "blacklist"
+      },
+      {
+        "code": "50 \n51         dsaKey = dsa.generate_private_key(key_size=1024, backend=default_backend())\n52         publicKeyString = keys.Key(dsaKey).public().toString(\"openssh\")\n",
+        "col_offset": 17,
+        "end_col_offset": 83,
+        "filename": "/Users/aristofanischionis/Desktop/Msc DTU/courses/thesis/honeyscanner/honeyscanner/passive_attacks/static_analyzer/cowrie-2.4.0/src/cowrie/ssh/keys.py",
+        "issue_confidence": "HIGH",
+        "issue_cwe": {
+          "id": 326,
+          "link": "https://cwe.mitre.org/data/definitions/326.html"
+        },
+        "issue_severity": "MEDIUM",
+        "issue_text": "DSA key sizes below 2048 bits are considered breakable. ",
+        "line_number": 51,
+        "line_range": [
+          51
+        ],
+        "more_info": "https://bandit.readthedocs.io/en/1.7.5/plugins/b505_weak_cryptographic_key.html",
+        "test_id": "B505",
+        "test_name": "weak_cryptographic_key"
+      },
+      {
+        "code": "197         )\n198         hassh = md5(hasshAlgorithms.encode(\"utf-8\")).hexdigest()\n199 \n",
+        "col_offset": 16,
+        "end_col_offset": 52,
+        "filename": "/Users/aristofanischionis/Desktop/Msc DTU/courses/thesis/honeyscanner/honeyscanner/passive_attacks/static_analyzer/cowrie-2.4.0/src/cowrie/ssh/transport.py",
+        "issue_confidence": "HIGH",
+        "issue_cwe": {
+          "id": 327,
+          "link": "https://cwe.mitre.org/data/definitions/327.html"
+        },
+        "issue_severity": "HIGH",
+        "issue_text": "Use of weak MD5 hash for security. Consider usedforsecurity=False",
+        "line_number": 198,
+        "line_range": [
+          198
+        ],
+        "more_info": "https://bandit.readthedocs.io/en/1.7.5/plugins/b324_hashlib.html",
+        "test_id": "B324",
+        "test_name": "hashlib"
+      },
+      {
+        "code": "310         )\n311         hassh = md5(hasshAlgorithms.encode(\"utf-8\")).hexdigest()\n312 \n",
+        "col_offset": 16,
+        "end_col_offset": 52,
+        "filename": "/Users/aristofanischionis/Desktop/Msc DTU/courses/thesis/honeyscanner/honeyscanner/passive_attacks/static_analyzer/cowrie-2.4.0/src/cowrie/ssh_proxy/server_transport.py",
+        "issue_confidence": "HIGH",
+        "issue_cwe": {
+          "id": 327,
+          "link": "https://cwe.mitre.org/data/definitions/327.html"
+        },
+        "issue_severity": "HIGH",
+        "issue_text": "Use of weak MD5 hash for security. Consider usedforsecurity=False",
+        "line_number": 311,
+        "line_range": [
+          311
+        ],
+        "more_info": "https://bandit.readthedocs.io/en/1.7.5/plugins/b324_hashlib.html",
+        "test_id": "B324",
+        "test_name": "hashlib"
+      },
+      {
+        "code": "76     ):\n77         exec(f\"{keyID} = object()\")\n78 \n",
+        "col_offset": 8,
+        "end_col_offset": 35,
+        "filename": "/Users/aristofanischionis/Desktop/Msc DTU/courses/thesis/honeyscanner/honeyscanner/passive_attacks/static_analyzer/cowrie-2.4.0/src/cowrie/test/fake_transport.py",
+        "issue_confidence": "HIGH",
+        "issue_cwe": {
+          "id": 78,
+          "link": "https://cwe.mitre.org/data/definitions/78.html"
+        },
+        "issue_severity": "MEDIUM",
+        "issue_text": "Use of exec detected.",
+        "line_number": 77,
+        "line_range": [
+          77
+        ],
+        "more_info": "https://bandit.readthedocs.io/en/1.7.5/plugins/b102_exec_used.html",
+        "test_id": "B102",
+        "test_name": "exec_used"
+      },
+      {
+        "code": "12 os.environ[\"COWRIE_HONEYPOT_DATA_PATH\"] = \"data\"\n13 os.environ[\"COWRIE_HONEYPOT_DOWNLOAD_PATH\"] = \"/tmp\"\n14 os.environ[\"COWRIE_SHELL_FILESYSTEM\"] = \"share/cowrie/fs.pickle\"\n",
+        "col_offset": 46,
+        "end_col_offset": 52,
+        "filename": "/Users/aristofanischionis/Desktop/Msc DTU/courses/thesis/honeyscanner/honeyscanner/passive_attacks/static_analyzer/cowrie-2.4.0/src/cowrie/test/test_awk.py",
+        "issue_confidence": "MEDIUM",
+        "issue_cwe": {
+          "id": 377,
+          "link": "https://cwe.mitre.org/data/definitions/377.html"
+        },
+        "issue_severity": "MEDIUM",
+        "issue_text": "Probable insecure usage of temp file/directory.",
+        "line_number": 13,
+        "line_range": [
+          13
+        ],
+        "more_info": "https://bandit.readthedocs.io/en/1.7.5/plugins/b108_hardcoded_tmp_directory.html",
+        "test_id": "B108",
+        "test_name": "hardcoded_tmp_directory"
+      },
+      {
+        "code": "12 os.environ[\"COWRIE_HONEYPOT_DATA_PATH\"] = \"data\"\n13 os.environ[\"COWRIE_HONEYPOT_DOWNLOAD_PATH\"] = \"/tmp\"\n14 os.environ[\"COWRIE_SHELL_FILESYSTEM\"] = \"share/cowrie/fs.pickle\"\n",
+        "col_offset": 46,
+        "end_col_offset": 52,
+        "filename": "/Users/aristofanischionis/Desktop/Msc DTU/courses/thesis/honeyscanner/honeyscanner/passive_attacks/static_analyzer/cowrie-2.4.0/src/cowrie/test/test_base64.py",
+        "issue_confidence": "MEDIUM",
+        "issue_cwe": {
+          "id": 377,
+          "link": "https://cwe.mitre.org/data/definitions/377.html"
+        },
+        "issue_severity": "MEDIUM",
+        "issue_text": "Probable insecure usage of temp file/directory.",
+        "line_number": 13,
+        "line_range": [
+          13
+        ],
+        "more_info": "https://bandit.readthedocs.io/en/1.7.5/plugins/b108_hardcoded_tmp_directory.html",
+        "test_id": "B108",
+        "test_name": "hardcoded_tmp_directory"
+      },
+      {
+        "code": "233     def test_mkdir_output(self) -> None:\n234         path = \"/tmp/hello\"\n235 \n",
+        "col_offset": 15,
+        "end_col_offset": 27,
+        "filename": "/Users/aristofanischionis/Desktop/Msc DTU/courses/thesis/honeyscanner/honeyscanner/passive_attacks/static_analyzer/cowrie-2.4.0/src/cowrie/test/test_base_commands.py",
+        "issue_confidence": "MEDIUM",
+        "issue_cwe": {
+          "id": 377,
+          "link": "https://cwe.mitre.org/data/definitions/377.html"
+        },
+        "issue_severity": "MEDIUM",
+        "issue_text": "Probable insecure usage of temp file/directory.",
+        "line_number": 234,
+        "line_range": [
+          234
+        ],
+        "more_info": "https://bandit.readthedocs.io/en/1.7.5/plugins/b108_hardcoded_tmp_directory.html",
+        "test_id": "B108",
+        "test_name": "hardcoded_tmp_directory"
+      },
+      {
+        "code": "247     def test_rmdir_output(self) -> None:\n248         path = \"/tmp/bye\"\n249 \n",
+        "col_offset": 15,
+        "end_col_offset": 25,
+        "filename": "/Users/aristofanischionis/Desktop/Msc DTU/courses/thesis/honeyscanner/honeyscanner/passive_attacks/static_analyzer/cowrie-2.4.0/src/cowrie/test/test_base_commands.py",
+        "issue_confidence": "MEDIUM",
+        "issue_cwe": {
+          "id": 377,
+          "link": "https://cwe.mitre.org/data/definitions/377.html"
+        },
+        "issue_severity": "MEDIUM",
+        "issue_text": "Probable insecure usage of temp file/directory.",
+        "line_number": 248,
+        "line_range": [
+          248
+        ],
+        "more_info": "https://bandit.readthedocs.io/en/1.7.5/plugins/b108_hardcoded_tmp_directory.html",
+        "test_id": "B108",
+        "test_name": "hardcoded_tmp_directory"
+      },
+      {
+        "code": "265     def test_touch_output(self) -> None:\n266         path = \"/tmp/test.txt\"\n267 \n",
+        "col_offset": 15,
+        "end_col_offset": 30,
+        "filename": "/Users/aristofanischionis/Desktop/Msc DTU/courses/thesis/honeyscanner/honeyscanner/passive_attacks/static_analyzer/cowrie-2.4.0/src/cowrie/test/test_base_commands.py",
+        "issue_confidence": "MEDIUM",
+        "issue_cwe": {
+          "id": 377,
+          "link": "https://cwe.mitre.org/data/definitions/377.html"
+        },
+        "issue_severity": "MEDIUM",
+        "issue_text": "Probable insecure usage of temp file/directory.",
+        "line_number": 266,
+        "line_range": [
+          266
+        ],
+        "more_info": "https://bandit.readthedocs.io/en/1.7.5/plugins/b108_hardcoded_tmp_directory.html",
+        "test_id": "B108",
+        "test_name": "hardcoded_tmp_directory"
+      },
+      {
+        "code": "12 os.environ[\"COWRIE_HONEYPOT_DATA_PATH\"] = \"data\"\n13 os.environ[\"COWRIE_HONEYPOT_DOWNLOAD_PATH\"] = \"/tmp\"\n14 os.environ[\"COWRIE_SHELL_FILESYSTEM\"] = \"share/cowrie/fs.pickle\"\n",
+        "col_offset": 46,
+        "end_col_offset": 52,
+        "filename": "/Users/aristofanischionis/Desktop/Msc DTU/courses/thesis/honeyscanner/honeyscanner/passive_attacks/static_analyzer/cowrie-2.4.0/src/cowrie/test/test_cat.py",
+        "issue_confidence": "MEDIUM",
+        "issue_cwe": {
+          "id": 377,
+          "link": "https://cwe.mitre.org/data/definitions/377.html"
+        },
+        "issue_severity": "MEDIUM",
+        "issue_text": "Probable insecure usage of temp file/directory.",
+        "line_number": 13,
+        "line_range": [
+          13
+        ],
+        "more_info": "https://bandit.readthedocs.io/en/1.7.5/plugins/b108_hardcoded_tmp_directory.html",
+        "test_id": "B108",
+        "test_name": "hardcoded_tmp_directory"
+      },
+      {
+        "code": "12 os.environ[\"COWRIE_HONEYPOT_DATA_PATH\"] = \"data\"\n13 os.environ[\"COWRIE_HONEYPOT_DOWNLOAD_PATH\"] = \"/tmp\"\n14 os.environ[\"COWRIE_SHELL_FILESYSTEM\"] = \"share/cowrie/fs.pickle\"\n",
+        "col_offset": 46,
+        "end_col_offset": 52,
+        "filename": "/Users/aristofanischionis/Desktop/Msc DTU/courses/thesis/honeyscanner/honeyscanner/passive_attacks/static_analyzer/cowrie-2.4.0/src/cowrie/test/test_chmod.py",
+        "issue_confidence": "MEDIUM",
+        "issue_cwe": {
+          "id": 377,
+          "link": "https://cwe.mitre.org/data/definitions/377.html"
+        },
+        "issue_severity": "MEDIUM",
+        "issue_text": "Probable insecure usage of temp file/directory.",
+        "line_number": 13,
+        "line_range": [
+          13
+        ],
+        "more_info": "https://bandit.readthedocs.io/en/1.7.5/plugins/b108_hardcoded_tmp_directory.html",
+        "test_id": "B108",
+        "test_name": "hardcoded_tmp_directory"
+      },
+      {
+        "code": "12 os.environ[\"COWRIE_HONEYPOT_DATA_PATH\"] = \"data\"\n13 os.environ[\"COWRIE_HONEYPOT_DOWNLOAD_PATH\"] = \"/tmp\"\n14 os.environ[\"COWRIE_SHELL_FILESYSTEM\"] = \"share/cowrie/fs.pickle\"\n",
+        "col_offset": 46,
+        "end_col_offset": 52,
+        "filename": "/Users/aristofanischionis/Desktop/Msc DTU/courses/thesis/honeyscanner/honeyscanner/passive_attacks/static_analyzer/cowrie-2.4.0/src/cowrie/test/test_echo.py",
+        "issue_confidence": "MEDIUM",
+        "issue_cwe": {
+          "id": 377,
+          "link": "https://cwe.mitre.org/data/definitions/377.html"
+        },
+        "issue_severity": "MEDIUM",
+        "issue_text": "Probable insecure usage of temp file/directory.",
+        "line_number": 13,
+        "line_range": [
+          13
+        ],
+        "more_info": "https://bandit.readthedocs.io/en/1.7.5/plugins/b108_hardcoded_tmp_directory.html",
+        "test_id": "B108",
+        "test_name": "hardcoded_tmp_directory"
+      },
+      {
+        "code": "13 os.environ[\"COWRIE_HONEYPOT_DATA_PATH\"] = \"data\"\n14 os.environ[\"COWRIE_HONEYPOT_DOWNLOAD_PATH\"] = \"/tmp\"\n15 os.environ[\"COWRIE_SHELL_FILESYSTEM\"] = \"share/cowrie/fs.pickle\"\n",
+        "col_offset": 46,
+        "end_col_offset": 52,
+        "filename": "/Users/aristofanischionis/Desktop/Msc DTU/courses/thesis/honeyscanner/honeyscanner/passive_attacks/static_analyzer/cowrie-2.4.0/src/cowrie/test/test_ftpget.py",
+        "issue_confidence": "MEDIUM",
+        "issue_cwe": {
+          "id": 377,
+          "link": "https://cwe.mitre.org/data/definitions/377.html"
+        },
+        "issue_severity": "MEDIUM",
+        "issue_text": "Probable insecure usage of temp file/directory.",
+        "line_number": 14,
+        "line_range": [
+          14
+        ],
+        "more_info": "https://bandit.readthedocs.io/en/1.7.5/plugins/b108_hardcoded_tmp_directory.html",
+        "test_id": "B108",
+        "test_name": "hardcoded_tmp_directory"
+      },
+      {
+        "code": "12 os.environ[\"COWRIE_HONEYPOT_DATA_PATH\"] = \"data\"\n13 os.environ[\"COWRIE_HONEYPOT_DOWNLOAD_PATH\"] = \"/tmp\"\n14 os.environ[\"COWRIE_SHELL_FILESYSTEM\"] = \"share/cowrie/fs.pickle\"\n",
+        "col_offset": 46,
+        "end_col_offset": 52,
+        "filename": "/Users/aristofanischionis/Desktop/Msc DTU/courses/thesis/honeyscanner/honeyscanner/passive_attacks/static_analyzer/cowrie-2.4.0/src/cowrie/test/test_tee.py",
+        "issue_confidence": "MEDIUM",
+        "issue_cwe": {
+          "id": 377,
+          "link": "https://cwe.mitre.org/data/definitions/377.html"
+        },
+        "issue_severity": "MEDIUM",
+        "issue_text": "Probable insecure usage of temp file/directory.",
+        "line_number": 13,
+        "line_range": [
+          13
+        ],
+        "more_info": "https://bandit.readthedocs.io/en/1.7.5/plugins/b108_hardcoded_tmp_directory.html",
+        "test_id": "B108",
+        "test_name": "hardcoded_tmp_directory"
+      },
+      {
+        "code": "12 os.environ[\"COWRIE_HONEYPOT_DATA_PATH\"] = \"data\"\n13 os.environ[\"COWRIE_HONEYPOT_DOWNLOAD_PATH\"] = \"/tmp\"\n14 os.environ[\"COWRIE_SHELL_FILESYSTEM\"] = \"share/cowrie/fs.pickle\"\n",
+        "col_offset": 46,
+        "end_col_offset": 52,
+        "filename": "/Users/aristofanischionis/Desktop/Msc DTU/courses/thesis/honeyscanner/honeyscanner/passive_attacks/static_analyzer/cowrie-2.4.0/src/cowrie/test/test_tftp.py",
+        "issue_confidence": "MEDIUM",
+        "issue_cwe": {
+          "id": 377,
+          "link": "https://cwe.mitre.org/data/definitions/377.html"
+        },
+        "issue_severity": "MEDIUM",
+        "issue_text": "Probable insecure usage of temp file/directory.",
+        "line_number": 13,
+        "line_range": [
+          13
+        ],
+        "more_info": "https://bandit.readthedocs.io/en/1.7.5/plugins/b108_hardcoded_tmp_directory.html",
+        "test_id": "B108",
+        "test_name": "hardcoded_tmp_directory"
+      },
+      {
+        "code": "12 os.environ[\"COWRIE_HONEYPOT_DATA_PATH\"] = \"data\"\n13 os.environ[\"COWRIE_HONEYPOT_DOWNLOAD_PATH\"] = \"/tmp\"\n14 os.environ[\"COWRIE_SHELL_FILESYSTEM\"] = \"share/cowrie/fs.pickle\"\n",
+        "col_offset": 46,
+        "end_col_offset": 52,
+        "filename": "/Users/aristofanischionis/Desktop/Msc DTU/courses/thesis/honeyscanner/honeyscanner/passive_attacks/static_analyzer/cowrie-2.4.0/src/cowrie/test/test_uniq.py",
+        "issue_confidence": "MEDIUM",
+        "issue_cwe": {
+          "id": 377,
+          "link": "https://cwe.mitre.org/data/definitions/377.html"
+        },
+        "issue_severity": "MEDIUM",
+        "issue_text": "Probable insecure usage of temp file/directory.",
+        "line_number": 13,
+        "line_range": [
+          13
+        ],
+        "more_info": "https://bandit.readthedocs.io/en/1.7.5/plugins/b108_hardcoded_tmp_directory.html",
+        "test_id": "B108",
+        "test_name": "hardcoded_tmp_directory"
+      }
+    ]
+  }
+}
