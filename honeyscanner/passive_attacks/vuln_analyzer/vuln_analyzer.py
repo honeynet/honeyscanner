@@ -12,7 +12,7 @@ import logging
 import functools
 from collections import defaultdict
 from colorama import Fore, Style, init
-sys.path.append(os.path.dirname(os.path.abspath(os.path.join(__file__, os.pardir))))
+from pathlib import Path
 from config import GITHUB_ACCESS_TOKEN
 from .models import Vulnerability
 
@@ -25,59 +25,38 @@ class VulnerableLibrariesAnalyzer:
         self.repo_name = repo_name
         self.github = Github(GITHUB_ACCESS_TOKEN)
         self.repo = self.get_repo()
-        self.insecure_full_path = os.path.join(os.path.dirname(os.path.abspath(__file__)), "vuln_database", "insecure_full.json")
-        self.analysis_results_path = os.path.join(os.path.dirname(os.path.abspath(__file__)), "analysis_results")
-        self.requirements_files_path = os.path.join(os.path.dirname(os.path.abspath(__file__)), "requirements_files")
-        parent_dir = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
-        self.all_cves_path = os.path.join(parent_dir, "results", "all_cves.txt")
+        self.insecure_full_path = Path(__file__).resolve().parent / "vuln_database" / "insecure_full.json"
+        self.analysis_results_path = Path(__file__).resolve().parent / "analysis_results"
+        self.requirements_files_path = Path(__file__).resolve().parent / "requirements_files"
+        self.all_cves_path = Path(__file__).resolve().parent.parent / "results" / "all_cves.txt"
         self.download_insecure_full_json()
         self.vuln_data_cache = defaultdict(dict)
 
     def get_repo(self):
         """
         Get the repository object for the specified owner and repo_name.
-
-        :return: Repository object
         """
         return self.github.get_repo(f"{self.owner}/{self.repo_name}")
 
     def download_insecure_full_json(self):
         """
         Download the insecure_full.json file containing vulnerability data.
-
-        :return: None
         """
         url = "https://raw.githubusercontent.com/pyupio/safety-db/master/data/insecure_full.json"
         response = requests.get(url)
         if response.status_code == 200:
+            if not self.insecure_full_path.parent.is_dir():
+                self.insecure_full_path.parent.mkdir()
+
             with open(self.insecure_full_path, "w") as f:
                 f.write(response.text)
         else:
             logging.error("\nFailed to download the insecure_full.json file\n")
             exit(1)
-    
-    # The caching mechanism
-    def cache_result(func):
-        @functools.wraps(func)
-        def wrapper(*args, **kwargs):
-            obj = args[0]
-            key = f"{args[1:]}_{kwargs}"
-            if key in obj.vuln_data_cache[func.__name__]:
-                return obj.vuln_data_cache[func.__name__][key]
-            result = func(*args, **kwargs)
-            obj.vuln_data_cache[func.__name__][key] = result
-            return result
 
-        return wrapper
-
-    @cache_result
     def get_latest_version_before_date(self, package_name, date):
         """
         Get the latest version of the package released before the specified date.
-
-        :param package_name: Name of the package
-        :param date: Date to get the latest version before
-        :return: Latest version released before the date
         """
         url = f"https://pypi.org/pypi/{package_name}/json"
         response = requests.get(url)
@@ -102,10 +81,6 @@ class VulnerableLibrariesAnalyzer:
     def update_versions(self, requirements, release_date):
         """
         Update the versions in the requirements list to the latest version before the release date.
-
-        :param requirements: List of Requirement objects
-        :param release_date: Release date to update the versions before
-        :return: List of updated requirements as strings
         """
         updated_requirements = []
         for req in requirements:
@@ -133,10 +108,6 @@ class VulnerableLibrariesAnalyzer:
     def download_requirements(self, version, requirements_url):
         """
         Download the requirements.txt file and update the versions to the latest version before the release date.
-
-        :param version: Version of the honeypot
-        :param requirements_url: URL to the requirements.txt file
-        :return: Boolean indicating if the download was successful
         """
         release_date = self.get_release_date(version)
         response = requests.get(requirements_url)
@@ -152,8 +123,6 @@ class VulnerableLibrariesAnalyzer:
     def get_release_date(self, version_tag):
         """
         Get the release date of the specified version tag.
-        :param version_tag: Version tag of the release
-        :return: Release date as a date object, or the current date if the release is not found
         """
         try:
             release = self.repo.get_release(version_tag)
@@ -163,13 +132,9 @@ class VulnerableLibrariesAnalyzer:
             # If not found then use the current datetime as the release date, otherwise use return None
             return datetime.datetime.now().date()
 
-    @cache_result
     def get_cvss_score(self, cve):
         """
         Get the CVSS score for a given CVE.
-
-        :param cve: The CVE number
-        :return: CVSS score or None if not found
         """
         if not cve:
             return None
@@ -189,28 +154,10 @@ class VulnerableLibrariesAnalyzer:
 
         return None
 
-    @cache_result
-    def search_poc_url(self, cve):
-        """
-        Search for a proof-of-concept (PoC) URL for the specified CVE.
-        :param cve: CVE identifier
-        :return: URL of the PoC repository or None if not found
-        """
-        # query = f"{cve} in:name"
-        query = f"{cve} in:path OR {cve} in:description OR {cve} in:name"
-        repositories = self.github.search_repositories(query=query, sort='stars', order='desc')
-        time.sleep(5)  # Wait for 5 seconds to avoid rate limit
-        if repositories.totalCount > 0:
-            return repositories[0].html_url
-        return None
-
-
+    @staticmethod
     def convert_vuln_data_format(json_data):
         """
         Convert vulnerability data from the downloaded JSON file to a more convenient format.
-
-        :param json_data: JSON data loaded from the insecure_full.json file
-        :return: Converted vulnerability data as a dictionary
         """
         converted_data = {}
         for package_name, vulnerabilities in json_data.items():
@@ -231,11 +178,7 @@ class VulnerableLibrariesAnalyzer:
     def process_vulnerabilities(self, packages):
         """
         Process the given packages to check for vulnerabilities using the vulnerability data.
-
-        :param packages: List of package strings in the format "name==version"
-        :return: Dictionary containing vulnerable libraries and their vulnerability information
         """
-
         # Load vulnerability data from the downloaded JSON file
         with open(self.insecure_full_path, "r") as f:
             vuln_data = json.load(f)
@@ -258,7 +201,6 @@ class VulnerableLibrariesAnalyzer:
                             cve=cve,
                             vulnerability_id=vuln["id"],
                             advisory=vuln.get("advisory"),
-                            poc_url=self.search_poc_url(cve),
                             cvss_score=cvss_score
                         )
                         if name not in vulnerable_libraries_dict:
@@ -270,11 +212,7 @@ class VulnerableLibrariesAnalyzer:
     def check_vulnerable_libraries(self, version):
         """
         Check the specified version of the honeypot for vulnerable libraries using the requirements file.
-
-        :param version: Version of the honeypot to check
-        :return: Dictionary containing vulnerable libraries and their vulnerability information
         """
-
         file_name = f"{self.requirements_files_path}/{self.honeypot_name}-{version}-requirements.txt"
 
         # Read the requirements file and parse it into a list of Requirement objects
@@ -290,9 +228,6 @@ class VulnerableLibrariesAnalyzer:
     def log_cves_to_file(self, vulnerabilities):
         """
         Append found CVEs to a file.
-
-        :param vulnerabilities: Dictionary of vulnerabilities
-        :return: None
         """
         dir_path = os.path.dirname(self.all_cves_path)
         if not os.path.isdir(dir_path):
@@ -307,9 +242,6 @@ class VulnerableLibrariesAnalyzer:
     def analyze_vulnerabilities(self, version, requirements_url):
         """
         Analyze the vulnerabilities in the specified version of the honeypot using the requirements file.
-        :param version: Version of the honeypot to analyze
-        :param requirements_url: URL to the requirements.txt file
-        :return: None
         """
         success = self.download_requirements(version, requirements_url)
         if success:
@@ -342,9 +274,6 @@ class VulnerableLibrariesAnalyzer:
     def print_summary(self, vulnerabilities):
         """
         Print a summary of the found vulnerabilities.
-
-        :param vulnerabilities: Dictionary of vulnerabilities
-        :return: None
         """
         print("\nVulnerability Analysis Summary:\n")
         for name, vuln_list in vulnerabilities.items():
