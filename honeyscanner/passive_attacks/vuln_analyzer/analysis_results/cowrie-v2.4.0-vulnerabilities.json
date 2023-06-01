@@ -1,0 +1,138 @@
+{
+  "v2.4.0": {
+    "cryptography": [
+      {
+        "name": "cryptography",
+        "installed_version": "37.0.4",
+        "affected_versions": "<39.0.1",
+        "cve": "CVE-2023-0215",
+        "vulnerability_id": "pyup.io-53305",
+        "advisory": "Cryptography 39.0.1 updates its dependency 'OpenSSL' to v3.0.8 to include security fixes.\r\nhttps://github.com/pyca/cryptography/issues/8229",
+        "poc_url": "https://github.com/nidhi7598/OPENSSL_1.0.2_G2.5_CVE-2023-0215",
+        "cvss_score": 7.5
+      },
+      {
+        "name": "cryptography",
+        "installed_version": "37.0.4",
+        "affected_versions": "<39.0.1",
+        "cve": "CVE-2023-0217",
+        "vulnerability_id": "pyup.io-53306",
+        "advisory": "Cryptography 39.0.1 updates its dependency 'OpenSSL' to v3.0.8 to include security fixes.\r\nhttps://github.com/pyca/cryptography/issues/8229",
+        "poc_url": null,
+        "cvss_score": 7.5
+      },
+      {
+        "name": "cryptography",
+        "installed_version": "37.0.4",
+        "affected_versions": "<39.0.1",
+        "cve": "CVE-2022-3996",
+        "vulnerability_id": "pyup.io-53298",
+        "advisory": "Cryptography 39.0.1 includes a fix for CVE-2022-3996, a DoS vulnerability affecting openssl.\r\nhttps://github.com/pyca/cryptography/issues/7940",
+        "poc_url": null,
+        "cvss_score": 7.5
+      },
+      {
+        "name": "cryptography",
+        "installed_version": "37.0.4",
+        "affected_versions": "<39.0.1",
+        "cve": "CVE-2022-4450",
+        "vulnerability_id": "pyup.io-53299",
+        "advisory": "Cryptography 39.0.1 updates its dependency 'OpenSSL' to v3.0.8 to include security fixes.\r\nhttps://github.com/pyca/cryptography/issues/8229",
+        "poc_url": "https://github.com/nidhi7598/OPENSSL_1.1.1g_G3_CVE-2022-4450",
+        "cvss_score": 7.5
+      },
+      {
+        "name": "cryptography",
+        "installed_version": "37.0.4",
+        "affected_versions": "<39.0.1",
+        "cve": "CVE-2022-4203",
+        "vulnerability_id": "pyup.io-53301",
+        "advisory": "Cryptography 39.0.1 updates its dependency 'OpenSSL' to v3.0.8 to include security fixes.\r\nhttps://github.com/pyca/cryptography/issues/8229",
+        "poc_url": null,
+        "cvss_score": 4.9
+      },
+      {
+        "name": "cryptography",
+        "installed_version": "37.0.4",
+        "affected_versions": "<39.0.1",
+        "cve": "CVE-2023-0216",
+        "vulnerability_id": "pyup.io-53302",
+        "advisory": "Cryptography 39.0.1 updates its dependency 'OpenSSL' to v3.0.8 to include security fixes.\r\nhttps://github.com/pyca/cryptography/issues/8229",
+        "poc_url": null,
+        "cvss_score": 7.5
+      },
+      {
+        "name": "cryptography",
+        "installed_version": "37.0.4",
+        "affected_versions": "<39.0.1",
+        "cve": "CVE-2022-4304",
+        "vulnerability_id": "pyup.io-53303",
+        "advisory": "Cryptography 39.0.1 updates its dependency 'OpenSSL' to v3.0.8 to include security fixes.\r\nhttps://github.com/pyca/cryptography/issues/8229",
+        "poc_url": "https://github.com/Trinadh465/Openssl-1.1.1g_CVE-2022-4304",
+        "cvss_score": 5.9
+      },
+      {
+        "name": "cryptography",
+        "installed_version": "37.0.4",
+        "affected_versions": "<39.0.1",
+        "cve": "CVE-2023-0286",
+        "vulnerability_id": "pyup.io-53304",
+        "advisory": "Cryptography 39.0.1 updates its dependency 'OpenSSL' to v3.0.8 to include security fixes.\r\nhttps://github.com/pyca/cryptography/issues/8229",
+        "poc_url": "https://github.com/nidhi7598/OPENSSL_1.1.1g_G3_CVE-2023-0286",
+        "cvss_score": 7.4
+      },
+      {
+        "name": "cryptography",
+        "installed_version": "37.0.4",
+        "affected_versions": "<39.0.1",
+        "cve": "CVE-2023-0401",
+        "vulnerability_id": "pyup.io-53307",
+        "advisory": "Cryptography 39.0.1 updates its dependency 'OpenSSL' to v3.0.8 to include security fixes.\r\nhttps://github.com/pyca/cryptography/issues/8229",
+        "poc_url": null,
+        "cvss_score": 7.5
+      },
+      {
+        "name": "cryptography",
+        "installed_version": "37.0.4",
+        "affected_versions": ">=1.8,<39.0.1",
+        "cve": "CVE-2023-23931",
+        "vulnerability_id": "pyup.io-53048",
+        "advisory": "Cryptography 39.0.1 includes a fix for CVE-2023-23931: In affected versions 'Cipher.update_into' would accept Python objects which implement the buffer protocol, but provide only immutable buffers. This would allow immutable objects (such as 'bytes') to be mutated, thus violating fundamental rules of Python and resulting in corrupted output. This issue has been present since 'update_into' was originally introduced in cryptography 1.8.\r\nhttps://github.com/pyca/cryptography/security/advisories/GHSA-w7pp-m8wf-vj6r",
+        "poc_url": null,
+        "cvss_score": 6.5
+      },
+      {
+        "name": "cryptography",
+        "installed_version": "37.0.4",
+        "affected_versions": ">=37.0.0,<38.0.3",
+        "cve": "CVE-2022-3786",
+        "vulnerability_id": "pyup.io-52173",
+        "advisory": "Cryptography versions from 37.0.0 and before 38.0.2 include a statically linked copy of OpenSSL that has known vulnerabilities.\r\nhttps://github.com/pyca/cryptography/security/advisories/GHSA-39hc-v87j-747x",
+        "poc_url": "https://github.com/NCSC-NL/OpenSSL-2022",
+        "cvss_score": 7.5
+      },
+      {
+        "name": "cryptography",
+        "installed_version": "37.0.4",
+        "affected_versions": ">=37.0.0,<38.0.3",
+        "cve": "CVE-2022-3602",
+        "vulnerability_id": "pyup.io-52174",
+        "advisory": "Cryptography versions from 37.0.0 and before 38.0.2 include a statically linked copy of OpenSSL that has known vulnerabilities.\r\nhttps://github.com/pyca/cryptography/security/advisories/GHSA-39hc-v87j-747x",
+        "poc_url": "https://github.com/NCSC-NL/OpenSSL-2022",
+        "cvss_score": 7.5
+      }
+    ],
+    "twisted": [
+      {
+        "name": "twisted",
+        "installed_version": "22.4.0",
+        "affected_versions": ">=0.9.4,<22.10.0rc1",
+        "cve": "CVE-2022-39348",
+        "vulnerability_id": "pyup.io-51619",
+        "advisory": "Twisted 22.10.0rc1 includes a fix for CVE-2022-39348: NameVirtualHost Host header injection.\r\nhttps://github.com/twisted/twisted/security/advisories/GHSA-vg46-2rrj-3647",
+        "poc_url": null,
+        "cvss_score": 5.4
+      }
+    ]
+  }
+}

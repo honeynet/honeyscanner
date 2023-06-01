@@ -1,0 +1,37 @@
+# .gitignore
+
+# Python files
+__pycache__/
+*.pyc
+*.pyo
+*.pyd
+*.pyc
+
+# Virtual environment
+venv/
+*.egg-info/
+dist/
+build/
+
+# Log files
+*.log
+
+# Configuration files
+config.json
+
+# IDE files
+.idea/
+.vscode/
+*.swp
+*.swo
+*.swn
+
+# OS generated files
+.DS_Store
+Thumbs.db
+honeyscanner/passive_attacks/config.py
+honeyscanner/active_attacks/boofuzz-results
+
+# misc
+/setup.py
+/honeyscanner-webapp/

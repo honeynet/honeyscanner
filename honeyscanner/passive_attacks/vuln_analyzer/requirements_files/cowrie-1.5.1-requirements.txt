@@ -1,0 +1,12 @@
+twisted==18.9.0rc1
+cryptography==2.3.1
+configparser==3.5.0
+pyopenssl==18.0.0
+pyparsing==2.2.2
+packaging==18.0
+appdirs==1.4.3
+pyasn1_modules==0.2.2
+attrs==18.2.0
+service_identity==17.0.0
+python-dateutil==2.7.3
+tftpy==0.8.0
