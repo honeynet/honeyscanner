@@ -1,5 +1,5 @@
 twisted==18.9.0rc1
-cryptography==2.3.1
+cryptography==39.0.1
 configparser==3.5.0
 pyopenssl==18.0.0
 pyparsing==2.2.2
