@@ -14,7 +14,7 @@ setup(
         "Flask==2.0.1",
         "Flask-Cors==3.0.10",
         "gevent==21.8.0",
-        "requests==2.26.0",
+        "requests==2.31.0",
     ],
     classifiers=[
         'Development Status :: 3 - Alpha',
