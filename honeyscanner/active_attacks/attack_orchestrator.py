@@ -10,9 +10,8 @@ class AttackOrchestrator:
         self.honeypot = honeypot
         self.attacks = [
             # DoS(honeypot), # Successfully ran! - crashes the honeypot
-            # Fuzzing(honeypot), # Successfully ran! - not crashing the honeypot
-            # TODO: create software exploit!
-            SoftwareExploit(honeypot), # needs a lot of work
+            # Fuzzing(honeypot), # Successfully ran! - not crashing the honeypot - try to get some insights instead of crashing
+            SoftwareExploit(honeypot), # the cves found from the all_cves.txt file don't have modules in metasploit
             # TarBomb(honeypot) # should be rechecked, works but doesn't crash the honeypot
         ]
 
@@ -46,9 +45,8 @@ class AttackOrchestrator:
             elif attack_name == "Fuzzing":
                 report += f"  Test cases executed: {result[3]}\n\n"
             elif attack_name == "SoftwareExploit":
-                report += f"  Exploit used: {result[3]}\n\n"
+                report += f"  Exploits used are saved in: {result[3]}\n\n"
             elif attack_name == "TarBomb":
                 report += f"  Number of bombs used: {result[3]}\n\n"
             
         return report
-
