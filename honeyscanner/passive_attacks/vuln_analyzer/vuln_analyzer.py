@@ -13,7 +13,7 @@ import functools
 from collections import defaultdict
 from colorama import Fore, Style, init
 from pathlib import Path
-from config import GITHUB_ACCESS_TOKEN
+
 from .models import Vulnerability
 
 class VulnerableLibrariesAnalyzer:
@@ -23,7 +23,6 @@ class VulnerableLibrariesAnalyzer:
         self.honeypot_name = honeypot_name
         self.owner = owner
         self.repo_name = repo_name
-        self.github = Github(GITHUB_ACCESS_TOKEN)
         self.repo = self.get_repo()
         self.insecure_full_path = Path(__file__).resolve().parent / "vuln_database" / "insecure_full.json"
         self.analysis_results_path = Path(__file__).resolve().parent / "analysis_results"
@@ -36,7 +35,9 @@ class VulnerableLibrariesAnalyzer:
         """
         Get the repository object for the specified owner and repo_name.
         """
-        return self.github.get_repo(f"{self.owner}/{self.repo_name}")
+        g = Github()
+        user = g.get_user(self.owner)
+        return user.get_repo(self.repo_name)
 
     def download_insecure_full_json(self):
         """

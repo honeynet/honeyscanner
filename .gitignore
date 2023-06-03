@@ -16,9 +16,6 @@ build/
 # Log files
 *.log
 
-# Configuration files
-config.json
-
 # IDE files
 .idea/
 .vscode/
@@ -29,9 +26,9 @@ config.json
 # OS generated files
 .DS_Store
 Thumbs.db
-honeyscanner/passive_attacks/config.py
 honeyscanner/active_attacks/boofuzz-results
 
 # misc
 /setup.py
 /honeyscanner-webapp/
+honeyscanner/active_attacks/honeypot_port_scanner/analysis_results
