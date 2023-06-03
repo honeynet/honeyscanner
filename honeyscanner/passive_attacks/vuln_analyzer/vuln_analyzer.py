@@ -13,6 +13,7 @@ import functools
 from collections import defaultdict
 from colorama import Fore, Style, init
 from pathlib import Path
+
 from .models import Vulnerability
 
 class VulnerableLibrariesAnalyzer:
