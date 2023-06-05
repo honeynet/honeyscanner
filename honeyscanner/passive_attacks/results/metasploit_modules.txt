@@ -1,0 +1,8 @@
+exploit/linux/misc/jenkins_java_deserialize
+auxiliary/scanner/http/jenkins_command
+exploit/linux/misc/opennms_java_serialize
+exploit/unix/webapp/tikiwiki_unserialize_exec
+exploit/multi/http/shopware_createinstancefromnamedarguments_rce
+exploit/multi/http/vmware_vcenter_uploadova_rce
+exploit/multi/misc/weblogic_deserialize_rawobject
+auxiliary/gather/billquick_txtid_sqli
