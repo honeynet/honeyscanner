@@ -24,8 +24,6 @@ class DoS(BaseAttack):
     def run_attack(self, num_threads=40):
         """
         Launch the DoS attack using multiple threads.
-        :param num_threads: Number of threads to use for the attack (default: 40)
-        :return: Tuple containing a boolean indicating success and a message with the result
         """
         print(f"Running DoS attack on {self.honeypot.get_ip()}:{self.honeypot.get_port()}...")
         self.honeypot_rejecting_connections = False

@@ -21,7 +21,6 @@ class Fuzzing(BaseAttack):
     def run_connection_fuzzing(self):
         """
         Perform connection fuzzing by sending fuzzed ssh banners to the honeypot.
-        :return: Tuple containing a boolean indicating success, a message with the result and the test cases executed
         """
         try:
             s_initialize("fuzz_banner")
@@ -47,7 +46,6 @@ class Fuzzing(BaseAttack):
     def run_terminal_fuzzing(self):
         """
         Perform terminal fuzzing by sending fuzzed terminal commands to the honeypot.
-        :return: Tuple containing a boolean indicating success, a message with the result and the test cases executed
         """
         try:
             s_initialize("fuzz_command")
@@ -73,7 +71,6 @@ class Fuzzing(BaseAttack):
     def run_attack(self):
         """
         Run both connection fuzzing and terminal fuzzing attacks.
-        :return: Tuple containing a boolean indicating success,  message with the result, time taken to execute the attack and the test cases executed
         """
         print(f"Running fuzzing attack on {self.honeypot.get_ip()}:{self.honeypot.get_port()}...")
         start_time = time.time()

