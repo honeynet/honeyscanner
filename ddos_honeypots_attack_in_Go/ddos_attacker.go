@@ -138,4 +138,4 @@ func main() {
 // this Go program creates an SSH client for each machine specified in a text file,
 // connects to each machine simultaneously,
 // and repeatedly executes a curl command on each machine every 5 seconds.
-//
+// Ways to expand it is to try to perform a slowloris attack, sending incomplete HTTP requests to the target server, and keeping the connection open for as long as possible.
