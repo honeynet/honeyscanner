@@ -1,5 +1,5 @@
 <div align="center">
-    <img src="./honeyscanner_logo.png" alt="Honeyscanner logo" width="300">
+    <img src="./honeyscanner_logo.png" alt="Honeyscanner logo" width="400">
 </div>
 
 # Honeyscanner
@@ -28,3 +28,12 @@ Honeyscanner is a vulnerability analyzer for honeypots. It is designed to automa
 
 ## How to run
 
+**Python: 3.9.12**
+
+### Examples of how to run:
+```bash
+python3 main.py --honeypot cowrie --honeypot_version 2.5.0 --target_ip 127.0.0.1 --port 2222 --username root --password 1234
+```
+```bash
+python3 main.py --honeypot kippo --honeypot_version 0.9 --target_ip 127.0.0.1 --port 2222
+```
