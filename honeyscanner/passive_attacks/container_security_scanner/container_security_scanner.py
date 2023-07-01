@@ -23,7 +23,7 @@ class ContainerSecurityScanner:
         self.local_repo_path = None
         self.output_folder = Path(__file__).resolve().parent / "analysis_results"
         self.all_cves_path = Path(__file__).resolve().parent.parent / "results" / "all_cves.txt"
-        self.trivy_path = Path(__file__).resolve().parent.parent / "bin" / "trivy"
+        self.trivy_path = Path(__file__).resolve().parent.parent.parent / "bin" / "trivy"
         self.report_name = self.output_folder /  f"trivy_scan_results_{self.honeypot_name}.json"
         
     def check_trivy_installed(self) -> bool:
@@ -137,7 +137,7 @@ class ContainerSecurityScanner:
             rmtree(self.local_repo_path)
 
         if self.check_trivy_installed():
-            rmtree(Path(__file__).resolve().parent.parent / "bin")
+            rmtree(Path(__file__).resolve().parent.parent.parent / "bin")
 
     def scan_repository(self) -> None:
         """

@@ -1,21 +1,23 @@
 from math import floor
-from dos import DoS
-from fuzzing import Fuzzing
-from software_exploit import SoftwareExploit
-from tar_bomb import TarBomb
-from ssh_keep_aliver import SSHKeepAliver
-from honeypot_port_scanner.honeypot_port_scanner import HoneypotPortScanner
+from .dos import DoS
+from .fuzzing import Fuzzing
+from .software_exploit import SoftwareExploit
+from .tar_bomb import TarBomb
+# from ssh_keep_aliver import SSHKeepAliver
+# from .honeypot_port_scanner.honeypot_port_scanner import HoneypotPortScanner
 
 class AttackOrchestrator:
     def __init__(self, honeypot):
         self.honeypot = honeypot
         self.attacks = [
-            # DoS(honeypot), # Successfully ran! - crashes the honeypot
-            # Fuzzing(honeypot), # Successfully ran! - not crashing the honeypot - try to get some insights instead of crashing
-            SoftwareExploit(honeypot), # Successfully ran! - not managed to exploit something
-            # TarBomb(honeypot) # should be rechecked, works but doesn't crash the honeypot
+            Fuzzing(honeypot), # Successfully ran! - not crashing the honeypot - try to get some insights instead of crashing
+            TarBomb(honeypot), # should be rechecked, works but doesn't crash the honeypot
+            # TODO: temporarily disabled as it is very slow - I need to fix
+            # SoftwareExploit(honeypot), # Successfully ran! - not managed to exploit something
+            DoS(honeypot) # Successfully ran! - crashes the honeypot
             # SSHKeepAliver(honeypot) # Not working yet... I don't know if I should keep it
         ]
+        self.results = []
 
     def run_HoneypotPortScanner(self):
         honeypot_scanner = HoneypotPortScanner(self.honeypot.get_ip())
@@ -29,13 +31,14 @@ class AttackOrchestrator:
         for attack in self.attacks:
             result = attack.run_attack()
             results.append(result)
-        return results
+        self.results = results
     
-    def generate_report(self, results):
+    def generate_report(self):
         report = "Honeypot Attack Report\n"
+        report += "======================\n\n"
         report += f"Target: {self.honeypot.get_ip()}:{self.honeypot.get_port()}\n\n"
 
-        for idx, result in enumerate(results):
+        for idx, result in enumerate(self.results):
             attack = self.attacks[idx]
             attack_name = attack.__class__.__name__
             report += f"{attack_name}:\n"
@@ -50,6 +53,6 @@ class AttackOrchestrator:
                 report += f"  Exploits used are saved in: {result[3]}\n\n"
             elif attack_name == "TarBomb":
                 report += f"  Number of bombs used: {result[3]}\n\n"
-            elif attack_name == "SSHKeepAliver":
-                report += f"  Number of keep-alive packets sent: {result[3]}\n\n"
+            # elif attack_name == "SSHKeepAliver":
+            #     report += f"  Number of keep-alive packets sent: {result[3]}\n\n"
         return report

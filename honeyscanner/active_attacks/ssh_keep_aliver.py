@@ -1,6 +1,6 @@
 import paramiko
 import time
-from base_attack import BaseAttack
+from .base_attack import BaseAttack
 
 class SSHKeepAliver(BaseAttack):
     PACKETS_PER_MINUTE = 5

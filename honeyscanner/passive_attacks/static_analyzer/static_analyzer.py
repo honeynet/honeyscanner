@@ -14,11 +14,11 @@ import re
 # pip install bandit
 
 class StaticAnalyzer:
-    def __init__(self, honeypot_name, honeypot_url, honeypot_versions):
+    def __init__(self, honeypot_name, honeypot_url, honeypot_version):
         init(autoreset=True)
         self.honeypot_name = honeypot_name
         self.honeypot_url = honeypot_url
-        self.honeypot_versions = honeypot_versions
+        self.honeypot_version = honeypot_version
         self.output_folder = Path(__file__).resolve().parent / "analysis_results"
         self.all_cves_path = Path(__file__).resolve().parent.parent / "results" / "all_cves.txt"
 
@@ -37,6 +37,10 @@ class StaticAnalyzer:
         # this is cowrie specific
         if self.honeypot_name == "cowrie" and version.startswith("v"):
             version = version[1:]
+        # this is kippo specific
+        if self.honeypot_name == "kippo" and version.startswith("v"):
+            version = version[1:]
+
         return Path(__file__).resolve().parent / f"{self.honeypot_name}-{version}"
 
     def analyze_honeypot_version(self, honeypot_folder, version):
@@ -173,15 +177,14 @@ class StaticAnalyzer:
         if not self.output_folder.exists():
             os.makedirs(self.output_folder)
 
-        for version in self.honeypot_versions:
-            print(f"Analyzing {self.honeypot_name} {version}")
-            honeypot_folder = self.fetch_honeypot_version(version)
-            output_filename = self.analyze_honeypot_version(honeypot_folder, version)
-            print(f"Analysis complete for {self.honeypot_name} {version}")
-            self.print_summary(version)
+        print(f"Analyzing {self.honeypot_name} {self.honeypot_version}")
+        honeypot_folder = self.fetch_honeypot_version(self.honeypot_version)
+        output_filename = self.analyze_honeypot_version(honeypot_folder, self.honeypot_version)
+        print(f"Analysis complete for {self.honeypot_name} {self.honeypot_version}")
+        self.print_summary(self.honeypot_version)
             
-            cwe_links = self.extract_cwe_links(output_filename)
-            cve_ids = self.scrape_cve_ids(cwe_links)
-            self.log_cves_to_file(cve_ids)
+        cwe_links = self.extract_cwe_links(output_filename)
+        cve_ids = self.scrape_cve_ids(cwe_links)
+        self.log_cves_to_file(cve_ids)
 
-            print(f"Found {len(cve_ids)} CVEs for {self.honeypot_name} {version}")
+        print(f"Found {len(cve_ids)} CVEs for {self.honeypot_name} {self.honeypot_version}")

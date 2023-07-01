@@ -32,3 +32,4 @@ honeyscanner/active_attacks/boofuzz-results
 /setup.py
 /honeyscanner-webapp/
 honeyscanner/active_attacks/honeypot_port_scanner/analysis_results
+honeyscanner/boofuzz-results

@@ -1,7 +1,7 @@
 import time
 import socket
 import threading
-from base_attack import BaseAttack
+from .base_attack import BaseAttack
 
 class DoS(BaseAttack):
     def __init__(self, honeypot):
@@ -39,7 +39,6 @@ class DoS(BaseAttack):
 
         for thread in threads:
             thread.join()
-        
         
         end_time = time.time()
         time_taken = end_time - start_time

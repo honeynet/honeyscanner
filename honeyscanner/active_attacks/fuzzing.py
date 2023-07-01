@@ -1,7 +1,7 @@
 import os
 import time
 import socket
-from base_attack import BaseAttack
+from .base_attack import BaseAttack
 from boofuzz import Session, Target, SocketConnection, s_initialize, s_string, s_delim, s_get
 
 """
