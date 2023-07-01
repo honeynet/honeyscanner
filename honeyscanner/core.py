@@ -1,40 +1,33 @@
-# import json
-# from .honeypots import Dionaea, Cowrie, Conpot
-# from .active_attacks import DoS, Fuzzing, SoftwareExploit
-# from .passive_attacks.report_generation import generate_report
+from honeypots import Cowrie, Kippo
+from passive_attacks import AttackOrchestrator as PassiveAttackOrchestrator
+from active_attacks import AttackOrchestrator as ActiveAttackOrchestrator
+from report_generator import ReportGenerator
 
-# class honeyscanner:
-    # def __init__(self, honeypot_type):
-    #     self.honeypot = self.create_honeypot(honeypot_type)
-    #     self.attack_classes = [DoS, Fuzzing, SoftwareExploit, TarBomb]
+class Honeyscanner:
+    def __init__(self, honeypot_type, honeypot_version, honeypot_ip, honeypot_port, honeypot_username, honeypot_password):
+        self.honeypot = self.create_honeypot(honeypot_type, honeypot_version, honeypot_ip, honeypot_port, honeypot_username, honeypot_password)
+        self.passive_attack_orchestrator = PassiveAttackOrchestrator(self.honeypot)
+        self.active_attack_orchestrator = ActiveAttackOrchestrator(self.honeypot)
+        self.passive_attack_results = None
+        self.active_attack_results = None
+        self.report_generator = ReportGenerator(self.passive_attack_results, self.active_attack_results)
 
-    # def create_honeypot(self, honeypot_type):
-    #     honeypot_class_map = {
-    #         'dionaea': Dionaea,
-    #         'cowrie': Cowrie,
-    #         'conpot': Conpot,
-    #     }
+    def create_honeypot(self, honeypot_type, honeypot_version, honeypot_ip, honeypot_port, honeypot_username, honeypot_password):
+        honeypot_class_map = {
+            'cowrie': Cowrie,
+            'kippo': Kippo,
+        }
+        if honeypot_type not in honeypot_class_map:
+            raise ValueError(f"Unsupported honeypot type: {honeypot_type}")
+        return honeypot_class_map[honeypot_type](honeypot_version, honeypot_ip, honeypot_port, honeypot_username, honeypot_password)
 
-    #     if honeypot_type not in honeypot_class_map:
-    #         raise ValueError(f"Unsupported honeypot type: {honeypot_type}")
+    def run_all_attacks(self):
+        # Run the attacks
+        self.passive_attack_orchestrator.run_attacks()
+        self.active_attack_orchestrator.run_attacks()
+        # Generate each report
+        self.passive_attack_results = self.passive_attack_orchestrator.generate_report()
+        self.active_attack_results = self.active_attack_orchestrator.generate_report()
 
-    #     return honeypot_class_map[honeypot_type]
-
-    # def run_attacks(self):
-    #     attack_results = []
-
-    #     for AttackClass in self.attack_classes:
-    #         attack = AttackClass(self.honeypot)
-    #         success, message = attack.run_attack()
-    #         attack_results.append({
-    #             'attack_type': AttackClass.__name__,
-    #             'success': success,
-    #             'message': message,
-    #         })
-
-    #     return attack_results
-
-    # def generate_evaluation_report(self):
-    #     attack_results = self.run_attacks()
-    #     report_data = generate_report(self.honeypot.__class__.__name__, attack_results)
-    #     return report_data
+    def generate_evaluation_report(self):
+        self.report_generator.generate_report()

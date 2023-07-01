@@ -1,7 +1,7 @@
 import threading
 import socket
 import time
-from base_attack import BaseAttack
+from .base_attack import BaseAttack
 """
 Notes:
 - Maybe in the future improve it to handle also zip bombs

@@ -17,12 +17,11 @@ from pathlib import Path
 from .models import Vulnerability
 
 class VulnerableLibrariesAnalyzer:
-    def __init__(self, honeypot_name, owner, repo_name):
+    def __init__(self, honeypot_name, owner):
         logging.basicConfig(level=logging.INFO, format="%(message)s")
         init(autoreset=True)
         self.honeypot_name = honeypot_name
         self.owner = owner
-        self.repo_name = repo_name
         self.repo = self.get_repo()
         self.insecure_full_path = Path(__file__).resolve().parent / "vuln_database" / "insecure_full.json"
         self.analysis_results_path = Path(__file__).resolve().parent / "analysis_results"
@@ -33,11 +32,11 @@ class VulnerableLibrariesAnalyzer:
 
     def get_repo(self):
         """
-        Get the repository object for the specified owner and repo_name.
+        Get the repository object for the specified owner and honeypot_name.
         """
         g = Github()
         user = g.get_user(self.owner)
-        return user.get_repo(self.repo_name)
+        return user.get_repo(self.honeypot_name)
 
     def download_insecure_full_json(self):
         """

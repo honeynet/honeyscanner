@@ -1,64 +1,85 @@
-import os
+import re
+import time
 import argparse
-import json
-# from .core import honeyscanner
-from passive_attacks.report_generation import generate_report
+from core import Honeyscanner
 
 def print_ascii_art_honeyscanner():
     ascii_art = r"""
 
-.__                                                                                
-|  |__   ____   ____   ____ ___.__. ______ ____ _____    ____   ____   ___________ 
-|  |  \ /  _ \ /    \_/ __ <   |  |/  ___// ___\\__  \  /    \ /    \_/ __ \_  __ \
-|   Y  (  <_> )   |  \  ___/\___  |\___ \\  \___ / __ \|   |  \   |  \  ___/|  | \/
-|___|  /\____/|___|  /\___  > ____/____  >\___  >____  /___|  /___|  /\___  >__|   
-     \/            \/     \/\/         \/     \/     \/     \/     \/     \/       
+  ___ ___                                                                             
+ /   |   \  ____   ____   ____ ___.__. ______ ____ _____    ____   ____   ___________ 
+/    ~    \/  _ \ /    \_/ __ <   |  |/  ___// ___\\__  \  /    \ /    \_/ __ \_  __ \
+\    Y    (  <_> )   |  \  ___/\___  |\___ \\  \___ / __ \|   |  \   |  \  ___/|  | \/
+ \___|_  / \____/|___|  /\___  > ____/____  >\___  >____  /___|  /___|  /\___  >__|   
+       \/             \/     \/\/         \/     \/     \/     \/     \/     \/       
 
         """
     print(ascii_art)
 
-# Set the default report path to a file named "report.txt" in the "reports" folder
-def set_default_report_path():
-    backend_path = os.path.dirname(os.path.abspath(__file__))
-    default_report_path = os.path.join(backend_path, "reports", "report.txt")
-    return default_report_path
+def sanitize_string(s):
+    s = s.strip()
+    s = s.lower()
+    # Remove special characters using regex (it matches any character that is not a lowercase letter, a number, a space, or a dot and removes it.)
+    s = re.sub('[^a-z0-9. ]', '', s)
+    return s
 
 def parse_arguments():
-    parser = argparse.ArgumentParser(description="honeyscanner: A vulnerability analyzer for honeypots")
+    parser = argparse.ArgumentParser(description="Honeyscanner: A vulnerability analyzer for honeypots")
+    parser.add_argument(
+        "--honeypot",
+        type=sanitize_string,
+        required=True,
+        choices=["cowrie", "kippo"],
+        help="Honeypot to analyze, currently supported: (cowrie and kippo)",
+    )
+    parser.add_argument(
+        "--honeypot_version",
+        type=sanitize_string,
+        required=True,
+        help="The version of the honeypot to analyze",
+    )
     parser.add_argument(
         "--target_ip",
-        type=str,
+        type=sanitize_string,
         required=True,
         help="The IP address of the honeypot to analyze",
     )
     parser.add_argument(
-        "--honeypot",
-        type=str,
+        "--port",
+        type=int,
         required=True,
-        choices=["dionaea", "cowrie", "conpot"],
-        help="Honeypot type to analyze (dionaea, cowrie, or conpot)",
+        help="The port to connect to the honeypot to analyze",
     )
     parser.add_argument(
-        "--honeypot_version",
+        "--username",
         type=str,
         required=False,
-        help="The version of the honeypot to analyze",
+        help="The username to connect to the honeypot",
+    )
+    parser.add_argument(
+        "--password",
+        type=str,
+        required=False,
+        help="The password to connect to the honeypot",
     )
     return parser.parse_args()
-
 
 def main():
     args = parse_arguments()
     print_ascii_art_honeyscanner()
-    # honeyscanner = honeyscanner(args.target_ip, args.honeypot, args.honeypot_version)
-    
-    # attack_results = honeyscanner.run_all_attacks()
-    
-    # report_path = set_default_report_path()
-    # generate_report(attack_results, report_path)
-    
-    # print(f"Report generated: {report_path}")
+    honeyscanner = Honeyscanner(args.honeypot, args.honeypot_version, args.target_ip, args.port, args.username, args.password)
 
+    sleep_time = 5
+    print(f"Starting in {sleep_time} seconds...")
+    time.sleep(sleep_time)
+
+    try:
+        honeyscanner.run_all_attacks()
+        honeyscanner.generate_evaluation_report()
+    except Exception as e:
+        print(f"An error occurred: {e}")
 
 if __name__ == "__main__":
     main()
+
+# Example run: python3 main.py --honeypot cowrie --honeypot_version 2.5.0 --target_ip 127.0.0.1 --port 2222 --username root --password 1234

@@ -46,7 +46,7 @@ class BaseAttack:
             transport.start_client()
 
             # Wait for the transport to become active
-            transport.auth_password(self.honeypot.username, self.honeypot.password)
+            transport.auth_password(self.honeypot.get_username(), self.honeypot.get_password())
 
             # Wait for authentication to succeed
             while not transport.is_authenticated():
