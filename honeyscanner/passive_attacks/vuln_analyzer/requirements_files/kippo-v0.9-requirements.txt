@@ -1,0 +1,4 @@
+python==2.5.0
+twisted==14.0.0
+pycrypto==2.6
+zope.interface==4.1.1

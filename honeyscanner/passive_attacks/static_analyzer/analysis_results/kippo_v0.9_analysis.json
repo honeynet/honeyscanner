@@ -1,0 +1,30 @@
+{
+  "v0.9": {
+    "summary": {
+      "high_severity": 1,
+      "medium_severity": 0
+    },
+    "results": [
+      {
+        "code": "32         else:\n33             s = hashlib.md5(self.host).hexdigest()\n34             self.ip = '.'.join([str(int(x, 16)) for x in\n",
+        "col_offset": 16,
+        "end_col_offset": 38,
+        "filename": "/Users/aristofanischionis/Desktop/MscDTU/courses/thesis/Honeyscanner/honeyscanner/passive_attacks/static_analyzer/kippo-0.9/kippo/commands/ping.py",
+        "issue_confidence": "HIGH",
+        "issue_cwe": {
+          "id": 327,
+          "link": "https://cwe.mitre.org/data/definitions/327.html"
+        },
+        "issue_severity": "HIGH",
+        "issue_text": "Use of weak MD5 hash for security. Consider usedforsecurity=False",
+        "line_number": 33,
+        "line_range": [
+          33
+        ],
+        "more_info": "https://bandit.readthedocs.io/en/1.7.5/plugins/b324_hashlib.html",
+        "test_id": "B324",
+        "test_name": "hashlib"
+      }
+    ]
+  }
+}

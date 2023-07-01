@@ -40,7 +40,6 @@ class DoS(BaseAttack):
         for thread in threads:
             thread.join()
         
-        
         end_time = time.time()
         time_taken = end_time - start_time
 

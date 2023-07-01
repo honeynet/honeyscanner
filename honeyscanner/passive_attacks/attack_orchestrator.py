@@ -1,8 +1,5 @@
 # Ascii art I am using: https://patorjk.com/software/taag/
 
-import sys
-import time
-import threading
 from .vuln_analyzer import VulnerableLibrariesAnalyzer
 from .static_analyzer import StaticAnalyzer
 from .container_security_scanner import ContainerSecurityScanner
@@ -41,21 +38,12 @@ ___________      .__               _________
     """
     print(ascii_art)
 
-def loading_animation():
-    # chars = "/—\\|"
-    chars = "⠋⠙⠹⠸⠼⠴⠦⠧⠇⠏"
-    while True:
-        for char in chars:
-            sys.stdout.write(f"\rWorking on finding vulnerabilities...{char}")
-            sys.stdout.flush()
-            time.sleep(0.1)
-
 def execute_vuln_analyzer_code(honeypot):
     analyzer = VulnerableLibrariesAnalyzer(honeypot.get_name(), honeypot.get_owner())
+    version = honeypot.get_version()
     versions_list = honeypot.get_versions_list()
-    # TODO: hope this works
-    analyzer.analyze_vulnerabilities(honeypot.get_version(), versions_list[honeypot.get_version()].get("requirements_url"))
-    # analyzer.analyze_vulnerabilities(version["version"], version["requirements_url"])
+    version_lookup_dict = {item["version"]: item["requirements_url"] for item in versions_list}
+    analyzer.analyze_vulnerabilities(version, version_lookup_dict.get(version))
         
 def execute_static_analyzer_code(honeypot):
     analyzer = StaticAnalyzer(honeypot.get_name(), honeypot.get_source_code_url(), honeypot.get_version())
@@ -76,25 +64,21 @@ class AttackOrchestrator:
         self.results = []
 
     def run_attacks(self):
+        # Run VulnAnalyzer
         print_ascii_art_VulnAnalyzer()
-        loading_thread = threading.Thread(target=loading_animation, daemon=True)
-        loading_thread.start()
         execute_vuln_analyzer_code(self.honeypot)
-        loading_thread.join(timeout=0.1)
-        sys.stdout.write("\rFinished VulnAnalyzer!      \n")
-        sys.stdout.flush()
+        print("Finished VulnAnalyzer!")
         # Run Static Analyzer
         print_ascii_art_StaticHoney()
         execute_static_analyzer_code(self.honeypot)
-        sys.stdout.write("\rFinished StaticHoney!      \n")
-        sys.stdout.flush()
+        print("Finished StaticHoney!")
         # Run Trivy Scanner
         print_ascii_art_TrivyScanner()
         execute_trivy_scanner_code(self.honeypot)
-        sys.stdout.write("\rFinished Trivy!      \n")
-        sys.stdout.write("\rFinished all analyzers!      \n")
-        sys.stdout.flush()
+        print("Finished Trivy!")
+        print("Finished all analyzers!")
     
     def generate_report(self):
         # count how many potential cves are written in the all_cves.txt file and write this in the report
+        # TODO:In the future improve this
         pass

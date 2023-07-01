@@ -12,7 +12,8 @@ class AttackOrchestrator:
         self.attacks = [
             Fuzzing(honeypot), # Successfully ran! - not crashing the honeypot - try to get some insights instead of crashing
             TarBomb(honeypot), # should be rechecked, works but doesn't crash the honeypot
-            SoftwareExploit(honeypot), # Successfully ran! - not managed to exploit something
+            # TODO: temporarily disabled as it is very slow - I need to fix
+            # SoftwareExploit(honeypot), # Successfully ran! - not managed to exploit something
             DoS(honeypot) # Successfully ran! - crashes the honeypot
             # SSHKeepAliver(honeypot) # Not working yet... I don't know if I should keep it
         ]
@@ -32,11 +33,12 @@ class AttackOrchestrator:
             results.append(result)
         self.results = results
     
-    def generate_report(self, results):
+    def generate_report(self):
         report = "Honeypot Attack Report\n"
+        report += "======================\n\n"
         report += f"Target: {self.honeypot.get_ip()}:{self.honeypot.get_port()}\n\n"
 
-        for idx, result in enumerate(results):
+        for idx, result in enumerate(self.results):
             attack = self.attacks[idx]
             attack_name = attack.__class__.__name__
             report += f"{attack_name}:\n"

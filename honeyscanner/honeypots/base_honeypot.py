@@ -1,14 +1,14 @@
 class BaseHoneypot:
     def __init__(self, name, version, ip, port, username, password):
         self.name = name
-        self.set_version(version)
         self.ip = ip
         self.port = port
         self.username = username
         self.password = password
-        self.owner = set_owner()
-        self.source_code_url = set_source_code_url()
-        self.versions_list = set_versions_list()
+        self.set_version(version)
+        self.set_owner()
+        self.set_source_code_url()
+        self.set_versions_list()
 
     def get_name(self):
         return self.name
