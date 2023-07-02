@@ -2,6 +2,10 @@ from .base_honeypot import BaseHoneypot
 
 class Cowrie(BaseHoneypot):
     def __init__(self, version, ip, port, username='root', password='12345'):
+        if username is None:
+            username = 'root'
+        if password is None:
+            password = '12345'
         super().__init__("cowrie", version, ip, port, username, password)
 
     def set_version(self, version):

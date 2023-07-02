@@ -24,25 +24,18 @@ class BaseAttack:
             if transport:
                 transport.close()
 
-    def connect_ssh(self):
-        try:
-            ssh = paramiko.SSHClient()
-            ssh.set_missing_host_key_policy(paramiko.AutoAddPolicy())
-            ssh.connect(self.honeypot.ip, port=self.honeypot.port, username=self.honeypot.username, password=self.honeypot.password, timeout=60)
-            
-            transport = ssh.get_transport()
-            transport.local_version = "SSH-2.0-OpenSSH_9.0"
-
-            return ssh
-        except Exception as e:
-            print(f"Exception while connecting: {e}")
-            return None
-
     def connect_socket(self):
         try:
             s = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
             s.connect((self.honeypot.ip, self.honeypot.port))
             transport = paramiko.Transport(s)
+
+            # Set the key exchange and host key algorithms to the ones supported by the honeypot
+            sec_opts = transport.get_security_options()
+            sec_opts.kex = self.honeypot.kex_algorithms
+            sec_opts.key_types = self.honeypot.host_key_algorithms
+
+            # Start the client
             transport.start_client()
 
             # Wait for the transport to become active
