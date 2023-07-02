@@ -10,7 +10,7 @@ class BaseAttack:
 
     def is_honeypot_alive(self):
         try:
-            sock = socket.create_connection((self.honeypot.get_ip(), self.honeypot.get_port()), timeout=10)
+            sock = socket.create_connection((self.honeypot.ip, self.honeypot.port), timeout=10)
             sock.close()
             return True
         except Exception as e:
@@ -24,29 +24,22 @@ class BaseAttack:
             if transport:
                 transport.close()
 
-    def connect_ssh(self):
-        try:
-            ssh = paramiko.SSHClient()
-            ssh.set_missing_host_key_policy(paramiko.AutoAddPolicy())
-            ssh.connect(self.honeypot.get_ip(), port=self.honeypot.get_port(), username=self.honeypot.get_username(), password=self.honeypot.get_password(), timeout=60)
-            
-            transport = ssh.get_transport()
-            transport.local_version = "SSH-2.0-OpenSSH_9.0"
-
-            return ssh
-        except Exception as e:
-            print(f"Exception while connecting: {e}")
-            return None
-
     def connect_socket(self):
         try:
             s = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
-            s.connect((self.honeypot.get_ip(), self.honeypot.get_port()))
+            s.connect((self.honeypot.ip, self.honeypot.port))
             transport = paramiko.Transport(s)
+
+            # Set the key exchange and host key algorithms to the ones supported by the honeypot
+            sec_opts = transport.get_security_options()
+            sec_opts.kex = self.honeypot.kex_algorithms
+            sec_opts.key_types = self.honeypot.host_key_algorithms
+
+            # Start the client
             transport.start_client()
 
             # Wait for the transport to become active
-            transport.auth_password(self.honeypot.get_username(), self.honeypot.get_password())
+            transport.auth_password(self.honeypot.username, self.honeypot.password)
 
             # Wait for authentication to succeed
             while not transport.is_authenticated():

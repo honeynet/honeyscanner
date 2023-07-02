@@ -22,11 +22,11 @@ class Honeyscanner:
         return honeypot_class_map[honeypot_type](honeypot_version, honeypot_ip, honeypot_port, honeypot_username, honeypot_password)
 
     def run_all_attacks(self):
-        # Run the attacks
+        # Passive attacks
         self.passive_attack_orchestrator.run_attacks()
-        self.active_attack_orchestrator.run_attacks()
-        # Generate each report
         self.passive_attack_results = self.passive_attack_orchestrator.generate_report()
+        # Active attacks
+        self.active_attack_orchestrator.run_attacks()
         self.active_attack_results = self.active_attack_orchestrator.generate_report()
 
     def generate_evaluation_report(self):
