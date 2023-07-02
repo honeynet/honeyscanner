@@ -14,7 +14,7 @@ class DoS(BaseAttack):
         while not self.honeypot_rejecting_connections:
             sock = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
             try:
-                sock.connect((self.honeypot.get_ip(), self.honeypot.get_port()))
+                sock.connect((self.honeypot.ip, self.honeypot.port))
                 time.sleep(0.01)
             except Exception:
                 self.honeypot_rejecting_connections = True
@@ -25,7 +25,7 @@ class DoS(BaseAttack):
         """
         Launch the DoS attack using multiple threads.
         """
-        print(f"Running DoS attack on {self.honeypot.get_ip()}:{self.honeypot.get_port()}...")
+        print(f"Running DoS attack on {self.honeypot.ip}:{self.honeypot.port}...")
         self.honeypot_rejecting_connections = False
         threads = [threading.Thread(target=self.attack) for _ in range(num_threads)]
 

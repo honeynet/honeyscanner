@@ -20,7 +20,7 @@ class AttackOrchestrator:
         self.results = []
 
     def run_HoneypotPortScanner(self):
-        honeypot_scanner = HoneypotPortScanner(self.honeypot.get_ip())
+        honeypot_scanner = HoneypotPortScanner(self.honeypot.ip)
         honeypot_scanner.run_scanner()
 
     def run_attacks(self):
@@ -36,7 +36,7 @@ class AttackOrchestrator:
     def generate_report(self):
         report = "Honeypot Attack Report\n"
         report += "======================\n\n"
-        report += f"Target: {self.honeypot.get_ip()}:{self.honeypot.get_port()}\n\n"
+        report += f"Target: {self.honeypot.ip}:{self.honeypot.port}\n\n"
 
         for idx, result in enumerate(self.results):
             attack = self.attacks[idx]

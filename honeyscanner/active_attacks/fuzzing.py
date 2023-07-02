@@ -27,7 +27,7 @@ class Fuzzing(BaseAttack):
             s_string("SSH", fuzzable=True, max_len=self.max_banner_length)
             s_delim(":", fuzzable=True)
 
-            target = Target(connection=SocketConnection(self.honeypot.get_ip(), self.honeypot.get_port(), proto='tcp'))
+            target = Target(connection=SocketConnection(self.honeypot.ip, self.honeypot.port, proto='tcp'))
             session = Session(target=target, web_port=None, sleep_time=0)
             session.auto_free_clear = True
 
@@ -52,7 +52,7 @@ class Fuzzing(BaseAttack):
             s_string("A", fuzzable=True, max_len=self.max_terminal_length)
             s_delim(":", fuzzable=True)
 
-            target = Target(connection=SocketConnection(self.honeypot.get_ip(), self.honeypot.get_port(), proto='tcp'))
+            target = Target(connection=SocketConnection(self.honeypot.ip, self.honeypot.port, proto='tcp'))
             session = Session(target=target, web_port=None, sleep_time=0)
             session.auto_free_clear = True
 
@@ -72,7 +72,7 @@ class Fuzzing(BaseAttack):
         """
         Run both connection fuzzing and terminal fuzzing attacks.
         """
-        print(f"Running fuzzing attack on {self.honeypot.get_ip()}:{self.honeypot.get_port()}...")
+        print(f"Running fuzzing attack on {self.honeypot.ip}:{self.honeypot.port}...")
         start_time = time.time()
 
         # terminal fuzzing 

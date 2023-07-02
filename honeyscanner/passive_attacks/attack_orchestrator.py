@@ -39,23 +39,23 @@ ___________      .__               _________
     print(ascii_art)
 
 def execute_vuln_analyzer_code(honeypot):
-    analyzer = VulnerableLibrariesAnalyzer(honeypot.get_name(), honeypot.get_owner())
-    version = honeypot.get_version()
-    versions_list = honeypot.get_versions_list()
+    analyzer = VulnerableLibrariesAnalyzer(honeypot.name, honeypot.owner)
+    version = honeypot.version
+    versions_list = honeypot.versions_list
     version_lookup_dict = {item["version"]: item["requirements_url"] for item in versions_list}
     analyzer.analyze_vulnerabilities(version, version_lookup_dict.get(version))
         
 def execute_static_analyzer_code(honeypot):
-    analyzer = StaticAnalyzer(honeypot.get_name(), honeypot.get_source_code_url(), honeypot.get_version())
+    analyzer = StaticAnalyzer(honeypot.name, honeypot.source_code_url, honeypot.version)
     analyzer.run()
 
 def execute_trivy_scanner_code(honeypot):
-    owner = honeypot.get_owner()
+    owner = honeypot.owner
     # kippo doesn't have official Docker images, so I am using my own
-    if honeypot.get_name() == "kippo":
+    if honeypot.name == "kippo":
         owner = "aristofanischionis"
     
-    scanner = ContainerSecurityScanner(owner, honeypot.get_name())
+    scanner = ContainerSecurityScanner(owner, honeypot.name)
     scanner.scan_repository()
 
 class AttackOrchestrator:

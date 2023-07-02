@@ -20,10 +20,10 @@ class SSHKeepAliver(BaseAttack):
         """
         print("Connecting to the honeypot...")
         self.client.connect(
-            self.honeypot.get_ip(), 
-            port=self.honeypot.get_port(), 
-            username=self.honeypot.get_username(), 
-            password=self.honeypot.get_password()
+            self.honeypot.ip, 
+            port=self.honeypot.port, 
+            username=self.honeypot.username, 
+            password=self.honeypot.password
         )
         transport = self.client.get_transport()
         transport.set_keepalive(self.KEEP_ALIVE_INTERVAL)

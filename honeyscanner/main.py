@@ -86,3 +86,4 @@ if __name__ == "__main__":
 # Example run: python3 main.py --honeypot kippo --honeypot_version 0.9 --target_ip 127.0.0.1 --port 2222 --username root --password 123456
 # TODO: see again the software exploit module, SUPER SLOW maybe I can somehow speed it up
 # TODO: tried kippo, change ssh connection to use: "ssh -p 2222 -oKexAlgorithms=+diffie-hellman-group1-sha1 -oHostKeyAlgorithms=ssh-dss,ssh-rsa root@127.0.0.1", it is needed, tarbomb can't connect
+# TODO: fix the report
