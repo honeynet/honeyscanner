@@ -16,12 +16,12 @@ def print_ascii_art_honeyscanner():
         """
     print(ascii_art)
 
-def sanitize_string(s):
-    s = s.strip()
-    s = s.lower()
-    # Remove special characters using regex (it matches any character that is not a lowercase letter, a number, a space, or a dot and removes it.)
-    s = re.sub('[^a-z0-9. ]', '', s)
-    return s
+def sanitize_string(s):  
+    s = s.strip()  
+    s = s.lower()  
+    # Remove special characters using regex (it matches any character that is not a lowercase letter, a number, a space, a dot, an underscore, or a hyphen and removes it.)  
+    s = re.sub('[^a-z0-9._\- ]', '', s)  
+    return s  
 
 def parse_arguments():
     parser = argparse.ArgumentParser(description="Honeyscanner: A vulnerability analyzer for honeypots")
@@ -73,11 +73,17 @@ def main():
     print(f"Starting in {sleep_time} seconds...")
     time.sleep(sleep_time)
 
+    try:  
+        honeyscanner.run_all_attacks()  
+    except Exception as e:  
+        print(f"An error occurred during the attacks: {e}")
+        return
+
     try:
-        honeyscanner.run_all_attacks()
-        honeyscanner.generate_evaluation_report()
-    except Exception as e:
-        print(f"An error occurred: {e}")
+        honeyscanner.generate_evaluation_report()  
+    except Exception as e:  
+        print(f"An error occurred during report generation: {e}")
+        return
 
 if __name__ == "__main__":
     main()

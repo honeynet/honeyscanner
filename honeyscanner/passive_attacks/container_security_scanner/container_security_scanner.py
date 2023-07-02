@@ -6,11 +6,7 @@ from pathlib import Path
 from shutil import rmtree
 from colorama import Fore, Style, init
 
-# Constants
 SEVERITY_LEVELS = 'MEDIUM,HIGH,CRITICAL'
-
-# to run:
-# python3 container_security_scanner.py cowrie cowrie
 # explore the documentation of trivy and see if you can add more features to this script
 # now it checks for some vulnerabilities and secrets in the repo and also if available checks the docker image
 
@@ -21,10 +17,12 @@ class ContainerSecurityScanner:
         self.honeypot_name = honeypot_name
         self.github_repo_url = f"https://github.com/{honeypot_owner}/{honeypot_name}"
         self.local_repo_path = None
-        self.output_folder = Path(__file__).resolve().parent / "analysis_results"
-        self.all_cves_path = Path(__file__).resolve().parent.parent / "results" / "all_cves.txt"
-        self.trivy_path = Path(__file__).resolve().parent.parent.parent / "bin" / "trivy"
-        self.report_name = self.output_folder /  f"trivy_scan_results_{self.honeypot_name}.json"
+        self.base_path = Path(__file__).resolve().parent
+        self.output_folder = self.base_path / "analysis_results"
+        self.all_cves_path = self.base_path.parent / "results" / "all_cves.txt"
+        self.trivy_path = self.base_path.parent.parent / "bin" / "trivy"
+        self.report_name = self.output_folder / f"trivy_scan_results_{self.honeypot_name}.json"
+        self.results = None 
         
     def check_trivy_installed(self) -> bool:
         """
@@ -170,9 +168,33 @@ class ContainerSecurityScanner:
             self.print_summary(results)
             self.save_report(results)
             self.cve_finder()
-
+            self.results = results
         except subprocess.CalledProcessError as e:
             print(f"{Fore.RED}Error scanning repository: {e.output}")
             raise
         finally:
             self.cleanup()
+            return self.generate_summary(results)
+    
+    def generate_summary(self, results: dict) -> str:
+        """
+        Generate a summary of the scan results as a string.
+        """
+        summary_text = "Scan Summary\n"
+        for target in results.get('Results', []):
+            summary_text += self._generate_target_summary(target, 'Vulnerabilities')
+            summary_text += self._generate_target_summary(target, 'Secrets')
+
+        return summary_text
+
+    @staticmethod
+    def _generate_target_summary(target: dict, key: str) -> str:
+        """
+        Generate a summary of either vulnerabilities or secrets for a target as a string.
+        """
+        summary_text = f"\n{key} in {target['Target']}:\n"
+        for severity in SEVERITY_LEVELS.split(','):
+            count = sum(1 for v in target.get(key, []) if v['Severity'] == severity)
+            summary_text += f"{severity}: {count}\n"
+
+        return summary_text

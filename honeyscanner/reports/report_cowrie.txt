@@ -1,0 +1,136 @@
+
+
+  ___ ___                                                                             
+ /   |   \  ____   ____   ____ ___.__. ______ ____ _____    ____   ____   ___________ 
+/    ~    \/  _ \ /    \_/ __ <   |  |/  ___// ___\\__  \  /    \ /    \_/ __ \_  __ \
+\    Y    (  <_> )   |  \  ___/\___  |\___ \\  \___ / __ \|   |  \   |  \  ___/|  | \/
+ \___|_  / \____/|___|  /\___  > ____/____  >\___  >____  /___|  /___|  /\___  >__|   
+       \/             \/     \/\/         \/     \/     \/     \/     \/     \/       
+
+        
+
+Security Assessment of cowrie Honeypot, Version: v2.5.0 
+Honeypot IP: 127.0.0.1 
+Honeypot Port: 2222 
+Date of Assessment: 2023-07-02 16:12:42 
+Report Summary
+Passive Attacks Results: 
+======================== 
+Honeypot Passive Attack Report
+==============================
+
+Target: 127.0.0.1:2222
+
+VulnerableLibrariesAnalyzer:
+
+Vulnerability Analysis Summary:
+cryptography
+  - Red pyup.io-53305 - <39.0.1 - CVE-2023-0215 - CVSS: 7.5
+  - Red pyup.io-53307 - <39.0.1 - CVE-2023-0401 - CVSS: 7.5
+  - Red pyup.io-53306 - <39.0.1 - CVE-2023-0217 - CVSS: 7.5
+  - Red pyup.io-53298 - <39.0.1 - CVE-2022-3996 - CVSS: 7.5
+  - Red pyup.io-53302 - <39.0.1 - CVE-2023-0216 - CVSS: 7.5
+  - No CVSS Score pyup.io-53301 - <39.0.1 - CVE-2022-4203 - CVSS: None
+  - No CVSS Score pyup.io-53303 - <39.0.1 - CVE-2022-4304 - CVSS: None
+  - No CVSS Score pyup.io-53304 - <39.0.1 - CVE-2023-0286 - CVSS: None
+  - No CVSS Score pyup.io-53299 - <39.0.1 - CVE-2022-4450 - CVSS: None
+  - No CVSS Score pyup.io-59062 - <41.0.0 - CVE-2023-2650 - CVSS: None
+  - No CVSS Score pyup.io-53048 - >=1.8,<39.0.1 - CVE-2023-23931 - CVSS: None
+
+
+
+StaticAnalyzer:
+High Severity: 16
+Medium Severity: 31
+
+
+ContainerSecurityScanner:
+Scan Summary
+
+Vulnerabilities in cowrie/cowrie (debian 11.7):
+MEDIUM: 12
+HIGH: 25
+CRITICAL: 4
+
+Secrets in cowrie/cowrie (debian 11.7):
+MEDIUM: 0
+HIGH: 0
+CRITICAL: 0
+
+Vulnerabilities in /cowrie/cowrie-git/etc/cowrie.cfg.dist:
+MEDIUM: 0
+HIGH: 0
+CRITICAL: 0
+
+Secrets in /cowrie/cowrie-git/etc/cowrie.cfg.dist:
+MEDIUM: 0
+HIGH: 0
+CRITICAL: 1
+
+
+ 
+Active Attacks Results: 
+======================= 
+Honeypot Active Attack Report
+=============================
+
+Target: 127.0.0.1:2222
+
+Fuzzing:
+  Vulnerability found: False
+  Message: Honeypot is still alive after connection fuzzing - Honeypot is still alive after terminal fuzzing - 103138 test cases executed
+
+  Time to execute: 159 seconds
+
+  Test cases executed: 103138
+
+TarBomb:
+  Vulnerability found: False
+  Message: Tar bomb attack executed, but honeypot is still alive
+
+  Time to execute: 195 seconds
+
+  Number of bombs used: 30
+
+DoS:
+  Vulnerability found: True
+  Message: Vulnerability found: DoS attack made the SSH honeypot reject connections
+
+  Time to execute: 30 seconds
+
+  Number of threads used: 40
+
+ 
+Overall Score: 
+============== 
+TODO: Add overall score 
+
+
+Successful Attacks: 
+=================== 
+TODO: Add successful attacks 
+
+
+Failed Attacks: 
+================ 
+TODO: Add failed attacks 
+
+
+Attack Success Rate: 
+==================== 
+TODO: Add attack success rate 
+
+
+Total Potential CVEs: 131 
+
+
+Actionable Recommendations: 
+=========================== 
+TODO: Add actionable recommendations 
+
+
+Detailed Report: 
+================ 
+TODO: Add detailed report 
+
+

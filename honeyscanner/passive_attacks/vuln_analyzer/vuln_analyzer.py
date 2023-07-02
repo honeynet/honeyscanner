@@ -267,6 +267,7 @@ class VulnerableLibrariesAnalyzer:
 
             # Print summary of vulnerabilities
             self.print_summary(vulnerabilities)
+            return self.generate_summary(vulnerabilities)
         else:
             logging.error("\nFailed to download requirements.txt\n")
 
@@ -289,6 +290,28 @@ class VulnerableLibrariesAnalyzer:
                         severity_color = Fore.RED
                 print(f"  - {severity_color}{vuln.vulnerability_id} - {vuln.affected_versions} - {vuln.cve} - CVSS: {vuln.cvss_score}{Style.RESET_ALL}")
             print()
+
+    def generate_summary(self, vulnerabilities):
+        """
+        Generate a summary of the found vulnerabilities as a string.
+        """
+        summary_text = "\nVulnerability Analysis Summary:\n"
+        for name, vuln_list in vulnerabilities.items():
+            summary_text += f"{name}\n"
+            for vuln in vuln_list:
+                if vuln.cvss_score:
+                    if vuln.cvss_score < 4.0:
+                        severity_color = "Green"
+                    elif 4.0 <= vuln.cvss_score < 7.0:
+                        severity_color = "Yellow"
+                    else:
+                        severity_color = "Red"
+                else:
+                    severity_color = "No CVSS Score"
+                summary_text += f"  - {severity_color} {vuln.vulnerability_id} - {vuln.affected_versions} - {vuln.cve} - CVSS: {vuln.cvss_score}\n"
+            summary_text += "\n"
+        return summary_text
+
     
     # Functions for the patch_manager - Not tested yet
     # ------------------------------------------------
