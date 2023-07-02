@@ -109,7 +109,7 @@ class StaticAnalyzer:
         high_count = summary["high_severity"]
         medium_count = summary["medium_severity"]
 
-        print(f"{Fore.GREEN}Version: {version}")
+        # print(f"{Fore.GREEN}Version: {version}")
         print(f"{Fore.RED}High Severity: {high_count}")
         print(f"{Fore.YELLOW}Medium Severity: {medium_count}\n")
 
@@ -188,3 +188,24 @@ class StaticAnalyzer:
         self.log_cves_to_file(cve_ids)
 
         print(f"Found {len(cve_ids)} CVEs for {self.honeypot_name} {self.honeypot_version}")
+
+        return self.generate_summary(self.honeypot_version)
+
+    def generate_summary(self, version):
+        """
+        Generate the summary of the analysis results for the specified version as a string.
+        """
+        output_filename = self.output_folder / f"{self.honeypot_name}_{version}_analysis.json"
+
+        with open(output_filename, "r") as file:
+            data = json.load(file)
+
+        summary = data[version]["summary"]
+        high_count = summary["high_severity"]
+        medium_count = summary["medium_severity"]
+
+        # summary_text = f"Version: {version}\n"
+        summary_text = f"High Severity: {high_count}\n"
+        summary_text += f"Medium Severity: {medium_count}\n"
+
+        return summary_text

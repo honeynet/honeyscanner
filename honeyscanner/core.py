@@ -10,15 +10,16 @@ class Honeyscanner:
         self.active_attack_orchestrator = ActiveAttackOrchestrator(self.honeypot)
         self.passive_attack_results = None
         self.active_attack_results = None
-        self.report_generator = ReportGenerator(self.passive_attack_results, self.active_attack_results)
+        self.report_generator = ReportGenerator(self.honeypot)
 
-    def create_honeypot(self, honeypot_type, honeypot_version, honeypot_ip, honeypot_port, honeypot_username, honeypot_password):
-        honeypot_class_map = {
-            'cowrie': Cowrie,
-            'kippo': Kippo,
-        }
-        if honeypot_type not in honeypot_class_map:
-            raise ValueError(f"Unsupported honeypot type: {honeypot_type}")
+    def create_honeypot(self, honeypot_type, honeypot_version, honeypot_ip, honeypot_port, honeypot_username, honeypot_password):  
+        honeypot_class_map = {  
+            'cowrie': Cowrie,  
+            'kippo': Kippo,  
+        }  
+        if honeypot_type not in honeypot_class_map:  
+            supported_honeypots = ', '.join(honeypot_class_map.keys())
+            raise ValueError(f"Unsupported honeypot type: {honeypot_type}. Supported honeypots are: {supported_honeypots}")  
         return honeypot_class_map[honeypot_type](honeypot_version, honeypot_ip, honeypot_port, honeypot_username, honeypot_password)
 
     def run_all_attacks(self):
@@ -30,4 +31,4 @@ class Honeyscanner:
         self.active_attack_results = self.active_attack_orchestrator.generate_report()
 
     def generate_evaluation_report(self):
-        self.report_generator.generate_report()
+        self.report_generator.generate_report(self.passive_attack_results, self.active_attack_results)

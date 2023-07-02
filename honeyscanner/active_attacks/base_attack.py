@@ -30,10 +30,11 @@ class BaseAttack:
             s.connect((self.honeypot.ip, self.honeypot.port))
             transport = paramiko.Transport(s)
 
-            # Set the key exchange and host key algorithms to the ones supported by the honeypot
-            sec_opts = transport.get_security_options()
-            sec_opts.kex = self.honeypot.kex_algorithms
-            sec_opts.key_types = self.honeypot.host_key_algorithms
+            if self.honeypot.name == "kippo":
+                # Set the key exchange and host key algorithms to the ones supported by the honeypot
+                sec_opts = transport.get_security_options()
+                sec_opts.kex = self.honeypot.kex_algorithms
+                sec_opts.key_types = self.honeypot.host_key_algorithms
 
             # Start the client
             transport.start_client()

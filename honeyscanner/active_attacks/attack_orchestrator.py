@@ -34,8 +34,8 @@ class AttackOrchestrator:
         self.results = results
     
     def generate_report(self):
-        report = "Honeypot Attack Report\n"
-        report += "======================\n\n"
+        report = "Honeypot Active Attack Report\n"
+        report += "=============================\n\n"
         report += f"Target: {self.honeypot.ip}:{self.honeypot.port}\n\n"
 
         for idx, result in enumerate(self.results):

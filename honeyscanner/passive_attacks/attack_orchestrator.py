@@ -38,47 +38,59 @@ ___________      .__               _________
     """
     print(ascii_art)
 
-def execute_vuln_analyzer_code(honeypot):
-    analyzer = VulnerableLibrariesAnalyzer(honeypot.name, honeypot.owner)
-    version = honeypot.version
-    versions_list = honeypot.versions_list
-    version_lookup_dict = {item["version"]: item["requirements_url"] for item in versions_list}
-    analyzer.analyze_vulnerabilities(version, version_lookup_dict.get(version))
-        
-def execute_static_analyzer_code(honeypot):
-    analyzer = StaticAnalyzer(honeypot.name, honeypot.source_code_url, honeypot.version)
-    analyzer.run()
-
-def execute_trivy_scanner_code(honeypot):
-    owner = honeypot.owner
-    # kippo doesn't have official Docker images, so I am using my own
-    if honeypot.name == "kippo":
-        owner = "aristofanischionis"
-    
-    scanner = ContainerSecurityScanner(owner, honeypot.name)
-    scanner.scan_repository()
-
 class AttackOrchestrator:
     def __init__(self, honeypot):
         self.honeypot = honeypot
-        self.results = []
+        self.attacks = [
+            "VulnerableLibrariesAnalyzer",
+            "StaticAnalyzer",
+            "ContainerSecurityScanner"
+        ]   
+        self.analyze_vulns_report = ""
+        self.static_analysis_report = ""
+        self.container_sec_report = ""
 
     def run_attacks(self):
         # Run VulnAnalyzer
         print_ascii_art_VulnAnalyzer()
-        execute_vuln_analyzer_code(self.honeypot)
+        analyzer = VulnerableLibrariesAnalyzer(self.honeypot.name, self.honeypot.owner)
+        version = self.honeypot.version
+        versions_list = self.honeypot.versions_list
+        version_lookup_dict = {item["version"]: item["requirements_url"] for item in versions_list}
+        self.analyze_vulns_report = analyzer.analyze_vulnerabilities(version, version_lookup_dict.get(version))
         print("Finished VulnAnalyzer!")
+
         # Run Static Analyzer
         print_ascii_art_StaticHoney()
-        execute_static_analyzer_code(self.honeypot)
+        analyzer = StaticAnalyzer(self.honeypot.name, self.honeypot.source_code_url, self.honeypot.version)
+        self.static_analysis_report = analyzer.run()
         print("Finished StaticHoney!")
+
         # Run Trivy Scanner
         print_ascii_art_TrivyScanner()
-        execute_trivy_scanner_code(self.honeypot)
+        owner = self.honeypot.owner
+        # kippo doesn't have official Docker images, so I am using my own
+        if self.honeypot.name == "kippo":
+            owner = "aristofanischionis"
+        scanner = ContainerSecurityScanner(owner, self.honeypot.name)
+        self.container_sec_report = scanner.scan_repository()
         print("Finished Trivy!")
         print("Finished all analyzers!")
     
     def generate_report(self):
-        # count how many potential cves are written in the all_cves.txt file and write this in the report
-        # TODO:In the future improve this
-        pass
+        report = "Honeypot Passive Attack Report\n"
+        report += "==============================\n\n"
+        report += f"Target: {self.honeypot.ip}:{self.honeypot.port}\n\n"
+
+        for attack in self.attacks:
+            report += f"{attack}:\n"
+            if attack == "VulnerableLibrariesAnalyzer":
+                report += self.analyze_vulns_report
+                report += "\n\n"
+            elif attack == "StaticAnalyzer":
+                report += self.static_analysis_report
+                report += "\n\n"
+            elif attack == "ContainerSecurityScanner":
+                report += self.container_sec_report
+                report += "\n\n"
+        return report
