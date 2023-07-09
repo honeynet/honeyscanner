@@ -12,7 +12,7 @@
 Security Assessment of kippo Honeypot, Version: v0.9 
 Honeypot IP: 127.0.0.1 
 Honeypot Port: 2222 
-Date of Assessment: 2023-07-03 11:46:39 
+Date of Assessment: 2023-07-02 16:59:50 
 Report Summary
 Passive Attacks Results: 
 ======================== 
@@ -74,7 +74,7 @@ ContainerSecurityScanner:
 Scan Summary
 
 Vulnerabilities in aristofanischionis/kippo (debian 10.3):
-MEDIUM: 120
+MEDIUM: 119
 HIGH: 157
 CRITICAL: 14
 
@@ -116,7 +116,7 @@ Fuzzing:
   Vulnerability found: False
   Message: Honeypot is still alive after connection fuzzing - Honeypot is still alive after terminal fuzzing - 103138 test cases executed
 
-  Time to execute: 147 seconds
+  Time to execute: 116 seconds
 
   Test cases executed: 103138
 
@@ -124,7 +124,7 @@ TarBomb:
   Vulnerability found: False
   Message: Tar bomb attack executed, but honeypot is still alive
 
-  Time to execute: 199 seconds
+  Time to execute: 197 seconds
 
   Number of bombs used: 30
 
@@ -132,7 +132,7 @@ DoS:
   Vulnerability found: True
   Message: Vulnerability found: DoS attack made the SSH honeypot reject connections
 
-  Time to execute: 31 seconds
+  Time to execute: 6 seconds
 
   Number of threads used: 40
 
@@ -157,7 +157,7 @@ Attack Success Rate:
 TODO: Add attack success rate 
 
 
-Total Potential CVEs: 227 
+Total Potential CVEs: 334 
 
 
 Actionable Recommendations: 
