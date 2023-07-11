@@ -85,31 +85,7 @@ python3 main.py --honeypot kippo --honeypot_version 0.9 --target_ip 127.0.0.1 --
 
 ## Contributors
 
-<!-- ALL-CONTRIBUTORS-LIST:START -->
-<!-- prettier-ignore -->
-<table>
-
-<tr>
-<!-- Aristofanis -->
-<td align="center">
-<a href="https://github.com/aristofanischionis"><img src="https://avatars.githubusercontent.com/aristofanischionis" width="80px;" alt="Aristofanis Chionis Koufakos"/><br /><sub><b>Aristofanis Chionis Koufakos</b></sub></a><br /><a href="https://github.com/honeynet/honeyscanner/commits?author=aristofanischionis" title="Code">💻</a> <a href="https://github.com/honeynet/honeyscanner/commits?author=aristofanischionis" title="Documentation">📖</a>
-</td>
-<!-- Manolis -->
-<td align="center">
-<a href="https://mvasiloma.com/"><img src="https://avatars.githubusercontent.com/m-vasiloma" width="80px;" alt="Dr. Emmanouil Vasilomanolakis"/><br /><sub><b>Dr. Emmanouil Vasilomanolakis</b></sub></a><br /><a href="https://github.com/honeynet/honeyscanner/commits?author=m-vasiloma" title="Idea">💡</a> <a href="https://github.com/honeynet/honeyscanner/commits?author=m-vasiloma" title="Mentorship">👨‍🏫</a>
-</td>
-<!-- Shreyas -->
-<td align="center">
-<a href="https://github.com/sastry17"><img src="https://avatars.githubusercontent.com/sastry17" width="80px;" alt="Shreyas Srinivasa"/><br /><sub><b>Shreyas Srinivasa</b></sub></a><br /><a href="https://github.com/honeynet/honeyscanner/commits?author=sastry17" title="Idea">💡</a> <a href="https://github.com/honeynet/honeyscanner/commits?author=sastry17" title="Mentorship">👨‍🏫</a>
-</td>
-<!-- Ricardo -->
-<td align="center">
-<a href="https://github.com/RicYaben"><img src="https://avatars.githubusercontent.com/RicYaben" width="80px;" alt="Ricardo Yaben"/><br /><sub><b>Ricardo Yaben</b></sub></a><br /><a href="https://github.com/honeynet/honeyscanner/commits?author=RicYaben" title="Idea">💡</a> <a href="https://github.com/honeynet/honeyscanner/commits?author=RicYaben" title="Mentorship">👨‍🏫</a>
-</td>
-</tr>
-</table>
-<!-- ALL-CONTRIBUTORS-LIST:END -->
-
+For information on Contributors and How to contribute see our [Contributors file](./CONTRIBUTORS.md).
 
 ## Versioning
 
