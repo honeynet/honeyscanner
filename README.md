@@ -14,7 +14,7 @@ Honeyscanner is a vulnerability analyzer for honeypots designed to automatically
 ### Architecture
 
 <div align="center">
-    <img src="./images/honeyscanner_architecture.png" alt="Honeyscanner Architecture" width="400">
+    <img src="./images/honeyscanner_architecture.png" alt="Honeyscanner Architecture" width="800">
 </div>
 
 ### References
