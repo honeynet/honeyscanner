@@ -1374,7 +1374,7 @@
           "Name": "Debian Security Tracker",
           "URL": "https://salsa.debian.org/security-tracker-team/security-tracker"
         },
-        "Title": "glibc: Off-by-one buffer overflow/underflow in getcwd()",
+        "Title": "Off-by-one buffer overflow/underflow in getcwd()",
         "Description": "A flaw was found in glibc. An off-by-one buffer overflow and underflow in getcwd() may lead to memory corruption when the size of the buffer is exactly 1. A local attacker who can control the input buffer and size passed to getcwd() in a setuid program could use this flaw to potentially execute arbitrary code and escalate their privileges on the system.",
         "Severity": "HIGH",
         "CweIDs": [
@@ -2731,10 +2731,12 @@
           "https://bugs.openldap.org/show_bug.cgi?id=9904",
           "https://cve.mitre.org/cgi-bin/cvename.cgi?name=CVE-2023-2953",
           "https://nvd.nist.gov/vuln/detail/CVE-2023-2953",
+          "https://security.netapp.com/advisory/ntap-20230703-0005/",
+          "https://ubuntu.com/security/notices/USN-6197-1",
           "https://www.cve.org/CVERecord?id=CVE-2023-2953"
         ],
         "PublishedDate": "2023-05-30T22:15:00Z",
-        "LastModifiedDate": "2023-06-06T17:17:00Z"
+        "LastModifiedDate": "2023-07-03T16:15:00Z"
       },
       {
         "VulnerabilityID": "CVE-2023-2953",
@@ -2772,10 +2774,12 @@
           "https://bugs.openldap.org/show_bug.cgi?id=9904",
           "https://cve.mitre.org/cgi-bin/cvename.cgi?name=CVE-2023-2953",
           "https://nvd.nist.gov/vuln/detail/CVE-2023-2953",
+          "https://security.netapp.com/advisory/ntap-20230703-0005/",
+          "https://ubuntu.com/security/notices/USN-6197-1",
           "https://www.cve.org/CVERecord?id=CVE-2023-2953"
         ],
         "PublishedDate": "2023-05-30T22:15:00Z",
-        "LastModifiedDate": "2023-06-06T17:17:00Z"
+        "LastModifiedDate": "2023-07-03T16:15:00Z"
       },
       {
         "VulnerabilityID": "CVE-2018-12886",
@@ -3159,7 +3163,7 @@
           "Name": "Debian Security Tracker",
           "URL": "https://salsa.debian.org/security-tracker-team/security-tracker"
         },
-        "Title": "perl-CPAN: Bypass of verification of signatures in CHECKSUMS files",
+        "Title": "Bypass of verification of signatures in CHECKSUMS files",
         "Description": "CPAN 2.28 allows Signature Verification Bypass.",
         "Severity": "HIGH",
         "CweIDs": [
@@ -3208,7 +3212,7 @@
           "Name": "Debian Security Tracker",
           "URL": "https://salsa.debian.org/security-tracker-team/security-tracker"
         },
-        "Title": "CPAN.pm before 2.35 does not verify TLS certificates when downloading  ...",
+        "Title": "CPAN.pm before 2.35 does not verify TLS certificates when downloading distributions over HTTPS",
         "Description": "CPAN.pm before 2.35 does not verify TLS certificates when downloading distributions over HTTPS.",
         "Severity": "HIGH",
         "CweIDs": [
@@ -3218,6 +3222,10 @@
           "nvd": {
             "V3Vector": "CVSS:3.1/AV:N/AC:H/PR:N/UI:N/S:U/C:H/I:H/A:H",
             "V3Score": 8.1
+          },
+          "redhat": {
+            "V3Vector": "CVSS:3.1/AV:N/AC:H/PR:N/UI:N/S:U/C:H/I:H/A:N",
+            "V3Score": 7.4
           }
         },
         "References": [
@@ -3225,13 +3233,16 @@
           "http://www.openwall.com/lists/oss-security/2023/05/03/3",
           "http://www.openwall.com/lists/oss-security/2023/05/03/5",
           "http://www.openwall.com/lists/oss-security/2023/05/07/2",
+          "https://access.redhat.com/security/cve/CVE-2023-31484",
           "https://blog.hackeriet.no/perl-http-tiny-insecure-tls-default-affects-cpan-modules/",
           "https://cve.mitre.org/cgi-bin/cvename.cgi?name=CVE-2023-31484",
           "https://github.com/andk/cpanpm/commit/9c98370287f4e709924aee7c58ef21c85289a7f0 (2.35-TRIAL)",
           "https://github.com/andk/cpanpm/pull/175",
           "https://metacpan.org/dist/CPAN/changes",
+          "https://nvd.nist.gov/vuln/detail/CVE-2023-31484",
           "https://ubuntu.com/security/notices/USN-6112-1",
           "https://ubuntu.com/security/notices/USN-6112-2",
+          "https://www.cve.org/CVERecord?id=CVE-2023-31484",
           "https://www.openwall.com/lists/oss-security/2023/04/18/14"
         ],
         "PublishedDate": "2023-04-29T00:15:00Z",
@@ -3328,7 +3339,7 @@
           "Name": "Debian Security Tracker",
           "URL": "https://salsa.debian.org/security-tracker-team/security-tracker"
         },
-        "Title": "python: urllib.parse does not sanitize URLs containing ASCII newline and tabs",
+        "Title": "urllib.parse does not sanitize URLs containing ASCII newline and tabs",
         "Description": "A flaw was found in Python, specifically within the urllib.parse module. This module helps break Uniform Resource Locator (URL) strings into components. The issue involves how the urlparse method does not sanitize input and allows characters like '\\r' and '\\n' in the URL path. This flaw allows an attacker to input a crafted URL, leading to injection attacks. This flaw affects Python versions prior to 3.10.0b1, 3.9.5, 3.8.11, 3.7.11 and 3.6.14.",
         "Severity": "HIGH",
         "CweIDs": [
@@ -3412,7 +3423,7 @@
           "https://github.com/python/cpython/pull/99421",
           "https://github.com/python/cpython/pull/99446 (backport for 3.11 branch)",
           "https://linux.oracle.com/cve/CVE-2023-24329.html",
-          "https://linux.oracle.com/errata/ELSA-2023-3595.html",
+          "https://linux.oracle.com/errata/ELSA-2023-3781.html",
           "https://lists.fedoraproject.org/archives/list/package-announce@lists.fedoraproject.org/message/6PEVICI7YNGGMSL3UCMWGE66QFLATH72/",
           "https://lists.fedoraproject.org/archives/list/package-announce@lists.fedoraproject.org/message/DSL6NSOAXWBJJ67XPLSSC74MNKZF3BBO/",
           "https://lists.fedoraproject.org/archives/list/package-announce@lists.fedoraproject.org/message/EM2XLZSTXG44TMFXF4E6VTGKR2MQCW3G/",
@@ -3666,7 +3677,7 @@
           "Name": "Debian Security Tracker",
           "URL": "https://salsa.debian.org/security-tracker-team/security-tracker"
         },
-        "Title": "python: urllib.parse does not sanitize URLs containing ASCII newline and tabs",
+        "Title": "urllib.parse does not sanitize URLs containing ASCII newline and tabs",
         "Description": "A flaw was found in Python, specifically within the urllib.parse module. This module helps break Uniform Resource Locator (URL) strings into components. The issue involves how the urlparse method does not sanitize input and allows characters like '\\r' and '\\n' in the URL path. This flaw allows an attacker to input a crafted URL, leading to injection attacks. This flaw affects Python versions prior to 3.10.0b1, 3.9.5, 3.8.11, 3.7.11 and 3.6.14.",
         "Severity": "HIGH",
         "CweIDs": [
@@ -3750,7 +3761,7 @@
           "https://github.com/python/cpython/pull/99421",
           "https://github.com/python/cpython/pull/99446 (backport for 3.11 branch)",
           "https://linux.oracle.com/cve/CVE-2023-24329.html",
-          "https://linux.oracle.com/errata/ELSA-2023-3595.html",
+          "https://linux.oracle.com/errata/ELSA-2023-3781.html",
           "https://lists.fedoraproject.org/archives/list/package-announce@lists.fedoraproject.org/message/6PEVICI7YNGGMSL3UCMWGE66QFLATH72/",
           "https://lists.fedoraproject.org/archives/list/package-announce@lists.fedoraproject.org/message/DSL6NSOAXWBJJ67XPLSSC74MNKZF3BBO/",
           "https://lists.fedoraproject.org/archives/list/package-announce@lists.fedoraproject.org/message/EM2XLZSTXG44TMFXF4E6VTGKR2MQCW3G/",
@@ -4004,7 +4015,7 @@
           "Name": "Debian Security Tracker",
           "URL": "https://salsa.debian.org/security-tracker-team/security-tracker"
         },
-        "Title": "python: urllib.parse does not sanitize URLs containing ASCII newline and tabs",
+        "Title": "urllib.parse does not sanitize URLs containing ASCII newline and tabs",
         "Description": "A flaw was found in Python, specifically within the urllib.parse module. This module helps break Uniform Resource Locator (URL) strings into components. The issue involves how the urlparse method does not sanitize input and allows characters like '\\r' and '\\n' in the URL path. This flaw allows an attacker to input a crafted URL, leading to injection attacks. This flaw affects Python versions prior to 3.10.0b1, 3.9.5, 3.8.11, 3.7.11 and 3.6.14.",
         "Severity": "HIGH",
         "CweIDs": [
@@ -4088,7 +4099,7 @@
           "https://github.com/python/cpython/pull/99421",
           "https://github.com/python/cpython/pull/99446 (backport for 3.11 branch)",
           "https://linux.oracle.com/cve/CVE-2023-24329.html",
-          "https://linux.oracle.com/errata/ELSA-2023-3595.html",
+          "https://linux.oracle.com/errata/ELSA-2023-3781.html",
           "https://lists.fedoraproject.org/archives/list/package-announce@lists.fedoraproject.org/message/6PEVICI7YNGGMSL3UCMWGE66QFLATH72/",
           "https://lists.fedoraproject.org/archives/list/package-announce@lists.fedoraproject.org/message/DSL6NSOAXWBJJ67XPLSSC74MNKZF3BBO/",
           "https://lists.fedoraproject.org/archives/list/package-announce@lists.fedoraproject.org/message/EM2XLZSTXG44TMFXF4E6VTGKR2MQCW3G/",
@@ -4342,7 +4353,7 @@
           "Name": "Debian Security Tracker",
           "URL": "https://salsa.debian.org/security-tracker-team/security-tracker"
         },
-        "Title": "python: urllib.parse does not sanitize URLs containing ASCII newline and tabs",
+        "Title": "urllib.parse does not sanitize URLs containing ASCII newline and tabs",
         "Description": "A flaw was found in Python, specifically within the urllib.parse module. This module helps break Uniform Resource Locator (URL) strings into components. The issue involves how the urlparse method does not sanitize input and allows characters like '\\r' and '\\n' in the URL path. This flaw allows an attacker to input a crafted URL, leading to injection attacks. This flaw affects Python versions prior to 3.10.0b1, 3.9.5, 3.8.11, 3.7.11 and 3.6.14.",
         "Severity": "HIGH",
         "CweIDs": [
@@ -4426,7 +4437,7 @@
           "https://github.com/python/cpython/pull/99421",
           "https://github.com/python/cpython/pull/99446 (backport for 3.11 branch)",
           "https://linux.oracle.com/cve/CVE-2023-24329.html",
-          "https://linux.oracle.com/errata/ELSA-2023-3595.html",
+          "https://linux.oracle.com/errata/ELSA-2023-3781.html",
           "https://lists.fedoraproject.org/archives/list/package-announce@lists.fedoraproject.org/message/6PEVICI7YNGGMSL3UCMWGE66QFLATH72/",
           "https://lists.fedoraproject.org/archives/list/package-announce@lists.fedoraproject.org/message/DSL6NSOAXWBJJ67XPLSSC74MNKZF3BBO/",
           "https://lists.fedoraproject.org/archives/list/package-announce@lists.fedoraproject.org/message/EM2XLZSTXG44TMFXF4E6VTGKR2MQCW3G/",
@@ -5030,13 +5041,14 @@
           "https://linux.oracle.com/cve/CVE-2020-35525.html",
           "https://linux.oracle.com/errata/ELSA-2022-7108.html",
           "https://nvd.nist.gov/vuln/detail/CVE-2020-35525",
+          "https://security.netapp.com/advisory/ntap-20230706-0007/",
           "https://ubuntu.com/security/notices/USN-5615-1",
           "https://ubuntu.com/security/notices/USN-5615-2",
           "https://www.cve.org/CVERecord?id=CVE-2020-35525",
           "https://www.sqlite.org/src/info/a67cf5b7d37d5b14"
         ],
         "PublishedDate": "2022-09-01T18:15:00Z",
-        "LastModifiedDate": "2022-09-07T17:47:00Z"
+        "LastModifiedDate": "2023-07-06T19:15:00Z"
       },
       {
         "VulnerabilityID": "CVE-2021-31239",
@@ -6576,6 +6588,7 @@
           "https://lists.debian.org/debian-lts-announce/2023/06/msg00011.html",
           "https://nvd.nist.gov/vuln/detail/CVE-2023-2650",
           "https://psirt.global.sonicwall.com/vuln-detail/SNWLID-2023-0009",
+          "https://security.netapp.com/advisory/ntap-20230703-0001/",
           "https://ubuntu.com/security/notices/USN-6119-1",
           "https://ubuntu.com/security/notices/USN-6188-1",
           "https://www.cve.org/CVERecord?id=CVE-2023-2650",
@@ -6583,7 +6596,7 @@
           "https://www.openssl.org/news/secadv/20230530.txt"
         ],
         "PublishedDate": "2023-05-30T14:15:00Z",
-        "LastModifiedDate": "2023-06-09T00:15:00Z"
+        "LastModifiedDate": "2023-07-03T16:15:00Z"
       },
       {
         "VulnerabilityID": "CVE-2019-1551",
@@ -7712,7 +7725,7 @@
           "Name": "Debian Security Tracker",
           "URL": "https://salsa.debian.org/security-tracker-team/security-tracker"
         },
-        "Title": "systemd: Uncontrolled recursion in systemd-tmpfiles when removing files",
+        "Title": "Uncontrolled recursion in systemd-tmpfiles when removing files",
         "Description": "A flaw was found in systemd. An uncontrolled recursion in systemd-tmpfiles may lead to a denial of service at boot time when too many nested directories are created in /tmp.",
         "Severity": "MEDIUM",
         "CweIDs": [
@@ -8366,7 +8379,7 @@
           "Name": "Debian Security Tracker",
           "URL": "https://salsa.debian.org/security-tracker-team/security-tracker"
         },
-        "Title": "systemd: Uncontrolled recursion in systemd-tmpfiles when removing files",
+        "Title": "Uncontrolled recursion in systemd-tmpfiles when removing files",
         "Description": "A flaw was found in systemd. An uncontrolled recursion in systemd-tmpfiles may lead to a denial of service at boot time when too many nested directories are created in /tmp.",
         "Severity": "MEDIUM",
         "CweIDs": [
@@ -8520,7 +8533,7 @@
           "Name": "Debian Security Tracker",
           "URL": "https://salsa.debian.org/security-tracker-team/security-tracker"
         },
-        "Title": "zstd: adds read permissions to files while being compressed or uncompressed",
+        "Title": "adds read permissions to files while being compressed or uncompressed",
         "Description": "In the Zstandard command-line utility prior to v1.4.1, output files were created with default permissions. Correct file permissions (matching the input) would only be set at completion time. Output files could therefore be readable or writable to unintended parties.",
         "Severity": "MEDIUM",
         "CweIDs": [
@@ -8571,7 +8584,7 @@
           "Name": "Debian Security Tracker",
           "URL": "https://salsa.debian.org/security-tracker-team/security-tracker"
         },
-        "Title": "zstd: Race condition allows attacker to access world-readable destination file",
+        "Title": "Race condition allows attacker to access world-readable destination file",
         "Description": "Beginning in v1.4.1 and prior to v1.4.9, due to an incomplete fix for CVE-2021-24031, the Zstandard command-line utility created output files with default permissions and restricted those permissions immediately afterwards. Output files could therefore momentarily be readable or writable to unintended parties.",
         "Severity": "MEDIUM",
         "CweIDs": [
@@ -8861,7 +8874,7 @@
         "Description": "The overlayfs implementation in the linux kernel did not properly validate with respect to user namespaces the setting of file capabilities on files in an underlying file system. Due to the combination of unprivileged user namespaces along with a patch carried in the Ubuntu kernel to allow unprivileged overlay mounts, an attacker could use this to gain elevated privileges.",
         "Severity": "HIGH",
         "CweIDs": [
-          "CWE-269"
+          "CWE-863"
         ],
         "CVSS": {
           "nvd": {
@@ -8890,7 +8903,7 @@
           "https://www.openwall.com/lists/oss-security/2021/04/16/1"
         ],
         "PublishedDate": "2021-04-17T05:15:00Z",
-        "LastModifiedDate": "2022-10-27T12:43:00Z"
+        "LastModifiedDate": "2023-07-07T19:10:00Z"
       },
       {
         "VulnerabilityID": "CVE-2021-38207",
@@ -8954,7 +8967,7 @@
           "Name": "Debian Security Tracker",
           "URL": "https://salsa.debian.org/security-tracker-team/security-tracker"
         },
-        "Title": "kernel: low-privileged user privileges escalation",
+        "Title": "low-privileged user privileges escalation",
         "Description": "An unauthorized access to the execution of the setuid file with capabilities flaw in the Linux kernel OverlayFS subsystem was found in the way user copying a capable file from a nosuid mount into another mount. A local user could use this flaw to escalate their privileges on the system.",
         "Severity": "HIGH",
         "CweIDs": [
@@ -9134,7 +9147,7 @@
           "Name": "Debian Security Tracker",
           "URL": "https://salsa.debian.org/security-tracker-team/security-tracker"
         },
-        "Title": "kernel: use-after-free in io_uring for POLLFREE notification with Signalfd_poll() and binder_poll()",
+        "Title": "use-after-free in io_uring for POLLFREE notification with Signalfd_poll() and binder_poll()",
         "Description": "There exists a use-after-free in io_uring in the Linux kernel. Signalfd_poll() and binder_poll() use a waitqueue whose lifetime is the current task. It will send a POLLFREE notification to all waiters before the queue is freed. Unfortunately, the io_uring poll doesn't handle POLLFREE. This allows a use-after-free to occur if a signalfd or binder fd is polled with io_uring poll, and the waitqueue gets freed. We recommend upgrading past commit fc78b2fc21f10c4c9c4d5d659a685710ffa63659",
         "Severity": "HIGH",
         "CweIDs": [
@@ -9823,6 +9836,7 @@
           "https://ubuntu.com/security/notices/USN-6172-1",
           "https://ubuntu.com/security/notices/USN-6185-1",
           "https://ubuntu.com/security/notices/USN-6187-1",
+          "https://ubuntu.com/security/notices/USN-6207-1",
           "https://www.cve.org/CVERecord?id=CVE-2023-1077"
         ],
         "PublishedDate": "2023-03-27T21:15:00Z",
@@ -10013,11 +10027,13 @@
           "https://nvd.nist.gov/vuln/detail/CVE-2023-2124",
           "https://security.netapp.com/advisory/ntap-20230622-0010/",
           "https://syzkaller.appspot.com/bug?extid=7e9494b8b399902e994e",
+          "https://ubuntu.com/security/notices/USN-6206-1",
           "https://www.cve.org/CVERecord?id=CVE-2023-2124",
+          "https://www.debian.org/security/2023/dsa-5448",
           "https://www.openwall.com/lists/oss-security/2023/04/19/2"
         ],
         "PublishedDate": "2023-05-15T22:15:00Z",
-        "LastModifiedDate": "2023-06-22T17:15:00Z"
+        "LastModifiedDate": "2023-07-06T04:15:00Z"
       },
       {
         "VulnerabilityID": "CVE-2023-22995",
@@ -10107,6 +10123,50 @@
         "LastModifiedDate": "2023-05-03T01:15:00Z"
       },
       {
+        "VulnerabilityID": "CVE-2023-3090",
+        "PkgID": "linux-libc-dev@4.19.282-1",
+        "PkgName": "linux-libc-dev",
+        "InstalledVersion": "4.19.282-1",
+        "Layer": {
+          "DiffID": "sha256:ccdc35050fdfc84259e765e06854f6f197efe637a2259a004956e07dcafe8624"
+        },
+        "SeveritySource": "nvd",
+        "PrimaryURL": "https://avd.aquasec.com/nvd/cve-2023-3090",
+        "DataSource": {
+          "ID": "debian",
+          "Name": "Debian Security Tracker",
+          "URL": "https://salsa.debian.org/security-tracker-team/security-tracker"
+        },
+        "Title": "out-of-bounds write caused by unclear skb->cb",
+        "Description": "A heap out-of-bounds write vulnerability in the Linux Kernel ipvlan network driver can be exploited to achieve local privilege escalation.\n\nThe out-of-bounds write is caused by missing skb->cb  initialization in the ipvlan network driver. The vulnerability is reachable if\u00a0CONFIG_IPVLAN is enabled.\n\n\nWe recommend upgrading past commit 90cbed5247439a966b645b34eb0a2e037836ea8e.\n\n",
+        "Severity": "HIGH",
+        "CweIDs": [
+          "CWE-787"
+        ],
+        "CVSS": {
+          "nvd": {
+            "V3Vector": "CVSS:3.1/AV:L/AC:L/PR:L/UI:N/S:U/C:H/I:H/A:H",
+            "V3Score": 7.8
+          },
+          "redhat": {
+            "V3Vector": "CVSS:3.1/AV:L/AC:L/PR:L/UI:N/S:U/C:H/I:H/A:H",
+            "V3Score": 7.8
+          }
+        },
+        "References": [
+          "https://access.redhat.com/security/cve/CVE-2023-3090",
+          "https://cve.mitre.org/cgi-bin/cvename.cgi?name=CVE-2023-3090",
+          "https://git.kernel.org/linus/90cbed5247439a966b645b34eb0a2e037836ea8e (6.4-rc2)",
+          "https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git/commit/?id=90cbed5247439a966b645b34eb0a2e037836ea8e",
+          "https://kernel.dance/90cbed5247439a966b645b34eb0a2e037836ea8e",
+          "https://nvd.nist.gov/vuln/detail/CVE-2023-3090",
+          "https://www.cve.org/CVERecord?id=CVE-2023-3090",
+          "https://www.debian.org/security/2023/dsa-5448"
+        ],
+        "PublishedDate": "2023-06-28T20:15:00Z",
+        "LastModifiedDate": "2023-07-06T16:09:00Z"
+      },
+      {
         "VulnerabilityID": "CVE-2023-3111",
         "PkgID": "linux-libc-dev@4.19.282-1",
         "PkgName": "linux-libc-dev",
@@ -10142,52 +10202,11 @@
           "https://cve.mitre.org/cgi-bin/cvename.cgi?name=CVE-2023-3111",
           "https://nvd.nist.gov/vuln/detail/CVE-2023-3111",
           "https://patchwork.kernel.org/project/linux-btrfs/patch/20220721074829.2905233-1-r33s3n6@gmail.com/",
+          "https://security.netapp.com/advisory/ntap-20230703-0007/",
           "https://www.cve.org/CVERecord?id=CVE-2023-3111"
         ],
         "PublishedDate": "2023-06-05T21:15:00Z",
-        "LastModifiedDate": "2023-06-09T22:51:00Z"
-      },
-      {
-        "VulnerabilityID": "CVE-2023-3141",
-        "PkgID": "linux-libc-dev@4.19.282-1",
-        "PkgName": "linux-libc-dev",
-        "InstalledVersion": "4.19.282-1",
-        "Layer": {
-          "DiffID": "sha256:ccdc35050fdfc84259e765e06854f6f197efe637a2259a004956e07dcafe8624"
-        },
-        "SeveritySource": "nvd",
-        "PrimaryURL": "https://avd.aquasec.com/nvd/cve-2023-3141",
-        "DataSource": {
-          "ID": "debian",
-          "Name": "Debian Security Tracker",
-          "URL": "https://salsa.debian.org/security-tracker-team/security-tracker"
-        },
-        "Title": "Use after free bug in r592_remove",
-        "Description": "A use-after-free flaw was found in r592_remove in drivers/memstick/host/r592.c in media access in the Linux Kernel. This flaw allows a local attacker to crash the system at device disconnect, possibly leading to a kernel information leak.",
-        "Severity": "HIGH",
-        "CweIDs": [
-          "CWE-416"
-        ],
-        "CVSS": {
-          "nvd": {
-            "V3Vector": "CVSS:3.1/AV:L/AC:L/PR:L/UI:N/S:U/C:H/I:N/A:H",
-            "V3Score": 7.1
-          },
-          "redhat": {
-            "V3Vector": "CVSS:3.1/AV:L/AC:H/PR:H/UI:N/S:U/C:H/I:H/A:H",
-            "V3Score": 6.4
-          }
-        },
-        "References": [
-          "https://access.redhat.com/security/cve/CVE-2023-3141",
-          "https://cdn.kernel.org/pub/linux/kernel/v6.x/ChangeLog-6.3.4",
-          "https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git/commit/?id=63264422785021704c39b38f65a78ab9e4a186d7",
-          "https://lore.kernel.org/lkml/CAPDyKFoV9aZObZ5GBm0U_-UVeVkBN_rAG-kH3BKoP4EXdYM4bw@mail.gmail.com/t/",
-          "https://nvd.nist.gov/vuln/detail/CVE-2023-3141",
-          "https://www.cve.org/CVERecord?id=CVE-2023-3141"
-        ],
-        "PublishedDate": "2023-06-09T20:15:00Z",
-        "LastModifiedDate": "2023-06-19T15:15:00Z"
+        "LastModifiedDate": "2023-07-03T16:15:00Z"
       },
       {
         "VulnerabilityID": "CVE-2023-32233",
@@ -10293,10 +10312,97 @@
           "https://access.redhat.com/security/cve/CVE-2023-3268",
           "https://lore.kernel.org/lkml/1682238502-1892-1-git-send-email-yangpc@wangsu.com/T/",
           "https://nvd.nist.gov/vuln/detail/CVE-2023-3268",
-          "https://www.cve.org/CVERecord?id=CVE-2023-3268"
+          "https://www.cve.org/CVERecord?id=CVE-2023-3268",
+          "https://www.debian.org/security/2023/dsa-5448"
         ],
         "PublishedDate": "2023-06-16T19:15:00Z",
-        "LastModifiedDate": "2023-06-26T15:25:00Z"
+        "LastModifiedDate": "2023-07-06T04:15:00Z"
+      },
+      {
+        "VulnerabilityID": "CVE-2023-3338",
+        "PkgID": "linux-libc-dev@4.19.282-1",
+        "PkgName": "linux-libc-dev",
+        "InstalledVersion": "4.19.282-1",
+        "Layer": {
+          "DiffID": "sha256:ccdc35050fdfc84259e765e06854f6f197efe637a2259a004956e07dcafe8624"
+        },
+        "SeveritySource": "nvd",
+        "PrimaryURL": "https://avd.aquasec.com/nvd/cve-2023-3338",
+        "DataSource": {
+          "ID": "debian",
+          "Name": "Debian Security Tracker",
+          "URL": "https://salsa.debian.org/security-tracker-team/security-tracker"
+        },
+        "Title": "crash due to a NULL pointer dereference in the dn_nsp_send function",
+        "Description": "A flaw null pointer dereference in the Linux kernel DECnet networking protocol was found. A remote user could use this flaw to crash the system.",
+        "Severity": "HIGH",
+        "CweIDs": [
+          "CWE-476"
+        ],
+        "CVSS": {
+          "nvd": {
+            "V3Vector": "CVSS:3.1/AV:N/AC:L/PR:N/UI:N/S:U/C:N/I:N/A:H",
+            "V3Score": 7.5
+          },
+          "redhat": {
+            "V3Vector": "CVSS:3.1/AV:N/AC:L/PR:L/UI:N/S:U/C:N/I:N/A:H",
+            "V3Score": 6.5
+          }
+        },
+        "References": [
+          "https://access.redhat.com/security/cve/CVE-2023-3338",
+          "https://nvd.nist.gov/vuln/detail/CVE-2023-3338",
+          "https://seclists.org/oss-sec/2023/q2/276",
+          "https://www.cve.org/CVERecord?id=CVE-2023-3338"
+        ],
+        "PublishedDate": "2023-06-30T22:15:00Z",
+        "LastModifiedDate": "2023-07-07T17:20:00Z"
+      },
+      {
+        "VulnerabilityID": "CVE-2023-3390",
+        "PkgID": "linux-libc-dev@4.19.282-1",
+        "PkgName": "linux-libc-dev",
+        "InstalledVersion": "4.19.282-1",
+        "Layer": {
+          "DiffID": "sha256:ccdc35050fdfc84259e765e06854f6f197efe637a2259a004956e07dcafe8624"
+        },
+        "SeveritySource": "nvd",
+        "PrimaryURL": "https://avd.aquasec.com/nvd/cve-2023-3390",
+        "DataSource": {
+          "ID": "debian",
+          "Name": "Debian Security Tracker",
+          "URL": "https://salsa.debian.org/security-tracker-team/security-tracker"
+        },
+        "Title": "UAF in nftables when nft_set_lookup_global triggered after handling named and anonymous sets in batch requests",
+        "Description": "A use-after-free vulnerability was found in the Linux kernel's netfilter subsystem in net/netfilter/nf_tables_api.c.\n\nMishandled error handling with NFT_MSG_NEWRULE makes it possible to use a dangling pointer in the same transaction causing a use-after-free vulnerability. This flaw allows a local attacker with user access to cause a privilege escalation issue.\n\nWe recommend upgrading past commit\u00a01240eb93f0616b21c675416516ff3d74798fdc97.",
+        "Severity": "HIGH",
+        "CweIDs": [
+          "CWE-416"
+        ],
+        "CVSS": {
+          "nvd": {
+            "V3Vector": "CVSS:3.1/AV:L/AC:L/PR:L/UI:N/S:U/C:H/I:H/A:H",
+            "V3Score": 7.8
+          },
+          "redhat": {
+            "V3Vector": "CVSS:3.1/AV:L/AC:L/PR:L/UI:N/S:U/C:H/I:H/A:H",
+            "V3Score": 7.8
+          }
+        },
+        "References": [
+          "https://access.redhat.com/security/cve/CVE-2023-3390",
+          "https://cve.mitre.org/cgi-bin/cvename.cgi?name=CVE-2023-3390",
+          "https://git.kernel.org/linus/1240eb93f0616b21c675416516ff3d74798fdc97 (6.4-rc7)",
+          "https://git.kernel.org/pub/scm/linux/kernel/git/stable/linux.git/commit/?id=1240eb93f0616b21c675416516ff3d74798fdc97",
+          "https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git/commit/?id=1240eb93f0616b21c675416516ff3d74798fdc97",
+          "https://kernel.dance/#1240eb93f0616b21c675416516ff3d74798fdc97",
+          "https://kernel.dance/1240eb93f0616b21c675416516ff3d74798fdc97",
+          "https://nvd.nist.gov/vuln/detail/CVE-2023-3390",
+          "https://www.cve.org/CVERecord?id=CVE-2023-3390",
+          "https://www.debian.org/security/2023/dsa-5448"
+        ],
+        "PublishedDate": "2023-06-28T21:15:00Z",
+        "LastModifiedDate": "2023-07-06T21:32:00Z"
       },
       {
         "VulnerabilityID": "CVE-2023-3397",
@@ -10370,104 +10476,16 @@
           "https://ubuntu.com/security/notices/USN-6192-1",
           "https://ubuntu.com/security/notices/USN-6193-1",
           "https://ubuntu.com/security/notices/USN-6194-1",
+          "https://ubuntu.com/security/notices/USN-6205-1",
+          "https://ubuntu.com/security/notices/USN-6206-1",
+          "https://ubuntu.com/security/notices/USN-6212-1",
           "https://www.cve.org/CVERecord?id=CVE-2023-35788",
+          "https://www.debian.org/security/2023/dsa-5448",
           "https://www.openwall.com/lists/oss-security/2023/06/07/1",
           "https://www.openwall.com/lists/oss-security/2023/06/12/1"
         ],
         "PublishedDate": "2023-06-16T21:15:00Z",
-        "LastModifiedDate": "2023-06-23T21:19:00Z"
-      },
-      {
-        "VulnerabilityID": "CVE-2023-35823",
-        "PkgID": "linux-libc-dev@4.19.282-1",
-        "PkgName": "linux-libc-dev",
-        "InstalledVersion": "4.19.282-1",
-        "Layer": {
-          "DiffID": "sha256:ccdc35050fdfc84259e765e06854f6f197efe637a2259a004956e07dcafe8624"
-        },
-        "SeveritySource": "nvd",
-        "PrimaryURL": "https://avd.aquasec.com/nvd/cve-2023-35823",
-        "DataSource": {
-          "ID": "debian",
-          "Name": "Debian Security Tracker",
-          "URL": "https://salsa.debian.org/security-tracker-team/security-tracker"
-        },
-        "Title": "race condition leading to use-after-free in saa7134_finidev()",
-        "Description": "An issue was discovered in the Linux kernel before 6.3.2. A use-after-free was found in saa7134_finidev in drivers/media/pci/saa7134/saa7134-core.c.",
-        "Severity": "HIGH",
-        "CweIDs": [
-          "CWE-362",
-          "CWE-416"
-        ],
-        "CVSS": {
-          "nvd": {
-            "V3Vector": "CVSS:3.1/AV:L/AC:H/PR:L/UI:N/S:U/C:H/I:H/A:H",
-            "V3Score": 7
-          },
-          "redhat": {
-            "V3Vector": "CVSS:3.1/AV:L/AC:L/PR:H/UI:N/S:U/C:H/I:H/A:H",
-            "V3Score": 6.7
-          }
-        },
-        "References": [
-          "https://access.redhat.com/security/cve/CVE-2023-35823",
-          "https://cdn.kernel.org/pub/linux/kernel/v6.x/ChangeLog-6.3.2",
-          "https://cve.mitre.org/cgi-bin/cvename.cgi?name=CVE-2023-35823",
-          "https://git.kernel.org/linus/30cf57da176cca80f11df0d9b7f71581fe601389 (6.4-rc1)",
-          "https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git/commit/?id=30cf57da176cca80f11df0d9b7f71581fe601389",
-          "https://lore.kernel.org/all/49bb0b6a-e669-d4e7-d742-a19d2763e947@xs4all.nl/",
-          "https://lore.kernel.org/lkml/20230318085023.832510-1-zyytlz.wz@163.com/t/",
-          "https://nvd.nist.gov/vuln/detail/CVE-2023-35823",
-          "https://www.cve.org/CVERecord?id=CVE-2023-35823"
-        ],
-        "PublishedDate": "2023-06-18T22:15:00Z",
-        "LastModifiedDate": "2023-06-26T17:17:00Z"
-      },
-      {
-        "VulnerabilityID": "CVE-2023-35824",
-        "PkgID": "linux-libc-dev@4.19.282-1",
-        "PkgName": "linux-libc-dev",
-        "InstalledVersion": "4.19.282-1",
-        "Layer": {
-          "DiffID": "sha256:ccdc35050fdfc84259e765e06854f6f197efe637a2259a004956e07dcafe8624"
-        },
-        "SeveritySource": "nvd",
-        "PrimaryURL": "https://avd.aquasec.com/nvd/cve-2023-35824",
-        "DataSource": {
-          "ID": "debian",
-          "Name": "Debian Security Tracker",
-          "URL": "https://salsa.debian.org/security-tracker-team/security-tracker"
-        },
-        "Title": "race condition leading to use-after-free in dm1105_remove.c()",
-        "Description": "An issue was discovered in the Linux kernel before 6.3.2. A use-after-free was found in dm1105_remove in drivers/media/pci/dm1105/dm1105.c.",
-        "Severity": "HIGH",
-        "CweIDs": [
-          "CWE-362",
-          "CWE-416"
-        ],
-        "CVSS": {
-          "nvd": {
-            "V3Vector": "CVSS:3.1/AV:L/AC:H/PR:L/UI:N/S:U/C:H/I:H/A:H",
-            "V3Score": 7
-          },
-          "redhat": {
-            "V3Vector": "CVSS:3.1/AV:L/AC:H/PR:H/UI:N/S:U/C:H/I:H/A:H",
-            "V3Score": 6.4
-          }
-        },
-        "References": [
-          "https://access.redhat.com/security/cve/CVE-2023-35824",
-          "https://cdn.kernel.org/pub/linux/kernel/v6.x/ChangeLog-6.3.2",
-          "https://cve.mitre.org/cgi-bin/cvename.cgi?name=CVE-2023-35824",
-          "https://git.kernel.org/linus/5abda7a16698d4d1f47af1168d8fa2c640116b4a (6.4-rc1)",
-          "https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git/commit/?id=5abda7a16698d4d1f47af1168d8fa2c640116b4a",
-          "https://lore.kernel.org/all/49bb0b6a-e669-d4e7-d742-a19d2763e947@xs4all.nl/",
-          "https://lore.kernel.org/lkml/20230318081506.795147-1-zyytlz.wz@163.com/",
-          "https://nvd.nist.gov/vuln/detail/CVE-2023-35824",
-          "https://www.cve.org/CVERecord?id=CVE-2023-35824"
-        ],
-        "PublishedDate": "2023-06-18T22:15:00Z",
-        "LastModifiedDate": "2023-06-26T17:18:00Z"
+        "LastModifiedDate": "2023-07-06T04:15:00Z"
       },
       {
         "VulnerabilityID": "CVE-2023-35827",
@@ -11328,7 +11346,7 @@
         "Description": "A flaw was found in the Linux kernel. Measuring usage of the shared memory does not scale with large shared memory segment counts which could lead to resource exhaustion and DoS.",
         "Severity": "MEDIUM",
         "CweIDs": [
-          "CWE-400"
+          "CWE-770"
         ],
         "CVSS": {
           "nvd": {
@@ -11407,7 +11425,7 @@
           "https://www.cve.org/CVERecord?id=CVE-2021-3669"
         ],
         "PublishedDate": "2022-08-26T16:15:00Z",
-        "LastModifiedDate": "2023-02-12T23:42:00Z"
+        "LastModifiedDate": "2023-07-07T19:16:00Z"
       },
       {
         "VulnerabilityID": "CVE-2021-3759",
@@ -12364,7 +12382,7 @@
           "Name": "Debian Security Tracker",
           "URL": "https://salsa.debian.org/security-tracker-team/security-tracker"
         },
-        "Title": "kernel: race condition in snd_pcm_oss_sync leads to NULL pointer dereference",
+        "Title": "race condition in snd_pcm_oss_sync leads to NULL pointer dereference",
         "Description": "A race condition flaw was found in the Linux kernel sound subsystem due to improper locking. It could lead to a NULL pointer dereference while handling the SNDCTL_DSP_SYNC ioctl. A privileged local user (root or member of the audio group) could use this flaw to crash the system, resulting in a denial of service condition",
         "Severity": "MEDIUM",
         "CweIDs": [
@@ -12428,7 +12446,7 @@
           "Name": "Debian Security Tracker",
           "URL": "https://salsa.debian.org/security-tracker-team/security-tracker"
         },
-        "Title": "kernel: KVM: SVM: nested shutdown interception could lead to host crash",
+        "Title": "nested shutdown interception could lead to host crash",
         "Description": "A flaw was found in the KVM's AMD nested virtualization (SVM). A malicious L1 guest could purposely fail to intercept the shutdown of a cooperative nested guest (L2), possibly leading to a page fault and kernel panic in the host (L0).",
         "Severity": "MEDIUM",
         "CweIDs": [
@@ -13081,6 +13099,7 @@
           "https://gruss.cc/files/prefetch.pdf",
           "https://lore.kernel.org/lkml/Yz%2FmfJ1gjgshF19t@hirez.programming.kicks-ass.net/",
           "https://nvd.nist.gov/vuln/detail/CVE-2023-0597",
+          "https://ubuntu.com/security/notices/USN-6206-1",
           "https://www.cve.org/CVERecord?id=CVE-2023-0597"
         ],
         "PublishedDate": "2023-02-23T20:15:00Z",
@@ -13131,6 +13150,7 @@
           "https://ubuntu.com/security/notices/USN-6172-1",
           "https://ubuntu.com/security/notices/USN-6185-1",
           "https://ubuntu.com/security/notices/USN-6187-1",
+          "https://ubuntu.com/security/notices/USN-6207-1",
           "https://www.cve.org/CVERecord?id=CVE-2023-1076"
         ],
         "PublishedDate": "2023-03-27T21:15:00Z",
@@ -13192,11 +13212,12 @@
         "References": [
           "https://access.redhat.com/security/cve/CVE-2023-1206",
           "https://bugzilla.redhat.com/show_bug.cgi?id=2175903",
+          "https://lore.kernel.org/netdev/CANn89i%2B6d9K1VwNK1Joc-Yb_4jAfV_YFzk%3Dz_K2_Oy%2BxJHSn_g%40mail.gmail.com/T/",
           "https://nvd.nist.gov/vuln/detail/CVE-2023-1206",
           "https://www.cve.org/CVERecord?id=CVE-2023-1206"
         ],
         "PublishedDate": "2023-06-30T22:15:00Z",
-        "LastModifiedDate": "2023-06-30T22:15:00Z"
+        "LastModifiedDate": "2023-07-03T01:10:00Z"
       },
       {
         "VulnerabilityID": "CVE-2023-1249",
@@ -13448,16 +13469,19 @@
         "References": [
           "https://access.redhat.com/security/cve/CVE-2023-2269",
           "https://cve.mitre.org/cgi-bin/cvename.cgi?name=CVE-2023-2269",
+          "https://linux.oracle.com/cve/CVE-2023-2269.html",
+          "https://linux.oracle.com/errata/ELSA-2023-12566.html",
           "https://lists.fedoraproject.org/archives/list/package-announce@lists.fedoraproject.org/message/63AJUCJTZCII2JMAF7MGZEM66KY7IALT/",
           "https://lists.fedoraproject.org/archives/list/package-announce@lists.fedoraproject.org/message/FBLBKW2WM5YSTS6OGEU5SYHXSJ5EWSTV/",
           "https://lists.fedoraproject.org/archives/list/package-announce@lists.fedoraproject.org/message/IXHBLWYNSUBS77TYPOJTADPDXKBH2F4U/",
           "https://lore.kernel.org/lkml/ZD1xyZxb3rHot8PV@redhat.com/t/",
           "https://nvd.nist.gov/vuln/detail/CVE-2023-2269",
           "https://ubuntu.com/security/notices/USN-6173-1",
-          "https://www.cve.org/CVERecord?id=CVE-2023-2269"
+          "https://www.cve.org/CVERecord?id=CVE-2023-2269",
+          "https://www.debian.org/security/2023/dsa-5448"
         ],
         "PublishedDate": "2023-04-25T21:15:00Z",
-        "LastModifiedDate": "2023-05-16T19:01:00Z"
+        "LastModifiedDate": "2023-07-06T04:15:00Z"
       },
       {
         "VulnerabilityID": "CVE-2023-3006",
@@ -13658,10 +13682,11 @@
           "https://lists.fedoraproject.org/archives/list/package-announce@lists.fedoraproject.org/message/AOATNX5UFL7V7W2QDIQKOHFFHYKWFP4W/",
           "https://lore.kernel.org/all/CA+UBctCu7fXn4q41O_3=id1+OdyQ85tZY1x+TkT-6OVBL6KAUw@mail.gmail.com/",
           "https://nvd.nist.gov/vuln/detail/CVE-2023-31084",
-          "https://www.cve.org/CVERecord?id=CVE-2023-31084"
+          "https://www.cve.org/CVERecord?id=CVE-2023-31084",
+          "https://www.debian.org/security/2023/dsa-5448"
         ],
         "PublishedDate": "2023-04-24T06:15:00Z",
-        "LastModifiedDate": "2023-06-13T03:15:00Z"
+        "LastModifiedDate": "2023-07-06T04:15:00Z"
       },
       {
         "VulnerabilityID": "CVE-2023-3212",
@@ -13671,6 +13696,7 @@
         "Layer": {
           "DiffID": "sha256:ccdc35050fdfc84259e765e06854f6f197efe637a2259a004956e07dcafe8624"
         },
+        "SeveritySource": "nvd",
         "PrimaryURL": "https://avd.aquasec.com/nvd/cve-2023-3212",
         "DataSource": {
           "ID": "debian",
@@ -13680,7 +13706,14 @@
         "Title": "NULL pointer dereference in gfs2_evict_inode()",
         "Description": "A NULL pointer dereference issue was found in the gfs2 file system in the Linux kernel. It occurs on corrupt gfs2 file systems when the evict code tries to reference the journal descriptor structure after it has been freed and set to NULL. A privileged local user could use this flaw to cause a kernel panic.",
         "Severity": "MEDIUM",
+        "CweIDs": [
+          "CWE-476"
+        ],
         "CVSS": {
+          "nvd": {
+            "V3Vector": "CVSS:3.1/AV:L/AC:L/PR:H/UI:N/S:U/C:N/I:N/A:H",
+            "V3Score": 4.4
+          },
           "redhat": {
             "V3Vector": "CVSS:3.1/AV:L/AC:L/PR:H/UI:N/S:U/C:N/I:N/A:H",
             "V3Score": 4.4
@@ -13691,10 +13724,11 @@
           "https://bugzilla.redhat.com/show_bug.cgi?id=2214348",
           "https://github.com/torvalds/linux/commit/504a10d9e46bc37b23d0a1ae2f28973c8516e636",
           "https://nvd.nist.gov/vuln/detail/CVE-2023-3212",
-          "https://www.cve.org/CVERecord?id=CVE-2023-3212"
+          "https://www.cve.org/CVERecord?id=CVE-2023-3212",
+          "https://www.debian.org/security/2023/dsa-5448"
         ],
         "PublishedDate": "2023-06-23T20:15:00Z",
-        "LastModifiedDate": "2023-06-24T12:41:00Z"
+        "LastModifiedDate": "2023-07-06T04:15:00Z"
       },
       {
         "VulnerabilityID": "CVE-2023-33288",
@@ -13745,110 +13779,6 @@
         "LastModifiedDate": "2023-05-26T01:12:00Z"
       },
       {
-        "VulnerabilityID": "CVE-2023-3338",
-        "PkgID": "linux-libc-dev@4.19.282-1",
-        "PkgName": "linux-libc-dev",
-        "InstalledVersion": "4.19.282-1",
-        "Layer": {
-          "DiffID": "sha256:ccdc35050fdfc84259e765e06854f6f197efe637a2259a004956e07dcafe8624"
-        },
-        "PrimaryURL": "https://avd.aquasec.com/nvd/cve-2023-3338",
-        "DataSource": {
-          "ID": "debian",
-          "Name": "Debian Security Tracker",
-          "URL": "https://salsa.debian.org/security-tracker-team/security-tracker"
-        },
-        "Title": "crash due to a NULL pointer dereference in the dn_nsp_send function",
-        "Description": "A flaw null pointer dereference in the Linux kernel DECnet networking protocol was found. A remote user could use this flaw to crash the system.",
-        "Severity": "MEDIUM",
-        "CVSS": {
-          "redhat": {
-            "V3Vector": "CVSS:3.1/AV:N/AC:L/PR:L/UI:N/S:U/C:N/I:N/A:H",
-            "V3Score": 6.5
-          }
-        },
-        "References": [
-          "https://access.redhat.com/security/cve/CVE-2023-3338",
-          "https://nvd.nist.gov/vuln/detail/CVE-2023-3338",
-          "https://seclists.org/oss-sec/2023/q2/276",
-          "https://www.cve.org/CVERecord?id=CVE-2023-3338"
-        ],
-        "PublishedDate": "2023-06-30T22:15:00Z",
-        "LastModifiedDate": "2023-06-30T22:15:00Z"
-      },
-      {
-        "VulnerabilityID": "CVE-2023-3390",
-        "PkgID": "linux-libc-dev@4.19.282-1",
-        "PkgName": "linux-libc-dev",
-        "InstalledVersion": "4.19.282-1",
-        "Layer": {
-          "DiffID": "sha256:ccdc35050fdfc84259e765e06854f6f197efe637a2259a004956e07dcafe8624"
-        },
-        "PrimaryURL": "https://avd.aquasec.com/nvd/cve-2023-3390",
-        "DataSource": {
-          "ID": "debian",
-          "Name": "Debian Security Tracker",
-          "URL": "https://salsa.debian.org/security-tracker-team/security-tracker"
-        },
-        "Title": "use-after-free vulnerability under netfilter because of incorrect error path handling with NFT_MSG_NEWRULE",
-        "Description": "A use-after-free vulnerability was found in the Linux kernel's netfilter subsystem in net/netfilter/nf_tables_api.c.\n\nMishandled error handling with NFT_MSG_NEWRULE makes it possible to use a dangling pointer in the same transaction causing a use-after-free vulnerability. This flaw allows a local attacker with user access to cause a privilege escalation issue.\n\nWe recommend upgrading past commit\u00a01240eb93f0616b21c675416516ff3d74798fdc97.",
-        "Severity": "MEDIUM",
-        "CVSS": {
-          "redhat": {
-            "V3Vector": "CVSS:3.1/AV:L/AC:L/PR:L/UI:N/S:U/C:L/I:L/A:H",
-            "V3Score": 6.6
-          }
-        },
-        "References": [
-          "https://access.redhat.com/security/cve/CVE-2023-3390",
-          "https://git.kernel.org/pub/scm/linux/kernel/git/stable/linux.git/commit/?id=1240eb93f0616b21c675416516ff3d74798fdc97",
-          "https://kernel.dance/1240eb93f0616b21c675416516ff3d74798fdc97",
-          "https://nvd.nist.gov/vuln/detail/CVE-2023-3390",
-          "https://www.cve.org/CVERecord?id=CVE-2023-3390"
-        ],
-        "PublishedDate": "2023-06-28T21:15:00Z",
-        "LastModifiedDate": "2023-06-29T15:35:00Z"
-      },
-      {
-        "VulnerabilityID": "CVE-2023-34256",
-        "PkgID": "linux-libc-dev@4.19.282-1",
-        "PkgName": "linux-libc-dev",
-        "InstalledVersion": "4.19.282-1",
-        "Layer": {
-          "DiffID": "sha256:ccdc35050fdfc84259e765e06854f6f197efe637a2259a004956e07dcafe8624"
-        },
-        "SeveritySource": "nvd",
-        "PrimaryURL": "https://avd.aquasec.com/nvd/cve-2023-34256",
-        "DataSource": {
-          "ID": "debian",
-          "Name": "Debian Security Tracker",
-          "URL": "https://salsa.debian.org/security-tracker-team/security-tracker"
-        },
-        "Title": "An issue was discovered in the Linux kernel before 6.3.3. There is an  ...",
-        "Description": "** DISPUTED ** An issue was discovered in the Linux kernel before 6.3.3. There is an out-of-bounds read in crc16 in lib/crc16.c when called from fs/ext4/super.c because ext4_group_desc_csum does not properly check an offset. NOTE: this is disputed by third parties because the kernel is not intended to defend against attackers with the stated \"When modifying the block device while it is mounted by the filesystem\" access.",
-        "Severity": "MEDIUM",
-        "CweIDs": [
-          "CWE-125"
-        ],
-        "CVSS": {
-          "nvd": {
-            "V3Vector": "CVSS:3.1/AV:L/AC:L/PR:L/UI:N/S:U/C:N/I:N/A:H",
-            "V3Score": 5.5
-          }
-        },
-        "References": [
-          "https://bugzilla.suse.com/show_bug.cgi?id=1211895",
-          "https://cdn.kernel.org/pub/linux/kernel/v6.x/ChangeLog-6.3.3",
-          "https://cve.mitre.org/cgi-bin/cvename.cgi?name=CVE-2023-34256",
-          "https://git.kernel.org/linus/4f04351888a83e595571de672e0a4a8b74f4fb31 (6.4-rc2)",
-          "https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git/commit/?id=4f04351888a83e595571de672e0a4a8b74f4fb31",
-          "https://nvd.nist.gov/vuln/detail/CVE-2023-34256",
-          "https://syzkaller.appspot.com/bug?extid=8785e41224a3afd04321"
-        ],
-        "PublishedDate": "2023-05-31T20:15:00Z",
-        "LastModifiedDate": "2023-06-07T16:11:00Z"
-      },
-      {
         "VulnerabilityID": "CVE-2022-29458",
         "VendorIDs": [
           "DLA-3167-1"
@@ -13867,7 +13797,7 @@
           "Name": "Debian Security Tracker",
           "URL": "https://salsa.debian.org/security-tracker-team/security-tracker"
         },
-        "Title": "ncurses: segfaulting OOB read",
+        "Title": "segfaulting OOB read",
         "Description": "ncurses 6.3 before patch 20220416 has an out-of-bounds read and segmentation violation in convert_strings in tinfo/read_entry.c in the terminfo library.",
         "Severity": "HIGH",
         "CweIDs": [
@@ -13969,7 +13899,7 @@
           "Name": "Debian Security Tracker",
           "URL": "https://salsa.debian.org/security-tracker-team/security-tracker"
         },
-        "Title": "ncurses: segfaulting OOB read",
+        "Title": "segfaulting OOB read",
         "Description": "ncurses 6.3 before patch 20220416 has an out-of-bounds read and segmentation violation in convert_strings in tinfo/read_entry.c in the terminfo library.",
         "Severity": "HIGH",
         "CweIDs": [
@@ -14999,6 +14929,7 @@
           "https://lists.debian.org/debian-lts-announce/2023/06/msg00011.html",
           "https://nvd.nist.gov/vuln/detail/CVE-2023-2650",
           "https://psirt.global.sonicwall.com/vuln-detail/SNWLID-2023-0009",
+          "https://security.netapp.com/advisory/ntap-20230703-0001/",
           "https://ubuntu.com/security/notices/USN-6119-1",
           "https://ubuntu.com/security/notices/USN-6188-1",
           "https://www.cve.org/CVERecord?id=CVE-2023-2650",
@@ -15006,7 +14937,7 @@
           "https://www.openssl.org/news/secadv/20230530.txt"
         ],
         "PublishedDate": "2023-05-30T14:15:00Z",
-        "LastModifiedDate": "2023-06-09T00:15:00Z"
+        "LastModifiedDate": "2023-07-03T16:15:00Z"
       },
       {
         "VulnerabilityID": "CVE-2019-1551",
@@ -15679,7 +15610,7 @@
           "Name": "Debian Security Tracker",
           "URL": "https://salsa.debian.org/security-tracker-team/security-tracker"
         },
-        "Title": "perl-CPAN: Bypass of verification of signatures in CHECKSUMS files",
+        "Title": "Bypass of verification of signatures in CHECKSUMS files",
         "Description": "CPAN 2.28 allows Signature Verification Bypass.",
         "Severity": "HIGH",
         "CweIDs": [
@@ -15728,7 +15659,7 @@
           "Name": "Debian Security Tracker",
           "URL": "https://salsa.debian.org/security-tracker-team/security-tracker"
         },
-        "Title": "CPAN.pm before 2.35 does not verify TLS certificates when downloading  ...",
+        "Title": "CPAN.pm before 2.35 does not verify TLS certificates when downloading distributions over HTTPS",
         "Description": "CPAN.pm before 2.35 does not verify TLS certificates when downloading distributions over HTTPS.",
         "Severity": "HIGH",
         "CweIDs": [
@@ -15738,6 +15669,10 @@
           "nvd": {
             "V3Vector": "CVSS:3.1/AV:N/AC:H/PR:N/UI:N/S:U/C:H/I:H/A:H",
             "V3Score": 8.1
+          },
+          "redhat": {
+            "V3Vector": "CVSS:3.1/AV:N/AC:H/PR:N/UI:N/S:U/C:H/I:H/A:N",
+            "V3Score": 7.4
           }
         },
         "References": [
@@ -15745,13 +15680,16 @@
           "http://www.openwall.com/lists/oss-security/2023/05/03/3",
           "http://www.openwall.com/lists/oss-security/2023/05/03/5",
           "http://www.openwall.com/lists/oss-security/2023/05/07/2",
+          "https://access.redhat.com/security/cve/CVE-2023-31484",
           "https://blog.hackeriet.no/perl-http-tiny-insecure-tls-default-affects-cpan-modules/",
           "https://cve.mitre.org/cgi-bin/cvename.cgi?name=CVE-2023-31484",
           "https://github.com/andk/cpanpm/commit/9c98370287f4e709924aee7c58ef21c85289a7f0 (2.35-TRIAL)",
           "https://github.com/andk/cpanpm/pull/175",
           "https://metacpan.org/dist/CPAN/changes",
+          "https://nvd.nist.gov/vuln/detail/CVE-2023-31484",
           "https://ubuntu.com/security/notices/USN-6112-1",
           "https://ubuntu.com/security/notices/USN-6112-2",
+          "https://www.cve.org/CVERecord?id=CVE-2023-31484",
           "https://www.openwall.com/lists/oss-security/2023/04/18/14"
         ],
         "PublishedDate": "2023-04-29T00:15:00Z",
@@ -15772,7 +15710,7 @@
           "Name": "Debian Security Tracker",
           "URL": "https://salsa.debian.org/security-tracker-team/security-tracker"
         },
-        "Title": "perl-CPAN: Bypass of verification of signatures in CHECKSUMS files",
+        "Title": "Bypass of verification of signatures in CHECKSUMS files",
         "Description": "CPAN 2.28 allows Signature Verification Bypass.",
         "Severity": "HIGH",
         "CweIDs": [
@@ -15821,7 +15759,7 @@
           "Name": "Debian Security Tracker",
           "URL": "https://salsa.debian.org/security-tracker-team/security-tracker"
         },
-        "Title": "CPAN.pm before 2.35 does not verify TLS certificates when downloading  ...",
+        "Title": "CPAN.pm before 2.35 does not verify TLS certificates when downloading distributions over HTTPS",
         "Description": "CPAN.pm before 2.35 does not verify TLS certificates when downloading distributions over HTTPS.",
         "Severity": "HIGH",
         "CweIDs": [
@@ -15831,6 +15769,10 @@
           "nvd": {
             "V3Vector": "CVSS:3.1/AV:N/AC:H/PR:N/UI:N/S:U/C:H/I:H/A:H",
             "V3Score": 8.1
+          },
+          "redhat": {
+            "V3Vector": "CVSS:3.1/AV:N/AC:H/PR:N/UI:N/S:U/C:H/I:H/A:N",
+            "V3Score": 7.4
           }
         },
         "References": [
@@ -15838,13 +15780,16 @@
           "http://www.openwall.com/lists/oss-security/2023/05/03/3",
           "http://www.openwall.com/lists/oss-security/2023/05/03/5",
           "http://www.openwall.com/lists/oss-security/2023/05/07/2",
+          "https://access.redhat.com/security/cve/CVE-2023-31484",
           "https://blog.hackeriet.no/perl-http-tiny-insecure-tls-default-affects-cpan-modules/",
           "https://cve.mitre.org/cgi-bin/cvename.cgi?name=CVE-2023-31484",
           "https://github.com/andk/cpanpm/commit/9c98370287f4e709924aee7c58ef21c85289a7f0 (2.35-TRIAL)",
           "https://github.com/andk/cpanpm/pull/175",
           "https://metacpan.org/dist/CPAN/changes",
+          "https://nvd.nist.gov/vuln/detail/CVE-2023-31484",
           "https://ubuntu.com/security/notices/USN-6112-1",
           "https://ubuntu.com/security/notices/USN-6112-2",
+          "https://www.cve.org/CVERecord?id=CVE-2023-31484",
           "https://www.openwall.com/lists/oss-security/2023/04/18/14"
         ],
         "PublishedDate": "2023-04-29T00:15:00Z",
@@ -15865,7 +15810,7 @@
           "Name": "Debian Security Tracker",
           "URL": "https://salsa.debian.org/security-tracker-team/security-tracker"
         },
-        "Title": "perl-CPAN: Bypass of verification of signatures in CHECKSUMS files",
+        "Title": "Bypass of verification of signatures in CHECKSUMS files",
         "Description": "CPAN 2.28 allows Signature Verification Bypass.",
         "Severity": "HIGH",
         "CweIDs": [
@@ -15914,7 +15859,7 @@
           "Name": "Debian Security Tracker",
           "URL": "https://salsa.debian.org/security-tracker-team/security-tracker"
         },
-        "Title": "CPAN.pm before 2.35 does not verify TLS certificates when downloading  ...",
+        "Title": "CPAN.pm before 2.35 does not verify TLS certificates when downloading distributions over HTTPS",
         "Description": "CPAN.pm before 2.35 does not verify TLS certificates when downloading distributions over HTTPS.",
         "Severity": "HIGH",
         "CweIDs": [
@@ -15924,6 +15869,10 @@
           "nvd": {
             "V3Vector": "CVSS:3.1/AV:N/AC:H/PR:N/UI:N/S:U/C:H/I:H/A:H",
             "V3Score": 8.1
+          },
+          "redhat": {
+            "V3Vector": "CVSS:3.1/AV:N/AC:H/PR:N/UI:N/S:U/C:H/I:H/A:N",
+            "V3Score": 7.4
           }
         },
         "References": [
@@ -15931,13 +15880,16 @@
           "http://www.openwall.com/lists/oss-security/2023/05/03/3",
           "http://www.openwall.com/lists/oss-security/2023/05/03/5",
           "http://www.openwall.com/lists/oss-security/2023/05/07/2",
+          "https://access.redhat.com/security/cve/CVE-2023-31484",
           "https://blog.hackeriet.no/perl-http-tiny-insecure-tls-default-affects-cpan-modules/",
           "https://cve.mitre.org/cgi-bin/cvename.cgi?name=CVE-2023-31484",
           "https://github.com/andk/cpanpm/commit/9c98370287f4e709924aee7c58ef21c85289a7f0 (2.35-TRIAL)",
           "https://github.com/andk/cpanpm/pull/175",
           "https://metacpan.org/dist/CPAN/changes",
+          "https://nvd.nist.gov/vuln/detail/CVE-2023-31484",
           "https://ubuntu.com/security/notices/USN-6112-1",
           "https://ubuntu.com/security/notices/USN-6112-2",
+          "https://www.cve.org/CVERecord?id=CVE-2023-31484",
           "https://www.openwall.com/lists/oss-security/2023/04/18/14"
         ],
         "PublishedDate": "2023-04-29T00:15:00Z",
@@ -16034,7 +15986,7 @@
           "Name": "Debian Security Tracker",
           "URL": "https://salsa.debian.org/security-tracker-team/security-tracker"
         },
-        "Title": "python: urllib.parse does not sanitize URLs containing ASCII newline and tabs",
+        "Title": "urllib.parse does not sanitize URLs containing ASCII newline and tabs",
         "Description": "A flaw was found in Python, specifically within the urllib.parse module. This module helps break Uniform Resource Locator (URL) strings into components. The issue involves how the urlparse method does not sanitize input and allows characters like '\\r' and '\\n' in the URL path. This flaw allows an attacker to input a crafted URL, leading to injection attacks. This flaw affects Python versions prior to 3.10.0b1, 3.9.5, 3.8.11, 3.7.11 and 3.6.14.",
         "Severity": "HIGH",
         "CweIDs": [
@@ -16118,7 +16070,7 @@
           "https://github.com/python/cpython/pull/99421",
           "https://github.com/python/cpython/pull/99446 (backport for 3.11 branch)",
           "https://linux.oracle.com/cve/CVE-2023-24329.html",
-          "https://linux.oracle.com/errata/ELSA-2023-3595.html",
+          "https://linux.oracle.com/errata/ELSA-2023-3781.html",
           "https://lists.fedoraproject.org/archives/list/package-announce@lists.fedoraproject.org/message/6PEVICI7YNGGMSL3UCMWGE66QFLATH72/",
           "https://lists.fedoraproject.org/archives/list/package-announce@lists.fedoraproject.org/message/DSL6NSOAXWBJJ67XPLSSC74MNKZF3BBO/",
           "https://lists.fedoraproject.org/archives/list/package-announce@lists.fedoraproject.org/message/EM2XLZSTXG44TMFXF4E6VTGKR2MQCW3G/",
@@ -16372,7 +16324,7 @@
           "Name": "Debian Security Tracker",
           "URL": "https://salsa.debian.org/security-tracker-team/security-tracker"
         },
-        "Title": "python: urllib.parse does not sanitize URLs containing ASCII newline and tabs",
+        "Title": "urllib.parse does not sanitize URLs containing ASCII newline and tabs",
         "Description": "A flaw was found in Python, specifically within the urllib.parse module. This module helps break Uniform Resource Locator (URL) strings into components. The issue involves how the urlparse method does not sanitize input and allows characters like '\\r' and '\\n' in the URL path. This flaw allows an attacker to input a crafted URL, leading to injection attacks. This flaw affects Python versions prior to 3.10.0b1, 3.9.5, 3.8.11, 3.7.11 and 3.6.14.",
         "Severity": "HIGH",
         "CweIDs": [
@@ -16456,7 +16408,7 @@
           "https://github.com/python/cpython/pull/99421",
           "https://github.com/python/cpython/pull/99446 (backport for 3.11 branch)",
           "https://linux.oracle.com/cve/CVE-2023-24329.html",
-          "https://linux.oracle.com/errata/ELSA-2023-3595.html",
+          "https://linux.oracle.com/errata/ELSA-2023-3781.html",
           "https://lists.fedoraproject.org/archives/list/package-announce@lists.fedoraproject.org/message/6PEVICI7YNGGMSL3UCMWGE66QFLATH72/",
           "https://lists.fedoraproject.org/archives/list/package-announce@lists.fedoraproject.org/message/DSL6NSOAXWBJJ67XPLSSC74MNKZF3BBO/",
           "https://lists.fedoraproject.org/archives/list/package-announce@lists.fedoraproject.org/message/EM2XLZSTXG44TMFXF4E6VTGKR2MQCW3G/",
@@ -16710,7 +16662,7 @@
           "Name": "Debian Security Tracker",
           "URL": "https://salsa.debian.org/security-tracker-team/security-tracker"
         },
-        "Title": "python: urllib.parse does not sanitize URLs containing ASCII newline and tabs",
+        "Title": "urllib.parse does not sanitize URLs containing ASCII newline and tabs",
         "Description": "A flaw was found in Python, specifically within the urllib.parse module. This module helps break Uniform Resource Locator (URL) strings into components. The issue involves how the urlparse method does not sanitize input and allows characters like '\\r' and '\\n' in the URL path. This flaw allows an attacker to input a crafted URL, leading to injection attacks. This flaw affects Python versions prior to 3.10.0b1, 3.9.5, 3.8.11, 3.7.11 and 3.6.14.",
         "Severity": "HIGH",
         "CweIDs": [
@@ -16794,7 +16746,7 @@
           "https://github.com/python/cpython/pull/99421",
           "https://github.com/python/cpython/pull/99446 (backport for 3.11 branch)",
           "https://linux.oracle.com/cve/CVE-2023-24329.html",
-          "https://linux.oracle.com/errata/ELSA-2023-3595.html",
+          "https://linux.oracle.com/errata/ELSA-2023-3781.html",
           "https://lists.fedoraproject.org/archives/list/package-announce@lists.fedoraproject.org/message/6PEVICI7YNGGMSL3UCMWGE66QFLATH72/",
           "https://lists.fedoraproject.org/archives/list/package-announce@lists.fedoraproject.org/message/DSL6NSOAXWBJJ67XPLSSC74MNKZF3BBO/",
           "https://lists.fedoraproject.org/archives/list/package-announce@lists.fedoraproject.org/message/EM2XLZSTXG44TMFXF4E6VTGKR2MQCW3G/",
