@@ -4,11 +4,12 @@
 
 # Honeyscanner - A vulnerability analyzer for Honeypots
 
-Honeyscanner is a vulnerability analyzer for honeypots. It is designed to automatically attack a given honeypot, in order to determine if the honeypot is vulnerable to specific types of cyber attacks. The analyzer uses a variety of attacks, ranging from exploiting vulnerable software libraries to DoS, and fuzzing attacks. In the end, an evaluation report is provided to the honeypot administrator, including advice on how to enhance the security of the honeypot.
+[![Python 3.9.12](https://img.shields.io/badge/python-3.9.12-blue.svg)](https://www.python.org/downloads/release/python-3912/)
+[![Pipenv 2023.7.9](https://img.shields.io/badge/pipenv-2023.7.9-brightgreen.svg)](https://pipenv.pypa.io/)
+[![GitHub license](https://img.shields.io/github/license/honeynet/honeyscanner.svg)](https://github.com/honeynet/honeyscanner/blob/main/LICENSE)
+[![Github Issues](https://img.shields.io/github/issues/honeynet/honeyscanner.svg)](https://github.com/honeynet/honeyscanner/issues)
 
-## Synopsis
-
-A honeypot is a security resource that mimics a vulnerable system and is used to lure and trap cyber-attackers. Over the last decade, many open-source honeypots have been developed by the community as side projects without any funding or company behind them. This led to experimental implementations of honeypot ideas, that haven't been tested by security teams thoroughly. This tool comes to solve this exact problem. Honeyscanner is an open-source vulnerability scanner for honeypots. Equipped with a penetration testing strategy that starts from reconnaissance techniques to more advanced ones like exploiting bugs in libraries used by the honeypot, fuzzing and DoS attacks. The tool is written in Python.
+Honeyscanner is a vulnerability analyzer for honeypots designed to automatically attack a given honeypot, in order to determine if the honeypot is vulnerable to specific types of cyber attacks. It uses a variety of attacks, ranging from exploiting vulnerable software libraries to DoS, and fuzzing attacks. The analyzer then provides an evaluation report to the honeypot administrator, offering advice on how to enhance the security of the honeypot. Targeted towards security enthusiasts, open-source communities, and companies, Honeyscanner provides a much needed safety check for various honeypots.
 
 ### Architecture
 
@@ -26,25 +27,15 @@ Inspiration for Honeyscanner were the following research papers.
 
 \[3\]   [Shreyas Srinivasa, Dimitrios Georgoulias, Jens Myrup Pedersen, Emmanouil Vasilomanolakis: "A Bad IDEa: Weaponizing uncontrolled online-IDEs in availability attacks"](https://ieeexplore.ieee.org/document/9799405)
 
-## Getting Started
+## Installation
 
-Running Honeyscanner is easy. This guide will help you run Honeyscanner from source.
+The following instructions will guide you through the process of setting up Honeyscanner on your local machine.
 
-<details open>
-    <summary><b>Build it yourself</b></summary>
-
-> **_Info_:** This guide is meant for advanced users comfortable in development environments.
-
-<blockquote>
-<details>
-<summary><b>Requirements</b></summary>
+### Requirements
 
 - Python v3.9.12 - Required to run the project
 - Pipenv v2023.7.9 - Required to install Python dependencies
 - Git - Used to download the source code
-
-</details>
-</blockquote>
 
 ---
 
@@ -62,30 +53,23 @@ Running Honeyscanner is easy. This guide will help you run Honeyscanner from sou
     pipenv shell
     ```
 
-    <blockquote>
-    <details>
-    <summary><b>NOTE for pipenv</b></summary>
-        To exit the virtual environment, you just need to enter the command "<i>exit</i>" in the terminal.
-    </details>
-    </blockquote>
+> **__NOTE FOR PIPENV__:** To exit the virtual environment, you just need to enter the command "<i>exit</i>" in the terminal.
 
-3. Before you run Honeyscanner you need to control or own a Honeypot instance. For testing purposes, this guide assumes that the targeted Honeypot run on a Docker container on the local machine, where Honeyscanner runs.
+## Configuration
 
-4. For example, if you want to test Honeyscanner against the latest [Cowrie](https://github.com/cowrie/cowrie) version, you can use the official Docker Image [here](https://hub.docker.com/r/cowrie/cowrie), pull it locally and run a Docker container with it.
+- Before you run Honeyscanner, you need to control or own a Honeypot instance. For testing purposes, this guide assumes that the targeted Honeypot runs on a Docker container on the local machine, where Honeyscanner runs.
 
-5. If you prefer to test Honeyscanner against [Kippo](https://github.com/desaster/kippo), you can use the following Docker Image in DockerHub [here](https://hub.docker.com/r/aristofanischionis/kippo).
+- To test Honeyscanner against the latest [Cowrie](https://github.com/cowrie/cowrie) version, you can use the official Docker Image [here](https://hub.docker.com/r/cowrie/cowrie), pull it locally and run a Docker container with it.
 
-6. After running a Honeypot using Docker containers locally, you will be able to specify the following parameters: `--target_ip 127.0.0.1 --port 2222`.
+- If you prefer to test Honeyscanner against [Kippo](https://github.com/desaster/kippo), you can use the following Docker Image in DockerHub [here](https://hub.docker.com/r/aristofanischionis/kippo).
 
-7. Run Honeyscanner as seen [here](#usage-examples).
+- After running a Honeypot using Docker containers locally, you will be able to specify the following parameters: `--target_ip 127.0.0.1 --port 2222` when running the Honeyscanner.
 
-> **__NOTE 1__:** Honeyscanner uses `pipenv` to handle the project's dependencies.
-> 
-> **__NOTE 2__:** NEVER RUN `Honeyscanner` AGAINST HONEYPOTS YOU DO NOT OWN, OR YOU DO NOT HAVE EXPLICIT PERMISSION TO TEST.
+> **__NOTE__:** NEVER RUN `Honeyscanner` AGAINST HONEYPOTS YOU DO NOT OWN, OR YOU DO NOT HAVE EXPLICIT PERMISSION TO TEST.
 
-</details>
+## Usage
 
-## Usage examples
+Use the following examples as a reference for how to run `Honeyscanner`:
 
 ```bash
 python3 main.py --honeypot cowrie --honeypot_version 2.5.0 --target_ip 127.0.0.1 --port 2222 --username root --password 1234
