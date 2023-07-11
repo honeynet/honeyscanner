@@ -110,6 +110,7 @@ python3 main.py --honeypot kippo --honeypot_version 0.9 --target_ip 127.0.0.1 --
 </table>
 <!-- ALL-CONTRIBUTORS-LIST:END -->
 
+
 ## Versioning
 
 The [SemVer](http://semver.org/spec/v2.0.0.html) is used for versioning. For the latest available version of Honeyscanner, see page [releases](https://github.com/honeynet/honeyscanner/releases).
