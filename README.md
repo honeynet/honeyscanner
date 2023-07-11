@@ -40,9 +40,7 @@ Running Honeyscanner is easy. This guide will help you run Honeyscanner from sou
 <summary><b>Requirements</b></summary>
 
 - Python v3.9.12 - Required to run the project
-
-**Optional**:
-
+- Pipenv v2023.7.9 - Required to install Python dependencies
 - Git - Used to download the source code
 
 </details>
@@ -50,27 +48,40 @@ Running Honeyscanner is easy. This guide will help you run Honeyscanner from sou
 
 ---
 
-1. Download the Honeyscanner source code from GitHub. Open a console and introduce the following line.
+1. Download the Honeyscanner source code from GitHub. Open a tarminal and introduce the following command.
 
     ```bash
     git clone https://github.com/honeynet/honeyscanner.git
     ```
 
-2. Navigate to the Honeyscanner's folder and install the required Python packages.
+2. Navigate to the Honeyscanner's folder, install the required Python packages and activate the virtual environment.
 
     ```bash
+    cd Honeyscanner/honeyscanner
     pipenv install
+    pipenv shell
     ```
 
+    <blockquote>
+    <details>
+    <summary><b>NOTE for pipenv</b></summary>
+        To exit the virtual environment, you just need to enter the command "<i>exit</i>" in the terminal.
+    </details>
+    </blockquote>
+
 3. Before you run Honeyscanner you need to control or own a Honeypot instance. For testing purposes, this guide assumes that the targeted Honeypot run on a Docker container on the local machine, where Honeyscanner runs.
+
 4. For example, if you want to test Honeyscanner against the latest [Cowrie](https://github.com/cowrie/cowrie) version, you can use the official Docker Image [here](https://hub.docker.com/r/cowrie/cowrie), pull it locally and run a Docker container with it.
-5. If you prefer to test Honeyscanner against [Kippo](https://github.com/desaster/kippo), you can use the following Docker Image in DockerHub [here](https://hub.docker.com/r/aristofanischionis/kippo)
+
+5. If you prefer to test Honeyscanner against [Kippo](https://github.com/desaster/kippo), you can use the following Docker Image in DockerHub [here](https://hub.docker.com/r/aristofanischionis/kippo).
+
 6. After running a Honeypot using Docker containers locally, you will be able to specify the following parameters: `--target_ip 127.0.0.1 --port 2222`.
-7. Run Honeyscanner as seen [here](#usage-examples)
+
+7. Run Honeyscanner as seen [here](#usage-examples).
 
 > **__NOTE 1__:** Honeyscanner uses `pipenv` to handle the project's dependencies.
 > 
-> **__NOTE 2__:** NEVER RUN `Honeyscanner` AGAINST HONEYPOTS YOU DO NOT OWN, OR YOU DO NOT HAVE EXPLICIT PERMISSION TO TEST
+> **__NOTE 2__:** NEVER RUN `Honeyscanner` AGAINST HONEYPOTS YOU DO NOT OWN, OR YOU DO NOT HAVE EXPLICIT PERMISSION TO TEST.
 
 </details>
 

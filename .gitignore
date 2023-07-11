@@ -26,10 +26,8 @@ build/
 # OS generated files
 .DS_Store
 Thumbs.db
-honeyscanner/active_attacks/boofuzz-results
 
 # misc
-/setup.py
-/honeyscanner-webapp/
+honeyscanner/active_attacks/boofuzz-results
 honeyscanner/active_attacks/honeypot_port_scanner/analysis_results
 honeyscanner/boofuzz-results
