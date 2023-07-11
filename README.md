@@ -1,5 +1,5 @@
 <div align="center">
-    <img src="./honeyscanner_logo.png" alt="Honeyscanner logo" width="400">
+    <img src="./images/honeyscanner_logo.png" alt="Honeyscanner logo" width="400">
 </div>
 
 # Honeyscanner - A vulnerability analyzer for Honeypots
@@ -13,7 +13,7 @@ A honeypot is a security resource that mimics a vulnerable system and is used to
 ### Architecture
 
 <div align="center">
-    <img src="./honeyscanner_architecture.png" alt="Honeyscanner Architecture" width="400">
+    <img src="./images/honeyscanner_architecture.png" alt="Honeyscanner Architecture" width="400">
 </div>
 
 ### References
@@ -59,7 +59,7 @@ Running Honeyscanner is easy. This guide will help you run Honeyscanner from sou
 2. Navigate to the Honeyscanner's folder and install the required Python packages.
 
     ```bash
-    .... TODO:
+    pipenv install
     ```
 
 3. Before you run Honeyscanner you need to control or own a Honeypot instance. For testing purposes, this guide assumes that the targeted Honeypot run on a Docker container on the local machine, where Honeyscanner runs.
@@ -85,7 +85,30 @@ python3 main.py --honeypot kippo --honeypot_version 0.9 --target_ip 127.0.0.1 --
 
 ## Contributors
 
-For information on Contributors and how to contribute see our [Contributors file](./CONTRIBUTORS.md).
+<!-- ALL-CONTRIBUTORS-LIST:START -->
+<!-- prettier-ignore -->
+<table>
+
+<tr>
+<!-- Aristofanis -->
+<td align="center">
+<a href="https://github.com/aristofanischionis"><img src="https://avatars.githubusercontent.com/aristofanischionis" width="80px;" alt="Aristofanis Chionis Koufakos"/><br /><sub><b>Aristofanis Chionis Koufakos</b></sub></a><br /><a href="https://github.com/honeynet/honeyscanner/commits?author=aristofanischionis" title="Code">💻</a> <a href="https://github.com/honeynet/honeyscanner/commits?author=aristofanischionis" title="Documentation">📖</a>
+</td>
+<!-- Manolis -->
+<td align="center">
+<a href="https://mvasiloma.com/"><img src="https://avatars.githubusercontent.com/m-vasiloma" width="80px;" alt="Dr. Emmanouil Vasilomanolakis"/><br /><sub><b>Dr. Emmanouil Vasilomanolakis</b></sub></a><br /><a href="https://github.com/honeynet/honeyscanner/commits?author=m-vasiloma" title="Idea">💡</a> <a href="https://github.com/honeynet/honeyscanner/commits?author=m-vasiloma" title="Mentorship">👨‍🏫</a>
+</td>
+<!-- Shreyas -->
+<td align="center">
+<a href="https://github.com/sastry17"><img src="https://avatars.githubusercontent.com/sastry17" width="80px;" alt="Shreyas Srinivasa"/><br /><sub><b>Shreyas Srinivasa</b></sub></a><br /><a href="https://github.com/honeynet/honeyscanner/commits?author=sastry17" title="Idea">💡</a> <a href="https://github.com/honeynet/honeyscanner/commits?author=sastry17" title="Mentorship">👨‍🏫</a>
+</td>
+<!-- Ricardo -->
+<td align="center">
+<a href="https://github.com/RicYaben"><img src="https://avatars.githubusercontent.com/RicYaben" width="80px;" alt="Ricardo Yaben"/><br /><sub><b>Ricardo Yaben</b></sub></a><br /><a href="https://github.com/honeynet/honeyscanner/commits?author=RicYaben" title="Idea">💡</a> <a href="https://github.com/honeynet/honeyscanner/commits?author=RicYaben" title="Mentorship">👨‍🏫</a>
+</td>
+</tr>
+</table>
+<!-- ALL-CONTRIBUTORS-LIST:END -->
 
 ## Versioning
 
@@ -99,9 +122,13 @@ Honeyscanner does not have any release yet.
 
 The project was actively developed with participation in Google Summer of Code 2023. More information about Honeyscanner in GSoC2023 [here](https://summerofcode.withgoogle.com/archive/2023/projects/6oyTxlUo)
 
+<div align="center">
+    <img src="./images/GSoC-Horizontal.png" alt="GSoC logo" width="400">
+</div>
+
 ## Contact
 
-Please use Github issues to report any issues or for questions.
+Please use [Github issues](https://github.com/honeynet/honeyscanner/issues) to report any issues or for questions. 
 
 ## License
 
