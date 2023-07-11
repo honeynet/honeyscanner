@@ -75,7 +75,8 @@ class AttackOrchestrator:
         scanner = ContainerSecurityScanner(owner, self.honeypot.name)
         self.container_sec_report = scanner.scan_repository()
         print("Finished Trivy!")
-        print("Finished all analyzers!")
+
+        print("Finished all passive attacks successfully!")
     
     def generate_report(self):
         report = "Honeypot Passive Attack Report\n"
