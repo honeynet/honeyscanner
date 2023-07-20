@@ -12,8 +12,7 @@ class AttackOrchestrator:
         self.attacks = [
             Fuzzing(honeypot), # Successfully ran! - not crashing the honeypot - try to get some insights instead of crashing
             TarBomb(honeypot), # should be rechecked, works but doesn't crash the honeypot
-            # TODO: temporarily disabled as it is very slow - I need to fix
-            # SoftwareExploit(honeypot), # Successfully ran! - not managed to exploit something
+            SoftwareExploit(honeypot), # Successfully ran! - not managed to exploit something
             DoS(honeypot) # Successfully ran! - crashes the honeypot
             # SSHKeepAliver(honeypot) # Not working yet... I don't know if I should keep it
         ]
