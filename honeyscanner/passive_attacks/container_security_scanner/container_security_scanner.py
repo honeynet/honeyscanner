@@ -14,6 +14,8 @@ class ContainerSecurityScanner:
     def __init__(self, honeypot_owner: str, honeypot_name: str) -> None:
         init(autoreset=True)
         self.honeypot_owner = honeypot_owner
+        if self.honeypot_owner == "DinoTools":
+            self.honeypot_owner = "dinotools"
         self.honeypot_name = honeypot_name
         self.github_repo_url = f"https://github.com/{honeypot_owner}/{honeypot_name}"
         self.local_repo_path = None

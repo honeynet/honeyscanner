@@ -1,2 +1,0 @@
-exploit/multi/http/shopware_createinstancefromnamedarguments_rce
-exploit/linux/misc/jenkins_java_deserialize

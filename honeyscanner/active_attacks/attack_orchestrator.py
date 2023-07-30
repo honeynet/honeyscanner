@@ -3,7 +3,6 @@ from .dos import DoS
 from .fuzzing import Fuzzing
 from .software_exploit import SoftwareExploit
 from .tar_bomb import TarBomb
-# from ssh_keep_aliver import SSHKeepAliver
 # from .honeypot_port_scanner.honeypot_port_scanner import HoneypotPortScanner
 
 class AttackOrchestrator:
@@ -14,7 +13,6 @@ class AttackOrchestrator:
             TarBomb(honeypot), # should be rechecked, works but doesn't crash the honeypot
             SoftwareExploit(honeypot), # Successfully ran! - not managed to exploit something
             DoS(honeypot) # Successfully ran! - crashes the honeypot
-            # SSHKeepAliver(honeypot) # Not working yet... I don't know if I should keep it
         ]
         self.results = []
 
@@ -52,6 +50,4 @@ class AttackOrchestrator:
                 report += f"  Exploits used are saved in: {result[3]}\n\n"
             elif attack_name == "TarBomb":
                 report += f"  Number of bombs used: {result[3]}\n\n"
-            # elif attack_name == "SSHKeepAliver":
-            #     report += f"  Number of keep-alive packets sent: {result[3]}\n\n"
         return report

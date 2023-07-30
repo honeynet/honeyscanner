@@ -1,4 +1,4 @@
-from honeypots import Cowrie, Kippo
+from honeypots import Cowrie, Kippo, Dionaea
 from passive_attacks import AttackOrchestrator as PassiveAttackOrchestrator
 from active_attacks import AttackOrchestrator as ActiveAttackOrchestrator
 from report_generator import ReportGenerator
@@ -15,7 +15,8 @@ class Honeyscanner:
     def create_honeypot(self, honeypot_type, honeypot_version, honeypot_ip, honeypot_port, honeypot_username, honeypot_password):  
         honeypot_class_map = {  
             'cowrie': Cowrie,  
-            'kippo': Kippo,  
+            'kippo': Kippo,
+            'dionaea': Dionaea,
         }  
         if honeypot_type not in honeypot_class_map:  
             supported_honeypots = ', '.join(honeypot_class_map.keys())
@@ -26,6 +27,9 @@ class Honeyscanner:
         # Passive attacks
         self.passive_attack_orchestrator.run_attacks()
         self.passive_attack_results = self.passive_attack_orchestrator.generate_report()
+        if (self.honeypot.name == "dionaea"):
+            print("Dionaea does not support active attacks yet, stay tuned for updates! Bye!")
+            return
         # Active attacks
         self.active_attack_orchestrator.run_attacks()
         self.active_attack_results = self.active_attack_orchestrator.generate_report()
