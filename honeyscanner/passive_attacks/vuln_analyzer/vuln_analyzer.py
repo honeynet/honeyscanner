@@ -125,6 +125,8 @@ class VulnerableLibrariesAnalyzer:
         Get the release date of the specified version tag.
         """
         try:
+            if (self.honeypot_name == "conpot" and (version_tag == "0.6.0" or version_tag == "0.5.2" or version_tag == "0.5.1" or version_tag == "0.5.0" or version_tag == "0.4.0" or version_tag == "0.3.1" or version_tag == "0.3.0")):
+                version_tag = f"Release_{version_tag}"
             release = self.repo.get_release(version_tag)
             return release.published_at.date()
         except Exception as e:

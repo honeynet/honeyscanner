@@ -2,7 +2,7 @@ from .base_honeypot import BaseHoneypot
 
 class Dionaea(BaseHoneypot):
     def __init__(self, version, ip, port, username='', password=''):
-        # Dionaee does not have a default username and password
+        # Dionaea does not have a default username and password
         if username is None:
             username = ''
         if password is None:

@@ -1,0 +1,5 @@
+gevent==23.7.0
+pysnmp==4.4.12
+lxml==4.9.3
+modbus_tk==1.1.3
+hpfeeds==3.0.0

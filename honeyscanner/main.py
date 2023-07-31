@@ -29,8 +29,8 @@ def parse_arguments():
         "--honeypot",
         type=sanitize_string,
         required=True,
-        choices=["cowrie", "kippo", "dionaea"],
-        help="Honeypot to analyze, currently supported: (cowrie, kippo and dionaea)",
+        choices=["cowrie", "kippo", "dionaea", "conpot"],
+        help="Honeypot to analyze, currently supported: (cowrie, kippo, dionaea and conpot)",
     )
     parser.add_argument(
         "--honeypot_version",
