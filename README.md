@@ -13,7 +13,7 @@ Honeyscanner is a vulnerability analyzer for honeypots designed to automatically
 
 ### Video showcasing Honeyscanner against Cowrie v2.5.0
 
-[![Honeyscanner vs Cowrie v2.5.0](https://img.youtube.com/vi/RHC3f67Ae6c/0.jpg)](https://www.youtube.com/watch?v=RHC3f67Ae6c)
+[![Honeyscanner vs Cowrie v2.5.0](https://img.youtube.com/vi/RHC3f67Ae6c/0.jpg)](https://www.youtube.com/watch?v=RHC3f67Ae6c){:target="_blank"}
 
 ### Architecture
 
