@@ -5,24 +5,6 @@
         "name": "cryptography",
         "installed_version": "39.0.0",
         "affected_versions": "<39.0.1",
-        "cve": "CVE-2023-0215",
-        "vulnerability_id": "pyup.io-53305",
-        "advisory": "Cryptography 39.0.1 updates its dependency 'OpenSSL' to v3.0.8 to include security fixes.\r\nhttps://github.com/pyca/cryptography/issues/8229",
-        "cvss_score": 7.5
-      },
-      {
-        "name": "cryptography",
-        "installed_version": "39.0.0",
-        "affected_versions": "<39.0.1",
-        "cve": "CVE-2023-0401",
-        "vulnerability_id": "pyup.io-53307",
-        "advisory": "Cryptography 39.0.1 updates its dependency 'OpenSSL' to v3.0.8 to include security fixes.\r\nhttps://github.com/pyca/cryptography/issues/8229",
-        "cvss_score": 7.5
-      },
-      {
-        "name": "cryptography",
-        "installed_version": "39.0.0",
-        "affected_versions": "<39.0.1",
         "cve": "CVE-2023-0217",
         "vulnerability_id": "pyup.io-53306",
         "advisory": "Cryptography 39.0.1 updates its dependency 'OpenSSL' to v3.0.8 to include security fixes.\r\nhttps://github.com/pyca/cryptography/issues/8229",
@@ -41,15 +23,6 @@
         "name": "cryptography",
         "installed_version": "39.0.0",
         "affected_versions": "<39.0.1",
-        "cve": "CVE-2023-0216",
-        "vulnerability_id": "pyup.io-53302",
-        "advisory": "Cryptography 39.0.1 updates its dependency 'OpenSSL' to v3.0.8 to include security fixes.\r\nhttps://github.com/pyca/cryptography/issues/8229",
-        "cvss_score": 7.5
-      },
-      {
-        "name": "cryptography",
-        "installed_version": "39.0.0",
-        "affected_versions": "<39.0.1",
         "cve": "CVE-2022-4203",
         "vulnerability_id": "pyup.io-53301",
         "advisory": "Cryptography 39.0.1 updates its dependency 'OpenSSL' to v3.0.8 to include security fixes.\r\nhttps://github.com/pyca/cryptography/issues/8229",
@@ -59,10 +32,19 @@
         "name": "cryptography",
         "installed_version": "39.0.0",
         "affected_versions": "<39.0.1",
-        "cve": "CVE-2022-4304",
-        "vulnerability_id": "pyup.io-53303",
+        "cve": "CVE-2023-0401",
+        "vulnerability_id": "pyup.io-53307",
         "advisory": "Cryptography 39.0.1 updates its dependency 'OpenSSL' to v3.0.8 to include security fixes.\r\nhttps://github.com/pyca/cryptography/issues/8229",
-        "cvss_score": 5.9
+        "cvss_score": 7.5
+      },
+      {
+        "name": "cryptography",
+        "installed_version": "39.0.0",
+        "affected_versions": "<39.0.1",
+        "cve": "CVE-2023-0215",
+        "vulnerability_id": "pyup.io-53305",
+        "advisory": "Cryptography 39.0.1 updates its dependency 'OpenSSL' to v3.0.8 to include security fixes.\r\nhttps://github.com/pyca/cryptography/issues/8229",
+        "cvss_score": 7.5
       },
       {
         "name": "cryptography",
@@ -71,7 +53,25 @@
         "cve": "CVE-2023-0286",
         "vulnerability_id": "pyup.io-53304",
         "advisory": "Cryptography 39.0.1 updates its dependency 'OpenSSL' to v3.0.8 to include security fixes.\r\nhttps://github.com/pyca/cryptography/issues/8229",
-        "cvss_score": 7.4
+        "cvss_score": null
+      },
+      {
+        "name": "cryptography",
+        "installed_version": "39.0.0",
+        "affected_versions": "<39.0.1",
+        "cve": "CVE-2022-4304",
+        "vulnerability_id": "pyup.io-53303",
+        "advisory": "Cryptography 39.0.1 updates its dependency 'OpenSSL' to v3.0.8 to include security fixes.\r\nhttps://github.com/pyca/cryptography/issues/8229",
+        "cvss_score": null
+      },
+      {
+        "name": "cryptography",
+        "installed_version": "39.0.0",
+        "affected_versions": "<39.0.1",
+        "cve": "CVE-2023-0216",
+        "vulnerability_id": "pyup.io-53302",
+        "advisory": "Cryptography 39.0.1 updates its dependency 'OpenSSL' to v3.0.8 to include security fixes.\r\nhttps://github.com/pyca/cryptography/issues/8229",
+        "cvss_score": null
       },
       {
         "name": "cryptography",
@@ -80,7 +80,7 @@
         "cve": "CVE-2022-4450",
         "vulnerability_id": "pyup.io-53299",
         "advisory": "Cryptography 39.0.1 updates its dependency 'OpenSSL' to v3.0.8 to include security fixes.\r\nhttps://github.com/pyca/cryptography/issues/8229",
-        "cvss_score": 7.5
+        "cvss_score": null
       },
       {
         "name": "cryptography",
@@ -89,7 +89,16 @@
         "cve": "CVE-2023-2650",
         "vulnerability_id": "pyup.io-59062",
         "advisory": "Cryptography 41.0.0 updates its dependency 'OpenSSL' to v3.1.1 to include a security fix.\r\nhttps://github.com/pyca/cryptography/commit/8708245ccdeaff21d65eea68a4f8d2a7c5949a22",
-        "cvss_score": 7.5
+        "cvss_score": null
+      },
+      {
+        "name": "cryptography",
+        "installed_version": "39.0.0",
+        "affected_versions": "<41.0.2",
+        "cve": "CVE-2023-38325",
+        "vulnerability_id": "pyup.io-59473",
+        "advisory": "The cryptography package before 41.0.2 for Python mishandles SSH certificates that have critical options.",
+        "cvss_score": null
       },
       {
         "name": "cryptography",
@@ -98,7 +107,7 @@
         "cve": "CVE-2023-23931",
         "vulnerability_id": "pyup.io-53048",
         "advisory": "Cryptography 39.0.1 includes a fix for CVE-2023-23931: In affected versions 'Cipher.update_into' would accept Python objects which implement the buffer protocol, but provide only immutable buffers. This would allow immutable objects (such as 'bytes') to be mutated, thus violating fundamental rules of Python and resulting in corrupted output. This issue has been present since 'update_into' was originally introduced in cryptography 1.8.\r\nhttps://github.com/pyca/cryptography/security/advisories/GHSA-w7pp-m8wf-vj6r",
-        "cvss_score": 6.5
+        "cvss_score": null
       }
     ]
   }

@@ -11,7 +11,8 @@ class AttackOrchestrator:
         self.attacks = [
             Fuzzing(honeypot), # Successfully ran! - not crashing the honeypot - try to get some insights instead of crashing
             TarBomb(honeypot), # should be rechecked, works but doesn't crash the honeypot
-            SoftwareExploit(honeypot), # Successfully ran! - not managed to exploit something
+            # TODO: SoftwareExploit still is slow
+            # SoftwareExploit(honeypot), # Successfully ran! - not managed to exploit something
             DoS(honeypot) # Successfully ran! - crashes the honeypot
         ]
         self.results = []

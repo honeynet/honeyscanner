@@ -9,6 +9,7 @@
         "PkgID": "libcom-err2@1.46.2-2",
         "PkgName": "libcom-err2",
         "InstalledVersion": "1.46.2-2",
+        "Status": "affected",
         "Layer": {
           "DiffID": "sha256:ca4eecbf39e6758abf787dd9fab38148e03aefbb5c3e3830f21a69ea1fd4a09e"
         },
@@ -19,7 +20,7 @@
           "Name": "Debian Security Tracker",
           "URL": "https://salsa.debian.org/security-tracker-team/security-tracker"
         },
-        "Title": "e2fsprogs: out-of-bounds read/write via crafted filesystem",
+        "Title": "out-of-bounds read/write via crafted filesystem",
         "Description": "An out-of-bounds read/write vulnerability was found in e2fsprogs 1.46.5. This issue leads to a segmentation fault and possibly arbitrary code execution via a specially crafted filesystem.",
         "Severity": "HIGH",
         "CweIDs": [
@@ -61,6 +62,7 @@
         "PkgID": "libdb5.3@5.3.28+dfsg1-0.8",
         "PkgName": "libdb5.3",
         "InstalledVersion": "5.3.28+dfsg1-0.8",
+        "Status": "affected",
         "Layer": {
           "DiffID": "sha256:cf9c7c9c9ad7d79832b60d51276862448b70fc11a3f9ecd2c4418c435132537b"
         },
@@ -120,10 +122,83 @@
         "LastModifiedDate": "2021-07-31T08:15:00Z"
       },
       {
+        "VulnerabilityID": "CVE-2023-36054",
+        "PkgID": "libgssapi-krb5-2@1.18.3-6+deb11u3",
+        "PkgName": "libgssapi-krb5-2",
+        "InstalledVersion": "1.18.3-6+deb11u3",
+        "Status": "affected",
+        "Layer": {
+          "DiffID": "sha256:a1af5ba59659cd3bc64caf59fa6b0733decc650da428be88fbd78c5efcc31ac3"
+        },
+        "PrimaryURL": "https://avd.aquasec.com/nvd/cve-2023-36054",
+        "DataSource": {
+          "ID": "debian",
+          "Name": "Debian Security Tracker",
+          "URL": "https://salsa.debian.org/security-tracker-team/security-tracker"
+        },
+        "Title": "lib/kadm5/kadm_rpc_xdr.c in MIT Kerberos 5 (aka krb5) before 1.20.2 an ...",
+        "Severity": "MEDIUM"
+      },
+      {
+        "VulnerabilityID": "CVE-2023-36054",
+        "PkgID": "libk5crypto3@1.18.3-6+deb11u3",
+        "PkgName": "libk5crypto3",
+        "InstalledVersion": "1.18.3-6+deb11u3",
+        "Status": "affected",
+        "Layer": {
+          "DiffID": "sha256:70faff05d00e37f6759b17901328e5d42c74fbc3b90d67c210e3e37951ca9e03"
+        },
+        "PrimaryURL": "https://avd.aquasec.com/nvd/cve-2023-36054",
+        "DataSource": {
+          "ID": "debian",
+          "Name": "Debian Security Tracker",
+          "URL": "https://salsa.debian.org/security-tracker-team/security-tracker"
+        },
+        "Title": "lib/kadm5/kadm_rpc_xdr.c in MIT Kerberos 5 (aka krb5) before 1.20.2 an ...",
+        "Severity": "MEDIUM"
+      },
+      {
+        "VulnerabilityID": "CVE-2023-36054",
+        "PkgID": "libkrb5-3@1.18.3-6+deb11u3",
+        "PkgName": "libkrb5-3",
+        "InstalledVersion": "1.18.3-6+deb11u3",
+        "Status": "affected",
+        "Layer": {
+          "DiffID": "sha256:e0a11baaefcb9b4a61de880edba3fe52be420ffc992944d2c5af7ce266033b89"
+        },
+        "PrimaryURL": "https://avd.aquasec.com/nvd/cve-2023-36054",
+        "DataSource": {
+          "ID": "debian",
+          "Name": "Debian Security Tracker",
+          "URL": "https://salsa.debian.org/security-tracker-team/security-tracker"
+        },
+        "Title": "lib/kadm5/kadm_rpc_xdr.c in MIT Kerberos 5 (aka krb5) before 1.20.2 an ...",
+        "Severity": "MEDIUM"
+      },
+      {
+        "VulnerabilityID": "CVE-2023-36054",
+        "PkgID": "libkrb5support0@1.18.3-6+deb11u3",
+        "PkgName": "libkrb5support0",
+        "InstalledVersion": "1.18.3-6+deb11u3",
+        "Status": "affected",
+        "Layer": {
+          "DiffID": "sha256:0c787ebb31fb8323f4dc3b9634cee53308a287d8799911cc860934fd47974ac0"
+        },
+        "PrimaryURL": "https://avd.aquasec.com/nvd/cve-2023-36054",
+        "DataSource": {
+          "ID": "debian",
+          "Name": "Debian Security Tracker",
+          "URL": "https://salsa.debian.org/security-tracker-team/security-tracker"
+        },
+        "Title": "lib/kadm5/kadm_rpc_xdr.c in MIT Kerberos 5 (aka krb5) before 1.20.2 an ...",
+        "Severity": "MEDIUM"
+      },
+      {
         "VulnerabilityID": "CVE-2023-29491",
         "PkgID": "libncursesw6@6.2+20201114-2+deb11u1",
         "PkgName": "libncursesw6",
         "InstalledVersion": "6.2+20201114-2+deb11u1",
+        "Status": "affected",
         "Layer": {
           "DiffID": "sha256:fd288e5dc11107870eac2899f7bd3777556835c371411d5bfb2eea2572a7cbf2"
         },
@@ -172,6 +247,7 @@
         "PkgID": "libpython3.9-minimal@3.9.2-1",
         "PkgName": "libpython3.9-minimal",
         "InstalledVersion": "3.9.2-1",
+        "Status": "affected",
         "Layer": {
           "DiffID": "sha256:2b66cde7d0cfbda919a0c334aa0e96e1f702a1dde1656f1075ce3d50aab562d9"
         },
@@ -232,6 +308,7 @@
         "PkgID": "libpython3.9-minimal@3.9.2-1",
         "PkgName": "libpython3.9-minimal",
         "InstalledVersion": "3.9.2-1",
+        "Status": "affected",
         "Layer": {
           "DiffID": "sha256:2b66cde7d0cfbda919a0c334aa0e96e1f702a1dde1656f1075ce3d50aab562d9"
         },
@@ -321,6 +398,7 @@
         "PkgID": "libpython3.9-minimal@3.9.2-1",
         "PkgName": "libpython3.9-minimal",
         "InstalledVersion": "3.9.2-1",
+        "Status": "affected",
         "Layer": {
           "DiffID": "sha256:2b66cde7d0cfbda919a0c334aa0e96e1f702a1dde1656f1075ce3d50aab562d9"
         },
@@ -397,6 +475,7 @@
         "PkgID": "libpython3.9-minimal@3.9.2-1",
         "PkgName": "libpython3.9-minimal",
         "InstalledVersion": "3.9.2-1",
+        "Status": "affected",
         "Layer": {
           "DiffID": "sha256:2b66cde7d0cfbda919a0c334aa0e96e1f702a1dde1656f1075ce3d50aab562d9"
         },
@@ -477,6 +556,7 @@
         "PkgID": "libpython3.9-minimal@3.9.2-1",
         "PkgName": "libpython3.9-minimal",
         "InstalledVersion": "3.9.2-1",
+        "Status": "affected",
         "Layer": {
           "DiffID": "sha256:2b66cde7d0cfbda919a0c334aa0e96e1f702a1dde1656f1075ce3d50aab562d9"
         },
@@ -533,6 +613,7 @@
         "PkgID": "libpython3.9-minimal@3.9.2-1",
         "PkgName": "libpython3.9-minimal",
         "InstalledVersion": "3.9.2-1",
+        "Status": "affected",
         "Layer": {
           "DiffID": "sha256:2b66cde7d0cfbda919a0c334aa0e96e1f702a1dde1656f1075ce3d50aab562d9"
         },
@@ -594,6 +675,7 @@
         "PkgID": "libpython3.9-minimal@3.9.2-1",
         "PkgName": "libpython3.9-minimal",
         "InstalledVersion": "3.9.2-1",
+        "Status": "affected",
         "Layer": {
           "DiffID": "sha256:2b66cde7d0cfbda919a0c334aa0e96e1f702a1dde1656f1075ce3d50aab562d9"
         },
@@ -679,6 +761,7 @@
         "PkgID": "libpython3.9-minimal@3.9.2-1",
         "PkgName": "libpython3.9-minimal",
         "InstalledVersion": "3.9.2-1",
+        "Status": "affected",
         "Layer": {
           "DiffID": "sha256:2b66cde7d0cfbda919a0c334aa0e96e1f702a1dde1656f1075ce3d50aab562d9"
         },
@@ -717,7 +800,7 @@
           "https://github.com/python/cpython/pull/99421",
           "https://github.com/python/cpython/pull/99446 (backport for 3.11 branch)",
           "https://linux.oracle.com/cve/CVE-2023-24329.html",
-          "https://linux.oracle.com/errata/ELSA-2023-3781.html",
+          "https://linux.oracle.com/errata/ELSA-2023-3811.html",
           "https://lists.fedoraproject.org/archives/list/package-announce@lists.fedoraproject.org/message/6PEVICI7YNGGMSL3UCMWGE66QFLATH72/",
           "https://lists.fedoraproject.org/archives/list/package-announce@lists.fedoraproject.org/message/DSL6NSOAXWBJJ67XPLSSC74MNKZF3BBO/",
           "https://lists.fedoraproject.org/archives/list/package-announce@lists.fedoraproject.org/message/EM2XLZSTXG44TMFXF4E6VTGKR2MQCW3G/",
@@ -748,13 +831,14 @@
           "https://www.cve.org/CVERecord?id=CVE-2023-24329"
         ],
         "PublishedDate": "2023-02-17T15:15:00Z",
-        "LastModifiedDate": "2023-06-16T04:15:00Z"
+        "LastModifiedDate": "2023-08-02T16:19:00Z"
       },
       {
         "VulnerabilityID": "CVE-2021-3426",
         "PkgID": "libpython3.9-minimal@3.9.2-1",
         "PkgName": "libpython3.9-minimal",
         "InstalledVersion": "3.9.2-1",
+        "Status": "affected",
         "Layer": {
           "DiffID": "sha256:2b66cde7d0cfbda919a0c334aa0e96e1f702a1dde1656f1075ce3d50aab562d9"
         },
@@ -818,6 +902,7 @@
         "PkgID": "libpython3.9-minimal@3.9.2-1",
         "PkgName": "libpython3.9-minimal",
         "InstalledVersion": "3.9.2-1",
+        "Status": "affected",
         "Layer": {
           "DiffID": "sha256:2b66cde7d0cfbda919a0c334aa0e96e1f702a1dde1656f1075ce3d50aab562d9"
         },
@@ -883,6 +968,7 @@
         "PkgID": "libpython3.9-minimal@3.9.2-1",
         "PkgName": "libpython3.9-minimal",
         "InstalledVersion": "3.9.2-1",
+        "Status": "affected",
         "Layer": {
           "DiffID": "sha256:2b66cde7d0cfbda919a0c334aa0e96e1f702a1dde1656f1075ce3d50aab562d9"
         },
@@ -950,6 +1036,7 @@
         "PkgID": "libpython3.9-minimal@3.9.2-1",
         "PkgName": "libpython3.9-minimal",
         "InstalledVersion": "3.9.2-1",
+        "Status": "affected",
         "Layer": {
           "DiffID": "sha256:2b66cde7d0cfbda919a0c334aa0e96e1f702a1dde1656f1075ce3d50aab562d9"
         },
@@ -996,6 +1083,7 @@
         "PkgID": "libpython3.9-stdlib@3.9.2-1",
         "PkgName": "libpython3.9-stdlib",
         "InstalledVersion": "3.9.2-1",
+        "Status": "affected",
         "Layer": {
           "DiffID": "sha256:e647281aeda207430048571c138604d8fcb88a8228cf3bab08e20602ff510002"
         },
@@ -1056,6 +1144,7 @@
         "PkgID": "libpython3.9-stdlib@3.9.2-1",
         "PkgName": "libpython3.9-stdlib",
         "InstalledVersion": "3.9.2-1",
+        "Status": "affected",
         "Layer": {
           "DiffID": "sha256:e647281aeda207430048571c138604d8fcb88a8228cf3bab08e20602ff510002"
         },
@@ -1145,6 +1234,7 @@
         "PkgID": "libpython3.9-stdlib@3.9.2-1",
         "PkgName": "libpython3.9-stdlib",
         "InstalledVersion": "3.9.2-1",
+        "Status": "affected",
         "Layer": {
           "DiffID": "sha256:e647281aeda207430048571c138604d8fcb88a8228cf3bab08e20602ff510002"
         },
@@ -1221,6 +1311,7 @@
         "PkgID": "libpython3.9-stdlib@3.9.2-1",
         "PkgName": "libpython3.9-stdlib",
         "InstalledVersion": "3.9.2-1",
+        "Status": "affected",
         "Layer": {
           "DiffID": "sha256:e647281aeda207430048571c138604d8fcb88a8228cf3bab08e20602ff510002"
         },
@@ -1301,6 +1392,7 @@
         "PkgID": "libpython3.9-stdlib@3.9.2-1",
         "PkgName": "libpython3.9-stdlib",
         "InstalledVersion": "3.9.2-1",
+        "Status": "affected",
         "Layer": {
           "DiffID": "sha256:e647281aeda207430048571c138604d8fcb88a8228cf3bab08e20602ff510002"
         },
@@ -1357,6 +1449,7 @@
         "PkgID": "libpython3.9-stdlib@3.9.2-1",
         "PkgName": "libpython3.9-stdlib",
         "InstalledVersion": "3.9.2-1",
+        "Status": "affected",
         "Layer": {
           "DiffID": "sha256:e647281aeda207430048571c138604d8fcb88a8228cf3bab08e20602ff510002"
         },
@@ -1418,6 +1511,7 @@
         "PkgID": "libpython3.9-stdlib@3.9.2-1",
         "PkgName": "libpython3.9-stdlib",
         "InstalledVersion": "3.9.2-1",
+        "Status": "affected",
         "Layer": {
           "DiffID": "sha256:e647281aeda207430048571c138604d8fcb88a8228cf3bab08e20602ff510002"
         },
@@ -1503,6 +1597,7 @@
         "PkgID": "libpython3.9-stdlib@3.9.2-1",
         "PkgName": "libpython3.9-stdlib",
         "InstalledVersion": "3.9.2-1",
+        "Status": "affected",
         "Layer": {
           "DiffID": "sha256:e647281aeda207430048571c138604d8fcb88a8228cf3bab08e20602ff510002"
         },
@@ -1541,7 +1636,7 @@
           "https://github.com/python/cpython/pull/99421",
           "https://github.com/python/cpython/pull/99446 (backport for 3.11 branch)",
           "https://linux.oracle.com/cve/CVE-2023-24329.html",
-          "https://linux.oracle.com/errata/ELSA-2023-3781.html",
+          "https://linux.oracle.com/errata/ELSA-2023-3811.html",
           "https://lists.fedoraproject.org/archives/list/package-announce@lists.fedoraproject.org/message/6PEVICI7YNGGMSL3UCMWGE66QFLATH72/",
           "https://lists.fedoraproject.org/archives/list/package-announce@lists.fedoraproject.org/message/DSL6NSOAXWBJJ67XPLSSC74MNKZF3BBO/",
           "https://lists.fedoraproject.org/archives/list/package-announce@lists.fedoraproject.org/message/EM2XLZSTXG44TMFXF4E6VTGKR2MQCW3G/",
@@ -1572,13 +1667,14 @@
           "https://www.cve.org/CVERecord?id=CVE-2023-24329"
         ],
         "PublishedDate": "2023-02-17T15:15:00Z",
-        "LastModifiedDate": "2023-06-16T04:15:00Z"
+        "LastModifiedDate": "2023-08-02T16:19:00Z"
       },
       {
         "VulnerabilityID": "CVE-2021-3426",
         "PkgID": "libpython3.9-stdlib@3.9.2-1",
         "PkgName": "libpython3.9-stdlib",
         "InstalledVersion": "3.9.2-1",
+        "Status": "affected",
         "Layer": {
           "DiffID": "sha256:e647281aeda207430048571c138604d8fcb88a8228cf3bab08e20602ff510002"
         },
@@ -1642,6 +1738,7 @@
         "PkgID": "libpython3.9-stdlib@3.9.2-1",
         "PkgName": "libpython3.9-stdlib",
         "InstalledVersion": "3.9.2-1",
+        "Status": "affected",
         "Layer": {
           "DiffID": "sha256:e647281aeda207430048571c138604d8fcb88a8228cf3bab08e20602ff510002"
         },
@@ -1707,6 +1804,7 @@
         "PkgID": "libpython3.9-stdlib@3.9.2-1",
         "PkgName": "libpython3.9-stdlib",
         "InstalledVersion": "3.9.2-1",
+        "Status": "affected",
         "Layer": {
           "DiffID": "sha256:e647281aeda207430048571c138604d8fcb88a8228cf3bab08e20602ff510002"
         },
@@ -1774,6 +1872,7 @@
         "PkgID": "libpython3.9-stdlib@3.9.2-1",
         "PkgName": "libpython3.9-stdlib",
         "InstalledVersion": "3.9.2-1",
+        "Status": "affected",
         "Layer": {
           "DiffID": "sha256:e647281aeda207430048571c138604d8fcb88a8228cf3bab08e20602ff510002"
         },
@@ -1820,6 +1919,7 @@
         "PkgID": "libsqlite3-0@3.34.1-3",
         "PkgName": "libsqlite3-0",
         "InstalledVersion": "3.34.1-3",
+        "Status": "affected",
         "Layer": {
           "DiffID": "sha256:0361602fcfc1e5e1da3c9fa364f84e56c0c963cf7407a8db8e6c47595b1985f2"
         },
@@ -1861,10 +1961,102 @@
         "LastModifiedDate": "2023-06-09T08:15:00Z"
       },
       {
+        "VulnerabilityID": "CVE-2023-3446",
+        "PkgID": "libssl1.1@1.1.1n-0+deb11u5",
+        "PkgName": "libssl1.1",
+        "InstalledVersion": "1.1.1n-0+deb11u5",
+        "Status": "fix_deferred",
+        "Layer": {
+          "DiffID": "sha256:990271342518f9e64c2403a07d928eb42d8676831ee8fd1b3dc3b62da7a1d162"
+        },
+        "SeveritySource": "nvd",
+        "PrimaryURL": "https://avd.aquasec.com/nvd/cve-2023-3446",
+        "DataSource": {
+          "ID": "debian",
+          "Name": "Debian Security Tracker",
+          "URL": "https://salsa.debian.org/security-tracker-team/security-tracker"
+        },
+        "Title": "Excessive time spent checking DH keys and parameters",
+        "Description": "Issue summary: Checking excessively long DH keys or parameters may be very slow.\n\nImpact summary: Applications that use the functions DH_check(), DH_check_ex()\nor EVP_PKEY_param_check() to check a DH key or DH parameters may experience long\ndelays. Where the key or parameters that are being checked have been obtained\nfrom an untrusted source this may lead to a Denial of Service.\n\nThe function DH_check() performs various checks on DH parameters. One of those\nchecks confirms that the modulus ('p' parameter) is not too large. Trying to use\na very large modulus is slow and OpenSSL will not normally use a modulus which\nis over 10,000 bits in length.\n\nHowever the DH_check() function checks numerous aspects of the key or parameters\nthat have been supplied. Some of those checks use the supplied modulus value\neven if it has already been found to be too large.\n\nAn application that calls DH_check() and supplies a key or parameters obtained\nfrom an untrusted source could be vulernable to a Denial of Service attack.\n\nThe function DH_check() is itself called by a number of other OpenSSL functions.\nAn application calling any of those other functions may similarly be affected.\nThe other functions affected by this are DH_check_ex() and\nEVP_PKEY_param_check().\n\nAlso vulnerable are the OpenSSL dhparam and pkeyparam command line applications\nwhen using the '-check' option.\n\nThe OpenSSL SSL/TLS implementation is not affected by this issue.\nThe OpenSSL 3.0 and 3.1 FIPS providers are not affected by this issue.",
+        "Severity": "MEDIUM",
+        "CweIDs": [
+          "CWE-1333"
+        ],
+        "CVSS": {
+          "nvd": {
+            "V3Vector": "CVSS:3.1/AV:N/AC:L/PR:N/UI:N/S:U/C:N/I:N/A:L",
+            "V3Score": 5.3
+          },
+          "redhat": {
+            "V3Vector": "CVSS:3.1/AV:N/AC:L/PR:N/UI:N/S:U/C:N/I:N/A:L",
+            "V3Score": 5.3
+          }
+        },
+        "References": [
+          "http://www.openwall.com/lists/oss-security/2023/07/19/4",
+          "http://www.openwall.com/lists/oss-security/2023/07/19/5",
+          "http://www.openwall.com/lists/oss-security/2023/07/19/6",
+          "http://www.openwall.com/lists/oss-security/2023/07/31/1",
+          "https://access.redhat.com/security/cve/CVE-2023-3446",
+          "https://cve.mitre.org/cgi-bin/cvename.cgi?name=CVE-2023-3446",
+          "https://git.openssl.org/gitweb/?p=openssl.git;a=commitdiff;h=1fa20cf2f506113c761777127a38bce5068740eb",
+          "https://git.openssl.org/gitweb/?p=openssl.git;a=commitdiff;h=8780a896543a654e757db1b9396383f9d8095528",
+          "https://git.openssl.org/gitweb/?p=openssl.git;a=commitdiff;h=9a0a4d3c1e7138915563c0df4fe6a3f9377b839c",
+          "https://git.openssl.org/gitweb/?p=openssl.git;a=commitdiff;h=fc9867c1e03c22ebf56943be205202e576aabf23",
+          "https://nvd.nist.gov/vuln/detail/CVE-2023-3446",
+          "https://security.netapp.com/advisory/ntap-20230803-0011/",
+          "https://www.cve.org/CVERecord?id=CVE-2023-3446",
+          "https://www.openssl.org/news/secadv/20230719.txt"
+        ],
+        "PublishedDate": "2023-07-19T12:15:00Z",
+        "LastModifiedDate": "2023-08-03T15:15:00Z"
+      },
+      {
+        "VulnerabilityID": "CVE-2023-3817",
+        "PkgID": "libssl1.1@1.1.1n-0+deb11u5",
+        "PkgName": "libssl1.1",
+        "InstalledVersion": "1.1.1n-0+deb11u5",
+        "Status": "fix_deferred",
+        "Layer": {
+          "DiffID": "sha256:990271342518f9e64c2403a07d928eb42d8676831ee8fd1b3dc3b62da7a1d162"
+        },
+        "PrimaryURL": "https://avd.aquasec.com/nvd/cve-2023-3817",
+        "DataSource": {
+          "ID": "debian",
+          "Name": "Debian Security Tracker",
+          "URL": "https://salsa.debian.org/security-tracker-team/security-tracker"
+        },
+        "Title": "Excessive time spent checking DH q parameter value",
+        "Description": "Issue summary: Checking excessively long DH keys or parameters may be very slow.\n\nImpact summary: Applications that use the functions DH_check(), DH_check_ex()\nor EVP_PKEY_param_check() to check a DH key or DH parameters may experience long\ndelays. Where the key or parameters that are being checked have been obtained\nfrom an untrusted source this may lead to a Denial of Service.\n\nThe function DH_check() performs various checks on DH parameters. After fixing\nCVE-2023-3446 it was discovered that a large q parameter value can also trigger\nan overly long computation during some of these checks. A correct q value,\nif present, cannot be larger than the modulus p parameter, thus it is\nunnecessary to perform these checks if q is larger than p.\n\nAn application that calls DH_check() and supplies a key or parameters obtained\nfrom an untrusted source could be vulnerable to a Denial of Service attack.\n\nThe function DH_check() is itself called by a number of other OpenSSL functions.\nAn application calling any of those other functions may similarly be affected.\nThe other functions affected by this are DH_check_ex() and\nEVP_PKEY_param_check().\n\nAlso vulnerable are the OpenSSL dhparam and pkeyparam command line applications\nwhen using the \"-check\" option.\n\nThe OpenSSL SSL/TLS implementation is not affected by this issue.\n\nThe OpenSSL 3.0 and 3.1 FIPS providers are not affected by this issue.",
+        "Severity": "MEDIUM",
+        "CVSS": {
+          "redhat": {
+            "V3Vector": "CVSS:3.1/AV:N/AC:L/PR:N/UI:N/S:U/C:N/I:L/A:N",
+            "V3Score": 5.3
+          }
+        },
+        "References": [
+          "http://seclists.org/fulldisclosure/2023/Jul/43",
+          "http://www.openwall.com/lists/oss-security/2023/07/31/1",
+          "https://access.redhat.com/security/cve/CVE-2023-3817",
+          "https://cve.mitre.org/cgi-bin/cvename.cgi?name=CVE-2023-3817",
+          "https://git.openssl.org/gitweb/?p=openssl.git;a=commitdiff;h=6a1eb62c29db6cb5eec707f9338aee00f44e26f5",
+          "https://git.openssl.org/gitweb/?p=openssl.git;a=commitdiff;h=869ad69aadd985c7b8ca6f4e5dd0eb274c9f3644",
+          "https://git.openssl.org/gitweb/?p=openssl.git;a=commitdiff;h=9002fd07327a91f35ba6c1307e71fa6fd4409b7f",
+          "https://git.openssl.org/gitweb/?p=openssl.git;a=commitdiff;h=91ddeba0f2269b017dc06c46c993a788974b1aa5",
+          "https://nvd.nist.gov/vuln/detail/CVE-2023-3817",
+          "https://www.cve.org/CVERecord?id=CVE-2023-3817",
+          "https://www.openssl.org/news/secadv/20230731.txt"
+        ],
+        "PublishedDate": "2023-07-31T16:15:00Z",
+        "LastModifiedDate": "2023-08-01T11:15:00Z"
+      },
+      {
         "VulnerabilityID": "CVE-2023-29491",
         "PkgID": "libtinfo6@6.2+20201114-2+deb11u1",
         "PkgName": "libtinfo6",
         "InstalledVersion": "6.2+20201114-2+deb11u1",
+        "Status": "affected",
         "Layer": {
           "DiffID": "sha256:0e24676df88c8a6bcf6a270973214fdee7130182aa3d66fd6ead477979b41d5f"
         },
@@ -1909,10 +2101,102 @@
         "LastModifiedDate": "2023-05-17T20:15:00Z"
       },
       {
+        "VulnerabilityID": "CVE-2023-3446",
+        "PkgID": "openssl@1.1.1n-0+deb11u5",
+        "PkgName": "openssl",
+        "InstalledVersion": "1.1.1n-0+deb11u5",
+        "Status": "fix_deferred",
+        "Layer": {
+          "DiffID": "sha256:3a8250aec45920023b976f34f260e7c4497e2ca3040c80103372808a021bf97c"
+        },
+        "SeveritySource": "nvd",
+        "PrimaryURL": "https://avd.aquasec.com/nvd/cve-2023-3446",
+        "DataSource": {
+          "ID": "debian",
+          "Name": "Debian Security Tracker",
+          "URL": "https://salsa.debian.org/security-tracker-team/security-tracker"
+        },
+        "Title": "Excessive time spent checking DH keys and parameters",
+        "Description": "Issue summary: Checking excessively long DH keys or parameters may be very slow.\n\nImpact summary: Applications that use the functions DH_check(), DH_check_ex()\nor EVP_PKEY_param_check() to check a DH key or DH parameters may experience long\ndelays. Where the key or parameters that are being checked have been obtained\nfrom an untrusted source this may lead to a Denial of Service.\n\nThe function DH_check() performs various checks on DH parameters. One of those\nchecks confirms that the modulus ('p' parameter) is not too large. Trying to use\na very large modulus is slow and OpenSSL will not normally use a modulus which\nis over 10,000 bits in length.\n\nHowever the DH_check() function checks numerous aspects of the key or parameters\nthat have been supplied. Some of those checks use the supplied modulus value\neven if it has already been found to be too large.\n\nAn application that calls DH_check() and supplies a key or parameters obtained\nfrom an untrusted source could be vulernable to a Denial of Service attack.\n\nThe function DH_check() is itself called by a number of other OpenSSL functions.\nAn application calling any of those other functions may similarly be affected.\nThe other functions affected by this are DH_check_ex() and\nEVP_PKEY_param_check().\n\nAlso vulnerable are the OpenSSL dhparam and pkeyparam command line applications\nwhen using the '-check' option.\n\nThe OpenSSL SSL/TLS implementation is not affected by this issue.\nThe OpenSSL 3.0 and 3.1 FIPS providers are not affected by this issue.",
+        "Severity": "MEDIUM",
+        "CweIDs": [
+          "CWE-1333"
+        ],
+        "CVSS": {
+          "nvd": {
+            "V3Vector": "CVSS:3.1/AV:N/AC:L/PR:N/UI:N/S:U/C:N/I:N/A:L",
+            "V3Score": 5.3
+          },
+          "redhat": {
+            "V3Vector": "CVSS:3.1/AV:N/AC:L/PR:N/UI:N/S:U/C:N/I:N/A:L",
+            "V3Score": 5.3
+          }
+        },
+        "References": [
+          "http://www.openwall.com/lists/oss-security/2023/07/19/4",
+          "http://www.openwall.com/lists/oss-security/2023/07/19/5",
+          "http://www.openwall.com/lists/oss-security/2023/07/19/6",
+          "http://www.openwall.com/lists/oss-security/2023/07/31/1",
+          "https://access.redhat.com/security/cve/CVE-2023-3446",
+          "https://cve.mitre.org/cgi-bin/cvename.cgi?name=CVE-2023-3446",
+          "https://git.openssl.org/gitweb/?p=openssl.git;a=commitdiff;h=1fa20cf2f506113c761777127a38bce5068740eb",
+          "https://git.openssl.org/gitweb/?p=openssl.git;a=commitdiff;h=8780a896543a654e757db1b9396383f9d8095528",
+          "https://git.openssl.org/gitweb/?p=openssl.git;a=commitdiff;h=9a0a4d3c1e7138915563c0df4fe6a3f9377b839c",
+          "https://git.openssl.org/gitweb/?p=openssl.git;a=commitdiff;h=fc9867c1e03c22ebf56943be205202e576aabf23",
+          "https://nvd.nist.gov/vuln/detail/CVE-2023-3446",
+          "https://security.netapp.com/advisory/ntap-20230803-0011/",
+          "https://www.cve.org/CVERecord?id=CVE-2023-3446",
+          "https://www.openssl.org/news/secadv/20230719.txt"
+        ],
+        "PublishedDate": "2023-07-19T12:15:00Z",
+        "LastModifiedDate": "2023-08-03T15:15:00Z"
+      },
+      {
+        "VulnerabilityID": "CVE-2023-3817",
+        "PkgID": "openssl@1.1.1n-0+deb11u5",
+        "PkgName": "openssl",
+        "InstalledVersion": "1.1.1n-0+deb11u5",
+        "Status": "fix_deferred",
+        "Layer": {
+          "DiffID": "sha256:3a8250aec45920023b976f34f260e7c4497e2ca3040c80103372808a021bf97c"
+        },
+        "PrimaryURL": "https://avd.aquasec.com/nvd/cve-2023-3817",
+        "DataSource": {
+          "ID": "debian",
+          "Name": "Debian Security Tracker",
+          "URL": "https://salsa.debian.org/security-tracker-team/security-tracker"
+        },
+        "Title": "Excessive time spent checking DH q parameter value",
+        "Description": "Issue summary: Checking excessively long DH keys or parameters may be very slow.\n\nImpact summary: Applications that use the functions DH_check(), DH_check_ex()\nor EVP_PKEY_param_check() to check a DH key or DH parameters may experience long\ndelays. Where the key or parameters that are being checked have been obtained\nfrom an untrusted source this may lead to a Denial of Service.\n\nThe function DH_check() performs various checks on DH parameters. After fixing\nCVE-2023-3446 it was discovered that a large q parameter value can also trigger\nan overly long computation during some of these checks. A correct q value,\nif present, cannot be larger than the modulus p parameter, thus it is\nunnecessary to perform these checks if q is larger than p.\n\nAn application that calls DH_check() and supplies a key or parameters obtained\nfrom an untrusted source could be vulnerable to a Denial of Service attack.\n\nThe function DH_check() is itself called by a number of other OpenSSL functions.\nAn application calling any of those other functions may similarly be affected.\nThe other functions affected by this are DH_check_ex() and\nEVP_PKEY_param_check().\n\nAlso vulnerable are the OpenSSL dhparam and pkeyparam command line applications\nwhen using the \"-check\" option.\n\nThe OpenSSL SSL/TLS implementation is not affected by this issue.\n\nThe OpenSSL 3.0 and 3.1 FIPS providers are not affected by this issue.",
+        "Severity": "MEDIUM",
+        "CVSS": {
+          "redhat": {
+            "V3Vector": "CVSS:3.1/AV:N/AC:L/PR:N/UI:N/S:U/C:N/I:L/A:N",
+            "V3Score": 5.3
+          }
+        },
+        "References": [
+          "http://seclists.org/fulldisclosure/2023/Jul/43",
+          "http://www.openwall.com/lists/oss-security/2023/07/31/1",
+          "https://access.redhat.com/security/cve/CVE-2023-3817",
+          "https://cve.mitre.org/cgi-bin/cvename.cgi?name=CVE-2023-3817",
+          "https://git.openssl.org/gitweb/?p=openssl.git;a=commitdiff;h=6a1eb62c29db6cb5eec707f9338aee00f44e26f5",
+          "https://git.openssl.org/gitweb/?p=openssl.git;a=commitdiff;h=869ad69aadd985c7b8ca6f4e5dd0eb274c9f3644",
+          "https://git.openssl.org/gitweb/?p=openssl.git;a=commitdiff;h=9002fd07327a91f35ba6c1307e71fa6fd4409b7f",
+          "https://git.openssl.org/gitweb/?p=openssl.git;a=commitdiff;h=91ddeba0f2269b017dc06c46c993a788974b1aa5",
+          "https://nvd.nist.gov/vuln/detail/CVE-2023-3817",
+          "https://www.cve.org/CVERecord?id=CVE-2023-3817",
+          "https://www.openssl.org/news/secadv/20230731.txt"
+        ],
+        "PublishedDate": "2023-07-31T16:15:00Z",
+        "LastModifiedDate": "2023-08-01T11:15:00Z"
+      },
+      {
         "VulnerabilityID": "CVE-2021-29921",
         "PkgID": "python3.9-minimal@3.9.2-1",
         "PkgName": "python3.9-minimal",
         "InstalledVersion": "3.9.2-1",
+        "Status": "affected",
         "Layer": {
           "DiffID": "sha256:e0ec835c1f88840979da9a3ea10e58ca594d79d44d4e4871cc2e5043eaaa83b8"
         },
@@ -1973,6 +2257,7 @@
         "PkgID": "python3.9-minimal@3.9.2-1",
         "PkgName": "python3.9-minimal",
         "InstalledVersion": "3.9.2-1",
+        "Status": "affected",
         "Layer": {
           "DiffID": "sha256:e0ec835c1f88840979da9a3ea10e58ca594d79d44d4e4871cc2e5043eaaa83b8"
         },
@@ -2062,6 +2347,7 @@
         "PkgID": "python3.9-minimal@3.9.2-1",
         "PkgName": "python3.9-minimal",
         "InstalledVersion": "3.9.2-1",
+        "Status": "affected",
         "Layer": {
           "DiffID": "sha256:e0ec835c1f88840979da9a3ea10e58ca594d79d44d4e4871cc2e5043eaaa83b8"
         },
@@ -2138,6 +2424,7 @@
         "PkgID": "python3.9-minimal@3.9.2-1",
         "PkgName": "python3.9-minimal",
         "InstalledVersion": "3.9.2-1",
+        "Status": "affected",
         "Layer": {
           "DiffID": "sha256:e0ec835c1f88840979da9a3ea10e58ca594d79d44d4e4871cc2e5043eaaa83b8"
         },
@@ -2218,6 +2505,7 @@
         "PkgID": "python3.9-minimal@3.9.2-1",
         "PkgName": "python3.9-minimal",
         "InstalledVersion": "3.9.2-1",
+        "Status": "affected",
         "Layer": {
           "DiffID": "sha256:e0ec835c1f88840979da9a3ea10e58ca594d79d44d4e4871cc2e5043eaaa83b8"
         },
@@ -2274,6 +2562,7 @@
         "PkgID": "python3.9-minimal@3.9.2-1",
         "PkgName": "python3.9-minimal",
         "InstalledVersion": "3.9.2-1",
+        "Status": "affected",
         "Layer": {
           "DiffID": "sha256:e0ec835c1f88840979da9a3ea10e58ca594d79d44d4e4871cc2e5043eaaa83b8"
         },
@@ -2335,6 +2624,7 @@
         "PkgID": "python3.9-minimal@3.9.2-1",
         "PkgName": "python3.9-minimal",
         "InstalledVersion": "3.9.2-1",
+        "Status": "affected",
         "Layer": {
           "DiffID": "sha256:e0ec835c1f88840979da9a3ea10e58ca594d79d44d4e4871cc2e5043eaaa83b8"
         },
@@ -2420,6 +2710,7 @@
         "PkgID": "python3.9-minimal@3.9.2-1",
         "PkgName": "python3.9-minimal",
         "InstalledVersion": "3.9.2-1",
+        "Status": "affected",
         "Layer": {
           "DiffID": "sha256:e0ec835c1f88840979da9a3ea10e58ca594d79d44d4e4871cc2e5043eaaa83b8"
         },
@@ -2458,7 +2749,7 @@
           "https://github.com/python/cpython/pull/99421",
           "https://github.com/python/cpython/pull/99446 (backport for 3.11 branch)",
           "https://linux.oracle.com/cve/CVE-2023-24329.html",
-          "https://linux.oracle.com/errata/ELSA-2023-3781.html",
+          "https://linux.oracle.com/errata/ELSA-2023-3811.html",
           "https://lists.fedoraproject.org/archives/list/package-announce@lists.fedoraproject.org/message/6PEVICI7YNGGMSL3UCMWGE66QFLATH72/",
           "https://lists.fedoraproject.org/archives/list/package-announce@lists.fedoraproject.org/message/DSL6NSOAXWBJJ67XPLSSC74MNKZF3BBO/",
           "https://lists.fedoraproject.org/archives/list/package-announce@lists.fedoraproject.org/message/EM2XLZSTXG44TMFXF4E6VTGKR2MQCW3G/",
@@ -2489,13 +2780,14 @@
           "https://www.cve.org/CVERecord?id=CVE-2023-24329"
         ],
         "PublishedDate": "2023-02-17T15:15:00Z",
-        "LastModifiedDate": "2023-06-16T04:15:00Z"
+        "LastModifiedDate": "2023-08-02T16:19:00Z"
       },
       {
         "VulnerabilityID": "CVE-2021-3426",
         "PkgID": "python3.9-minimal@3.9.2-1",
         "PkgName": "python3.9-minimal",
         "InstalledVersion": "3.9.2-1",
+        "Status": "affected",
         "Layer": {
           "DiffID": "sha256:e0ec835c1f88840979da9a3ea10e58ca594d79d44d4e4871cc2e5043eaaa83b8"
         },
@@ -2559,6 +2851,7 @@
         "PkgID": "python3.9-minimal@3.9.2-1",
         "PkgName": "python3.9-minimal",
         "InstalledVersion": "3.9.2-1",
+        "Status": "affected",
         "Layer": {
           "DiffID": "sha256:e0ec835c1f88840979da9a3ea10e58ca594d79d44d4e4871cc2e5043eaaa83b8"
         },
@@ -2624,6 +2917,7 @@
         "PkgID": "python3.9-minimal@3.9.2-1",
         "PkgName": "python3.9-minimal",
         "InstalledVersion": "3.9.2-1",
+        "Status": "affected",
         "Layer": {
           "DiffID": "sha256:e0ec835c1f88840979da9a3ea10e58ca594d79d44d4e4871cc2e5043eaaa83b8"
         },
@@ -2691,6 +2985,7 @@
         "PkgID": "python3.9-minimal@3.9.2-1",
         "PkgName": "python3.9-minimal",
         "InstalledVersion": "3.9.2-1",
+        "Status": "affected",
         "Layer": {
           "DiffID": "sha256:e0ec835c1f88840979da9a3ea10e58ca594d79d44d4e4871cc2e5043eaaa83b8"
         },
@@ -2740,14 +3035,117 @@
     "Type": "python-pkg",
     "Vulnerabilities": [
       {
+        "VulnerabilityID": "CVE-2023-37276",
+        "PkgName": "aiohttp",
+        "PkgPath": "cowrie/cowrie-env/lib/python3.9/site-packages/aiohttp-3.8.4.dist-info/METADATA",
+        "InstalledVersion": "3.8.4",
+        "Status": "affected",
+        "Layer": {
+          "DiffID": "sha256:a0c7fe8cccf1220a289d039578e1f3589b9c71f97ac06c3d9f8018fea984ed4c"
+        },
+        "SeveritySource": "nvd",
+        "PrimaryURL": "https://avd.aquasec.com/nvd/cve-2023-37276",
+        "DataSource": {
+          "ID": "osv",
+          "Name": "Python Packaging Advisory Database",
+          "URL": "https://github.com/pypa/advisory-db"
+        },
+        "Title": "HTTP request smuggling via llhttp HTTP request parser",
+        "Description": "aiohttp is an asynchronous HTTP client/server framework for asyncio and Python. aiohttp v3.8.4 and earlier are bundled with llhttp v6.0.6. Vulnerable code is used by aiohttp for its HTTP request parser when available which is the default case when installing from a wheel. This vulnerability only affects users of aiohttp as an HTTP server (ie `aiohttp.Application`), you are not affected by this vulnerability if you are using aiohttp as an HTTP client library (ie `aiohttp.ClientSession`). Sending a crafted HTTP request will cause the server to misinterpret one of the HTTP header values leading to HTTP request smuggling. This issue has been addressed in version 3.8.5. Users are advised to upgrade. Users unable to upgrade can reinstall aiohttp using `AIOHTTP_NO_EXTENSIONS=1` as an environment variable to disable the llhttp HTTP request parser implementation. The pure Python implementation isn't vulnerable.",
+        "Severity": "HIGH",
+        "CweIDs": [
+          "CWE-444"
+        ],
+        "CVSS": {
+          "ghsa": {
+            "V3Vector": "CVSS:3.1/AV:N/AC:L/PR:N/UI:N/S:U/C:N/I:L/A:N",
+            "V3Score": 5.3
+          },
+          "nvd": {
+            "V3Vector": "CVSS:3.1/AV:N/AC:L/PR:N/UI:N/S:U/C:N/I:H/A:N",
+            "V3Score": 7.5
+          },
+          "redhat": {
+            "V3Vector": "CVSS:3.1/AV:N/AC:L/PR:N/UI:N/S:U/C:N/I:H/A:N",
+            "V3Score": 7.5
+          }
+        },
+        "References": [
+          "https://access.redhat.com/security/cve/CVE-2023-37276",
+          "https://github.com/advisories/GHSA-45c4-8wx5-qw6w",
+          "https://github.com/aio-libs/aiohttp",
+          "https://github.com/aio-libs/aiohttp/blob/v3.8.4/.gitmodules",
+          "https://github.com/aio-libs/aiohttp/commit/9337fb3f2ab2b5f38d7e98a194bde6f7e3d16c40",
+          "https://github.com/aio-libs/aiohttp/commit/9c13a52c21c23dfdb49ed89418d28a5b116d0681",
+          "https://github.com/aio-libs/aiohttp/security/advisories/GHSA-45c4-8wx5-qw6w",
+          "https://github.com/pypa/advisory-database/tree/main/vulns/aiohttp/PYSEC-2023-120.yaml",
+          "https://hackerone.com/reports/2001873",
+          "https://nvd.nist.gov/vuln/detail/CVE-2023-37276",
+          "https://www.cve.org/CVERecord?id=CVE-2023-37276"
+        ],
+        "PublishedDate": "2023-07-19T20:15:00Z",
+        "LastModifiedDate": "2023-07-28T15:55:00Z"
+      },
+      {
+        "VulnerabilityID": "CVE-2023-37920",
+        "PkgName": "certifi",
+        "PkgPath": "cowrie/cowrie-env/lib/python3.9/site-packages/certifi-2023.5.7.dist-info/METADATA",
+        "InstalledVersion": "2023.5.7",
+        "FixedVersion": "2023.7.22",
+        "Status": "fixed",
+        "Layer": {
+          "DiffID": "sha256:a0c7fe8cccf1220a289d039578e1f3589b9c71f97ac06c3d9f8018fea984ed4c"
+        },
+        "SeveritySource": "nvd",
+        "PrimaryURL": "https://avd.aquasec.com/nvd/cve-2023-37920",
+        "DataSource": {
+          "ID": "osv",
+          "Name": "Python Packaging Advisory Database",
+          "URL": "https://github.com/pypa/advisory-db"
+        },
+        "Title": "Removal of e-Tugra root certificate",
+        "Description": "Certifi is a curated collection of Root Certificates for validating the trustworthiness of SSL certificates while verifying the identity of TLS hosts. Certifi prior to version 2023.07.22 recognizes \"e-Tugra\" root certificates. e-Tugra's root certificates were subject to an investigation prompted by reporting of security issues in their systems. Certifi 2023.07.22 removes root certificates from \"e-Tugra\" from the root store.",
+        "Severity": "CRITICAL",
+        "CweIDs": [
+          "CWE-345"
+        ],
+        "CVSS": {
+          "ghsa": {
+            "V3Vector": "CVSS:3.1/AV:N/AC:L/PR:N/UI:N/S:U/C:N/I:H/A:N",
+            "V3Score": 7.5
+          },
+          "nvd": {
+            "V3Vector": "CVSS:3.1/AV:N/AC:L/PR:N/UI:N/S:U/C:H/I:H/A:H",
+            "V3Score": 9.8
+          },
+          "redhat": {
+            "V3Vector": "CVSS:3.1/AV:N/AC:L/PR:N/UI:N/S:U/C:N/I:H/A:N",
+            "V3Score": 7.5
+          }
+        },
+        "References": [
+          "https://access.redhat.com/security/cve/CVE-2023-37920",
+          "https://github.com/advisories/GHSA-xqr8-7jwr-rhp7",
+          "https://github.com/certifi/python-certifi/commit/8fb96ed81f71e7097ed11bc4d9b19afd7ea5c909",
+          "https://github.com/certifi/python-certifi/security/advisories/GHSA-xqr8-7jwr-rhp7",
+          "https://groups.google.com/a/mozilla.org/g/dev-security-policy/c/C-HrP1SEq1A",
+          "https://nvd.nist.gov/vuln/detail/CVE-2023-37920",
+          "https://www.cve.org/CVERecord?id=CVE-2023-37920"
+        ],
+        "PublishedDate": "2023-07-25T21:15:00Z",
+        "LastModifiedDate": "2023-08-03T16:19:00Z"
+      },
+      {
         "VulnerabilityID": "CVE-2023-38325",
         "PkgName": "cryptography",
         "PkgPath": "cowrie/cowrie-env/lib/python3.9/site-packages/cryptography-41.0.1.dist-info/METADATA",
         "InstalledVersion": "41.0.1",
         "FixedVersion": "41.0.2",
+        "Status": "fixed",
         "Layer": {
           "DiffID": "sha256:a0c7fe8cccf1220a289d039578e1f3589b9c71f97ac06c3d9f8018fea984ed4c"
         },
+        "SeveritySource": "nvd",
         "PrimaryURL": "https://avd.aquasec.com/nvd/cve-2023-38325",
         "DataSource": {
           "ID": "osv",
@@ -2756,7 +3154,16 @@
         },
         "Title": "cryptography mishandles SSH certificates",
         "Description": "The cryptography package before 41.0.2 for Python mishandles SSH certificates that have critical options.",
-        "Severity": "MEDIUM",
+        "Severity": "HIGH",
+        "CweIDs": [
+          "CWE-295"
+        ],
+        "CVSS": {
+          "nvd": {
+            "V3Vector": "CVSS:3.1/AV:N/AC:L/PR:N/UI:N/S:U/C:N/I:H/A:N",
+            "V3Score": 7.5
+          }
+        },
         "References": [
           "https://github.com/advisories/GHSA-cf7p-gm2m-833m",
           "https://github.com/pyca/cryptography/commit/1ca7adc97b76a9dfbd3d850628b613eb93b78fc3",
@@ -2767,7 +3174,7 @@
           "https://pypi.org/project/cryptography/#history"
         ],
         "PublishedDate": "2023-07-14T20:15:00Z",
-        "LastModifiedDate": "2023-07-14T20:15:00Z"
+        "LastModifiedDate": "2023-08-01T18:21:00Z"
       }
     ]
   },

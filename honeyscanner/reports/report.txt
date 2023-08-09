@@ -9,89 +9,109 @@
 
         
 
-Security Assessment of conpot Honeypot, Version: 0.5.2 
+Security Assessment of cowrie Honeypot, Version: v2.5.0 
 Honeypot IP: 127.0.0.1 
-Honeypot Port: 2323 
-Date of Assessment: 2023-07-31 21:32:48 
+Honeypot Port: 2222 
+Date of Assessment: 2023-08-08 15:36:38 
 Report Summary
 Passive Attacks Results: 
 ======================== 
 Honeypot Passive Attack Report
 ==============================
 
-Target: 127.0.0.1:2323
+Target: 127.0.0.1:2222
 
 VulnerableLibrariesAnalyzer:
 
 Vulnerability Analysis Summary:
-lxml
-  - Yellow pyup.io-50747 - <4.2.5 - CVE-2018-19787 - CVSS: 6.1
-  - No CVSS Score pyup.io-39195 - <4.4.0 - PVE-2021-39195 - CVSS: None
-  - Yellow pyup.io-39194 - <4.6.2 - CVE-2020-27783 - CVSS: 6.1
-  - Yellow pyup.io-40072 - <4.6.3 - CVE-2021-28957 - CVSS: 6.1
-  - Red pyup.io-43366 - <4.6.5 - CVE-2021-43818 - CVSS: 7.1
-  - No CVSS Score pyup.io-50748 - <4.9.1 - CVE-2022-2309 - CVSS: None
-
-bottle
-  - No CVSS Score pyup.io-39461 - <0.12.19 - CVE-2020-28473 - CVSS: None
-  - No CVSS Score pyup.io-49258 - <0.12.20 - CVE-2022-31799 - CVSS: None
-
-jinja2
-  - No CVSS Score pyup.io-39525 - <2.11.3 - CVE-2020-28493 - CVSS: None
-  - No CVSS Score pyup.io-54679 - >=0,<2.10.1 - CVE-2019-10906 - CVSS: None
-
-requests
-  - No CVSS Score pyup.io-36546 - <=2.19.1 - CVE-2018-18074 - CVSS: None
-  - No CVSS Score pyup.io-58755 - >=2.3.0,<2.31.0 - CVE-2023-32681 - CVSS: None
-
-sphinx
-  - No CVSS Score pyup.io-45775 - <3.0.4 - CVE-2020-11023 - CVSS: None
-  - No CVSS Score pyup.io-38330 - <3.0.4 - CVE-2020-11022 - CVSS: None
-
-libtaxii
-  - No CVSS Score pyup.io-54231 - >=0,<1.1.118 - CVE-2020-27197 - CVSS: None
-
-scapy
-  - No CVSS Score pyup.io-37341 - <2.4.1 - CVE-2019-1010142 - CVSS: None
-
-pycrypto
-  - No CVSS Score pyup.io-35015 - <=2.6.1 - CVE-2013-7459 - CVSS: None
+cryptography
+  - Red pyup.io-53306 - <39.0.1 - CVE-2023-0217 - CVSS: 7.5
+  - Red pyup.io-53298 - <39.0.1 - CVE-2022-3996 - CVSS: 7.5
+  - Yellow pyup.io-53301 - <39.0.1 - CVE-2022-4203 - CVSS: 4.9
+  - Red pyup.io-53307 - <39.0.1 - CVE-2023-0401 - CVSS: 7.5
+  - Red pyup.io-53305 - <39.0.1 - CVE-2023-0215 - CVSS: 7.5
+  - No CVSS Score pyup.io-53304 - <39.0.1 - CVE-2023-0286 - CVSS: None
+  - No CVSS Score pyup.io-53303 - <39.0.1 - CVE-2022-4304 - CVSS: None
+  - No CVSS Score pyup.io-53302 - <39.0.1 - CVE-2023-0216 - CVSS: None
+  - No CVSS Score pyup.io-53299 - <39.0.1 - CVE-2022-4450 - CVSS: None
+  - No CVSS Score pyup.io-59062 - <41.0.0 - CVE-2023-2650 - CVSS: None
+  - No CVSS Score pyup.io-59473 - <41.0.2 - CVE-2023-38325 - CVSS: None
+  - No CVSS Score pyup.io-53048 - >=1.8,<39.0.1 - CVE-2023-23931 - CVSS: None
 
 
 
 StaticAnalyzer:
-High Severity: 7
-Medium Severity: 23
+High Severity: 16
+Medium Severity: 31
 
 
 ContainerSecurityScanner:
 Scan Summary
 
-Vulnerabilities in conpot/templates/default/ssl/ssl.key:
+Vulnerabilities in cowrie/cowrie (debian 11.7):
+MEDIUM: 20
+HIGH: 25
+CRITICAL: 4
+
+Secrets in cowrie/cowrie (debian 11.7):
 MEDIUM: 0
 HIGH: 0
 CRITICAL: 0
 
-Secrets in conpot/templates/default/ssl/ssl.key:
+Vulnerabilities in Python:
 MEDIUM: 0
-HIGH: 1
-CRITICAL: 0
+HIGH: 2
+CRITICAL: 1
 
-Vulnerabilities in conpot/templates/kamstrup_382/ssl/ssl.key:
+Secrets in Python:
 MEDIUM: 0
 HIGH: 0
 CRITICAL: 0
 
-Secrets in conpot/templates/kamstrup_382/ssl/ssl.key:
+Vulnerabilities in /cowrie/cowrie-git/etc/cowrie.cfg.dist:
 MEDIUM: 0
-HIGH: 1
+HIGH: 0
 CRITICAL: 0
+
+Secrets in /cowrie/cowrie-git/etc/cowrie.cfg.dist:
+MEDIUM: 0
+HIGH: 0
+CRITICAL: 1
 
 
  
 Active Attacks Results: 
 ======================= 
-None 
+Honeypot Active Attack Report
+=============================
+
+Target: 127.0.0.1:2222
+
+Fuzzing:
+  Vulnerability found: False
+  Message: Honeypot is still alive after connection fuzzing - Honeypot is still alive after terminal fuzzing - 103138 test cases executed
+
+  Time to execute: 161 seconds
+
+  Test cases executed: 103138
+
+TarBomb:
+  Vulnerability found: False
+  Message: Tar bomb attack executed, but honeypot is still alive
+
+  Time to execute: 194 seconds
+
+  Number of bombs used: 30
+
+DoS:
+  Vulnerability found: True
+  Message: Vulnerability found: DoS attack made the SSH honeypot reject connections
+
+  Time to execute: 30 seconds
+
+  Number of threads used: 40
+
+ 
 Overall Score: 
 ============== 
 TODO: Add overall score 
@@ -112,7 +132,7 @@ Attack Success Rate:
 TODO: Add attack success rate 
 
 
-Total Potential CVEs: 128 
+Total Potential CVEs: 211 
 
 
 Actionable Recommendations: 
