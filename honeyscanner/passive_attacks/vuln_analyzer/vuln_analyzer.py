@@ -125,9 +125,11 @@ class VulnerableLibrariesAnalyzer:
         Get the release date of the specified version tag.
         """
         try:
+            if (self.honeypot_name == "conpot" and (version_tag == "0.6.0" or version_tag == "0.5.2" or version_tag == "0.5.1" or version_tag == "0.5.0" or version_tag == "0.4.0" or version_tag == "0.3.1" or version_tag == "0.3.0")):
+                version_tag = f"Release_{version_tag}"
             release = self.repo.get_release(version_tag)
             return release.published_at.date()
-        except github.GithubException.UnknownObjectException:
+        except Exception as e:
             print(f"\nRelease not found for tag: {version_tag}\n")
             # If not found then use the current datetime as the release date, otherwise use return None
             return datetime.datetime.now().date()
@@ -311,71 +313,3 @@ class VulnerableLibrariesAnalyzer:
                 summary_text += f"  - {severity_color} {vuln.vulnerability_id} - {vuln.affected_versions} - {vuln.cve} - CVSS: {vuln.cvss_score}\n"
             summary_text += "\n"
         return summary_text
-
-    
-    # Functions for the patch_manager - Not tested yet
-    # ------------------------------------------------
-    # 
-    # def get_suggested_upgrades(self, vulnerabilities):
-    #     """
-    #     Get suggested upgrades for vulnerable libraries.
-
-    #     :param vulnerabilities: Dictionary of vulnerable libraries and their vulnerability information
-    #     :return: Dictionary of suggested upgrades
-    #     """
-    #     suggested_upgrades = {}
-    #     for library, vuln_list in vulnerabilities.items():
-    #         current_version = vuln_list[0]['installed_version']
-    #         safe_versions = set()
-    #         for vuln in vuln_list:
-    #             affected_versions = SpecifierSet(vuln['affected_versions'])
-    #             # If the current version is not affected, add it to the safe versions
-    #             safe_versions |= set(str(v) for v in (affected_versions & SpecifierSet(f">={current_version}")))
-    #         if safe_versions:
-    #             suggested_upgrades[library] = str(sorted(safe_versions, key=pkg_version_parse)[-1])
-    #     return suggested_upgrades
-
-    # def find_latest_requirements_file(self):
-    #     """
-    #     Find the latest requirements file in the requirements_files directory.
-
-    #     :return: File name of the latest requirements file
-    #     """
-    #     files = os.listdir(self.requirements_files_path)
-    #     return max(files, key=lambda x: pkg_version_parse(x.split('-')[1]))
-
-    # def apply_library_upgrades(self, requirements_file, suggested_upgrades):
-    #     """
-    #     Apply the suggested library upgrades to the requirements file.
-
-    #     :param requirements_file: Name of the requirements file
-    #     :param suggested_upgrades: Dictionary of suggested upgrades
-    #     :return: None
-    #     """
-    #     with open(os.path.join(self.requirements_files_path, requirements_file), "r") as f:
-    #         requirements = [pkg_resources.Requirement.parse(line) for line in f.readlines()]
-
-    #     updated_requirements = []
-    #     for req in requirements:
-    #         if req.name in suggested_upgrades:
-    #             updated_requirements.append(pkg_resources.Requirement.parse(f"{req.name}=={suggested_upgrades[req.name]}"))
-    #         else:
-    #             updated_requirements.append(req)
-
-    #     return updated_requirements
-    
-    # def check_vulnerabilities(self, requirements):
-    #     """
-    #     Check for vulnerable libraries in the given requirements.
-
-    #     :param requirements: List of pkg_resources.Requirement objects
-    #     :return: Dictionary of vulnerable libraries and their vulnerability information
-    #     """
-    #     vulnerabilities = {}
-    #     for req in requirements:
-    #         package_str = f"{req.name}=={req.specs[0][1]}"
-    #         library_vulnerabilities = self.process_vulnerabilities([package_str])
-    #         if library_vulnerabilities:
-    #             vulnerabilities[req.name] = library_vulnerabilities[req.name]
-    #     return vulnerabilities
-

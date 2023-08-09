@@ -18,6 +18,9 @@ class StaticAnalyzer:
         init(autoreset=True)
         self.honeypot_name = honeypot_name
         self.honeypot_url = honeypot_url
+        # Check for Conpot's condition
+        if (honeypot_name == "conpot" and (honeypot_version == "0.6.0" or honeypot_version == "0.5.2" or honeypot_version == "0.5.1" or honeypot_version == "0.5.0" or honeypot_version == "0.4.0" or honeypot_version == "0.3.1" or honeypot_version == "0.3.0")):
+                honeypot_version = f"Release_{honeypot_version}"
         self.honeypot_version = honeypot_version
         self.output_folder = Path(__file__).resolve().parent / "analysis_results"
         self.all_cves_path = Path(__file__).resolve().parent.parent / "results" / "all_cves.txt"

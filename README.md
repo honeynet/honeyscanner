@@ -67,10 +67,17 @@ The following instructions will guide you through the process of setting up Hone
 
 - If you prefer to test Honeyscanner against [Kippo](https://github.com/desaster/kippo), you can use the following Docker Image in DockerHub [here](https://hub.docker.com/r/aristofanischionis/kippo).
 
+- For testing Honeyscanner against [Dionaea](https://github.com/DinoTools/dionaea), use the following Docker Image in DockerHub [here](https://hub.docker.com/r/dinotools/dionaea).
+
+- For testing Honeyscanner against [Conpot](https://github.com/mushorg/conpot), use the following Docker Image in DockerHub [here](https://hub.docker.com/r/honeynet/conpot). 
+
 - After running a Honeypot using Docker containers locally, you will be able to specify the following parameters: `--target_ip 127.0.0.1 --port 2222` when running the Honeyscanner.
 
 > **__NOTE__:** NEVER RUN `Honeyscanner` AGAINST HONEYPOTS YOU DO NOT OWN, OR YOU DO NOT HAVE EXPLICIT PERMISSION TO TEST.
 
+> **__NOTE__:** Currently `Honeyscanner` cannot actively attack the `Dionaea` and the `Conpot` honeypots, it can only use its passive scanners and discover vulnerabilities and CVEs on them.
+
+> **__NOTE__:** For `Dionaea` only version 0.11.0 is supported at this stage of `Honeyscanner`. For `Conpot`, all versions up to `0.6.0` are supported.
 ## Usage
 
 Use the following examples as a reference for how to run `Honeyscanner`:
@@ -80,6 +87,12 @@ python3 main.py --honeypot cowrie --honeypot_version 2.5.0 --target_ip 127.0.0.1
 ```
 ```bash
 python3 main.py --honeypot kippo --honeypot_version 0.9 --target_ip 127.0.0.1 --port 2222
+```
+```bash
+python3 main.py --honeypot dionaea --honeypot_version 0.11.0 --target_ip 127.0.0.1 --port 2323
+```
+```bash
+python3 main.py --honeypot conpot --honeypot_version 0.6.0 --target_ip 127.0.0.1 --port 2323
 ```
 
 ## Contributors

@@ -29,8 +29,8 @@ def parse_arguments():
         "--honeypot",
         type=sanitize_string,
         required=True,
-        choices=["cowrie", "kippo"],
-        help="Honeypot to analyze, currently supported: (cowrie and kippo)",
+        choices=["cowrie", "kippo", "dionaea", "conpot"],
+        help="Honeypot to analyze, currently supported: (cowrie, kippo, dionaea and conpot)",
     )
     parser.add_argument(
         "--honeypot_version",
@@ -88,8 +88,4 @@ def main():
 if __name__ == "__main__":
     main()
 
-# Example run: python3 main.py --honeypot cowrie --honeypot_version 2.5.0 --target_ip 127.0.0.1 --port 2222 --username root --password 1234
-# Example run: python3 main.py --honeypot kippo --honeypot_version 0.9 --target_ip 127.0.0.1 --port 2222 --username root --password 123456
-
-# TODO: see again the software exploit module, SUPER SLOW maybe I can somehow speed it up
 # TODO: fix the report
