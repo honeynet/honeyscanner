@@ -3,27 +3,28 @@ from .dos import DoS
 from .fuzzing import Fuzzing
 from .software_exploit import SoftwareExploit
 from .tar_bomb import TarBomb
-# from .honeypot_port_scanner.honeypot_port_scanner import HoneypotPortScanner
+from .dos_all_open_ports import DoSAllOpenPorts
 
 class AttackOrchestrator:
     def __init__(self, honeypot):
         self.honeypot = honeypot
-        self.attacks = [
-            Fuzzing(honeypot), # Successfully ran! - not crashing the honeypot - try to get some insights instead of crashing
-            TarBomb(honeypot), # should be rechecked, works but doesn't crash the honeypot
-            # TODO: SoftwareExploit still is slow
-            # SoftwareExploit(honeypot), # Successfully ran! - not managed to exploit something
-            DoS(honeypot) # Successfully ran! - crashes the honeypot
-        ]
+        # for dionaea and conpot, we can run the DoSAllOpenPorts attack only
+        self.attacks = []
+        if honeypot.name == "dionaea" or honeypot.name == "conpot":
+            self.attacks = [
+                DoSAllOpenPorts(honeypot)
+            ]
+        else:
+            self.attacks = [
+                Fuzzing(honeypot), # Successfully ran! - not crashing the honeypot - try to get some insights instead of crashing
+                TarBomb(honeypot), # should be rechecked, works but doesn't crash the honeypot
+                # TODO: SoftwareExploit still is slow
+                # SoftwareExploit(honeypot), # Successfully ran! - not managed to exploit something
+                DoS(honeypot) # Successfully ran! - crashes the honeypot
+            ]
         self.results = []
 
-    def run_HoneypotPortScanner(self):
-        honeypot_scanner = HoneypotPortScanner(self.honeypot.ip)
-        honeypot_scanner.run_scanner()
-
     def run_attacks(self):
-        # First run the nmap scanner
-        # self.run_HoneypotPortScanner()
         # Then run the attacks
         results = []
         for attack in self.attacks:
@@ -51,4 +52,6 @@ class AttackOrchestrator:
                 report += f"  Exploits used are saved in: {result[3]}\n\n"
             elif attack_name == "TarBomb":
                 report += f"  Number of bombs used: {result[3]}\n\n"
+            elif attack_name == "DoSAllOpenPorts":
+                report += f"  Number of threads used: {result[3]}\n\n"
         return report

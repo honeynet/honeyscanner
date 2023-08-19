@@ -26,11 +26,8 @@ class Honeyscanner:
 
     def run_all_attacks(self):
         # Passive attacks
-        self.passive_attack_orchestrator.run_attacks()
-        self.passive_attack_results = self.passive_attack_orchestrator.generate_report()
-        if (self.honeypot.name == "dionaea" or self.honeypot.name == "conpot"):
-            print("Dionaea and Conpot do not support active attacks yet, stay tuned for updates!")
-            return
+        # self.passive_attack_orchestrator.run_attacks()
+        # self.passive_attack_results = self.passive_attack_orchestrator.generate_report()
         # Active attacks
         self.active_attack_orchestrator.run_attacks()
         self.active_attack_results = self.active_attack_orchestrator.generate_report()

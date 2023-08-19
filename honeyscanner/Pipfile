@@ -10,6 +10,7 @@ pygithub = "*"
 colorama = "*"
 paramiko = "*"
 boofuzz = "*"
+python3-nmap = "*"
 
 [dev-packages]
 

@@ -6,6 +6,7 @@ from .base_attack import BaseAttack
 class DoS(BaseAttack):
     def __init__(self, honeypot):
         super().__init__(honeypot)
+        self.honeypot_rejecting_connections = False
 
     def attack(self):
         """
@@ -26,7 +27,7 @@ class DoS(BaseAttack):
         Launch the DoS attack using multiple threads.
         """
         print(f"Running DoS attack on {self.honeypot.ip}:{self.honeypot.port}...")
-        self.honeypot_rejecting_connections = False
+        
         threads = [threading.Thread(target=self.attack) for _ in range(num_threads)]
 
         start_time = time.time()

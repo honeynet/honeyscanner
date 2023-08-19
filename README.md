@@ -75,9 +75,10 @@ The following instructions will guide you through the process of setting up Hone
 
 > **__NOTE__:** NEVER RUN `Honeyscanner` AGAINST HONEYPOTS YOU DO NOT OWN, OR YOU DO NOT HAVE EXPLICIT PERMISSION TO TEST.
 
-> **__NOTE__:** Currently `Honeyscanner` cannot actively attack the `Dionaea` and the `Conpot` honeypots, it can only use its passive scanners and discover vulnerabilities and CVEs on them.
+> **__NOTE__:** Currently `Honeyscanner` can actively attack the `Dionaea` and the `Conpot` honeypots only by using the DoS attack module. The way it works is that initially `Honeyscanner` uses nmap to find the open ports on the targeted honeypot, then tries to DoS all ports simultaneously. In order to run the nmap scanner, run `Honeyscanner` with root privileges for scanning `Dionaea` and `Conpot`. This provides nmap with deeper view of the services that run behind each port on the honeypot.
 
 > **__NOTE__:** For `Dionaea` only version 0.11.0 is supported at this stage of `Honeyscanner`. For `Conpot`, all versions up to `0.6.0` are supported.
+
 ## Usage
 
 Use the following examples as a reference for how to run `Honeyscanner`:
@@ -89,10 +90,10 @@ python3 main.py --honeypot cowrie --honeypot_version 2.5.0 --target_ip 127.0.0.1
 python3 main.py --honeypot kippo --honeypot_version 0.9 --target_ip 127.0.0.1 --port 2222
 ```
 ```bash
-python3 main.py --honeypot dionaea --honeypot_version 0.11.0 --target_ip 127.0.0.1 --port 2323
+sudo python3 main.py --honeypot dionaea --honeypot_version 0.11.0 --target_ip 127.0.0.1 --port 2323
 ```
 ```bash
-python3 main.py --honeypot conpot --honeypot_version 0.6.0 --target_ip 127.0.0.1 --port 2323
+sudo python3 main.py --honeypot conpot --honeypot_version 0.6.0 --target_ip 127.0.0.1 --port 2323
 ```
 
 ## Contributors

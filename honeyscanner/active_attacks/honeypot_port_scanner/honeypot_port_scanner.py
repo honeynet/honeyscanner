@@ -23,9 +23,11 @@ class HoneypotPortScanner:
         self.report = {}
         self.output_folder = os.path.join(os.path.dirname(os.path.abspath(__file__)), 'analysis_results')
         self.scanning = True
+        self.ports = []
 
     def scan_honeypot(self):
         nmap = Nmap()
+
         scan_result = nmap.nmap_version_detection(self.ip_address, args='-A -O -sC -T4')
 
         self.report['ip_address'] = self.ip_address
@@ -80,6 +82,7 @@ class HoneypotPortScanner:
             print(Fore.YELLOW + "Ports:" + Style.RESET_ALL)
             for port, data in self.report['ports'].items():
                 print(f"  - Port {port}: {data['name']} ({data['product']} {data['version']})")
+                self.ports = self.ports + [port]
         else:
             print(Fore.RED + f"[-] IP Address {self.report['ip_address']} is offline" + Style.RESET_ALL)
 
@@ -91,6 +94,9 @@ class HoneypotPortScanner:
                 sys.stdout.write(f"\rScanning with nmap in progress...{char}")
                 sys.stdout.flush()
                 time.sleep(0.1)
+    
+    def get_open_ports(self):
+        return self.ports
 
     def run_scanner(self):
         print_ascii_art_HonepotPortScanner()
