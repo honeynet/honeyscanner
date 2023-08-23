@@ -26,8 +26,8 @@ class Honeyscanner:
 
     def run_all_attacks(self):
         # Passive attacks
-        # self.passive_attack_orchestrator.run_attacks()
-        # self.passive_attack_results = self.passive_attack_orchestrator.generate_report()
+        self.passive_attack_orchestrator.run_attacks()
+        self.passive_attack_results = self.passive_attack_orchestrator.generate_report()
         # Active attacks
         self.active_attack_orchestrator.run_attacks()
         self.active_attack_results = self.active_attack_orchestrator.generate_report()
