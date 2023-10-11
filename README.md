@@ -2,6 +2,17 @@
     <img src="./images/honeyscanner_logo.png" alt="Honeyscanner logo" width="400">
 </div>
 
+<br />
+
+<div align="left">
+    <img src="./images/GSoC-Horizontal.png" alt="GSoC logo" width="400">
+</div>
+
+This project was supported and funded by Google Summer of Code 2023. For more information about Honeyscanner in GSoC2023 click [here](https://summerofcode.withgoogle.com/archive/2023/projects/6oyTxlUo).
+
+<br />
+
+This project was presented at BlackHat Europe 2023 in London. For more information about Honeyscanner in BlackHat Europe click [here](https://www.blackhat.com/eu-23/arsenal/schedule/index.html#honeyscanner-a-vulnerability-analyzer-for-honeypots-35048).
 # Honeyscanner - A vulnerability analyzer for Honeypots
 
 [![Python 3.9.12](https://img.shields.io/badge/python-3.9.12-blue.svg)](https://www.python.org/downloads/release/python-3912/)
@@ -107,14 +118,6 @@ The [SemVer](http://semver.org/spec/v2.0.0.html) is used for versioning. For the
 ## Release History
 
 Honeyscanner does not have any release yet.
-
-## GSoC 2023
-
-The project was actively developed with participation in Google Summer of Code 2023. More information about Honeyscanner in GSoC2023 [here](https://summerofcode.withgoogle.com/archive/2023/projects/6oyTxlUo)
-
-<div align="center">
-    <img src="./images/GSoC-Horizontal.png" alt="GSoC logo" width="400">
-</div>
 
 ## Contact
 
