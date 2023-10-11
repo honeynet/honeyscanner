@@ -12,6 +12,10 @@ This project was supported and funded by Google Summer of Code 2023. For more in
 
 <br />
 
+<div align="left">
+    <img src="./images/blackhat_logo.png" alt="Blackhat logo" width="400">
+</div>
+
 This project was presented at BlackHat Europe 2023 in London. For more information about Honeyscanner in BlackHat Europe click [here](https://www.blackhat.com/eu-23/arsenal/schedule/index.html#honeyscanner-a-vulnerability-analyzer-for-honeypots-35048).
 # Honeyscanner - A vulnerability analyzer for Honeypots
 
