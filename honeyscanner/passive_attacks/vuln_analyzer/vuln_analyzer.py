@@ -13,6 +13,7 @@ import functools
 from collections import defaultdict
 from colorama import Fore, Style, init
 from pathlib import Path
+import pprint
 
 from .models import Vulnerability
 
@@ -141,13 +142,15 @@ class VulnerableLibrariesAnalyzer:
         if not cve:
             return None
 
-        url = f"https://services.nvd.nist.gov/rest/json/cve/1.0/{cve}"
-        response = requests.get(url)
+        url = f"https://services.nvd.nist.gov/rest/json/cves/2.0/"
+        payload = {'cveId': cve}
+        response = requests.get(url, params=payload)
         time.sleep(2)  # Wait for 2 seconds to avoid rate limit
 
         if response.status_code == 200:
             data = response.json()
             if 'result' in data:
+                print("RESPONSE JSON if result")
                 cve_item = data['result']['CVE_Items'][0]
                 impact = cve_item.get('impact', {})
                 base_metrics = impact.get('baseMetricV3', {}) or impact.get('baseMetricV2', {})
