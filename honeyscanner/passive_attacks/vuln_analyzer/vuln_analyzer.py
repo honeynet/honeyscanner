@@ -141,8 +141,9 @@ class VulnerableLibrariesAnalyzer:
         if not cve:
             return None
 
-        url = f"https://services.nvd.nist.gov/rest/json/cve/1.0/{cve}"
-        response = requests.get(url)
+        url = f"https://services.nvd.nist.gov/rest/json/cves/2.0/"
+        payload = {'cveId': cve}
+        response = requests.get(url, params=payload)
         time.sleep(2)  # Wait for 2 seconds to avoid rate limit
 
         if response.status_code == 200:
