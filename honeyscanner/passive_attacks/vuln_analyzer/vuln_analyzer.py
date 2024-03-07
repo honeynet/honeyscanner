@@ -139,22 +139,28 @@ class VulnerableLibrariesAnalyzer:
         Get the CVSS score for a given CVE.
         """
         if not cve:
-            return None
+            return
 
-        url = f"https://services.nvd.nist.gov/rest/json/cve/1.0/{cve}"
-        response = requests.get(url)
-        time.sleep(2)  # Wait for 2 seconds to avoid rate limit
+        url = f"https://services.nvd.nist.gov/rest/json/cves/2.0?cveId={cve}"
+        response = requests.get(url, timeout=60)
+        time.sleep(5)  # Wait for 5 seconds to avoid rate limit
 
         if response.status_code == 200:
-            data = response.json()
-            if 'result' in data:
-                cve_item = data['result']['CVE_Items'][0]
-                impact = cve_item.get('impact', {})
-                base_metrics = impact.get('baseMetricV3', {}) or impact.get('baseMetricV2', {})
-                cvss_score = base_metrics.get('cvssV3', {}).get('baseScore') or base_metrics.get('cvssV2', {}).get('baseScore')
-                return cvss_score
-
-        return None
+            try:
+                data = response.json()
+            except requests.exceptions.JSONDecodeError:
+                return
+            vulns = data.get("vulnerabilities", [])
+            if vulns:
+                cve = vulns[0].get("cve", {})
+                metrics = cve.get("metrics", {})
+                if metrics:
+                    cvss_metric_field = [*metrics][0]   # Guaranteed CVSSv2 or CVSSv3(1) info
+                    cvss_metric = metrics[cvss_metric_field]
+                    if cvss_metric:
+                        cvss_data = cvss_metric[0].get("cvssData", {})
+                        cvss_score = cvss_data.get("baseScore", float)
+                        return cvss_score
 
     @staticmethod
     def convert_vuln_data_format(json_data):
@@ -234,7 +240,7 @@ class VulnerableLibrariesAnalyzer:
         dir_path = os.path.dirname(self.all_cves_path)
         if not os.path.isdir(dir_path):
             os.makedirs(dir_path)
-        
+
         with open(self.all_cves_path, 'a') as f:
             for vuln_list in vulnerabilities.values():
                 for vuln in vuln_list:
