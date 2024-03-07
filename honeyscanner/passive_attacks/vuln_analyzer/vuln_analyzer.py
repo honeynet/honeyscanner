@@ -139,24 +139,28 @@ class VulnerableLibrariesAnalyzer:
         Get the CVSS score for a given CVE.
         """
         if not cve:
-            return None
+            return
+
         url = f"https://services.nvd.nist.gov/rest/json/cves/2.0?cveId={cve}"
-        response = requests.get(url, timeout=10)
+        response = requests.get(url, timeout=60)
         time.sleep(5)  # Wait for 5 seconds to avoid rate limit
 
         if response.status_code == 200:
-            data = response.json()
+            try:
+                data = response.json()
+            except requests.exceptions.JSONDecodeError:
+                return
             vulns = data.get("vulnerabilities", [])
             if vulns:
                 cve = vulns[0].get("cve", {})
                 metrics = cve.get("metrics", {})
-                cvss_metric = metrics.get("cvssMetricV31", [])
-                if cvss_metric:
-                    cvss_data = cvss_metric[0].get("cvssData", {})
-                    cvss_score = cvss_data.get("baseScore", float)
-                    return cvss_score
-
-        return None
+                if metrics:
+                    cvss_metric_field = [*metrics][0]   # Guaranteed CVSSv2 or CVSSv3(1) info
+                    cvss_metric = metrics[cvss_metric_field]
+                    if cvss_metric:
+                        cvss_data = cvss_metric[0].get("cvssData", {})
+                        cvss_score = cvss_data.get("baseScore", float)
+                        return cvss_score
 
     @staticmethod
     def convert_vuln_data_format(json_data):
