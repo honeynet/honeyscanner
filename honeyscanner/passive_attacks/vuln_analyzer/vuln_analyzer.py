@@ -138,21 +138,40 @@ class VulnerableLibrariesAnalyzer:
         """
         Get the CVSS score for a given CVE.
         """
-        if not cve:
-            return None
+        try:
+            if not cve:
+                return None
 
-        url = f"https://services.nvd.nist.gov/rest/json/cve/1.0/{cve}"
-        response = requests.get(url)
-        time.sleep(2)  # Wait for 2 seconds to avoid rate limit
+            url = f"https://services.nvd.nist.gov/rest/json/cves/2.0/{cve}"
+            response = requests.get(url, timeout=30)
+            time.sleep(5)  # Wait for 5 seconds to avoid rate limit
 
-        if response.status_code == 200:
+            response.raise_for_status()  # Check for HTTP errors
+
             data = response.json()
-            if 'result' in data:
-                cve_item = data['result']['CVE_Items'][0]
+
+            vulnerabilities = data.get("result", {}).get("CVE_Items", [])
+
+            if vulnerabilities:
+                cve_item = vulnerabilities[0]
                 impact = cve_item.get('impact', {})
                 base_metrics = impact.get('baseMetricV3', {}) or impact.get('baseMetricV2', {})
                 cvss_score = base_metrics.get('cvssV3', {}).get('baseScore') or base_metrics.get('cvssV2', {}).get('baseScore')
+
                 return cvss_score
+
+        except requests.exceptions.RequestException as req_error:
+            print(f"Request error: {req_error}")
+            logging.error(f"Request error: {req_error}")
+        except requests.exceptions.HTTPError as http_error:
+            print(f"HTTP error ({response.status_code}): {http_error}")
+            logging.error(f"HTTP error ({response.status_code}): {http_error}")
+        except requests.exceptions.JSONDecodeError as json_error:
+            print(f"JSON decoding error: {json_error}")
+            logging.error(f"JSON decoding error: {json_error}")
+        except Exception as ex:
+            print(f"An unexpected error occurred: {ex}")
+            logging.error(f"An unexpected error occurred: {ex}")
 
         return None
 
