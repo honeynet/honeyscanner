@@ -141,19 +141,22 @@ class VulnerableLibrariesAnalyzer:
         if not cve:
             return None
 
-        url = f"https://services.nvd.nist.gov/rest/json/cve/1.0/{cve}"
-        response = requests.get(url)
+        url = f"https://services.nvd.nist.gov/rest/json/cves/2.0"
+        response = requests.get(url,params={'cveId':cve})
         time.sleep(2)  # Wait for 2 seconds to avoid rate limit
 
         if response.status_code == 200:
             data = response.json()
-            if 'result' in data:
-                cve_item = data['result']['CVE_Items'][0]
-                impact = cve_item.get('impact', {})
-                base_metrics = impact.get('baseMetricV3', {}) or impact.get('baseMetricV2', {})
-                cvss_score = base_metrics.get('cvssV3', {}).get('baseScore') or base_metrics.get('cvssV2', {}).get('baseScore')
-                return cvss_score
-
+            vulns = data.get("vulnerabilities", [])
+            if vulns:
+                cve = vulns[0].get("cve",{})
+                metrics = cve.get("metrics",{})
+                if metrics:
+                    cvss_metric = metrics.get("cvssMetricV31", []) or metrics.get("cvssMetricV3", []) or metrics.get('cvssMetricV2',[])
+                    if cvss_metric:
+                            cvss_data = cvss_metric[0].get("cvssData",{})
+                            cvss_score = cvss_data.get("baseScore", float)
+                            return cvss_score
         return None
 
     @staticmethod
