@@ -1,19 +1,20 @@
+import json
 import os
 import sys
 import time
 import threading
-from nmap3 import Nmap
-import json
+
 from colorama import Fore, Style
+from nmap3 import Nmap
 
 def print_ascii_art_HonepotPortScanner():
     ascii_art = r"""
-  ___ ___                                            __ __________              __   _________                                         
- /   |   \  ____   ____   ____ ___.__.______   _____/  |\______   \____________/  |_/   _____/ ____ _____    ____   ____   ___________ 
+  ___ ___                                            __ __________              __   _________
+ /   |   \  ____   ____   ____ ___.__.______   _____/  |\______   \____________/  |_/   _____/ ____ _____    ____   ____   ___________
 /    ~    \/  _ \ /    \_/ __ <   |  |\____ \ /  _ \   __\     ___/  _ \_  __ \   __\_____  \_/ ___\\__  \  /    \ /    \_/ __ \_  __ \
 \    Y    (  <_> )   |  \  ___/\___  ||  |_> >  <_> )  | |    |  (  <_> )  | \/|  | /        \  \___ / __ \|   |  \   |  \  ___/|  | \/
- \___|_  / \____/|___|  /\___  > ____||   __/ \____/|__| |____|   \____/|__|   |__|/_______  /\___  >____  /___|  /___|  /\___  >__|   
-       \/             \/     \/\/     |__|                                                 \/     \/     \/     \/     \/     \/       
+ \___|_  / \____/|___|  /\___  > ____||   __/ \____/|__| |____|   \____/|__|   |__|/_______  /\___  >____  /___|  /___|  /\___  >__|
+       \/             \/     \/\/     |__|                                                 \/     \/     \/     \/     \/     \/
     """
     print(ascii_art)
 
@@ -59,7 +60,7 @@ class HoneypotPortScanner:
             self.report['ports'] = ports
         else:
             self.report['status'] = 'offline'
-        
+
 
     def save_report(self):
         if not os.path.exists(self.output_folder):
@@ -94,7 +95,7 @@ class HoneypotPortScanner:
                 sys.stdout.write(f"\rScanning with nmap in progress...{char}")
                 sys.stdout.flush()
                 time.sleep(0.1)
-    
+
     def get_open_ports(self):
         return self.ports
 

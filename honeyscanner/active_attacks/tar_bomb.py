@@ -1,6 +1,6 @@
 import threading
-import socket
 import time
+
 from .base_attack import BaseAttack
 """
 Notes:
@@ -21,6 +21,7 @@ EXTRACT_SLEEP_TIME = {
     "medium": 50,
     "large": 80
 }
+
 
 class TarBomb(BaseAttack):
     def __init__(self, honeypot):
@@ -76,7 +77,8 @@ class TarBomb(BaseAttack):
                 continue
 
             self.socket_connections.append(conn)
-            thread = threading.Thread(target=self.attack_attempt, args=(conn, bomb_size))
+            thread = threading.Thread(target=self.attack_attempt,
+                                      args=(conn, bomb_size))
             thread.start()
             attack_threads.append(thread)
 
@@ -102,6 +104,12 @@ class TarBomb(BaseAttack):
         self.close_socket_connections()
 
         if self.is_honeypot_alive():
-            return False, "Tar bomb attack executed, but honeypot is still alive", time_taken, 3*self.num_of_threads
+            return (False,
+                    "Tar bomb attack executed, but honeypot is still alive",
+                    time_taken,
+                    3*self.num_of_threads)
         else:
-            return True, "Tar bomb attack executed successfully, honeypot is down", time_taken, 3*self.num_of_threads
+            return (True,
+                    "Tar bomb attack executed successfully, honeypot is down",
+                    time_taken,
+                    3*self.num_of_threads)

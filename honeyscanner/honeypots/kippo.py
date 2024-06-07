@@ -1,5 +1,6 @@
 from .base_honeypot import BaseHoneypot
 
+
 class Kippo(BaseHoneypot):
     def __init__(self, version, ip, port, username='root', password='123456'):
         if username is None:
@@ -9,11 +10,11 @@ class Kippo(BaseHoneypot):
         super().__init__("kippo", version, ip, port, username, password)
         self.kex_algorithms = ['diffie-hellman-group1-sha1']
         self.host_key_algorithms = ['ssh-dss', 'ssh-rsa']
-    
+
     def set_version(self, version):
         if version == "0.9":
             return 'v' + version
-        else: 
+        else:
             return version
 
     def set_source_code_url(self):
@@ -26,6 +27,6 @@ class Kippo(BaseHoneypot):
                 "requirements_url": "https://raw.githubusercontent.com/aristofanischionis/kippo/master/requirements.txt",
             }
         ]
-    
+
     def set_owner(self):
         return "desaster"
