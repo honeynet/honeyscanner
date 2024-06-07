@@ -1,3 +1,4 @@
+import art
 import json
 import os
 import sys
@@ -7,29 +8,21 @@ import threading
 from colorama import Fore, Style
 from nmap3 import Nmap
 
-def print_ascii_art_HonepotPortScanner():
-    ascii_art = r"""
-  ___ ___                                            __ __________              __   _________
- /   |   \  ____   ____   ____ ___.__.______   _____/  |\______   \____________/  |_/   _____/ ____ _____    ____   ____   ___________
-/    ~    \/  _ \ /    \_/ __ <   |  |\____ \ /  _ \   __\     ___/  _ \_  __ \   __\_____  \_/ ___\\__  \  /    \ /    \_/ __ \_  __ \
-\    Y    (  <_> )   |  \  ___/\___  ||  |_> >  <_> )  | |    |  (  <_> )  | \/|  | /        \  \___ / __ \|   |  \   |  \  ___/|  | \/
- \___|_  / \____/|___|  /\___  > ____||   __/ \____/|__| |____|   \____/|__|   |__|/_______  /\___  >____  /___|  /___|  /\___  >__|
-       \/             \/     \/\/     |__|                                                 \/     \/     \/     \/     \/     \/
-    """
-    print(ascii_art)
 
 class HoneypotPortScanner:
     def __init__(self, ip_address):
         self.ip_address = ip_address
         self.report = {}
-        self.output_folder = os.path.join(os.path.dirname(os.path.abspath(__file__)), 'analysis_results')
+        self.output_folder = os.path.join(os.path.dirname(os.path.abspath(__file__)),
+                                          'analysis_results')
         self.scanning = True
         self.ports = []
 
     def scan_honeypot(self):
         nmap = Nmap()
 
-        scan_result = nmap.nmap_version_detection(self.ip_address, args='-A -O -sC -T4')
+        scan_result = nmap.nmap_version_detection(self.ip_address,
+                                                  args='-A -O -sC -T4')
 
         self.report['ip_address'] = self.ip_address
 
@@ -60,7 +53,6 @@ class HoneypotPortScanner:
             self.report['ports'] = ports
         else:
             self.report['status'] = 'offline'
-
 
     def save_report(self):
         if not os.path.exists(self.output_folder):
@@ -100,8 +92,9 @@ class HoneypotPortScanner:
         return self.ports
 
     def run_scanner(self):
-        print_ascii_art_HonepotPortScanner()
-        loading_thread = threading.Thread(target=self.loading_animation, daemon=True)
+        print(art.ascii_art_port_scanner())
+        loading_thread = threading.Thread(target=self.loading_animation,
+                                          daemon=True)
         loading_thread.start()
         self.scan_honeypot()
         self.save_report()

@@ -9,13 +9,17 @@ from core import Honeyscanner
 def sanitize_string(s):
     s = s.strip()
     s = s.lower()
-    # Remove special characters using regex (it matches any character that is not a lowercase letter, a number, a space, a dot, an underscore, or a hyphen and removes it.)
+    # Remove special characters using regex (it matches any character that is
+    # not a lowercase letter, a number, a space, a dot, an underscore, or a
+    # hyphen and removes it.)
     s = re.sub(r'[^a-z0-9._\- ]', '', s)
     return s
 
 
 def parse_arguments():
-    parser = argparse.ArgumentParser(description="Honeyscanner: A vulnerability analyzer for honeypots")
+    parser = argparse.ArgumentParser(
+        description="Honeyscanner: A vulnerability analyzer for honeypots"
+    )
     parser.add_argument(
         "--honeypot",
         type=sanitize_string,
@@ -58,7 +62,7 @@ def parse_arguments():
 
 def main():
     args = parse_arguments()
-    print(ascii_art_honeyscanner)
+    print(ascii_art_honeyscanner())
     honeyscanner = Honeyscanner(args.honeypot,
                                 args.honeypot_version,
                                 args.target_ip,

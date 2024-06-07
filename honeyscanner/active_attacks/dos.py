@@ -1,7 +1,9 @@
+import threading
 import time
 import socket
-import threading
+
 from .base_attack import BaseAttack
+
 
 class DoS(BaseAttack):
     def __init__(self, honeypot):
@@ -27,8 +29,9 @@ class DoS(BaseAttack):
         Launch the DoS attack using multiple threads.
         """
         print(f"Running DoS attack on {self.honeypot.ip}:{self.honeypot.port}...")
-        
-        threads = [threading.Thread(target=self.attack) for _ in range(num_threads)]
+
+        threads = [threading.Thread(target=self.attack)
+                   for _ in range(num_threads)]
 
         start_time = time.time()
 
@@ -40,8 +43,11 @@ class DoS(BaseAttack):
 
         for thread in threads:
             thread.join()
-        
+
         end_time = time.time()
         time_taken = end_time - start_time
 
-        return True, "Vulnerability found: DoS attack made the SSH honeypot reject connections", time_taken, num_threads
+        return (True,
+                "Vulnerability found: DoS attack made the SSH honeypot reject connections",
+                time_taken,
+                num_threads)

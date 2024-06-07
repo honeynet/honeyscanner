@@ -1,6 +1,7 @@
-import time
 import socket
 import threading
+import time
+
 from .base_attack import BaseAttack
 from .honeypot_port_scanner.honeypot_port_scanner import HoneypotPortScanner
 
@@ -49,7 +50,7 @@ class DoSAllOpenPorts(BaseAttack):
         """
         Launch the DoS attack using multiple threads.
         """
-        print(f"Running the nmap scanner...")
+        print("Running the nmap scanner...")
         self.run_HoneypotPortScanner()
         print(f"Running DoS attack on {self.honeypot.ip} and ports: {self.honeypot_ports}...")
         self.honeypot_rejecting_connections = False

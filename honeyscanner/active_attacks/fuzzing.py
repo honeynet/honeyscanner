@@ -1,7 +1,13 @@
 import time
 
 from .base_attack import BaseAttack
-from boofuzz import Session, Target, SocketConnection, s_initialize, s_string, s_delim, s_get
+from boofuzz import (Session,
+                     Target,
+                     SocketConnection,
+                     s_initialize,
+                     s_string,
+                     s_delim,
+                     s_get)
 
 """
 Notes:
@@ -62,7 +68,9 @@ class Fuzzing(BaseAttack):
             s_string("A", fuzzable=True, max_len=self.max_terminal_length)
             s_delim(":", fuzzable=True)
 
-            target = Target(connection=SocketConnection(self.honeypot.ip, self.honeypot.port, proto='tcp'))
+            target = Target(connection=SocketConnection(self.honeypot.ip,
+                                                        self.honeypot.port,
+                                                        proto='tcp'))
             session = Session(target=target, web_port=None, sleep_time=0)
             session.auto_free_clear = True
 
@@ -72,11 +80,17 @@ class Fuzzing(BaseAttack):
             test_cases_executed = session.total_mutant_index
 
             if self.is_honeypot_alive():
-                return False, "Honeypot is still alive after terminal fuzzing", test_cases_executed
+                return (False,
+                        "Honeypot is still alive after terminal fuzzing",
+                        test_cases_executed)
             else:
-                return True, "Terminal fuzzing completed", test_cases_executed
+                return (True,
+                        "Terminal fuzzing completed",
+                        test_cases_executed)
         except Exception as e:
-            return False, f"Terminal fuzzing failed: {e}", 0
+            return (False,
+                    f"Terminal fuzzing failed: {e}",
+                    0)
 
     def run_attack(self):
         """

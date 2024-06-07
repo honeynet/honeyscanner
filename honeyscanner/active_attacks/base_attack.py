@@ -1,5 +1,7 @@
 import paramiko
 import socket
+import time
+
 
 class BaseAttack:
     def __init__(self, honeypot):
@@ -10,10 +12,11 @@ class BaseAttack:
 
     def is_honeypot_alive(self):
         try:
-            sock = socket.create_connection((self.honeypot.ip, self.honeypot.port), timeout=10)
+            honeypot_addr: tuple[str, int] = (self.honeypot.ip, self.honeypot.port)
+            sock = socket.create_connection(honeypot_addr, timeout=10)
             sock.close()
             return True
-        except Exception as e:
+        except Exception:
             return False
 
     def close_socket_connections(self):
@@ -31,7 +34,8 @@ class BaseAttack:
             transport = paramiko.Transport(s)
 
             if self.honeypot.name == "kippo":
-                # Set the key exchange and host key algorithms to the ones supported by the honeypot
+                # Set the key exchange and host key algorithms to
+                # the ones supported by the honeypot
                 sec_opts = transport.get_security_options()
                 sec_opts.kex = self.honeypot.kex_algorithms
                 sec_opts.key_types = self.honeypot.host_key_algorithms
@@ -58,4 +62,6 @@ class BaseAttack:
             return None
 
     def run_attack(self):
-        raise NotImplementedError("Please implement the 'run' method in your attack class")
+        raise NotImplementedError(
+            "Please implement the 'run' method in your attack class"
+        )

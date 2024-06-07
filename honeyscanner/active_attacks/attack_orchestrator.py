@@ -1,9 +1,10 @@
 from math import floor
 from .dos import DoS
-from .fuzzing import Fuzzing
-from .software_exploit import SoftwareExploit
-from .tar_bomb import TarBomb
 from .dos_all_open_ports import DoSAllOpenPorts
+from .fuzzing import Fuzzing
+# from .software_exploit import SoftwareExploit
+from .tar_bomb import TarBomb
+
 
 class AttackOrchestrator:
     def __init__(self, honeypot):
@@ -16,11 +17,11 @@ class AttackOrchestrator:
             ]
         else:
             self.attacks = [
-                Fuzzing(honeypot), # Successfully ran! - not crashing the honeypot - try to get some insights instead of crashing
-                TarBomb(honeypot), # should be rechecked, works but doesn't crash the honeypot
+                Fuzzing(honeypot),  # Successfully ran! - not crashing the honeypot - try to get some insights instead of crashing
+                TarBomb(honeypot),  # should be rechecked, works but doesn't crash the honeypot
                 # TODO: SoftwareExploit still is slow
-                # SoftwareExploit(honeypot), # Successfully ran! - not managed to exploit something
-                DoS(honeypot) # Successfully ran! - crashes the honeypot
+                # SoftwareExploit(honeypot),  # Successfully ran! - not managed to exploit something
+                DoS(honeypot)  # Successfully ran! - crashes the honeypot
             ]
         self.results = []
 
@@ -31,7 +32,7 @@ class AttackOrchestrator:
             result = attack.run_attack()
             results.append(result)
         self.results = results
-    
+
     def generate_report(self):
         report = "Honeypot Active Attack Report\n"
         report += "=============================\n\n"
