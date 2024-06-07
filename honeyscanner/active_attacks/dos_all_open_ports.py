@@ -4,12 +4,11 @@ import threading
 from .base_attack import BaseAttack
 from .honeypot_port_scanner.honeypot_port_scanner import HoneypotPortScanner
 
+
 class DoSAllOpenPorts(BaseAttack):
     def __init__(self, honeypot):
         super().__init__(honeypot)
         self.honeypot_ports = []
-        # dionaea ports found with nmap
-        # self.honeypot_ports = ['21', '42', '80', '135', '443', '445', '1433', '1723', '3306', '5000', '5060', '5061', '7000'] 
         self.honeypot_rejecting_connections = False
 
     def run_HoneypotPortScanner(self):
@@ -22,7 +21,11 @@ class DoSAllOpenPorts(BaseAttack):
 
     def attack(self, stop_event):
         """
-        Attempt to flood the honeypot with connections in all ports, until it starts rejecting them.
+        Attempt to flood the honeypot with connections in all ports, until it
+        starts rejecting them.
+
+        TODO: Add how many connections it took to get to the rejecting
+              state as a return value
         """
         try:
             while not self.honeypot_rejecting_connections and not stop_event.is_set():
@@ -42,19 +45,18 @@ class DoSAllOpenPorts(BaseAttack):
         except Exception as ex:
             print(f"Exception in thread: {ex}")
 
-
     def run_attack(self, num_threads=40):
         """
         Launch the DoS attack using multiple threads.
         """
         print(f"Running the nmap scanner...")
         self.run_HoneypotPortScanner()
-        # print(f"Skipping the nmap scanner...")
         print(f"Running DoS attack on {self.honeypot.ip} and ports: {self.honeypot_ports}...")
         self.honeypot_rejecting_connections = False
         stop_event = threading.Event()  # Event to signal threads to stop
 
-        threads = [threading.Thread(target=self.attack, args=(stop_event,)) for _ in range(num_threads)]
+        threads = [threading.Thread(target=self.attack, args=(stop_event,))
+                   for _ in range(num_threads)]
 
         start_time = time.time()
 
@@ -70,10 +72,16 @@ class DoSAllOpenPorts(BaseAttack):
 
         end_time = time.time()
         time_taken = end_time - start_time
+        # TODO: Add how many connections it took to get to the rejecting state
 
         # Check if honeypot successfully rejected connections
         if self.honeypot_rejecting_connections:
-            return True, "Vulnerability found: DoS attack made the honeypot reject connections", time_taken, num_threads
+            return (True,
+                    "Vulnerability found: DoS attack made the honeypot reject connections",
+                    time_taken,
+                    num_threads)
         else:
-            return False, "Honeypot did not reject connections, attack unsuccessful", time_taken, num_threads
-
+            return (False,
+                    "Honeypot did not reject connections, attack unsuccessful",
+                    time_taken,
+                    num_threads)

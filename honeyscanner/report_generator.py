@@ -1,28 +1,19 @@
-from pathlib import Path
 import datetime
+
+from art import ascii_art_honeyscanner
+from pathlib import Path
 
 # add actionable recommendations, overall score, read from thesis report
 
-def ascii_art_honeyscanner():
-    ascii_art = r"""
-
-  ___ ___                                                                             
- /   |   \  ____   ____   ____ ___.__. ______ ____ _____    ____   ____   ___________ 
-/    ~    \/  _ \ /    \_/ __ <   |  |/  ___// ___\\__  \  /    \ /    \_/ __ \_  __ \
-\    Y    (  <_> )   |  \  ___/\___  |\___ \\  \___ / __ \|   |  \   |  \  ___/|  | \/
- \___|_  / \____/|___|  /\___  > ____/____  >\___  >____  /___|  /___|  /\___  >__|   
-       \/             \/     \/\/         \/     \/     \/     \/     \/     \/       
-
-        """
-    return ascii_art
 
 class ReportGenerator:
     def __init__(self, honeypot):
         self.honeypot = honeypot
-        self.report_path = Path(__file__).resolve().parent / "reports" / "report.txt"
+        self.parent_path = Path(__file__).resolve().parent
+        self.report_path = self.parent_path / "reports" / "report.txt"
 
     def count_all_cves(self):
-        path_to_all_cves = Path(__file__).resolve().parent / "passive_attacks" / "results" / "all_cves.txt"
+        path_to_all_cves = self.parent_path / "passive_attacks" / "results" / "all_cves.txt"
         lines_seen = set()
         unique_lines = []
         with open(path_to_all_cves, "r") as f:

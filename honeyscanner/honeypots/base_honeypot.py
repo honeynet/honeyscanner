@@ -1,4 +1,6 @@
 class BaseHoneypot:
+    impl_err: str = "This method should be overridden in a subclass"
+
     def __init__(self, name, version, ip, port, username, password):
         self.name = name
         self.ip = ip
@@ -14,10 +16,10 @@ class BaseHoneypot:
         return version
 
     def set_owner(self):
-        raise NotImplementedError("This method should be overriden in a subclass")
+        raise NotImplementedError(self.impl_err)
 
     def set_source_code_url(self):
-        raise NotImplementedError("This method should be overriden in a subclass")
+        raise NotImplementedError(self.impl_err)
 
     def set_versions_list(self):
-        raise NotImplementedError("This method should be overriden in a subclass")
+        raise NotImplementedError(self.impl_err)

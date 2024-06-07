@@ -1,5 +1,6 @@
 from .base_honeypot import BaseHoneypot
 
+
 class Conpot(BaseHoneypot):
     def __init__(self, version, ip, port, username='', password=''):
         if username is None:
@@ -10,7 +11,7 @@ class Conpot(BaseHoneypot):
 
     def set_source_code_url(self):
         return "https://github.com/mushorg/conpot/archive/refs/tags"
-        
+
     def set_versions_list(self):
         return [
             {

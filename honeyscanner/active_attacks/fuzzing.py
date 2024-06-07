@@ -1,6 +1,5 @@
-import os
 import time
-import socket
+
 from .base_attack import BaseAttack
 from boofuzz import Session, Target, SocketConnection, s_initialize, s_string, s_delim, s_get
 
@@ -12,6 +11,7 @@ I tried but didn't have much success
 A variable can be used to adjust the aggressiveness of the fuzzing - Future work
 """
 
+
 class Fuzzing(BaseAttack):
     def __init__(self, honeypot):
         super().__init__(honeypot)
@@ -20,14 +20,17 @@ class Fuzzing(BaseAttack):
 
     def run_connection_fuzzing(self):
         """
-        Perform connection fuzzing by sending fuzzed ssh banners to the honeypot.
+        Perform connection fuzzing by sending fuzzed ssh banners
+        to the honeypot.
         """
         try:
             s_initialize("fuzz_banner")
             s_string("SSH", fuzzable=True, max_len=self.max_banner_length)
             s_delim(":", fuzzable=True)
 
-            target = Target(connection=SocketConnection(self.honeypot.ip, self.honeypot.port, proto='tcp'))
+            target = Target(connection=SocketConnection(self.honeypot.ip,
+                                                        self.honeypot.port,
+                                                        proto='tcp'))
             session = Session(target=target, web_port=None, sleep_time=0)
             session.auto_free_clear = True
 
@@ -37,15 +40,22 @@ class Fuzzing(BaseAttack):
             test_cases_executed = session.total_mutant_index
 
             if self.is_honeypot_alive():
-                return False, "Honeypot is still alive after connection fuzzing", test_cases_executed
+                return (False,
+                        "Honeypot is still alive after connection fuzzing",
+                        test_cases_executed)
             else:
-                return True, "Banner fuzzing completed", test_cases_executed
+                return (True,
+                        "Banner fuzzing completed",
+                        test_cases_executed)
         except Exception as e:
-            return False, f"Banner fuzzing failed: {e}", 0
+            return (False,
+                    f"Banner fuzzing failed: {e}",
+                    0)
 
     def run_terminal_fuzzing(self):
         """
-        Perform terminal fuzzing by sending fuzzed terminal commands to the honeypot.
+        Perform terminal fuzzing by sending fuzzed terminal commands
+        to the honeypot.
         """
         try:
             s_initialize("fuzz_command")
@@ -75,7 +85,7 @@ class Fuzzing(BaseAttack):
         print(f"Running fuzzing attack on {self.honeypot.ip}:{self.honeypot.port}...")
         start_time = time.time()
 
-        # terminal fuzzing 
+        # terminal fuzzing
         success_terminal, message_terminal, test_cases_terminal = self.run_terminal_fuzzing()
         print(success_terminal, message_terminal)
 
