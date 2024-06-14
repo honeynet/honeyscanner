@@ -6,17 +6,29 @@ from art import ascii_art_honeyscanner
 from core import Honeyscanner
 
 
-def sanitize_string(s):
+def sanitize_string(s: str) -> str:
+    """
+    Remove special characters from a string and convert it to lowercase.
+
+    Args:
+        s (str): The string to sanitize.
+
+    Returns:
+        str: The sanitized string.
+    """
     s = s.strip()
     s = s.lower()
-    # Remove special characters using regex (it matches any character that is
-    # not a lowercase letter, a number, a space, a dot, an underscore, or a
-    # hyphen and removes it.)
     s = re.sub(r'[^a-z0-9._\- ]', '', s)
     return s
 
 
-def parse_arguments():
+def parse_arguments() -> argparse.Namespace:
+    """
+    Creates an argument parser and parses the command-line arguments.
+
+    Returns:
+        argparse.Namespace: Parsed arguments object.
+    """
     parser = argparse.ArgumentParser(
         description="Honeyscanner: A vulnerability analyzer for honeypots"
     )
@@ -25,7 +37,8 @@ def parse_arguments():
         type=sanitize_string,
         required=True,
         choices=["cowrie", "kippo", "dionaea", "conpot"],
-        help="Honeypot to analyze, currently supported: (cowrie, kippo, dionaea and conpot)",
+        help="Honeypot to analyze, currently supported: \
+            (cowrie, kippo, dionaea and conpot)",
     )
     parser.add_argument(
         "--honeypot_version",
@@ -60,8 +73,11 @@ def parse_arguments():
     return parser.parse_args()
 
 
-def main():
-    args = parse_arguments()
+def main() -> None:
+    """
+    Main entry point of the program.
+    """
+    args: argparse.Namespace = parse_arguments()
     print(ascii_art_honeyscanner())
     honeyscanner = Honeyscanner(args.honeypot,
                                 args.honeypot_version,

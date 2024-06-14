@@ -2,9 +2,10 @@
 
 def ascii_art_honeyscanner() -> str:
     """
-    Returns the ASCII art for the logo of Honeyscanner.
+    Returns the ascii art logo of Honeyscanner.
 
-    :returns: None
+    Returns:
+        str: The ascii art logo of Honeyscanner.
     """
     return r"""
 
@@ -19,6 +20,12 @@ def ascii_art_honeyscanner() -> str:
 
 
 def ascii_art_port_scanner() -> str:
+    """
+    Returns the ascii art logo of HoneypotPortScanner.
+
+    Returns:
+        str: The ascii art logo of HoneypotPortScanner.
+    """
     return r"""
   ___ ___                                            __ __________              __   _________
  /   |   \  ____   ____   ____ ___.__.______   _____/  |\______   \____________/  |_/   _____/ ____ _____    ____   ____   ___________
@@ -30,6 +37,12 @@ def ascii_art_port_scanner() -> str:
 
 
 def ascii_art_vulnanalyzer() -> str:
+    """
+    Returns the ascii art logo of VulnAnalyzer.
+
+    Returns:
+        str: The ascii art logo of VulnAnalyzer.
+    """
     return r"""
 ____   ____      .__              _____                   .__
 \   \ /   /__ __ |  |    ____    /  _  \    ____  _____   |  |  ___.__.________  ____ _______
@@ -42,6 +55,12 @@ ____   ____      .__              _____                   .__
 
 
 def ascii_art_statichoney() -> str:
+    """
+    Returns the ascii art logo of StaticHoney.
+
+    Returns:
+        str: The ascii art logo of StaticHoney.
+    """
     return r"""
   _________ __          __  .__         ___ ___
  /   _____//  |______ _/  |_|__| ____  /   |   \  ____   ____   ____ ___.__.
@@ -53,6 +72,12 @@ def ascii_art_statichoney() -> str:
 
 
 def ascii_art_trivyscanner() -> str:
+    """
+    Returns the ascii art logo of TrivyScanner.
+
+    Returns:
+        str: The ascii art logo of TrivyScanner.
+    """
     return r"""
 ___________      .__               _________
 \__    ___/______|__|__  _____.__./   _____/ ____ _____    ____   ____   ___________
