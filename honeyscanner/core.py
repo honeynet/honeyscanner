@@ -2,9 +2,12 @@ from active_attacks import AttackOrchestrator as ActiveAttackOrchestrator
 from honeypots import BaseHoneypot, Cowrie, Conpot, Dionaea, Kippo
 from passive_attacks import AttackOrchestrator as PassiveAttackOrchestrator
 from report_generator import ReportGenerator
+from typing import TypeAlias
 
 
 class Honeyscanner:
+    HoneypotMap: TypeAlias = dict[str, BaseHoneypot]
+
     def __init__(self,
                  honeypot_type: str,
                  honeypot_version: str,
@@ -64,14 +67,14 @@ class Honeyscanner:
             BaseHoneypot: An instance of the specified Honeypot to
             analyze data from
         """
-        honeypot_class_map: dict[str, type[BaseHoneypot]] = {
+        honeypot_class_map: self.HoneypotMap = {
             'cowrie': Cowrie,
             'kippo': Kippo,
             'dionaea': Dionaea,
             'conpot': Conpot
         }
         if honeypot_type not in honeypot_class_map:
-            supported_honeypots = ', '.join(honeypot_class_map.keys())
+            supported_honeypots: str = ', '.join(honeypot_class_map.keys())
             raise ValueError(f"Unsupported honeypot type: {honeypot_type}. \
                 Supported honeypots are: {supported_honeypots}")
         return honeypot_class_map[honeypot_type](honeypot_version,
