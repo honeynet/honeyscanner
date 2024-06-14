@@ -25,11 +25,11 @@ class BaseHoneypot:
             username (str): Username to authenticate with
             password (str): Password to authenticate with
         """
-        self.name: str = name
-        self.ip: str = ip
-        self.port: int = port
-        self.username: str = username
-        self.password: str = password
+        self.name = name
+        self.ip = ip
+        self.port = port
+        self.username = username
+        self.password = password
         self.version: str = self._set_version(version)
         self.owner: str = self._set_owner()
         self.source_code_url: str = self._set_source_code_url()
