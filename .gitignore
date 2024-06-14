@@ -28,11 +28,8 @@ build/
 Thumbs.db
 
 # misc
+*.json
 honeyscanner/active_attacks/boofuzz-results
-honeyscanner/active_attacks/honeypot_port_scanner/analysis_results
 honeyscanner/boofuzz-results
 honeyscanner/passive_attacks/results
-honeyscanner/passive_attacks/container_security_scanner/analysis_results
-honeyscanner/passive_attacks/static_analyzer/analysis_results
-honeyscanner/passive_attacks/vuln_analyzer/analysis_results
-honeyscanner/passive_attacks/vuln_analyzer/vuln_database
+honeyscanner/reports/*
