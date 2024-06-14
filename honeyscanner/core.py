@@ -6,7 +6,7 @@ from typing import TypeAlias
 
 
 class Honeyscanner:
-    HoneypotMap: TypeAlias = dict[str, BaseHoneypot]
+    _HoneypotMap: TypeAlias = dict[str, BaseHoneypot]
 
     def __init__(self,
                  honeypot_type: str,
@@ -67,7 +67,7 @@ class Honeyscanner:
             BaseHoneypot: An instance of the specified Honeypot to
             analyze data from
         """
-        honeypot_class_map: self.HoneypotMap = {
+        honeypot_class_map: self._HoneypotMap = {
             'cowrie': Cowrie,
             'kippo': Kippo,
             'dionaea': Dionaea,
