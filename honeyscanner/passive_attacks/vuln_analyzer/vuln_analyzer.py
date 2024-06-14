@@ -1,4 +1,3 @@
-import datetime
 import json
 import logging
 import pkg_resources
@@ -9,41 +8,47 @@ import time
 from .models import Vulnerability
 from collections import defaultdict
 from colorama import Fore, Style, init
-from github import Github
+from datetime import datetime
+from github import Github, Repository, NamedUser
 from packaging.version import parse as pkg_version_parse
 from packaging.specifiers import SpecifierSet
 from pathlib import Path
+from typing import TypeAlias
 
 
 class VulnerableLibrariesAnalyzer:
-    def __init__(self, honeypot_name, owner):
+    def __init__(self, honeypot_name: str, owner: str) -> None:
         logging.basicConfig(level=logging.INFO, format="%(message)s")
         init(autoreset=True)
         self.honeypot_name = honeypot_name
         self.owner = owner
-        self.repo = self.get_repo()
-        parent_path = Path(__file__).resolve().parent
-        self.insecure_full_path = parent_path / "vuln_database" / "insecure_full.json"
-        self.analysis_results_path = parent_path / "analysis_results"
-        self.requirements_files_path = parent_path / "requirements_files"
-        self.all_cves_path = parent_path.parent / "results" / "all_cves.txt"
+        self.repo: Repository = self.get_repo()
+        parent_path: Path = Path(__file__).resolve().parent
+        self.insecure_full_path: Path = (
+            parent_path / "vuln_database" / "insecure_full.json"
+        )
+        self.analysis_results_path: Path = parent_path / "analysis_results"
+        self.requirements_files_path: Path = parent_path / "requirements_files"
+        self.all_cves_path: Path = (
+            parent_path.parent / "results" / "all_cves.txt"
+        )
         self.download_insecure_full_json()
         self.vuln_data_cache = defaultdict(dict)
 
-    def get_repo(self):
+    def get_repo(self) -> Repository:
         """
         Get the repository object for the specified owner and honeypot_name.
         """
-        g = Github()
-        user = g.get_user(self.owner)
+        git: Github = Github()
+        user: NamedUser = git.get_user(self.owner)
         return user.get_repo(self.honeypot_name)
 
-    def download_insecure_full_json(self):
+    def download_insecure_full_json(self) -> None:
         """
         Download the insecure_full.json file containing vulnerability data.
         """
-        url = "https://raw.githubusercontent.com/pyupio/safety-db/master/data/insecure_full.json"
-        response = requests.get(url)
+        url: str = "https://raw.githubusercontent.com/pyupio/safety-db/master/data/insecure_full.json"
+        response: requests.Response = requests.get(url)
         if response.status_code == 200:
             if not self.insecure_full_path.parent.is_dir():
                 self.insecure_full_path.parent.mkdir()
@@ -56,7 +61,8 @@ class VulnerableLibrariesAnalyzer:
 
     def get_latest_version_before_date(self, package_name, date):
         """
-        Get the latest version of the package released before the specified date.
+        Get the latest version of the package released before
+        the specified date.
         """
         url = f"https://pypi.org/pypi/{package_name}/json"
         response = requests.get(url)
@@ -66,11 +72,12 @@ class VulnerableLibrariesAnalyzer:
             latest_version = None
             for release_version in releases:
                 try:
-                    if not releases[release_version] or "upload_time" not in releases[release_version][0]:
+                    if not releases[release_version] \
+                        or "upload_time" not in releases[release_version][0]:
                         continue
                     release_date_str = releases[release_version][0]["upload_time"]
-                    release_date_obj = datetime.datetime.strptime(release_date_str,
-                                                                  "%Y-%m-%dT%H:%M:%S")
+                    release_date_obj = datetime.strptime(release_date_str,
+                                                         "%Y-%m-%dT%H:%M:%S")
                     if release_date_obj.date() <= date:
                         if not latest_version or pkg_version_parse(release_version) > pkg_version_parse(latest_version):
                             latest_version = release_version
@@ -108,18 +115,33 @@ class VulnerableLibrariesAnalyzer:
 
         return updated_requirements
 
-    def download_requirements(self, version, requirements_url):
+    def download_requirements(self,
+                              version: str,
+                              requirements_url: str) -> bool:
         """
-        Download the requirements.txt file and update the versions to the latest version before the release date.
+        Download the requirements.txt file and update the versions to
+        the latest version before the release date.
+
+        Args:
+            version (str): The version of the package to download.
+            requirements_url (str): The URL of the requirements.txt file.
+
+        Returns:
+            bool: True if the requirements were downloaded successfully,
+                  False otherwise.
         """
+        ReqList: TypeAlias = list[pkg_resources.Requirement]
         release_date = self.get_release_date(version)
         response = requests.get(requirements_url)
         if response.status_code == 200:
-            requirements = list(pkg_resources.parse_requirements(response.text))
+            requirements: ReqList = list(pkg_resources.parse_requirements(response.text))
             updated_requirements = self.update_versions(requirements,
                                                         release_date)
-            with open(f"{self.requirements_files_path}/{self.honeypot_name}-{version}-requirements.txt", "w") as f:
-                f.write("\n".join(updated_requirements))
+            if not self.requirements_files_path.is_dir():
+                self.requirements_files_path.mkdir()
+            reqs_path: str = f"{self.requirements_files_path}/{self.honeypot_name}-{version}-requirements.txt"
+            with open(reqs_path, "w") as file:
+                file.write("\n".join(updated_requirements))
             return True
         return False
 
@@ -142,7 +164,7 @@ class VulnerableLibrariesAnalyzer:
             print(f"\nRelease not found for tag: {version_tag}\n")
             # If not found then use the current datetime as the
             # release date, otherwise use return None
-            return datetime.datetime.now().date()
+            return datetime.now().date()
 
     def get_cvss_score(self, cve):
         """
@@ -263,9 +285,10 @@ class VulnerableLibrariesAnalyzer:
 
     def analyze_vulnerabilities(self, version, requirements_url):
         """
-        Analyze the vulnerabilities in the specified version of the honeypot using the requirements file.
+        Analyze the vulnerabilities in the specified version of the
+        honeypot using the requirements file.
         """
-        success = self.download_requirements(version, requirements_url)
+        success: bool = self.download_requirements(version, requirements_url)
         if success:
             vulnerabilities = self.check_vulnerable_libraries(version)
 

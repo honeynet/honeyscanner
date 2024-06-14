@@ -30,6 +30,7 @@ Thumbs.db
 # misc
 *.json
 *.db
+honeyscanner/passive_attacks/vuln_analyzer/requirements_files
 honeyscanner/active_attacks/boofuzz-results
 honeyscanner/passive_attacks/results
 honeyscanner/reports/*
