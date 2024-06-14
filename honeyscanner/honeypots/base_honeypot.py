@@ -1,5 +1,11 @@
+from typing import TypeAlias
+
+
+Versions: TypeAlias = list[dict[str, str]]
+
+
 class BaseHoneypot:
-    impl_err: str = "This method should be overridden in a subclass"
+    _impl_err: str = "This method should be overridden in a subclass"
 
     def __init__(self,
                  name: str,
@@ -27,16 +33,16 @@ class BaseHoneypot:
         self.version: str = self._set_version(version)
         self.owner: str = self._set_owner()
         self.source_code_url: str = self._set_source_code_url()
-        self.versions_list: list[dict] = self._set_versions_list()
+        self.versions_list: Versions = self._set_versions_list()
 
     def _set_version(self, version: str) -> str:
         return version
 
     def _set_owner(self) -> str:
-        raise NotImplementedError(self.impl_err)
+        raise NotImplementedError(self._impl_err)
 
     def _set_source_code_url(self) -> str:
-        raise NotImplementedError(self.impl_err)
+        raise NotImplementedError(self._impl_err)
 
-    def _set_versions_list(self) -> list[dict]:
-        raise NotImplementedError(self.impl_err)
+    def _set_versions_list(self) -> Versions:
+        raise NotImplementedError(self._impl_err)

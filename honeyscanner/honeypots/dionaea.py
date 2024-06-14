@@ -1,4 +1,4 @@
-from .base_honeypot import BaseHoneypot
+from .base_honeypot import BaseHoneypot, Versions
 
 
 class Dionaea(BaseHoneypot):
@@ -45,7 +45,7 @@ class Dionaea(BaseHoneypot):
     packages version. But as there only 3 packages I figured out that is
     probably not worth the time.
     """
-    def _set_versions_list(self) -> list[dict]:
+    def _set_versions_list(self) -> Versions:
         """
         Sets the list of versions of the Dionaea Honeypot
 

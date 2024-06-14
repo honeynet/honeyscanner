@@ -1,4 +1,4 @@
-from .base_honeypot import BaseHoneypot
+from .base_honeypot import BaseHoneypot, Versions
 
 
 class Conpot(BaseHoneypot):
@@ -35,7 +35,7 @@ class Conpot(BaseHoneypot):
         """
         return "https://github.com/mushorg/conpot/archive/refs/tags"
 
-    def _set_versions_list(self) -> list[dict]:
+    def _set_versions_list(self) -> Versions:
         """
         Sets the list of versions of the Conpot Honeypot
 
