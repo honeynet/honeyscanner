@@ -29,7 +29,7 @@ Thumbs.db
 
 # misc
 *.json
+*.db
 honeyscanner/active_attacks/boofuzz-results
-honeyscanner/boofuzz-results
 honeyscanner/passive_attacks/results
 honeyscanner/reports/*
