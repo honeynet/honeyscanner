@@ -35,8 +35,8 @@ class Honeyscanner:
         self.active_attack_orchestrator: ActiveAttackOrchestrator = (
             ActiveAttackOrchestrator(self.honeypot)
         )
-        self.passive_attack_results: str = None
-        self.active_attack_results: str = None
+        self.passive_attack_results: str = ""
+        self.active_attack_results: str = ""
         self.report_generator: ReportGenerator = ReportGenerator(self.honeypot)
 
     def create_honeypot(self,
