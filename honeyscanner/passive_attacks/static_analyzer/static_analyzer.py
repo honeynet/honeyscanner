@@ -28,14 +28,8 @@ class StaticAnalyzer:
         self.honeypot_url = honeypot_url
         self.honeypot_version = honeypot_version
         # Check for Conpot's condition
-        if (honeypot_name == "conpot" and (honeypot_version == "0.6.0"
-                                           or honeypot_version == "0.5.2"
-                                           or honeypot_version == "0.5.1"
-                                           or honeypot_version == "0.5.0"
-                                           or honeypot_version == "0.4.0"
-                                           or honeypot_version == "0.3.1"
-                                           or honeypot_version == "0.3.0")):
-            honeypot_version = f"Release_{honeypot_version}"
+        if honeypot_name == "conpot" and honeypot_version > "0.2.2":
+            self.honeypot_version = f"Release_{honeypot_version}"
         self.parent_path: Path = Path(__file__).resolve().parent
         self.output_folder: Path = self.parent_path / "analysis_results"
         passive_root: Path = self.parent_path.parent
