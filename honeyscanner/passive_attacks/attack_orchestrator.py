@@ -1,33 +1,47 @@
 import art
 
-from .vuln_analyzer import VulnerableLibrariesAnalyzer
-from .static_analyzer import StaticAnalyzer
+from honeypots import BaseHoneypot
 from .container_security_scanner import ContainerSecurityScanner
+from .static_analyzer import StaticAnalyzer
+from typing import TypeAlias
+from .vuln_analyzer import VulnerableLibrariesAnalyzer
 
 
 class AttackOrchestrator:
-    def __init__(self, honeypot):
-        self.honeypot = honeypot
-        self.attacks = [
+    def __init__(self, honeypot: BaseHoneypot) -> None:
+        """
+        Initializes the AttackOrchestrator class for passive
+        attacks on a Honeypot.
+
+        Args:
+            honeypot (BaseHoneypot): Specific Honeypot instance for
+                                     use in the attack.
+        """
+        self.honeypot: BaseHoneypot = honeypot
+        self.attacks: list[str] = [
             "VulnerableLibrariesAnalyzer",
             "StaticAnalyzer",
             "ContainerSecurityScanner"
         ]
-        self.analyze_vulns_report = ""
-        self.static_analysis_report = ""
-        self.container_sec_report = ""
+        self.analyze_vulns_report: str = ""
+        self.static_analysis_report: str = ""
+        self.container_sec_report: str = ""
 
-    def run_attacks(self):
+    def run_attacks(self) -> None:
+        """
+        Run VulnAnalyzer, StaticHoney, and TrivyScanner on the Honeypot.
+        """
+        Lookup: TypeAlias = dict[str, str]
         # Run VulnAnalyzer
         print(art.ascii_art_vulnanalyzer())
         analyzer = VulnerableLibrariesAnalyzer(self.honeypot.name,
                                                self.honeypot.owner)
-        version = self.honeypot.version
-        versions_list = self.honeypot.versions_list
-        version_lookup_dict = {item["version"]: item["requirements_url"]
-                               for item in versions_list}
+        version: str = self.honeypot.version
+        versions_list: list[dict] = self.honeypot.versions_list
+        version_lookup: Lookup = {item["version"]: item["requirements_url"]
+                                  for item in versions_list}
         self.analyze_vulns_report = analyzer.analyze_vulnerabilities(version,
-                                                                     version_lookup_dict.get(version))
+                                                                     version_lookup.get(version))
         print("Finished VulnAnalyzer!")
 
         # Run Static Analyzer
@@ -40,7 +54,7 @@ class AttackOrchestrator:
 
         # Run Trivy Scanner
         print(art.ascii_art_trivyscanner())
-        owner = self.honeypot.owner
+        owner: str = self.honeypot.owner
         # kippo doesn't have official Docker images, so I am using my own
         if self.honeypot.name == "kippo":
             owner = "aristofanischionis"
@@ -50,8 +64,15 @@ class AttackOrchestrator:
 
         print("Finished all passive attacks successfully!")
 
-    def generate_report(self):
-        report = "Honeypot Passive Attack Report\n"
+    def generate_report(self) -> str:
+        """
+        Formats strings to create a report of the passive attacks
+        on the Honeypot.
+
+        Returns:
+            str: Generated report string.
+        """
+        report: str = "Honeypot Passive Attack Report\n"
         report += "==============================\n\n"
         report += f"Target: {self.honeypot.ip}:{self.honeypot.port}\n\n"
 
