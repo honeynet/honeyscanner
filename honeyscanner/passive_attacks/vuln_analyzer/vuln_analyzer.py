@@ -234,28 +234,6 @@ class VulnerableLibrariesAnalyzer:
                         return cvss_score
         return None
 
-    @staticmethod
-    def convert_vuln_data_format(json_data):
-        """
-        Convert vulnerability data from the downloaded JSON file to a
-        more convenient format.
-        """
-        converted_data = {}
-        for package_name, vulnerabilities in json_data.items():
-            for vuln in vulnerabilities:
-                vuln_id = vuln["id"]
-                specs = vuln["specs"]
-
-                if package_name not in converted_data:
-                    converted_data[package_name] = []
-
-                converted_data[package_name].append({
-                    "id": vuln_id,
-                    "v": ",".join(specs)
-                })
-
-        return converted_data
-
     def process_vulnerabilities(self, packages: list[str]) -> VulnLibs:
         """
         Process the given packages to check for vulnerabilities using
