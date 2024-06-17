@@ -1,16 +1,21 @@
+from honeypots import BaseHoneypot
 from math import floor
+from typing import TypeAlias
+from .base_attack import BaseAttack
 from .dos import DoS
 from .dos_all_open_ports import DoSAllOpenPorts
 from .fuzzing import Fuzzing
 # from .software_exploit import SoftwareExploit
 from .tar_bomb import TarBomb
 
+AttackResults: TypeAlias = list[tuple[bool, str, float, str | int]]
+
 
 class AttackOrchestrator:
-    def __init__(self, honeypot):
+    def __init__(self, honeypot: BaseHoneypot) -> None:
         self.honeypot = honeypot
         # for dionaea and conpot, we can run the DoSAllOpenPorts attack only
-        self.attacks = []
+        self.attacks: list[BaseAttack] = []
         if honeypot.name == "dionaea" or honeypot.name == "conpot":
             self.attacks = [
                 DoSAllOpenPorts(honeypot)
@@ -23,9 +28,12 @@ class AttackOrchestrator:
                 # SoftwareExploit(honeypot),  # Successfully ran! - not managed to exploit something
                 DoS(honeypot)  # Successfully ran! - crashes the honeypot
             ]
-        self.results = []
+        self.results: AttackResults = []
 
-    def run_attacks(self):
+    def run_attacks(self) -> None:
+        """
+        Runs all attacks that can be ran on the specified honeypot.
+        """
         # Then run the attacks
         results = []
         for attack in self.attacks:
@@ -33,7 +41,13 @@ class AttackOrchestrator:
             results.append(result)
         self.results = results
 
-    def generate_report(self):
+    def generate_report(self) -> str:
+        """
+        Generates a report of the attack results.
+
+        Returns:
+            str: Report of the attack results to be saved for later.
+        """
         report = "Honeypot Active Attack Report\n"
         report += "=============================\n\n"
         report += f"Target: {self.honeypot.ip}:{self.honeypot.port}\n\n"
