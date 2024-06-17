@@ -1,18 +1,24 @@
 from honeypots import BaseHoneypot
 from math import floor
 from typing import TypeAlias
-from .base_attack import BaseAttack
+
+from .base_attack import BaseAttack, AttackResults
 from .dos import DoS
 from .dos_all_open_ports import DoSAllOpenPorts
 from .fuzzing import Fuzzing
 # from .software_exploit import SoftwareExploit
 from .tar_bomb import TarBomb
 
-AttackResults: TypeAlias = list[tuple[bool, str, float, str | int]]
-
 
 class AttackOrchestrator:
     def __init__(self, honeypot: BaseHoneypot) -> None:
+        """
+        Initializes an AttackOrchestrator object.
+
+        Args:
+            honeypot (BaseHoneypot): Honeypot object holding the information
+                                     to use in the attacks.
+        """
         self.honeypot = honeypot
         # for dionaea and conpot, we can run the DoSAllOpenPorts attack only
         self.attacks: list[BaseAttack] = []

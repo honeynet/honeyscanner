@@ -2,6 +2,10 @@ import paramiko
 import socket
 import time
 
+from typing import TypeAlias
+
+AttackResults: TypeAlias = list[tuple[bool, str, float, str | int]]
+
 
 class BaseAttack:
     def __init__(self, honeypot):
