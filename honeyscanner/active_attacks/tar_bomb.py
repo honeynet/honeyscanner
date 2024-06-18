@@ -1,7 +1,7 @@
 import threading
 import time
 
-from .base_attack import BaseAttack, AttackResults
+from .base_attack import AttackResults, BaseAttack, BaseHoneypot
 from socket import socket
 """
 Notes:
@@ -25,7 +25,7 @@ EXTRACT_SLEEP_TIME: dict[str, int] = {
 
 
 class TarBomb(BaseAttack):
-    def __init__(self, honeypot) -> None:
+    def __init__(self, honeypot: BaseHoneypot) -> None:
         super().__init__(honeypot)
         self.tar_url_fileids = TAR_URL_FILEIDS
         self.num_of_threads = NUM_OF_THREADS

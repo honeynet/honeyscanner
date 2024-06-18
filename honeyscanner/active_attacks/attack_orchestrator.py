@@ -1,8 +1,6 @@
-from honeypots import BaseHoneypot
 from math import floor
-from typing import TypeAlias
 
-from .base_attack import BaseAttack, AttackResults
+from .base_attack import AttackResults, BaseAttack, BaseHoneypot
 from .dos import DoS
 from .dos_all_open_ports import DoSAllOpenPorts
 from .fuzzing import Fuzzing

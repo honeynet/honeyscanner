@@ -1,6 +1,6 @@
 import time
 
-from .base_attack import BaseAttack, AttackResults
+from .base_attack import AttackResults, BaseAttack, BaseHoneypot
 from boofuzz import (Session,
                      Target,
                      SocketConnection,
@@ -8,7 +8,6 @@ from boofuzz import (Session,
                      s_string,
                      s_delim,
                      s_get)
-from honeypots import BaseHoneypot
 
 """
 Notes:
