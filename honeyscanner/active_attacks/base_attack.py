@@ -5,7 +5,7 @@ import time
 from honeypots import BaseHoneypot
 from typing import TypeAlias
 
-AttackResults: TypeAlias = list[tuple[bool, str, float, str | int]]
+AttackResults: TypeAlias = list[tuple[bool, str, float, str | int | None]]
 
 
 class BaseAttack:
