@@ -2,8 +2,7 @@ import threading
 import time
 import socket
 
-from honeypots import BaseHoneypot
-from .base_attack import BaseAttack, AttackResults
+from .base_attack import AttackResults, BaseAttack, BaseHoneypot
 
 
 class DoS(BaseAttack):
@@ -39,8 +38,8 @@ class DoS(BaseAttack):
         """
         print(f"Running DoS attack on {self.honeypot.ip}:{self.honeypot.port}...")
 
-        threads = [threading.Thread(target=self.attack)
-                   for _ in range(num_threads)]
+        threads: list[threading.Thread] = [threading.Thread(target=self.attack)
+                                           for _ in range(num_threads)]
 
         start_time: float = time.time()
 

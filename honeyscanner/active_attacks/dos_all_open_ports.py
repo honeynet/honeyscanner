@@ -2,15 +2,23 @@ import socket
 import threading
 import time
 
-from .base_attack import BaseAttack
-from .honeypot_port_scanner.honeypot_port_scanner import HoneypotPortScanner
+from .base_attack import BaseAttack, AttackResults, BaseHoneypot
+from .honeypot_port_scanner.honeypot_port_scanner import (HoneypotPortScanner,
+                                                          PortList)
 
 
 class DoSAllOpenPorts(BaseAttack):
-    def __init__(self, honeypot):
+    def __init__(self, honeypot: BaseHoneypot) -> None:
+        """
+        Initializes a new DoSAllOpenPorts object.
+
+        Args:
+            honeypot (BaseHoneypot): Honeypot object to get the information
+                                     for performing the DoS on the honeypot.
+        """
         super().__init__(honeypot)
-        self.honeypot_ports = []
-        self.honeypot_rejecting_connections = False
+        self.honeypot_ports: list[int] = []
+        self.honeypot_rejecting_connections: bool = False
 
     def run_HoneypotPortScanner(self):
         """
@@ -46,9 +54,16 @@ class DoSAllOpenPorts(BaseAttack):
         except Exception as ex:
             print(f"Exception in thread: {ex}")
 
-    def run_attack(self, num_threads=40):
+    def run_attack(self, num_threads: int = 40) -> AttackResults:
         """
         Launch the DoS attack using multiple threads.
+
+        Args:
+            num_threads (int | Optional): The number of threads to use for
+                                          the attack.
+
+        Returns:
+            AttackResults: The results of the attack.
         """
         print("Running the nmap scanner...")
         self.run_HoneypotPortScanner()
@@ -56,10 +71,11 @@ class DoSAllOpenPorts(BaseAttack):
         self.honeypot_rejecting_connections = False
         stop_event = threading.Event()  # Event to signal threads to stop
 
-        threads = [threading.Thread(target=self.attack, args=(stop_event,))
-                   for _ in range(num_threads)]
+        threads: list[threading.Thread] = [threading.Thread(target=self.attack,
+                                                            args=(stop_event,))
+                                           for _ in range(num_threads)]
 
-        start_time = time.time()
+        start_time: float = time.time()
 
         for thread in threads:
             thread.start()
@@ -71,8 +87,8 @@ class DoSAllOpenPorts(BaseAttack):
         for thread in threads:
             thread.join()
 
-        end_time = time.time()
-        time_taken = end_time - start_time
+        end_time: float = time.time()
+        time_taken: float = end_time - start_time
         # TODO: Add how many connections it took to get to the rejecting state
 
         # Check if honeypot successfully rejected connections
