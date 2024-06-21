@@ -32,6 +32,8 @@ class AttackOrchestrator:
                 # SoftwareExploit(honeypot),  # Successfully ran! - not managed to exploit something
                 DoS(honeypot)  # Successfully ran! - crashes the honeypot
             ]
+        self.total_attacks: int = len(self.attacks)
+        self.successful_attacks: int = 0
         self.results: AttackResults = []
 
     def run_attacks(self) -> None:
@@ -42,6 +44,8 @@ class AttackOrchestrator:
         results = []
         for attack in self.attacks:
             result = attack.run_attack()
+            if result[0]:
+                self.successful_attacks += 1
             results.append(result)
         self.results = results
 
@@ -73,4 +77,4 @@ class AttackOrchestrator:
                 report += f"  Number of bombs used: {result[3]}\n\n"
             elif attack_name == "DoSAllOpenPorts":
                 report += f"  Number of threads used: {result[3]}\n\n"
-        return report
+        return (report, self.total_attacks, self.successful_attacks)

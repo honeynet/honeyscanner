@@ -94,7 +94,7 @@ class Honeyscanner:
         )
         # Active attacks
         self.active_attack_orchestrator.run_attacks()
-        self.active_attack_results = (
+        self.active_attack_results: tuple[str, int, int] = (
             self.active_attack_orchestrator.generate_report()
         )
 
@@ -103,5 +103,5 @@ class Honeyscanner:
         Generate the evaluation report for the Honeypot off of
         the attack results.
         """
-        self.report_generator.generate_report(self.passive_attack_results,
-                                              self.active_attack_results)
+        self.report_generator.generate(self.passive_attack_results,
+                                       self.active_attack_results)
