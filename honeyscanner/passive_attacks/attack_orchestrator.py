@@ -1,74 +1,60 @@
-# Ascii art I am using: https://patorjk.com/software/taag/
+import art
 
-from .vuln_analyzer import VulnerableLibrariesAnalyzer
-from .static_analyzer import StaticAnalyzer
+from honeypots import BaseHoneypot
 from .container_security_scanner import ContainerSecurityScanner
+from .static_analyzer import StaticAnalyzer
+from typing import TypeAlias
+from .vuln_analyzer import VulnerableLibrariesAnalyzer
 
-def print_ascii_art_VulnAnalyzer():
-    ascii_art = r"""
-____   ____      .__              _____                   .__                                 
-\   \ /   /__ __ |  |    ____    /  _  \    ____  _____   |  |  ___.__.________  ____ _______ 
- \   Y   /|  |  \|  |   /    \  /  /_\  \  /    \ \__  \  |  | <   |  |\___   /_/ __ \\_  __ \
-  \     / |  |  /|  |__|   |  \/    |    \|   |  \ / __ \_|  |__\___  | /    / \  ___/ |  | \/
-   \___/  |____/ |____/|___|  /\____|__  /|___|  /(____  /|____// ____|/_____ \ \___  >|__|   
-                            \/         \/      \/      \/       \/           \/     \/        
-
-        """
-    print(ascii_art)
-
-def print_ascii_art_StaticHoney():
-    ascii_art = r"""
-  _________ __          __  .__         ___ ___                             
- /   _____//  |______ _/  |_|__| ____  /   |   \  ____   ____   ____ ___.__.
- \_____  \\   __\__  \\   __\  |/ ___\/    ~    \/  _ \ /    \_/ __ <   |  |
- /        \|  |  / __ \|  | |  \  \___\    Y    (  <_> )   |  \  ___/\___  |
-/_______  /|__| (____  /__| |__|\___  >\___|_  / \____/|___|  /\___  > ____|
-        \/           \/             \/       \/             \/     \/\/     
-    """
-    print(ascii_art)
-
-def print_ascii_art_TrivyScanner():
-    ascii_art = r"""
-___________      .__               _________                                         
-\__    ___/______|__|__  _____.__./   _____/ ____ _____    ____   ____   ___________ 
-  |    |  \_  __ \  \  \/ <   |  |\_____  \_/ ___\\__  \  /    \ /    \_/ __ \_  __ \
-  |    |   |  | \/  |\   / \___  |/        \  \___ / __ \|   |  \   |  \  ___/|  | \/
-  |____|   |__|  |__| \_/  / ____/_______  /\___  >____  /___|  /___|  /\___  >__|   
-                           \/            \/     \/     \/     \/     \/     \/       
-    """
-    print(ascii_art)
 
 class AttackOrchestrator:
-    def __init__(self, honeypot):
-        self.honeypot = honeypot
-        self.attacks = [
+    def __init__(self, honeypot: BaseHoneypot) -> None:
+        """
+        Initializes the AttackOrchestrator class for passive
+        attacks on a Honeypot.
+
+        Args:
+            honeypot (BaseHoneypot): Specific Honeypot instance for
+                                     use in the attack.
+        """
+        self.honeypot: BaseHoneypot = honeypot
+        self.attacks: list[str] = [
             "VulnerableLibrariesAnalyzer",
             "StaticAnalyzer",
             "ContainerSecurityScanner"
-        ]   
-        self.analyze_vulns_report = ""
-        self.static_analysis_report = ""
-        self.container_sec_report = ""
+        ]
+        self.analyze_vulns_report: str = ""
+        self.static_analysis_report: str = ""
+        self.container_sec_report: str = ""
 
-    def run_attacks(self):
+    def run_attacks(self) -> None:
+        """
+        Run VulnAnalyzer, StaticHoney, and TrivyScanner on the Honeypot.
+        """
+        Lookup: TypeAlias = dict[str, str]
         # Run VulnAnalyzer
-        print_ascii_art_VulnAnalyzer()
-        analyzer = VulnerableLibrariesAnalyzer(self.honeypot.name, self.honeypot.owner)
-        version = self.honeypot.version
-        versions_list = self.honeypot.versions_list
-        version_lookup_dict = {item["version"]: item["requirements_url"] for item in versions_list}
-        self.analyze_vulns_report = analyzer.analyze_vulnerabilities(version, version_lookup_dict.get(version))
+        print(art.ascii_art_vulnanalyzer())
+        analyzer = VulnerableLibrariesAnalyzer(self.honeypot.name,
+                                               self.honeypot.owner)
+        version: str = self.honeypot.version
+        versions_list: list[dict] = self.honeypot.versions_list
+        version_lookup: Lookup = {item["version"]: item["requirements_url"]
+                                  for item in versions_list}
+        self.analyze_vulns_report = analyzer.analyze_vulnerabilities(version,
+                                                                     version_lookup.get(version))
         print("Finished VulnAnalyzer!")
 
         # Run Static Analyzer
-        print_ascii_art_StaticHoney()
-        analyzer = StaticAnalyzer(self.honeypot.name, self.honeypot.source_code_url, self.honeypot.version)
+        print(art.ascii_art_statichoney())
+        analyzer = StaticAnalyzer(self.honeypot.name,
+                                  self.honeypot.source_code_url,
+                                  self.honeypot.version)
         self.static_analysis_report = analyzer.run()
         print("Finished StaticHoney!")
 
         # Run Trivy Scanner
-        print_ascii_art_TrivyScanner()
-        owner = self.honeypot.owner
+        print(art.ascii_art_trivyscanner())
+        owner: str = self.honeypot.owner
         # kippo doesn't have official Docker images, so I am using my own
         if self.honeypot.name == "kippo":
             owner = "aristofanischionis"
@@ -77,9 +63,16 @@ class AttackOrchestrator:
         print("Finished Trivy!")
 
         print("Finished all passive attacks successfully!")
-    
-    def generate_report(self):
-        report = "Honeypot Passive Attack Report\n"
+
+    def generate_report(self) -> str:
+        """
+        Formats strings to create a report of the passive attacks
+        on the Honeypot.
+
+        Returns:
+            str: Generated report string.
+        """
+        report: str = "Honeypot Passive Attack Report\n"
         report += "==============================\n\n"
         report += f"Target: {self.honeypot.ip}:{self.honeypot.port}\n\n"
 

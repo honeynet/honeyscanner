@@ -1,36 +1,44 @@
+import argparse
 import re
 import time
-import argparse
+
+from art import ascii_art_honeyscanner
 from core import Honeyscanner
 
-def print_ascii_art_honeyscanner():
-    ascii_art = r"""
 
-  ___ ___                                                                             
- /   |   \  ____   ____   ____ ___.__. ______ ____ _____    ____   ____   ___________ 
-/    ~    \/  _ \ /    \_/ __ <   |  |/  ___// ___\\__  \  /    \ /    \_/ __ \_  __ \
-\    Y    (  <_> )   |  \  ___/\___  |\___ \\  \___ / __ \|   |  \   |  \  ___/|  | \/
- \___|_  / \____/|___|  /\___  > ____/____  >\___  >____  /___|  /___|  /\___  >__|   
-       \/             \/     \/\/         \/     \/     \/     \/     \/     \/       
+def sanitize_string(s: str) -> str:
+    """
+    Remove special characters from a string and convert it to lowercase.
 
-        """
-    print(ascii_art)
+    Args:
+        s (str): The string to sanitize.
 
-def sanitize_string(s):  
-    s = s.strip()  
-    s = s.lower()  
-    # Remove special characters using regex (it matches any character that is not a lowercase letter, a number, a space, a dot, an underscore, or a hyphen and removes it.)  
-    s = re.sub('[^a-z0-9._\- ]', '', s)  
-    return s  
+    Returns:
+        str: The sanitized string.
+    """
+    s = s.strip()
+    s = s.lower()
+    s = re.sub(r'[^a-z0-9._\- ]', '', s)
+    return s
 
-def parse_arguments():
-    parser = argparse.ArgumentParser(description="Honeyscanner: A vulnerability analyzer for honeypots")
+
+def parse_arguments() -> argparse.Namespace:
+    """
+    Creates an argument parser and parses the command-line arguments.
+
+    Returns:
+        argparse.Namespace: Parsed arguments object.
+    """
+    parser = argparse.ArgumentParser(
+        description="Honeyscanner: A vulnerability analyzer for honeypots"
+    )
     parser.add_argument(
         "--honeypot",
         type=sanitize_string,
         required=True,
         choices=["cowrie", "kippo", "dionaea", "conpot"],
-        help="Honeypot to analyze, currently supported: (cowrie, kippo, dionaea and conpot)",
+        help="Honeypot to analyze, currently supported: \
+            (cowrie, kippo, dionaea and conpot)",
     )
     parser.add_argument(
         "--honeypot_version",
@@ -64,28 +72,37 @@ def parse_arguments():
     )
     return parser.parse_args()
 
-def main():
-    args = parse_arguments()
-    print_ascii_art_honeyscanner()
-    honeyscanner = Honeyscanner(args.honeypot, args.honeypot_version, args.target_ip, args.port, args.username, args.password)
+
+def main() -> None:
+    """
+    Main entry point of the program.
+    """
+    args: argparse.Namespace = parse_arguments()
+    print(ascii_art_honeyscanner())
+    honeyscanner = Honeyscanner(args.honeypot,
+                                args.honeypot_version,
+                                args.target_ip,
+                                args.port,
+                                args.username,
+                                args.password)
 
     sleep_time = 5
     print(f"Starting in {sleep_time} seconds...")
     time.sleep(sleep_time)
 
-    try:  
-        honeyscanner.run_all_attacks()  
-    except Exception as e:  
+    try:
+        honeyscanner.run_all_attacks()
+    except Exception as e:
         print(f"An error occurred during the attacks: {e}")
         return
 
     try:
-        honeyscanner.generate_evaluation_report()  
-    except Exception as e:  
+        honeyscanner.generate_evaluation_report()
+    except Exception as e:
         print(f"An error occurred during report generation: {e}")
         return
 
-if __name__ == "__main__":
-    main()
 
-# TODO: fix the report
+if __name__ == "__main__":
+    # TODO: fix the report
+    main()

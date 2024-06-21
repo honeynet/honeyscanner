@@ -19,8 +19,8 @@ This project was supported and funded by Google Summer of Code 2023. For more in
 This project was presented at BlackHat Europe 2023 in London. For more information about Honeyscanner in BlackHat Europe click [here](https://www.blackhat.com/eu-23/arsenal/schedule/index.html#honeyscanner-a-vulnerability-analyzer-for-honeypots-35048).
 # Honeyscanner - A vulnerability analyzer for Honeypots
 
-[![Python 3.9.12](https://img.shields.io/badge/python-3.9.12-blue.svg)](https://www.python.org/downloads/release/python-3912/)
-[![Pipenv 2023.7.9](https://img.shields.io/badge/pipenv-2023.7.9-brightgreen.svg)](https://pipenv.pypa.io/)
+[![Python 3.10.12](https://img.shields.io/badge/python-3.10.12-blue.svg)](https://www.python.org/downloads/release/python-3912/)
+[![Pipenv 2023.12.1](https://img.shields.io/badge/pipenv-2023.12.1-brightgreen.svg)](https://pipenv.pypa.io/)
 [![GitHub license](https://img.shields.io/github/license/honeynet/honeyscanner.svg)](https://github.com/honeynet/honeyscanner/blob/main/LICENSE)
 [![Github Issues](https://img.shields.io/github/issues/honeynet/honeyscanner.svg)](https://github.com/honeynet/honeyscanner/issues)
 
@@ -52,8 +52,8 @@ The following instructions will guide you through the process of setting up Hone
 
 ### Requirements
 
-- Python v3.9.12 - Required to run the project
-- Pipenv v2023.7.9 - Required to install Python dependencies
+- Python v3.10.12 - Required to run the project
+- Pipenv v2023.12.1 - Required to install Python dependencies
 - Git - Used to download the source code
 
 ---
@@ -84,7 +84,7 @@ The following instructions will guide you through the process of setting up Hone
 
 - For testing Honeyscanner against [Dionaea](https://github.com/DinoTools/dionaea), use the following Docker Image in DockerHub [here](https://hub.docker.com/r/dinotools/dionaea).
 
-- For testing Honeyscanner against [Conpot](https://github.com/mushorg/conpot), use the following Docker Image in DockerHub [here](https://hub.docker.com/r/honeynet/conpot). 
+- For testing Honeyscanner against [Conpot](https://github.com/mushorg/conpot), use the following Docker Image in DockerHub [here](https://hub.docker.com/r/honeynet/conpot).
 
 - After running a Honeypot using Docker containers locally, you will be able to specify the following parameters: `--target_ip 127.0.0.1 --port 2222` when running the Honeyscanner.
 
@@ -125,7 +125,7 @@ Honeyscanner does not have any release yet.
 
 ## Contact
 
-Please use [Github issues](https://github.com/honeynet/honeyscanner/issues) to report any issues or for questions. 
+Please use [Github issues](https://github.com/honeynet/honeyscanner/issues) to report any issues or for questions.
 
 ## License
 

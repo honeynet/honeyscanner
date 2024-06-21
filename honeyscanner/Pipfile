@@ -4,16 +4,16 @@ verify_ssl = true
 name = "pypi"
 
 [packages]
+boofuzz = "*"
+colorama = "*"
 requests = "*"
 packaging = "*"
-pygithub = "*"
-colorama = "*"
 paramiko = "*"
-boofuzz = "*"
+pygithub = "*"
 python3-nmap = "*"
 
 [dev-packages]
 
 [requires]
-python_version = "3.9"
-python_full_version = "3.9.12"
+python_version = "3.10"
+python_full_version = "3.10.14"
