@@ -4,6 +4,7 @@
 - __Shreyas Srinivasa__ - _GSoC Mentor._
 - __Ricardo Yaben__ - _GSoC Mentor._
 - __Aristofanis Chionis Koufakos__ - _Analysis and development of the first prototype as part of Google Summer of Code 2023._
+- __Sean Brady__ - _Codebase Refactoring and attack enhancements as part of Google Summer of Code 2024_
 
 ## How to contribute
 
