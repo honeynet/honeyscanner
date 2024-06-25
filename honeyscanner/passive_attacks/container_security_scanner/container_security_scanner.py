@@ -26,6 +26,7 @@ class ContainerSecurityScanner:
         self.trivy_path = self.base_path.parent.parent / "bin" / "trivy"
         self.report_name = self.output_folder / f"trivy_scan_results_{self.honeypot_name}.json"
         self.results = None
+        self.recommendations: str = ""
 
     def check_trivy_installed(self) -> bool:
         """
@@ -143,7 +144,7 @@ class ContainerSecurityScanner:
         if self.check_trivy_installed():
             rmtree(Path(__file__).resolve().parent.parent.parent / "bin")
 
-    def scan_repository(self) -> None:
+    def scan_repository(self) -> tuple[str, str]:
         """
         Scan the repository for vulnerabilities and secrets.
         """
@@ -196,7 +197,9 @@ class ContainerSecurityScanner:
             raise
         finally:
             self.cleanup()
-            return self.generate_summary(results)
+            if results.get("Results", [])[0].get("Vulnerabilities", []):
+                self.recommendations = "Trivy found vulnerabilities in the source code repository. Check the TrivyScanner section for more info and inform the developer(s) of the security issue."
+            return (self.generate_summary(results), self.recommendations)
 
     def generate_summary(self, results: dict) -> str:
         """

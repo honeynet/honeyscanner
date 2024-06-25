@@ -38,6 +38,6 @@ Total Potential CVEs: {{all_cves}}
 
 Actionable Recommendations:
 ===========================
-{% for recommendation in recommendations %}
-{{recommendation}}
-{% endfor %}
+{%- for recommendation in recommendations %}{%- if recommendation|length > 0 %}
+{{ recommendation }}
+{%- endif %}{%- endfor %}

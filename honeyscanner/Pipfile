@@ -6,6 +6,7 @@ name = "pypi"
 [packages]
 boofuzz = "*"
 colorama = "*"
+jinja2 = "*"
 requests = "*"
 packaging = "*"
 paramiko = "*"

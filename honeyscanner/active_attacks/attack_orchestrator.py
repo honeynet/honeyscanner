@@ -49,7 +49,7 @@ class AttackOrchestrator:
             results.append(result)
         self.results = results
 
-    def generate_report(self) -> str:
+    def generate_report(self) -> tuple[str, int, int]:
         """
         Generates a report of the attack results.
 

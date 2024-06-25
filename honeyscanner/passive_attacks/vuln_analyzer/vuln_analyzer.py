@@ -396,9 +396,11 @@ class VulnerableLibrariesAnalyzer:
             vulnerabilities (VulnLibs): A dictionary of vulnerable libraries
                                         and their associated vulnerabilities.
         """
+        actions_text: str = ""
         summary_text: str = "\nVulnerability Analysis Summary:\n"
         for name, vuln_list in vulnerabilities.items():
             summary_text += f"{name}\n"
+            actions_text += f"{name}, "
             for vuln in vuln_list:
                 severity_color: str
                 if vuln.cvss_score:
@@ -412,4 +414,5 @@ class VulnerableLibrariesAnalyzer:
                     severity_color = "No CVSS Score"
                 summary_text += f"  - {severity_color} {vuln.vulnerability_id} - {vuln.affected_versions} - {vuln.cve} - CVSS: {vuln.cvss_score}\n"
             summary_text += "\n"
-        return summary_text
+        actions_text = f"All of these modules need to be updated:\n{actions_text[0:-2]}"
+        return (summary_text, actions_text)

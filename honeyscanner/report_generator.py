@@ -42,6 +42,7 @@ class ReportGenerator:
         return len(unique_lines)
 
     def generate(self,
+                 recommendations: list[str],
                  passive_results: str,
                  active_results: ReportResults) -> None:
         """
@@ -52,7 +53,6 @@ class ReportGenerator:
             active_results (ReportResults): Active attacks results.
         """
         date: str = datetime.now().strftime("%Y-%m-%d_%H-%M-%S")
-        recommendations: list[str] = []
         report_date: str = datetime.now().strftime("%Y-%m-%d %H:%M:%S")
         total_attacks: int = active_results[1]
         attack_success: int = active_results[2]
