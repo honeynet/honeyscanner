@@ -3,6 +3,8 @@ import requests
 import subprocess
 
 from colorama import Fore, Style, init
+
+from colorama import Fore, Style, init
 from pathlib import Path
 from shutil import rmtree
 
@@ -12,10 +14,16 @@ SEVERITY_LEVELS = 'MEDIUM,HIGH,CRITICAL'
 # now it checks for some vulnerabilities and secrets in the repo and also if
 # available checks the docker image
 
+# explore the documentation of trivy and see if you can add more features to
+# this script
+# now it checks for some vulnerabilities and secrets in the repo and also if
+# available checks the docker image
+
 
 class ContainerSecurityScanner:
     def __init__(self, honeypot_owner: str, honeypot_name: str) -> None:
         init(autoreset=True)
+        self.honeypot_owner = honeypot_owner.lower()
         self.honeypot_owner = honeypot_owner.lower()
         self.honeypot_name = honeypot_name
         self.github_repo_url = f"https://github.com/{honeypot_owner}/{honeypot_name}"
@@ -48,6 +56,11 @@ class ContainerSecurityScanner:
         sh_command = ["sh"]
 
         try:
+            curl_process = subprocess.Popen(curl_command,
+                                            stdout=subprocess.PIPE)
+            subprocess.run(sh_command,
+                           stdin=curl_process.stdout,
+                           check=True)
             curl_process = subprocess.Popen(curl_command,
                                             stdout=subprocess.PIPE)
             subprocess.run(sh_command,
@@ -119,15 +132,18 @@ class ContainerSecurityScanner:
         with open(self.report_name, "r") as f:
             data = json.load(f)
 
+
         cve_ids = []
         for entry in data:
             vulnerabilities = entry.get("Vulnerabilities", [])
             for vulnerability in vulnerabilities:
                 cve_id = vulnerability["VulnerabilityID"]
+                cve_id = vulnerability["VulnerabilityID"]
                 cve_ids.append(cve_id)
 
         if not self.all_cves_path.exists():
             self.all_cves_path.touch()
+
 
         with open(self.all_cves_path, 'a') as file:
             for cve_id in cve_ids:
@@ -171,9 +187,27 @@ class ContainerSecurityScanner:
                                   'MEDIUM,HIGH,CRITICAL',
                                   '--format',
                                   'json']
+            scan_command_image = [self.trivy_path,
+                                  'image',
+                                  image_name,
+                                  '--exit-code',
+                                  '0',
+                                  '--severity',
+                                  'MEDIUM,HIGH,CRITICAL',
+                                  '--format',
+                                  'json']
             scan_command = scan_command_image
         else:
             print(f"{Fore.YELLOW}Docker image not found on Docker Hub. I will just search for secrets.{Style.RESET_ALL}")
+            scan_command_fs = [self.trivy_path,
+                               'fs',
+                               str(self.local_repo_path),
+                               '--exit-code',
+                               '0',
+                               '--severity',
+                               'MEDIUM,HIGH,CRITICAL',
+                               '--format',
+                               'json']
             scan_command_fs = [self.trivy_path,
                                'fs',
                                str(self.local_repo_path),
@@ -211,12 +245,18 @@ class ContainerSecurityScanner:
                                                           'Vulnerabilities')
             summary_text += self._generate_target_summary(target,
                                                           'Secrets')
+            summary_text += self._generate_target_summary(target,
+                                                          'Vulnerabilities')
+            summary_text += self._generate_target_summary(target,
+                                                          'Secrets')
 
         return summary_text
 
     @staticmethod
     def _generate_target_summary(target: dict, key: str) -> str:
         """
+        Generate a summary of either vulnerabilities or secrets for a target
+        as a string.
         Generate a summary of either vulnerabilities or secrets for a target
         as a string.
         """

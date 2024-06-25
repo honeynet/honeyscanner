@@ -1,7 +1,11 @@
 from active_attacks import AttackOrchestrator as ActiveAttackOrchestrator
 from honeypots import BaseHoneypot, Cowrie, Conpot, Dionaea, Kippo
+from active_attacks import AttackOrchestrator as ActiveAttackOrchestrator
+from honeypots import BaseHoneypot, Cowrie, Conpot, Dionaea, Kippo
 from passive_attacks import AttackOrchestrator as PassiveAttackOrchestrator
 from report_generator import ReportGenerator
+from typing import TypeAlias
+
 from typing import TypeAlias
 
 
@@ -70,6 +74,33 @@ class Honeyscanner:
         """
         honeypot_class_map: self._HoneypotMap = {
             'cowrie': Cowrie,
+    def create_honeypot(self,
+                        honeypot_type: str,
+                        honeypot_version: str,
+                        honeypot_ip: str,
+                        honeypot_port: int,
+                        honeypot_username: str,
+                        honeypot_password: str) -> BaseHoneypot:
+        """
+        Creates a new Honeypot object based on the provided parameters.
+
+        Args:
+            honeypot_type (str): Type of Honeypot to analyze
+            honeypot_version (str): Version of the Honeypot
+            honeypot_ip (str): IP address of the Honeypot
+            honeypot_port (int): Port number of the Honeypot
+            honeypot_username (str): Username to authenticate with
+            honeypot_password (str): Password to authenticate with
+
+        Raises:
+            ValueError: If the provided Honeypot type is not supported yet
+
+        Returns:
+            BaseHoneypot: An instance of the specified Honeypot to
+            analyze data from
+        """
+        honeypot_class_map: self._HoneypotMap = {
+            'cowrie': Cowrie,
             'kippo': Kippo,
             'dionaea': Dionaea,
             'conpot': Conpot
@@ -83,7 +114,21 @@ class Honeyscanner:
                                                  honeypot_port,
                                                  honeypot_username,
                                                  honeypot_password)
+        }
+        if honeypot_type not in honeypot_class_map:
+            supported_honeypots: str = ', '.join(honeypot_class_map.keys())
+            raise ValueError(f"Unsupported honeypot type: {honeypot_type}. \
+                Supported honeypots are: {supported_honeypots}")
+        return honeypot_class_map[honeypot_type](honeypot_version,
+                                                 honeypot_ip,
+                                                 honeypot_port,
+                                                 honeypot_username,
+                                                 honeypot_password)
 
+    def run_all_attacks(self) -> None:
+        """
+        Run all attacks on the Honeypot and save the attack findings.
+        """
     def run_all_attacks(self) -> None:
         """
         Run all attacks on the Honeypot and save the attack findings.

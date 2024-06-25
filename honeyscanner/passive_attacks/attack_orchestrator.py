@@ -1,13 +1,30 @@
 import art
+import art
 
+from honeypots import BaseHoneypot
 from honeypots import BaseHoneypot
 from .container_security_scanner import ContainerSecurityScanner
 from .static_analyzer import StaticAnalyzer
 from typing import TypeAlias
 from .vuln_analyzer import VulnerableLibrariesAnalyzer
 
+from .static_analyzer import StaticAnalyzer
+from typing import TypeAlias
+from .vuln_analyzer import VulnerableLibrariesAnalyzer
+
 
 class AttackOrchestrator:
+    def __init__(self, honeypot: BaseHoneypot) -> None:
+        """
+        Initializes the AttackOrchestrator class for passive
+        attacks on a Honeypot.
+
+        Args:
+            honeypot (BaseHoneypot): Specific Honeypot instance for
+                                     use in the attack.
+        """
+        self.honeypot: BaseHoneypot = honeypot
+        self.attacks: list[str] = [
     def __init__(self, honeypot: BaseHoneypot) -> None:
         """
         Initializes the AttackOrchestrator class for passive
@@ -28,6 +45,11 @@ class AttackOrchestrator:
         self.container_sec_report: str = ""
         self.recs: dict[str, str] = {"vuln": "", "static": "", "container": ""}
 
+    def run_attacks(self) -> None:
+        """
+        Run VulnAnalyzer, StaticHoney, and TrivyScanner on the Honeypot.
+        """
+        Lookup: TypeAlias = dict[str, str]
     def run_attacks(self) -> None:
         """
         Run VulnAnalyzer, StaticHoney, and TrivyScanner on the Honeypot.
@@ -56,6 +78,8 @@ class AttackOrchestrator:
         print("Finished StaticHoney!")
 
         # Run Trivy Scanner
+        print(art.ascii_art_trivyscanner())
+        owner: str = self.honeypot.owner
         print(art.ascii_art_trivyscanner())
         owner: str = self.honeypot.owner
         # kippo doesn't have official Docker images, so I am using my own
