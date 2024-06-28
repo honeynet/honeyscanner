@@ -36,9 +36,9 @@ def parse_arguments() -> argparse.Namespace:
         "--honeypot",
         type=sanitize_string,
         required=True,
-        choices=["cowrie", "kippo", "dionaea", "conpot"],
+        choices=["cowrie", "kippo", "dionaea", "conpot", "gaspot"],
         help="Honeypot to analyze, currently supported: \
-            (cowrie, kippo, dionaea and conpot)",
+            (cowrie, kippo, dionaea, conpot and gaspot)",
     )
     parser.add_argument(
         "--honeypot_version",

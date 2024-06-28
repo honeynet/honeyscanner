@@ -10,6 +10,7 @@ from pathlib import Path
 from typing import TypeAlias
 from urllib.request import urlretrieve
 from zipfile import ZipFile
+from shutil import copyfile
 
 FilteredRes: TypeAlias = list[dict[str, str]]
 FilteredJSON: TypeAlias = dict[str, dict[str, FilteredRes]]
@@ -35,33 +36,64 @@ class StaticAnalyzer:
         passive_root: Path = self.parent_path.parent
         self.all_cves_path: Path = passive_root / "results" / "all_cves.txt"
 
+        if honeypot_name == "gaspot":
+            self.create_gaspot_directory(honeypot_version)
+
+    def create_gaspot_directory(self, version: str) -> None:
+        gaspot_dir = Path('/home/kali/honeyscanner/honeyscanner/passive_attacks/static_analyzer') / f'gaspot-{version}'
+        try:
+            os.makedirs(gaspot_dir, exist_ok=True)
+            print(f"Directory '{gaspot_dir}' created successfully.")
+        except OSError as error:
+            print(f"Error creating directory '{gaspot_dir}': {error}")
+
+
     def fetch_honeypot_version(self, version: str) -> Path:
         """
-        Fetch the specified honeypot version from GitHub and
-        extract it to a folder.
+        Fetch the specified honeypot version either from a local file (for gaspot)
+        or from GitHub and extract it to a folder.
 
         Args:
             version (str): Version of the honeypot to fetch.
 
         Returns:
-            Path: BytesPath object to where the
+            Path: Path object to where the honeypot is extracted.
         """
-        url: str = f"{self.honeypot_url}/{version}.zip"
-        zip_filename: Path = self.parent_path / f"{self.honeypot_name}-{version}.zip"
-        urlretrieve(url, zip_filename)
+        if self.honeypot_name == "gaspot":
+            #  Local file path for gaspot version zip file
+            local_zip_filename = Path('/home/kali/honeyscanner/honeyscanner/GasPot') / f'{version}.zip'
 
-        with ZipFile(zip_filename, 'r') as zip_ref:
-            zip_ref.extractall(self.parent_path)
+            #  Copy the local zip file to the target directory
+            dest_zip_filename = self.parent_path / f"{self.honeypot_name}-{version}.zip"
+            copyfile(local_zip_filename, dest_zip_filename)
 
-        os.remove(zip_filename)
-        # this is cowrie specific
-        if self.honeypot_name == "cowrie" and version.startswith("v"):
-            version = version[1:]
-        # this is kippo specific
-        if self.honeypot_name == "kippo" and version.startswith("v"):
-            version = version[1:]
+            #  Extract the contents of the zip file to gaspot directory
+            gaspot_dir = Path('/home/kali/honeyscanner/honeyscanner/passive_attacks/static_analyzer') / f'gaspot-{version}'
+            with ZipFile(dest_zip_filename, 'r') as zip_ref:
+                zip_ref.extractall(gaspot_dir)
 
-        return self.parent_path / f"{self.honeypot_name}-{version}"
+            #  Remove the copied zip file
+            os.remove(dest_zip_filename)
+
+            return gaspot_dir
+        else:
+            url: str = f"{self.honeypot_url}/{version}.zip"
+            zip_filename: Path = self.parent_path / f"{self.honeypot_name}-{version}.zip"
+            urlretrieve(url, zip_filename)
+
+            with ZipFile(zip_filename, 'r') as zip_ref:
+                zip_ref.extractall(self.parent_path)
+
+            os.remove(zip_filename)
+
+            # Specific handling for cowrie and kippo versions
+            if self.honeypot_name == "cowrie" and version.startswith("v"):
+                version = version[1:]
+            if self.honeypot_name == "kippo" and version.startswith("v"):
+                version = version[1:]
+
+            return self.parent_path / f"{self.honeypot_name}-{version}"
+
 
     def analyze_honeypot_version(self,
                                  honeypot_folder: Path,
@@ -211,7 +243,6 @@ class StaticAnalyzer:
         dir_path: Path = self.all_cves_path.parent
         if not dir_path.exists():
             os.makedirs(dir_path)
-
         with open(self.all_cves_path, 'a') as file:
             for cve_id in cve_ids:
                 file.write(f"{cve_id}\n")
