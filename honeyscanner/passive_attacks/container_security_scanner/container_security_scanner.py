@@ -3,8 +3,6 @@ import requests
 import subprocess
 
 from colorama import Fore, Style, init
-
-from colorama import Fore, Style, init
 from pathlib import Path
 from shutil import rmtree
 
@@ -14,16 +12,17 @@ SEVERITY_LEVELS = 'MEDIUM,HIGH,CRITICAL'
 # now it checks for some vulnerabilities and secrets in the repo and also if
 # available checks the docker image
 
-# explore the documentation of trivy and see if you can add more features to
-# this script
-# now it checks for some vulnerabilities and secrets in the repo and also if
-# available checks the docker image
-
 
 class ContainerSecurityScanner:
     def __init__(self, honeypot_owner: str, honeypot_name: str) -> None:
+        """
+        Initialize a new ContainerSecurityScanner class.
+
+        Args:
+            honeypot_owner (str): Name of the developer
+            honeypot_name (str): Name of the honeypot
+        """
         init(autoreset=True)
-        self.honeypot_owner = honeypot_owner.lower()
         self.honeypot_owner = honeypot_owner.lower()
         self.honeypot_name = honeypot_name
         self.github_repo_url = f"https://github.com/{honeypot_owner}/{honeypot_name}"
@@ -39,6 +38,9 @@ class ContainerSecurityScanner:
     def check_trivy_installed(self) -> bool:
         """
         Check if Trivy is installed.
+
+        Returns:
+            bool: True if Trivy is installed, False otherwise.
         """
         try:
             subprocess.check_output([str(self.trivy_path), '--version'])
@@ -56,11 +58,6 @@ class ContainerSecurityScanner:
         sh_command = ["sh"]
 
         try:
-            curl_process = subprocess.Popen(curl_command,
-                                            stdout=subprocess.PIPE)
-            subprocess.run(sh_command,
-                           stdin=curl_process.stdout,
-                           check=True)
             curl_process = subprocess.Popen(curl_command,
                                             stdout=subprocess.PIPE)
             subprocess.run(sh_command,
@@ -92,6 +89,12 @@ class ContainerSecurityScanner:
     def get_dockerhub_image(image_name: str) -> bool:
         """
         Check if the image exists on Docker Hub.
+
+        Args:
+            image_name (str): The name of the image to check.
+
+        Returns:
+            bool: True if the image exists on Docker Hub, False otherwise.
         """
         url = f"https://hub.docker.com/v2/repositories/{image_name}/tags/"
         response = requests.get(url)
@@ -100,6 +103,9 @@ class ContainerSecurityScanner:
     def print_summary(self, results: dict) -> None:
         """
         Print a summary of the scan results.
+
+        Args:
+            results (dict): The scan results.
         """
         print(f"{Fore.GREEN}Scan Summary{Style.RESET_ALL}")
         for target in results.get('Results', []):
@@ -110,6 +116,10 @@ class ContainerSecurityScanner:
     def _print_target_summary(target: dict, key: str) -> None:
         """
         Print a summary of either vulnerabilities or secrets for a target.
+
+        Args:
+            target (dict): The target to print the summary for.
+            key (str): The key to print the summary for.
         """
         print(f"\n{Fore.CYAN}{key} in {target['Target']}:{Style.RESET_ALL}")
         for severity in SEVERITY_LEVELS.split(','):
@@ -119,6 +129,9 @@ class ContainerSecurityScanner:
     def save_report(self, results: dict) -> None:
         """
         Save the scan results to a JSON file.
+
+        Args:
+            results (dict): The scan results.
         """
         print(f"{Fore.GREEN}Saving report...{Style.RESET_ALL}")
         with open(self.report_name, 'w') as outfile:
@@ -132,7 +145,6 @@ class ContainerSecurityScanner:
         with open(self.report_name, "r") as f:
             data = json.load(f)
 
-
         cve_ids = []
         for entry in data:
             vulnerabilities = entry.get("Vulnerabilities", [])
@@ -143,7 +155,6 @@ class ContainerSecurityScanner:
 
         if not self.all_cves_path.exists():
             self.all_cves_path.touch()
-
 
         with open(self.all_cves_path, 'a') as file:
             for cve_id in cve_ids:
@@ -163,6 +174,10 @@ class ContainerSecurityScanner:
     def scan_repository(self) -> tuple[str, str]:
         """
         Scan the repository for vulnerabilities and secrets.
+
+        Returns:
+            tuple[str, str]: A tuple containing the scan results
+                             and recommendations.
         """
         self.check_trivy_installed()
 
@@ -187,27 +202,9 @@ class ContainerSecurityScanner:
                                   'MEDIUM,HIGH,CRITICAL',
                                   '--format',
                                   'json']
-            scan_command_image = [self.trivy_path,
-                                  'image',
-                                  image_name,
-                                  '--exit-code',
-                                  '0',
-                                  '--severity',
-                                  'MEDIUM,HIGH,CRITICAL',
-                                  '--format',
-                                  'json']
             scan_command = scan_command_image
         else:
             print(f"{Fore.YELLOW}Docker image not found on Docker Hub. I will just search for secrets.{Style.RESET_ALL}")
-            scan_command_fs = [self.trivy_path,
-                               'fs',
-                               str(self.local_repo_path),
-                               '--exit-code',
-                               '0',
-                               '--severity',
-                               'MEDIUM,HIGH,CRITICAL',
-                               '--format',
-                               'json']
             scan_command_fs = [self.trivy_path,
                                'fs',
                                str(self.local_repo_path),
@@ -238,13 +235,14 @@ class ContainerSecurityScanner:
     def generate_summary(self, results: dict) -> str:
         """
         Generate a summary of the scan results as a string.
+
+        Args:
+            results (dict): The scan results.
+        Returns:
+            str: The summary of the scan results.
         """
         summary_text = "Scan Summary\n"
         for target in results.get('Results', []):
-            summary_text += self._generate_target_summary(target,
-                                                          'Vulnerabilities')
-            summary_text += self._generate_target_summary(target,
-                                                          'Secrets')
             summary_text += self._generate_target_summary(target,
                                                           'Vulnerabilities')
             summary_text += self._generate_target_summary(target,
@@ -257,8 +255,12 @@ class ContainerSecurityScanner:
         """
         Generate a summary of either vulnerabilities or secrets for a target
         as a string.
-        Generate a summary of either vulnerabilities or secrets for a target
-        as a string.
+
+        Args:
+            target (dict): The target to generate the summary for.
+            key (str): The key to generate the summary for.
+        Returns:
+            str: The summary of the target.
         """
         summary_text = f"\n{key} in {target['Target']}:\n"
         for severity in SEVERITY_LEVELS.split(','):

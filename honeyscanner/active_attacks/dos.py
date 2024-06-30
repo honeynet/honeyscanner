@@ -35,6 +35,12 @@ class DoS(BaseAttack):
     def run_attack(self, num_threads=40) -> AttackResults:
         """
         Launch the DoS attack using multiple threads.
+
+        Args:
+            num_threads (int | Optional): The number of threads to use for
+                                          the attack.
+        Returns:
+            AttackResults: Tuple holding the results of the attack.
         """
         print(f"Running DoS attack on {self.honeypot.ip}:{self.honeypot.port}...")
 

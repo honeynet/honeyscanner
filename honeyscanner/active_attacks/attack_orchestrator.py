@@ -1,16 +1,11 @@
 from math import floor
 
 from .base_attack import AttackResults, BaseAttack, BaseHoneypot
-
-from .base_attack import AttackResults, BaseAttack, BaseHoneypot
 from .dos import DoS
-from .dos_all_open_ports import DoSAllOpenPorts
 from .dos_all_open_ports import DoSAllOpenPorts
 from .fuzzing import Fuzzing
 # from .software_exploit import SoftwareExploit
-# from .software_exploit import SoftwareExploit
 from .tar_bomb import TarBomb
-
 
 
 class AttackOrchestrator:
@@ -22,17 +17,8 @@ class AttackOrchestrator:
             honeypot (BaseHoneypot): Honeypot object holding the information
                                      to use in the attacks.
         """
-    def __init__(self, honeypot: BaseHoneypot) -> None:
-        """
-        Initializes an AttackOrchestrator object.
-
-        Args:
-            honeypot (BaseHoneypot): Honeypot object holding the information
-                                     to use in the attacks.
-        """
         self.honeypot = honeypot
         # for dionaea and conpot, we can run the DoSAllOpenPorts attack only
-        self.attacks: list[BaseAttack] = []
         self.attacks: list[BaseAttack] = []
         if honeypot.name == "dionaea" or honeypot.name == "conpot":
             self.attacks = [
@@ -40,24 +26,16 @@ class AttackOrchestrator:
             ]
         else:
             self.attacks = [
-                Fuzzing(honeypot),  # Successfully ran! - not crashing the honeypot - try to get some insights instead of crashing
-                TarBomb(honeypot),  # should be rechecked, works but doesn't crash the honeypot
-                Fuzzing(honeypot),  # Successfully ran! - not crashing the honeypot - try to get some insights instead of crashing
-                TarBomb(honeypot),  # should be rechecked, works but doesn't crash the honeypot
+                Fuzzing(honeypot),
+                TarBomb(honeypot),
                 # TODO: SoftwareExploit still is slow
-                # SoftwareExploit(honeypot),  # Successfully ran! - not managed to exploit something
-                DoS(honeypot)  # Successfully ran! - crashes the honeypot
-                # SoftwareExploit(honeypot),  # Successfully ran! - not managed to exploit something
-                DoS(honeypot)  # Successfully ran! - crashes the honeypot
+                # SoftwareExploit(honeypot),
+                DoS(honeypot)
             ]
         self.total_attacks: int = len(self.attacks)
         self.successful_attacks: int = 0
         self.results: AttackResults = []
 
-    def run_attacks(self) -> None:
-        """
-        Runs all attacks that can be ran on the specified honeypot.
-        """
     def run_attacks(self) -> None:
         """
         Runs all attacks that can be ran on the specified honeypot.

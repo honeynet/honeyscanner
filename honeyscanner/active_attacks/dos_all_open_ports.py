@@ -28,7 +28,7 @@ class DoSAllOpenPorts(BaseAttack):
         honeypot_scanner.run_scanner()
         self.honeypot_ports = honeypot_scanner.get_open_ports()
 
-    def attack(self, stop_event):
+    def attack(self, stop_event) -> None:
         """
         Attempt to flood the honeypot with connections in all ports, until it
         starts rejecting them.
