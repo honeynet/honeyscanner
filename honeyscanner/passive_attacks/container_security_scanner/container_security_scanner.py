@@ -15,6 +15,13 @@ SEVERITY_LEVELS = 'MEDIUM,HIGH,CRITICAL'
 
 class ContainerSecurityScanner:
     def __init__(self, honeypot_owner: str, honeypot_name: str) -> None:
+        """
+        Initialize a new ContainerSecurityScanner class.
+
+        Args:
+            honeypot_owner (str): Name of the developer
+            honeypot_name (str): Name of the honeypot
+        """
         init(autoreset=True)
         self.honeypot_owner = honeypot_owner.lower()
         self.honeypot_name = honeypot_name
@@ -26,10 +33,14 @@ class ContainerSecurityScanner:
         self.trivy_path = self.base_path.parent.parent / "bin" / "trivy"
         self.report_name = self.output_folder / f"trivy_scan_results_{self.honeypot_name}.json"
         self.results = None
+        self.recommendations: str = ""
 
     def check_trivy_installed(self) -> bool:
         """
         Check if Trivy is installed.
+
+        Returns:
+            bool: True if Trivy is installed, False otherwise.
         """
         try:
             subprocess.check_output([str(self.trivy_path), '--version'])
@@ -78,6 +89,12 @@ class ContainerSecurityScanner:
     def get_dockerhub_image(image_name: str) -> bool:
         """
         Check if the image exists on Docker Hub.
+
+        Args:
+            image_name (str): The name of the image to check.
+
+        Returns:
+            bool: True if the image exists on Docker Hub, False otherwise.
         """
         url = f"https://hub.docker.com/v2/repositories/{image_name}/tags/"
         response = requests.get(url)
@@ -86,6 +103,9 @@ class ContainerSecurityScanner:
     def print_summary(self, results: dict) -> None:
         """
         Print a summary of the scan results.
+
+        Args:
+            results (dict): The scan results.
         """
         print(f"{Fore.GREEN}Scan Summary{Style.RESET_ALL}")
         for target in results.get('Results', []):
@@ -96,6 +116,10 @@ class ContainerSecurityScanner:
     def _print_target_summary(target: dict, key: str) -> None:
         """
         Print a summary of either vulnerabilities or secrets for a target.
+
+        Args:
+            target (dict): The target to print the summary for.
+            key (str): The key to print the summary for.
         """
         print(f"\n{Fore.CYAN}{key} in {target['Target']}:{Style.RESET_ALL}")
         for severity in SEVERITY_LEVELS.split(','):
@@ -105,6 +129,9 @@ class ContainerSecurityScanner:
     def save_report(self, results: dict) -> None:
         """
         Save the scan results to a JSON file.
+
+        Args:
+            results (dict): The scan results.
         """
         print(f"{Fore.GREEN}Saving report...{Style.RESET_ALL}")
         with open(self.report_name, 'w') as outfile:
@@ -122,6 +149,7 @@ class ContainerSecurityScanner:
         for entry in data:
             vulnerabilities = entry.get("Vulnerabilities", [])
             for vulnerability in vulnerabilities:
+                cve_id = vulnerability["VulnerabilityID"]
                 cve_id = vulnerability["VulnerabilityID"]
                 cve_ids.append(cve_id)
 
@@ -143,9 +171,13 @@ class ContainerSecurityScanner:
         if self.check_trivy_installed():
             rmtree(Path(__file__).resolve().parent.parent.parent / "bin")
 
-    def scan_repository(self) -> None:
+    def scan_repository(self) -> tuple[str, str]:
         """
         Scan the repository for vulnerabilities and secrets.
+
+        Returns:
+            tuple[str, str]: A tuple containing the scan results
+                             and recommendations.
         """
         self.check_trivy_installed()
 
@@ -196,11 +228,18 @@ class ContainerSecurityScanner:
             raise
         finally:
             self.cleanup()
-            return self.generate_summary(results)
+            if results.get("Results", [])[0].get("Vulnerabilities", []):
+                self.recommendations = "Trivy found vulnerabilities in the source code repository. Check the TrivyScanner section for more info and inform the developer(s) of the security issue."
+            return (self.generate_summary(results), self.recommendations)
 
     def generate_summary(self, results: dict) -> str:
         """
         Generate a summary of the scan results as a string.
+
+        Args:
+            results (dict): The scan results.
+        Returns:
+            str: The summary of the scan results.
         """
         summary_text = "Scan Summary\n"
         for target in results.get('Results', []):
@@ -216,6 +255,12 @@ class ContainerSecurityScanner:
         """
         Generate a summary of either vulnerabilities or secrets for a target
         as a string.
+
+        Args:
+            target (dict): The target to generate the summary for.
+            key (str): The key to generate the summary for.
+        Returns:
+            str: The summary of the target.
         """
         summary_text = f"\n{key} in {target['Target']}:\n"
         for severity in SEVERITY_LEVELS.split(','):

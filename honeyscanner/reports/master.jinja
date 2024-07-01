@@ -1,0 +1,43 @@
+  ___ ___
+ /   |   \  ____   ____   ____ ___.__. ______ ____ _____    ____   ____   ___________
+/    ~    \/  _ \ /    \_/ __ <   |  |/  ___// ___\\__  \  /    \ /    \_/ __ \_  __ \
+\    Y    (  <_> )   |  \  ___/\___  |\___ \\  \___ / __ \|   |  \   |  \  ___/|  | \/
+ \___|_  / \____/|___|  /\___  > ____/____  >\___  >____  /___|  /___|  /\___  >__|
+       \/             \/     \/\/         \/     \/     \/     \/     \/     \/
+
+
+Security Assessment of {{name}} Honeypot | Version: {{version}}
+Honeypot IP: {{ip}}
+Honeypot Port: {{port}}
+Date of Assessment: {{date}}
+
+Report Summary
+=================================================
+
+Passive Attacks Results:
+========================
+{{passive_results}}
+
+Active Attacks Results:
+=======================
+{{active_results}}
+
+Attack Success Rate:
+====================
+{{rating}}
+
+Successful Attacks:
+===================
+{{success}}
+
+Failed Attacks:
+================
+{{failed}}
+
+Total Potential CVEs: {{all_cves}}
+
+Actionable Recommendations:
+===========================
+{%- for recommendation in recommendations %}{%- if recommendation|length > 0 %}
+{{ recommendation }}
+{%- endif %}{%- endfor %}

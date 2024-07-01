@@ -26,12 +26,14 @@ class AttackOrchestrator:
             ]
         else:
             self.attacks = [
-                Fuzzing(honeypot),  # Successfully ran! - not crashing the honeypot - try to get some insights instead of crashing
-                TarBomb(honeypot),  # should be rechecked, works but doesn't crash the honeypot
+                Fuzzing(honeypot),
+                TarBomb(honeypot),
                 # TODO: SoftwareExploit still is slow
-                # SoftwareExploit(honeypot),  # Successfully ran! - not managed to exploit something
-                DoS(honeypot)  # Successfully ran! - crashes the honeypot
+                # SoftwareExploit(honeypot),
+                DoS(honeypot)
             ]
+        self.total_attacks: int = len(self.attacks)
+        self.successful_attacks: int = 0
         self.results: AttackResults = []
 
     def run_attacks(self) -> None:
@@ -42,10 +44,12 @@ class AttackOrchestrator:
         results = []
         for attack in self.attacks:
             result = attack.run_attack()
+            if result[0]:
+                self.successful_attacks += 1
             results.append(result)
         self.results = results
 
-    def generate_report(self) -> str:
+    def generate_report(self) -> tuple[str, int, int]:
         """
         Generates a report of the attack results.
 
@@ -73,4 +77,4 @@ class AttackOrchestrator:
                 report += f"  Number of bombs used: {result[3]}\n\n"
             elif attack_name == "DoSAllOpenPorts":
                 report += f"  Number of threads used: {result[3]}\n\n"
-        return report
+        return (report, self.total_attacks, self.successful_attacks)

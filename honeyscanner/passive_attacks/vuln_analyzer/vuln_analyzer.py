@@ -252,6 +252,7 @@ class VulnerableLibrariesAnalyzer:
 
         # Custom vulnerability check
         vulnerable_libraries_dict: VulnLibs = {}
+        vulnerable_libraries_dict: VulnLibs = {}
         for package in packages:
             name, installed_version = package.split("==")
             if name in vuln_data:
@@ -303,9 +304,13 @@ class VulnerableLibrariesAnalyzer:
         # Process the packages to check for vulnerabilities
         return self.process_vulnerabilities(packages)
 
-    def log_cves_to_file(self, vulnerabilities):
+    def log_cves_to_file(self, vulnerabilities: VulnLibs) -> None:
         """
         Append found CVEs to a file.
+
+        Args:
+            vulnerabilities (VulnLibs): Dictionary of vulnerable libraries
+                                        and their associated vulnerabilities.
         """
         dir_path = os.path.dirname(self.all_cves_path)
         if not os.path.isdir(dir_path):
@@ -332,6 +337,7 @@ class VulnerableLibrariesAnalyzer:
             str: The summary of the vulnerabilities found in the
                  specified version of the honeypot.
         """
+        success: bool = self.download_requirements(version, requirements_url)
         VulnOutputMap: TypeAlias = dict[str, Vulnerability.VulnDict]
         VulnJSON: TypeAlias = dict[str, VulnOutputMap]
 
@@ -378,6 +384,7 @@ class VulnerableLibrariesAnalyzer:
             print(f"{Fore.YELLOW}{name}{Style.RESET_ALL}")
             for vuln in vuln_list:
                 severity_color: str = Fore.WHITE
+                severity_color: str = Fore.WHITE
                 if vuln.cvss_score:
                     if vuln.cvss_score < 4.0:
                         severity_color = Fore.GREEN
@@ -396,10 +403,13 @@ class VulnerableLibrariesAnalyzer:
             vulnerabilities (VulnLibs): A dictionary of vulnerable libraries
                                         and their associated vulnerabilities.
         """
+        actions_text: str = ""
         summary_text: str = "\nVulnerability Analysis Summary:\n"
         for name, vuln_list in vulnerabilities.items():
             summary_text += f"{name}\n"
+            actions_text += f"{name}, "
             for vuln in vuln_list:
+                severity_color: str
                 severity_color: str
                 if vuln.cvss_score:
                     if vuln.cvss_score < 4.0:
@@ -412,4 +422,5 @@ class VulnerableLibrariesAnalyzer:
                     severity_color = "No CVSS Score"
                 summary_text += f"  - {severity_color} {vuln.vulnerability_id} - {vuln.affected_versions} - {vuln.cve} - CVSS: {vuln.cvss_score}\n"
             summary_text += "\n"
-        return summary_text
+        actions_text = f"All of these modules need to be updated:\n{actions_text[0:-2]}"
+        return (summary_text, actions_text)

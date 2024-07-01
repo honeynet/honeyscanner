@@ -26,6 +26,7 @@ class AttackOrchestrator:
         self.analyze_vulns_report: str = ""
         self.static_analysis_report: str = ""
         self.container_sec_report: str = ""
+        self.recs: dict[str, str] = {"vuln": "", "static": "", "container": ""}
 
     def run_attacks(self) -> None:
         """
@@ -40,8 +41,10 @@ class AttackOrchestrator:
         versions_list: list[dict] = self.honeypot.versions_list
         version_lookup: Lookup = {item["version"]: item["requirements_url"]
                                   for item in versions_list}
-        self.analyze_vulns_report = analyzer.analyze_vulnerabilities(version,
-                                                                     version_lookup.get(version))
+        self.analyze_vulns_report, self.recs["vuln"] = (
+            analyzer.analyze_vulnerabilities(version,
+                                             version_lookup.get(version))
+        )
         print("Finished VulnAnalyzer!")
 
         # Run Static Analyzer
@@ -49,22 +52,24 @@ class AttackOrchestrator:
         analyzer = StaticAnalyzer(self.honeypot.name,
                                   self.honeypot.source_code_url,
                                   self.honeypot.version)
-        self.static_analysis_report = analyzer.run()
+        self.static_analysis_report, self.recs["static"] = analyzer.run()
         print("Finished StaticHoney!")
 
         # Run Trivy Scanner
+        print(art.ascii_art_trivyscanner())
+        owner: str = self.honeypot.owner
         print(art.ascii_art_trivyscanner())
         owner: str = self.honeypot.owner
         # kippo doesn't have official Docker images, so I am using my own
         if self.honeypot.name == "kippo":
             owner = "aristofanischionis"
         scanner = ContainerSecurityScanner(owner, self.honeypot.name)
-        self.container_sec_report = scanner.scan_repository()
+        self.container_sec_report, self.recs["container"] = scanner.scan_repository()
         print("Finished Trivy!")
 
         print("Finished all passive attacks successfully!")
 
-    def generate_report(self) -> str:
+    def generate_report(self) -> tuple[str, dict[str, str]]:
         """
         Formats strings to create a report of the passive attacks
         on the Honeypot.
@@ -87,4 +92,4 @@ class AttackOrchestrator:
             elif attack == "ContainerSecurityScanner":
                 report += self.container_sec_report
                 report += "\n\n"
-        return report
+        return (report, self.recs)
