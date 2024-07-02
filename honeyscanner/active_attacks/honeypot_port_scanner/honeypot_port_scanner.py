@@ -9,6 +9,7 @@ from colorama import Fore, Style
 from nmap3 import Nmap
 from typing import TypeAlias
 
+AttackPorts: TypeAlias = dict[str, dict[str, str]]
 PortList: TypeAlias = list[int]
 Report: TypeAlias = dict[str, str | list | dict[str, dict[str, dict[str, str | list]]]]
 
@@ -26,6 +27,7 @@ class HoneypotPortScanner:
         curr_dir: str = os.path.dirname(os.path.abspath(__file__))
         self.output_folder: str = os.path.join(curr_dir, 'analysis_results')
         self.scanning: bool = True
+        self.attack_ports: AttackPorts = {}
         self.ports: PortList = []
 
     def scan_honeypot(self):
@@ -48,17 +50,22 @@ class HoneypotPortScanner:
             else:
                 self.report['os'] = []
 
-            ports: Report = {}
+            report_ports: Report = {}
+            attack_ports: AttackPorts = {}
             for port_info in host_info['ports']:
                 port = port_info['portid']
-                ports[port] = {
+                report_ports[port] = {
                     'name': port_info['service']['name'] if 'name' in port_info['service'] else '',
                     'product': port_info['service']['product'] if 'product' in port_info['service'] else '',
                     'version': port_info['service']['version'] if 'version' in port_info['service'] else '',
                     'cpe': port_info['service']['cpe'] if 'cpe' in port_info['service'] else [],
                     'script': port_info['service']['script'] if 'script' in port_info['service'] else []
                 }
-            self.report['ports'] = ports
+                attack_ports[port] = {
+                    'name': port_info['service']['name'] if 'name' in port_info['service'] else ''
+                }
+            self.report['ports'] = report_ports
+            self.attack_ports = attack_ports
         else:
             self.report['status'] = 'offline'
 
@@ -105,6 +112,7 @@ class HoneypotPortScanner:
                 time.sleep(0.1)
 
     def get_open_ports(self) -> PortList:
+        # Replace with attack_ports and remove self.ports if not used anywhere
         return self.ports
 
     def run_scanner(self) -> None:
