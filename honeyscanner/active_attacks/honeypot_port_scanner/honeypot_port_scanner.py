@@ -107,13 +107,12 @@ class HoneypotPortScanner:
         chars = "⠋⠙⠹⠸⠼⠴⠦⠧⠇⠏"
         while self.scanning:
             for char in chars:
-                sys.stdout.write(f"\rScanning with nmap in progress...{char}")
-                sys.stdout.flush()
+                print(f"\rScanning with nmap in progress...{char}", end="")
                 time.sleep(0.1)
 
-    def get_open_ports(self) -> PortList:
+    def get_open_ports(self) -> AttackPorts:
         # Replace with attack_ports and remove self.ports if not used anywhere
-        return self.ports
+        return self.attack_ports
 
     def run_scanner(self) -> None:
         print(art.ascii_art_port_scanner())
@@ -125,5 +124,4 @@ class HoneypotPortScanner:
         self.print_summary()
         self.scanning = False
         loading_thread.join(timeout=0.1)
-        sys.stdout.write("\rFinished HoneypotPortScanner!      \n")
-        sys.stdout.flush()
+        print("\rFinished HoneypotPortScanner!         ")

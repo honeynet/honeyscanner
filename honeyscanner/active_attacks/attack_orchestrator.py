@@ -2,7 +2,6 @@ from math import floor
 
 from .base_attack import AttackResults, BaseAttack, BaseHoneypot
 from .dos import DoS
-from .dos_all_open_ports import DoSAllOpenPorts
 from .fuzzing import Fuzzing
 # from .software_exploit import SoftwareExploit
 from .tar_bomb import TarBomb
@@ -18,11 +17,11 @@ class AttackOrchestrator:
                                      to use in the attacks.
         """
         self.honeypot = honeypot
-        # for dionaea and conpot, we can run the DoSAllOpenPorts attack only
+        # For Dionaea and Conpot, we can run the DoS attack only
         self.attacks: list[BaseAttack] = []
         if honeypot.name == "dionaea" or honeypot.name == "conpot":
             self.attacks = [
-                DoSAllOpenPorts(honeypot)
+                DoS(honeypot)
             ]
         else:
             self.attacks = [

@@ -1,9 +1,17 @@
 import argparse
+import os
 import re
 import time
 
 from art import ascii_art_honeyscanner
 from core import Honeyscanner
+
+
+def check_go_exists() -> bool:
+    if os.path.exists("/usr/local/go/bin/go"):
+        return True
+    else:
+        return False
 
 
 def sanitize_string(s: str) -> str:
@@ -77,8 +85,11 @@ def main() -> None:
     """
     Main entry point of the program.
     """
-    args: argparse.Namespace = parse_arguments()
     print(ascii_art_honeyscanner())
+    if not check_go_exists():
+        print("[-] Go is not installed, please install go before running honeyscanner...")
+        return
+    args: argparse.Namespace = parse_arguments()
     honeyscanner = Honeyscanner(args.honeypot,
                                 args.honeypot_version,
                                 args.target_ip,
@@ -104,5 +115,4 @@ def main() -> None:
 
 
 if __name__ == "__main__":
-    # TODO: fix the report
     main()

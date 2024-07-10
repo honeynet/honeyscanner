@@ -58,8 +58,6 @@ class AttackOrchestrator:
         # Run Trivy Scanner
         print(art.ascii_art_trivyscanner())
         owner: str = self.honeypot.owner
-        print(art.ascii_art_trivyscanner())
-        owner: str = self.honeypot.owner
         # kippo doesn't have official Docker images, so I am using my own
         if self.honeypot.name == "kippo":
             owner = "aristofanischionis"
