@@ -22,7 +22,7 @@ class VulnerableLibrariesAnalyzer:
         init(autoreset=True)
         self.honeypot_name = honeypot_name
         self.owner = owner
-        #self.repo = self.get_repo()
+        self.repo = self.get_repo()
         self.insecure_full_path = Path(__file__).resolve().parent / "vuln_database" / "insecure_full.json"
         self.analysis_results_path = Path(__file__).resolve().parent / "analysis_results"
         self.requirements_files_path = Path(__file__).resolve().parent / "requirements_files"
@@ -224,7 +224,7 @@ class VulnerableLibrariesAnalyzer:
         with open(file_name, 'r') as f:
             requirements = [pkg_resources.Requirement.parse(line) for line in f.readlines()]
 
-        print(requirements)
+
         # Convert Requirement objects to strings in the format "name==version"
         packages = [f"{req.name}=={req.specs[0][1]}" for req in requirements]
 
@@ -251,11 +251,9 @@ class VulnerableLibrariesAnalyzer:
         """
 
         success = self.download_requirements(version, requirements_url)
-        print(success)
         if success:
 
             vulnerabilities = self.check_vulnerable_libraries(version)
-            print(vulnerabilities)
             # Convert Vulnerability objects to dictionaries
             vulnerabilities_dict = {}
             for name, vuln_list in vulnerabilities.items():

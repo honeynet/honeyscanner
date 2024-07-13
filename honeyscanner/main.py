@@ -71,7 +71,6 @@ def parse_arguments():
 def main():
     args = parse_arguments()
     print_ascii_art_honeyscanner()
-    
     honeyscanner = Honeyscanner(args.honeypot, args.honeypot_version, args.target_ip, args.port, args.username, args.password)
 
     sleep_time = 5

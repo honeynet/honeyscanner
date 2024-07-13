@@ -31,10 +31,6 @@ class StaticAnalyzer:
         """
         url = f"{self.honeypot_url}/{version}.zip"
         zip_filename = Path(__file__).resolve().parent / f"{self.honeypot_name}-{version}.zip"
-        print(zip_filename)
-        print(url, zip_filename)
-        urlretrieve(url, zip_filename)
-        print(url, zip_filename)
         with ZipFile(zip_filename, 'r') as zip_ref:
             zip_ref.extractall(Path(__file__).resolve().parent)
         
@@ -183,9 +179,7 @@ class StaticAnalyzer:
             os.makedirs(self.output_folder)
 
         print(f"Analyzing {self.honeypot_name} {self.honeypot_version}")
-
         honeypot_folder = self.fetch_honeypot_version(self.honeypot_version)
-        print("HERE")
         output_filename = self.analyze_honeypot_version(honeypot_folder, self.honeypot_version)
         print(f"Analysis complete for {self.honeypot_name} {self.honeypot_version}")
         self.print_summary(self.honeypot_version)
