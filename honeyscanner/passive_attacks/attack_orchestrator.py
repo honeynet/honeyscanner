@@ -59,7 +59,6 @@ class AttackOrchestrator:
         version_lookup_dict = {item["version"]: item["requirements_url"] for item in versions_list}
         self.analyze_vulns_report = analyzer.analyze_vulnerabilities(version, version_lookup_dict.get(version))
         print("Finished VulnAnalyzer!")
-
         # Run Static Analyzer
         print_ascii_art_StaticHoney()
         analyzer = StaticAnalyzer(self.honeypot.name, self.honeypot.source_code_url, self.honeypot.version)

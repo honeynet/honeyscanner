@@ -31,8 +31,10 @@ class StaticAnalyzer:
         """
         url = f"{self.honeypot_url}/{version}.zip"
         zip_filename = Path(__file__).resolve().parent / f"{self.honeypot_name}-{version}.zip"
+        print(zip_filename)
+        print(url, zip_filename)
         urlretrieve(url, zip_filename)
-
+        print(url, zip_filename)
         with ZipFile(zip_filename, 'r') as zip_ref:
             zip_ref.extractall(Path(__file__).resolve().parent)
         
@@ -54,7 +56,7 @@ class StaticAnalyzer:
         output_filename = self.output_folder / f"{self.honeypot_name}_{version}_analysis.json"
 
         # Run Bandit via subprocess
-        cmd = f"bandit -r '{honeypot_folder}' -f json -o '{output_filename}'"
+        cmd = f"bandit -r {honeypot_folder} -f json -o {output_filename}"
 
         with open(os.devnull, 'w') as devnull:
             process = subprocess.run(cmd, shell=True)
@@ -181,7 +183,9 @@ class StaticAnalyzer:
             os.makedirs(self.output_folder)
 
         print(f"Analyzing {self.honeypot_name} {self.honeypot_version}")
+
         honeypot_folder = self.fetch_honeypot_version(self.honeypot_version)
+        print("HERE")
         output_filename = self.analyze_honeypot_version(honeypot_folder, self.honeypot_version)
         print(f"Analysis complete for {self.honeypot_name} {self.honeypot_version}")
         self.print_summary(self.honeypot_version)

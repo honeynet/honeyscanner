@@ -1,4 +1,4 @@
-from honeypots import Cowrie, Kippo, Dionaea, Conpot
+from honeypots import Cowrie, Kippo, Dionaea, Conpot, Glastopf
 from passive_attacks import AttackOrchestrator as PassiveAttackOrchestrator
 from active_attacks import AttackOrchestrator as ActiveAttackOrchestrator
 from report_generator import ReportGenerator
@@ -17,7 +17,8 @@ class Honeyscanner:
             'cowrie': Cowrie,  
             'kippo': Kippo,
             'dionaea': Dionaea,
-            'conpot': Conpot
+            'conpot': Conpot,
+            'glastopf': Glastopf
         }  
         if honeypot_type not in honeypot_class_map:  
             supported_honeypots = ', '.join(honeypot_class_map.keys())
@@ -25,12 +26,22 @@ class Honeyscanner:
         return honeypot_class_map[honeypot_type](honeypot_version, honeypot_ip, honeypot_port, honeypot_username, honeypot_password)
 
     def run_all_attacks(self):
+        self.active_attack_orchestrator.run_attacks()
+        self.active_attack_results = self.active_attack_orchestrator.generate_report()
         # Passive attacks
         self.passive_attack_orchestrator.run_attacks()
         self.passive_attack_results = self.passive_attack_orchestrator.generate_report()
         # Active attacks
+
+
+    def run_all_passive_attacks(self):
+        self.passive_attack_orchestrator.run_attacks()
+        self.passive_attack_results = self.passive_attack_orchestrator.generate_report()
+    
+    def run_all_active_attacks(self):
         self.active_attack_orchestrator.run_attacks()
         self.active_attack_results = self.active_attack_orchestrator.generate_report()
 
     def generate_evaluation_report(self):
         self.report_generator.generate_report(self.passive_attack_results, self.active_attack_results)
+

@@ -2,6 +2,10 @@ import re
 import time
 import argparse
 from core import Honeyscanner
+from io import StringIO
+from contextlib import redirect_stdout
+import tkinter as tk
+import sys
 
 def print_ascii_art_honeyscanner():
     ascii_art = r"""
@@ -29,7 +33,7 @@ def parse_arguments():
         "--honeypot",
         type=sanitize_string,
         required=True,
-        choices=["cowrie", "kippo", "dionaea", "conpot"],
+        choices=["cowrie", "kippo", "dionaea", "conpot","glastopf"],
         help="Honeypot to analyze, currently supported: (cowrie, kippo, dionaea and conpot)",
     )
     parser.add_argument(
@@ -67,6 +71,7 @@ def parse_arguments():
 def main():
     args = parse_arguments()
     print_ascii_art_honeyscanner()
+    
     honeyscanner = Honeyscanner(args.honeypot, args.honeypot_version, args.target_ip, args.port, args.username, args.password)
 
     sleep_time = 5
@@ -85,7 +90,31 @@ def main():
         print(f"An error occurred during report generation: {e}")
         return
 
+
+def run_honeyscanner(honeypot_type, honeypot_version, honeypot_ip, honeypot_port, honeypot_username, honeypot_password, run_passive=True, run_active=True, terminal=None):
+    sys.stdout = terminal
+    sys.stderr = terminal
+    print_ascii_art_honeyscanner()
+    sleep_time = 5
+    print(f"Starting in {sleep_time} seconds...")
+    time.sleep(sleep_time)
+
+    try:
+
+        honeypot = Honeyscanner(honeypot_type, honeypot_version, honeypot_ip, honeypot_port, honeypot_username, honeypot_password)
+        if run_passive:
+            honeypot.run_all_passive_attacks()
+        if run_active:
+            honeypot.run_all_active_attacks()
+        honeypot.generate_evaluation_report()
+    except Exception as e:
+        raise RuntimeError(f"An error occurred: {e}")
+    finally:
+        # Restore stdout and stderr to their default values
+        sys.stdout = sys.__stdout__
+        sys.stderr = sys.__stderr__
+
+
+
 if __name__ == "__main__":
     main()
-
-# TODO: fix the report

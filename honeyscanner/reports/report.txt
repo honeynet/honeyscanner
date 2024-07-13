@@ -9,30 +9,17 @@
 
         
 
-Security Assessment of dionaea Honeypot, Version: 0.11.0 
+Security Assessment of cowrie Honeypot, Version: v2.5.0 
 Honeypot IP: 127.0.0.1 
-Honeypot Port: 2323 
-Date of Assessment: 2023-08-19 20:54:42 
+Honeypot Port: 2222 
+Date of Assessment: 2024-06-06 19:17:32 
 Report Summary
 Passive Attacks Results: 
 ======================== 
 None 
 Active Attacks Results: 
 ======================= 
-Honeypot Active Attack Report
-=============================
-
-Target: 127.0.0.1:2323
-
-DoSAllOpenPorts:
-  Vulnerability found: True
-  Message: Vulnerability found: DoS attack made the honeypot reject connections
-
-  Time to execute: 27 seconds
-
-  Number of threads used: 40
-
- 
+None 
 Overall Score: 
 ============== 
 TODO: Add overall score 
@@ -53,7 +40,7 @@ Attack Success Rate:
 TODO: Add attack success rate 
 
 
-Total Potential CVEs: 211 
+Total Potential CVEs: 236 
 
 
 Actionable Recommendations: 

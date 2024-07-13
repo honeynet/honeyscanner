@@ -1,0 +1,15 @@
+{
+  "3.1.2": {
+    "pyopenssl": [
+      {
+        "name": "pyopenssl",
+        "installed_version": "24.1.0",
+        "affected_versions": ">=22.0.0",
+        "cve": "CVE-2023-6129",
+        "vulnerability_id": "pyup.io-65213",
+        "advisory": "CVE-2023-6129 affects PyOpenSSL versions starting from 22.0.0 due to a vulnerability in the POLY1305 MAC algorithm on PowerPC CPUs. This issue could lead to state corruption in applications, causing inaccurate outcomes or service disruptions. Attackers need specific conditions to exploit this flaw, including the ability to manipulate the algorithm's use and reliance on certain system registers by the application.",
+        "cvss_score": 6.5
+      }
+    ]
+  }
+}

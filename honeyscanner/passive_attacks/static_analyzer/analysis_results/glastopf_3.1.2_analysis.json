@@ -1,0 +1,262 @@
+{
+  "3.1.2": {
+    "summary": {
+      "high_severity": 2,
+      "medium_severity": 16
+    },
+    "results": [
+      {
+        "code": "200             log.warn(\"Downloading %s\", url)\n201             src = urlopen(url)\n202             # Read/write all in one block, so we don't create a corrupt file\n",
+        "filename": "/home/kali/thesis/honeyscanner/honeyscanner/passive_attacks/static_analyzer/glastopf-3.1.2/distribute_setup.py",
+        "issue_confidence": "HIGH",
+        "issue_severity": "MEDIUM",
+        "issue_text": "Audit url open for permitted schemes. Allowing use of file:/ or custom schemes is often unexpected.",
+        "line_number": 201,
+        "line_range": [
+          201
+        ],
+        "more_info": "https://bandit.readthedocs.io/en/latest/blacklists/blacklist_calls.html#b310-urllib-urlopen",
+        "test_id": "B310",
+        "test_name": "blacklist"
+      },
+      {
+        "code": "37         responses_file = os.path.join(file_dir, \"responses.xml\")\n38         tree = ElementTree.parse(responses_file)\n39         doc = tree.getroot()\n",
+        "filename": "/home/kali/thesis/honeyscanner/honeyscanner/passive_attacks/static_analyzer/glastopf-3.1.2/glastopf/modules/classification/sql_utils/responses.py",
+        "issue_confidence": "HIGH",
+        "issue_severity": "MEDIUM",
+        "issue_text": "Using xml.etree.ElementTree.parse to parse untrusted XML data is known to be vulnerable to XML attacks. Replace xml.etree.ElementTree.parse with its defusedxml equivalent function or make sure defusedxml.defuse_stdlib() is called",
+        "line_number": 38,
+        "line_range": [
+          38
+        ],
+        "more_info": "https://bandit.readthedocs.io/en/latest/blacklists/blacklist_calls.html#b313-b320-xml-bad-elementtree",
+        "test_id": "B314",
+        "test_name": "blacklist"
+      },
+      {
+        "code": "37     with open(\"queries.xml\", \"rb\") as fh:\n38         tree = etree.fromstring(fh.read(), parser)\n39     i = 0\n",
+        "filename": "/home/kali/thesis/honeyscanner/honeyscanner/passive_attacks/static_analyzer/glastopf-3.1.2/glastopf/modules/classification/sql_utils/tokenizer.py",
+        "issue_confidence": "HIGH",
+        "issue_severity": "MEDIUM",
+        "issue_text": "Using lxml.etree.fromstring to parse untrusted XML data is known to be vulnerable to XML attacks. Replace lxml.etree.fromstring with its defusedxml equivalent function.",
+        "line_number": 38,
+        "line_range": [
+          38
+        ],
+        "more_info": "https://bandit.readthedocs.io/en/latest/blacklists/blacklist_calls.html#b313-b320-xml-bad-etree",
+        "test_id": "B320",
+        "test_name": "blacklist"
+      },
+      {
+        "code": "33             self.page = setup_php.read()\n34         m = hashlib.md5()\n35         m.update(\"%d\" % time_stamp)\n",
+        "filename": "/home/kali/thesis/honeyscanner/honeyscanner/passive_attacks/static_analyzer/glastopf-3.1.2/glastopf/modules/handlers/emulators/phpmyadmin.py",
+        "issue_confidence": "HIGH",
+        "issue_severity": "MEDIUM",
+        "issue_text": "Use of insecure MD2, MD4, MD5, or SHA1 hash function.",
+        "line_number": 34,
+        "line_range": [
+          34
+        ],
+        "more_info": "https://bandit.readthedocs.io/en/latest/blacklists/blacklist_calls.html#b303-md5",
+        "test_id": "B303",
+        "test_name": "blacklist"
+      },
+      {
+        "code": "45     def get_filename(self, injected_file):\n46         file_name = hashlib.md5(injected_file).hexdigest()\n47         return file_name\n",
+        "filename": "/home/kali/thesis/honeyscanner/honeyscanner/passive_attacks/static_analyzer/glastopf-3.1.2/glastopf/modules/handlers/emulators/rfi.py",
+        "issue_confidence": "HIGH",
+        "issue_severity": "MEDIUM",
+        "issue_text": "Use of insecure MD2, MD4, MD5, or SHA1 hash function.",
+        "line_number": 46,
+        "line_range": [
+          46
+        ],
+        "more_info": "https://bandit.readthedocs.io/en/latest/blacklists/blacklist_calls.html#b303-md5",
+        "test_id": "B303",
+        "test_name": "blacklist"
+      },
+      {
+        "code": "58         try:\n59             req = urllib2.Request(injectd_url)\n60             # FIXME: We need a timeout on read here\n",
+        "filename": "/home/kali/thesis/honeyscanner/honeyscanner/passive_attacks/static_analyzer/glastopf-3.1.2/glastopf/modules/handlers/emulators/rfi.py",
+        "issue_confidence": "HIGH",
+        "issue_severity": "MEDIUM",
+        "issue_text": "Audit url open for permitted schemes. Allowing use of file:/ or custom schemes is often unexpected.",
+        "line_number": 59,
+        "line_range": [
+          59
+        ],
+        "more_info": "https://bandit.readthedocs.io/en/latest/blacklists/blacklist_calls.html#b310-urllib-urlopen",
+        "test_id": "B310",
+        "test_name": "blacklist"
+      },
+      {
+        "code": "60             # FIXME: We need a timeout on read here\n61             injected_file = urllib2.urlopen(req, timeout=4).read()\n62         except IOError as e:\n",
+        "filename": "/home/kali/thesis/honeyscanner/honeyscanner/passive_attacks/static_analyzer/glastopf-3.1.2/glastopf/modules/handlers/emulators/rfi.py",
+        "issue_confidence": "HIGH",
+        "issue_severity": "MEDIUM",
+        "issue_text": "Audit url open for permitted schemes. Allowing use of file:/ or custom schemes is often unexpected.",
+        "line_number": 61,
+        "line_range": [
+          61
+        ],
+        "more_info": "https://bandit.readthedocs.io/en/latest/blacklists/blacklist_calls.html#b310-urllib-urlopen",
+        "test_id": "B310",
+        "test_name": "blacklist"
+      },
+      {
+        "code": "27         super(SurfaceCreator, self).__init__(data_dir)\n28         self.template_env = Environment(loader=FileSystemLoader(os.path.join(self.data_dir, \"templates\")))\n29 \n",
+        "filename": "/home/kali/thesis/honeyscanner/honeyscanner/passive_attacks/static_analyzer/glastopf-3.1.2/glastopf/modules/handlers/emulators/surface/create_surface.py",
+        "issue_confidence": "HIGH",
+        "issue_severity": "HIGH",
+        "issue_text": "By default, jinja2 sets autoescape to False. Consider using autoescape=True or use the select_autoescape function to mitigate XSS vulnerabilities.",
+        "line_number": 28,
+        "line_range": [
+          28
+        ],
+        "more_info": "https://bandit.readthedocs.io/en/latest/plugins/b701_jinja2_autoescape_false.html",
+        "test_id": "B701",
+        "test_name": "jinja2_autoescape_false"
+      },
+      {
+        "code": "44         template_loader = jinja2.FileSystemLoader(searchpath=os.path.dirname(__file__))\n45         template_env = jinja2.Environment(loader=template_loader, trim_blocks=True, lstrip_blocks=True)\n46         self.template = template_env.get_template('stix_glastopf_template.xml')\n",
+        "filename": "/home/kali/thesis/honeyscanner/honeyscanner/passive_attacks/static_analyzer/glastopf-3.1.2/glastopf/modules/reporting/auxiliary/stix/stix_transform.py",
+        "issue_confidence": "HIGH",
+        "issue_severity": "HIGH",
+        "issue_text": "By default, jinja2 sets autoescape to False. Consider using autoescape=True or use the select_autoescape function to mitigate XSS vulnerabilities.",
+        "line_number": 45,
+        "line_range": [
+          45
+        ],
+        "more_info": "https://bandit.readthedocs.io/en/latest/plugins/b701_jinja2_autoescape_false.html",
+        "test_id": "B701",
+        "test_name": "jinja2_autoescape_false"
+      },
+      {
+        "code": "80                 jinja_vars['file_content'] = file_content\n81                 jinja_vars['file_hash_md5'] = hashlib.md5(file_data).hexdigest()\n82                 jinja_vars['file_hash_sha256'] = hashlib.sha256(file_data).hexdigest()\n",
+        "filename": "/home/kali/thesis/honeyscanner/honeyscanner/passive_attacks/static_analyzer/glastopf-3.1.2/glastopf/modules/reporting/auxiliary/stix/stix_transform.py",
+        "issue_confidence": "HIGH",
+        "issue_severity": "MEDIUM",
+        "issue_text": "Use of insecure MD2, MD4, MD5, or SHA1 hash function.",
+        "line_number": 81,
+        "line_range": [
+          81
+        ],
+        "more_info": "https://bandit.readthedocs.io/en/latest/blacklists/blacklist_calls.html#b303-md5",
+        "test_id": "B303",
+        "test_name": "blacklist"
+      },
+      {
+        "code": "45         \"\"\"\n46         tree = et.parse(fp)\n47         root = tree.getroot()\n",
+        "filename": "/home/kali/thesis/honeyscanner/honeyscanner/passive_attacks/static_analyzer/glastopf-3.1.2/glastopf/testing/mitre_stix_validator.py",
+        "issue_confidence": "HIGH",
+        "issue_severity": "MEDIUM",
+        "issue_text": "Using lxml.etree.parse to parse untrusted XML data is known to be vulnerable to XML attacks. Replace lxml.etree.parse with its defusedxml equivalent function.",
+        "line_number": 46,
+        "line_range": [
+          46
+        ],
+        "more_info": "https://bandit.readthedocs.io/en/latest/blacklists/blacklist_imports.html#b313-b320-xml-bad-etree",
+        "test_id": "B320",
+        "test_name": "blacklist"
+      },
+      {
+        "code": "68         for fn in list_schemas:\n69             tree = et.parse(fn)\n70             root = tree.getroot()\n",
+        "filename": "/home/kali/thesis/honeyscanner/honeyscanner/passive_attacks/static_analyzer/glastopf-3.1.2/glastopf/testing/mitre_stix_validator.py",
+        "issue_confidence": "HIGH",
+        "issue_severity": "MEDIUM",
+        "issue_text": "Using lxml.etree.parse to parse untrusted XML data is known to be vulnerable to XML attacks. Replace lxml.etree.parse with its defusedxml equivalent function.",
+        "line_number": 69,
+        "line_range": [
+          69
+        ],
+        "more_info": "https://bandit.readthedocs.io/en/latest/blacklists/blacklist_imports.html#b313-b320-xml-bad-etree",
+        "test_id": "B320",
+        "test_name": "blacklist"
+      },
+      {
+        "code": "113         schema_txt = \"\"\"<xs:schema xmlns:xs=\"http://www.w3.org/2001/XMLSchema\" targetNamespace=\"http://stix.mitre.org/tools/validator\" elementFormDefault=\"qualified\" attributeFormDefault=\"qualified\"/>\"\"\"\n114         root = et.fromstring(schema_txt)\n115 \n",
+        "filename": "/home/kali/thesis/honeyscanner/honeyscanner/passive_attacks/static_analyzer/glastopf-3.1.2/glastopf/testing/mitre_stix_validator.py",
+        "issue_confidence": "HIGH",
+        "issue_severity": "MEDIUM",
+        "issue_text": "Using lxml.etree.fromstring to parse untrusted XML data is known to be vulnerable to XML attacks. Replace lxml.etree.fromstring with its defusedxml equivalent function.",
+        "line_number": 114,
+        "line_range": [
+          114
+        ],
+        "more_info": "https://bandit.readthedocs.io/en/latest/blacklists/blacklist_imports.html#b313-b320-xml-bad-etree",
+        "test_id": "B320",
+        "test_name": "blacklist"
+      },
+      {
+        "code": "150         try:\n151             instance_doc = et.parse(instance_doc)\n152         except et.XMLSyntaxError as e:\n",
+        "filename": "/home/kali/thesis/honeyscanner/honeyscanner/passive_attacks/static_analyzer/glastopf-3.1.2/glastopf/testing/mitre_stix_validator.py",
+        "issue_confidence": "HIGH",
+        "issue_severity": "MEDIUM",
+        "issue_text": "Using lxml.etree.parse to parse untrusted XML data is known to be vulnerable to XML attacks. Replace lxml.etree.parse with its defusedxml equivalent function.",
+        "line_number": 151,
+        "line_range": [
+          151
+        ],
+        "more_info": "https://bandit.readthedocs.io/en/latest/blacklists/blacklist_imports.html#b313-b320-xml-bad-etree",
+        "test_id": "B320",
+        "test_name": "blacklist"
+      },
+      {
+        "code": "362         instance_doc.seek(0)\n363         tree = et.parse(instance_doc)\n364         root = tree.getroot()\n",
+        "filename": "/home/kali/thesis/honeyscanner/honeyscanner/passive_attacks/static_analyzer/glastopf-3.1.2/glastopf/testing/mitre_stix_validator.py",
+        "issue_confidence": "HIGH",
+        "issue_severity": "MEDIUM",
+        "issue_text": "Using lxml.etree.parse to parse untrusted XML data is known to be vulnerable to XML attacks. Replace lxml.etree.parse with its defusedxml equivalent function.",
+        "line_number": 363,
+        "line_range": [
+          363
+        ],
+        "more_info": "https://bandit.readthedocs.io/en/latest/blacklists/blacklist_imports.html#b313-b320-xml-bad-etree",
+        "test_id": "B320",
+        "test_name": "blacklist"
+      },
+      {
+        "code": "103         rfi_data = \"\"\"<?php echo \"<script>alert(\"test\");</script>\";?>\"\"\"\n104         rfi_md5 = hashlib.md5(rfi_data).hexdigest()\n105         with open(os.path.join(self.files_dir, rfi_md5), 'w') as rfi_file:\n",
+        "filename": "/home/kali/thesis/honeyscanner/honeyscanner/passive_attacks/static_analyzer/glastopf-3.1.2/glastopf/testing/test_stix.py",
+        "issue_confidence": "HIGH",
+        "issue_severity": "MEDIUM",
+        "issue_text": "Use of insecure MD2, MD4, MD5, or SHA1 hash function.",
+        "line_number": 104,
+        "line_range": [
+          104
+        ],
+        "more_info": "https://bandit.readthedocs.io/en/latest/blacklists/blacklist_calls.html#b303-md5",
+        "test_id": "B303",
+        "test_name": "blacklist"
+      },
+      {
+        "code": "44             file_2 = open(os.path.join(f_dir2, \"linux/etc/\", v_file), \"r\")\n45             md5_1 = hashlib.md5(file_1.read()).hexdigest()\n46             md5_2 = hashlib.md5(file_2.read()).hexdigest()\n",
+        "filename": "/home/kali/thesis/honeyscanner/honeyscanner/passive_attacks/static_analyzer/glastopf-3.1.2/glastopf/testing/test_vdocs.py",
+        "issue_confidence": "HIGH",
+        "issue_severity": "MEDIUM",
+        "issue_text": "Use of insecure MD2, MD4, MD5, or SHA1 hash function.",
+        "line_number": 45,
+        "line_range": [
+          45
+        ],
+        "more_info": "https://bandit.readthedocs.io/en/latest/blacklists/blacklist_calls.html#b303-md5",
+        "test_id": "B303",
+        "test_name": "blacklist"
+      },
+      {
+        "code": "45             md5_1 = hashlib.md5(file_1.read()).hexdigest()\n46             md5_2 = hashlib.md5(file_2.read()).hexdigest()\n47             file_1.close()\n",
+        "filename": "/home/kali/thesis/honeyscanner/honeyscanner/passive_attacks/static_analyzer/glastopf-3.1.2/glastopf/testing/test_vdocs.py",
+        "issue_confidence": "HIGH",
+        "issue_severity": "MEDIUM",
+        "issue_text": "Use of insecure MD2, MD4, MD5, or SHA1 hash function.",
+        "line_number": 46,
+        "line_range": [
+          46
+        ],
+        "more_info": "https://bandit.readthedocs.io/en/latest/blacklists/blacklist_calls.html#b303-md5",
+        "test_id": "B303",
+        "test_name": "blacklist"
+      }
+    ]
+  }
+}

@@ -22,7 +22,7 @@ class VulnerableLibrariesAnalyzer:
         init(autoreset=True)
         self.honeypot_name = honeypot_name
         self.owner = owner
-        self.repo = self.get_repo()
+        #self.repo = self.get_repo()
         self.insecure_full_path = Path(__file__).resolve().parent / "vuln_database" / "insecure_full.json"
         self.analysis_results_path = Path(__file__).resolve().parent / "analysis_results"
         self.requirements_files_path = Path(__file__).resolve().parent / "requirements_files"
@@ -140,19 +140,22 @@ class VulnerableLibrariesAnalyzer:
         """
         if not cve:
             return None
-
-        url = f"https://services.nvd.nist.gov/rest/json/cve/1.0/{cve}"
-        response = requests.get(url)
-        time.sleep(2)  # Wait for 2 seconds to avoid rate limit
-
+        url = f"https://services.nvd.nist.gov/rest/json/cves/2.0?cveId={cve}"
+        response = requests.get(url, timeout=50)
+        time.sleep(5)  # Wait for 5 seconds to avoid rate limit
+        print(f"Processing {cve}")
         if response.status_code == 200:
             data = response.json()
-            if 'result' in data:
-                cve_item = data['result']['CVE_Items'][0]
-                impact = cve_item.get('impact', {})
-                base_metrics = impact.get('baseMetricV3', {}) or impact.get('baseMetricV2', {})
-                cvss_score = base_metrics.get('cvssV3', {}).get('baseScore') or base_metrics.get('cvssV2', {}).get('baseScore')
-                return cvss_score
+            vulns = data.get("vulnerabilities", [])
+            if vulns:
+                cve = vulns[0].get("cve", {})
+
+                metrics = cve.get("metrics", {})
+                cvss_metric = metrics.get("cvssMetricV31", [])
+                if cvss_metric:
+                    cvss_data = cvss_metric[0].get("cvssData", {})
+                    cvss_score = cvss_data.get("baseScore", float)
+                    return cvss_score
 
         return None
 
@@ -221,6 +224,7 @@ class VulnerableLibrariesAnalyzer:
         with open(file_name, 'r') as f:
             requirements = [pkg_resources.Requirement.parse(line) for line in f.readlines()]
 
+        print(requirements)
         # Convert Requirement objects to strings in the format "name==version"
         packages = [f"{req.name}=={req.specs[0][1]}" for req in requirements]
 
@@ -234,7 +238,7 @@ class VulnerableLibrariesAnalyzer:
         dir_path = os.path.dirname(self.all_cves_path)
         if not os.path.isdir(dir_path):
             os.makedirs(dir_path)
-        
+
         with open(self.all_cves_path, 'a') as f:
             for vuln_list in vulnerabilities.values():
                 for vuln in vuln_list:
@@ -245,10 +249,13 @@ class VulnerableLibrariesAnalyzer:
         """
         Analyze the vulnerabilities in the specified version of the honeypot using the requirements file.
         """
-        success = self.download_requirements(version, requirements_url)
-        if success:
-            vulnerabilities = self.check_vulnerable_libraries(version)
 
+        success = self.download_requirements(version, requirements_url)
+        print(success)
+        if success:
+
+            vulnerabilities = self.check_vulnerable_libraries(version)
+            print(vulnerabilities)
             # Convert Vulnerability objects to dictionaries
             vulnerabilities_dict = {}
             for name, vuln_list in vulnerabilities.items():

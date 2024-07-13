@@ -5,10 +5,19 @@
         "name": "cryptography",
         "installed_version": "39.0.0",
         "affected_versions": "<39.0.1",
-        "cve": "CVE-2023-0217",
-        "vulnerability_id": "pyup.io-53306",
+        "cve": "CVE-2023-0215",
+        "vulnerability_id": "pyup.io-53305",
         "advisory": "Cryptography 39.0.1 updates its dependency 'OpenSSL' to v3.0.8 to include security fixes.\r\nhttps://github.com/pyca/cryptography/issues/8229",
         "cvss_score": 7.5
+      },
+      {
+        "name": "cryptography",
+        "installed_version": "39.0.0",
+        "affected_versions": "<39.0.1",
+        "cve": "CVE-2023-0286",
+        "vulnerability_id": "pyup.io-53304",
+        "advisory": "Cryptography 39.0.1 updates its dependency 'OpenSSL' to v3.0.8 to include security fixes.\r\nhttps://github.com/pyca/cryptography/issues/8229",
+        "cvss_score": 7.4
       },
       {
         "name": "cryptography",
@@ -41,26 +50,8 @@
         "name": "cryptography",
         "installed_version": "39.0.0",
         "affected_versions": "<39.0.1",
-        "cve": "CVE-2023-0215",
-        "vulnerability_id": "pyup.io-53305",
-        "advisory": "Cryptography 39.0.1 updates its dependency 'OpenSSL' to v3.0.8 to include security fixes.\r\nhttps://github.com/pyca/cryptography/issues/8229",
-        "cvss_score": 7.5
-      },
-      {
-        "name": "cryptography",
-        "installed_version": "39.0.0",
-        "affected_versions": "<39.0.1",
-        "cve": "CVE-2023-0286",
-        "vulnerability_id": "pyup.io-53304",
-        "advisory": "Cryptography 39.0.1 updates its dependency 'OpenSSL' to v3.0.8 to include security fixes.\r\nhttps://github.com/pyca/cryptography/issues/8229",
-        "cvss_score": null
-      },
-      {
-        "name": "cryptography",
-        "installed_version": "39.0.0",
-        "affected_versions": "<39.0.1",
-        "cve": "CVE-2022-4304",
-        "vulnerability_id": "pyup.io-53303",
+        "cve": "CVE-2022-4450",
+        "vulnerability_id": "pyup.io-53299",
         "advisory": "Cryptography 39.0.1 updates its dependency 'OpenSSL' to v3.0.8 to include security fixes.\r\nhttps://github.com/pyca/cryptography/issues/8229",
         "cvss_score": null
       },
@@ -71,16 +62,25 @@
         "cve": "CVE-2023-0216",
         "vulnerability_id": "pyup.io-53302",
         "advisory": "Cryptography 39.0.1 updates its dependency 'OpenSSL' to v3.0.8 to include security fixes.\r\nhttps://github.com/pyca/cryptography/issues/8229",
-        "cvss_score": null
+        "cvss_score": 7.5
       },
       {
         "name": "cryptography",
         "installed_version": "39.0.0",
         "affected_versions": "<39.0.1",
-        "cve": "CVE-2022-4450",
-        "vulnerability_id": "pyup.io-53299",
+        "cve": "CVE-2023-0217",
+        "vulnerability_id": "pyup.io-53306",
         "advisory": "Cryptography 39.0.1 updates its dependency 'OpenSSL' to v3.0.8 to include security fixes.\r\nhttps://github.com/pyca/cryptography/issues/8229",
-        "cvss_score": null
+        "cvss_score": 7.5
+      },
+      {
+        "name": "cryptography",
+        "installed_version": "39.0.0",
+        "affected_versions": "<39.0.1",
+        "cve": "CVE-2022-4304",
+        "vulnerability_id": "pyup.io-53303",
+        "advisory": "Cryptography 39.0.1 updates its dependency 'OpenSSL' to v3.0.8 to include security fixes.\r\nhttps://github.com/pyca/cryptography/issues/8229",
+        "cvss_score": 5.9
       },
       {
         "name": "cryptography",
@@ -89,7 +89,7 @@
         "cve": "CVE-2023-2650",
         "vulnerability_id": "pyup.io-59062",
         "advisory": "Cryptography 41.0.0 updates its dependency 'OpenSSL' to v3.1.1 to include a security fix.\r\nhttps://github.com/pyca/cryptography/commit/8708245ccdeaff21d65eea68a4f8d2a7c5949a22",
-        "cvss_score": null
+        "cvss_score": 6.5
       },
       {
         "name": "cryptography",
@@ -98,7 +98,52 @@
         "cve": "CVE-2023-38325",
         "vulnerability_id": "pyup.io-59473",
         "advisory": "The cryptography package before 41.0.2 for Python mishandles SSH certificates that have critical options.",
-        "cvss_score": null
+        "cvss_score": 7.5
+      },
+      {
+        "name": "cryptography",
+        "installed_version": "39.0.0",
+        "affected_versions": "<41.0.4",
+        "cve": "CVE-2023-4807",
+        "vulnerability_id": "pyup.io-62451",
+        "advisory": "Cryptography 41.0.4 updates Windows, macOS, and Linux wheels to be compiled with OpenSSL 3.1.3, that includes a security fix.\r\nhttps://github.com/pyca/cryptography/commit/fc11bce6930e591ce26a2317b31b9ce2b3e25512",
+        "cvss_score": 7.8
+      },
+      {
+        "name": "cryptography",
+        "installed_version": "39.0.0",
+        "affected_versions": "<41.0.5",
+        "cve": "CVE-2023-5363",
+        "vulnerability_id": "pyup.io-62452",
+        "advisory": "Cryptography 41.0.5 updates Windows, macOS, and Linux wheels to be compiled with OpenSSL 3.1.4, that includes a security fix.",
+        "cvss_score": 7.5
+      },
+      {
+        "name": "cryptography",
+        "installed_version": "39.0.0",
+        "affected_versions": ">=0.8,<41.0.3",
+        "cve": "CVE-2023-2975",
+        "vulnerability_id": "pyup.io-60224",
+        "advisory": "Cryptography 41.0.3  updates its bundled OpenSSL version to include a fix for CVE-2023-2975: AES-SIV implementation ignores empty associated data entries.\r\nhttps://github.com/pyca/cryptography/commit/bfa4d95f0f356f2d535efd5c775e0fb3efe90ef2\r\nhttps://www.openssl.org/news/secadv/20230714.txt",
+        "cvss_score": 5.3
+      },
+      {
+        "name": "cryptography",
+        "installed_version": "39.0.0",
+        "affected_versions": ">=0.8,<41.0.3",
+        "cve": "CVE-2023-3446",
+        "vulnerability_id": "pyup.io-60225",
+        "advisory": "Cryptography 41.0.3 updates its bundled OpenSSL version to include a fix for a Denial of Service vulnerability.\r\nhttps://github.com/pyca/cryptography/commit/bfa4d95f0f356f2d535efd5c775e0fb3efe90ef2\r\nhttps://www.openssl.org/news/secadv/20230719.txt",
+        "cvss_score": 5.3
+      },
+      {
+        "name": "cryptography",
+        "installed_version": "39.0.0",
+        "affected_versions": ">=0.8,<41.0.3",
+        "cve": "CVE-2023-3817",
+        "vulnerability_id": "pyup.io-60223",
+        "advisory": "Cryptography 41.0.3 updates its bundled OpenSSL version to include a fix for a Denial of Service vulnerability.\r\nhttps://github.com/pyca/cryptography/commit/b22271cf3c3dd8dc8978f8f4b00b5c7060b6538d\r\nhttps://www.openssl.org/news/secadv/20230731.txt",
+        "cvss_score": 5.3
       },
       {
         "name": "cryptography",
@@ -107,7 +152,27 @@
         "cve": "CVE-2023-23931",
         "vulnerability_id": "pyup.io-53048",
         "advisory": "Cryptography 39.0.1 includes a fix for CVE-2023-23931: In affected versions 'Cipher.update_into' would accept Python objects which implement the buffer protocol, but provide only immutable buffers. This would allow immutable objects (such as 'bytes') to be mutated, thus violating fundamental rules of Python and resulting in corrupted output. This issue has been present since 'update_into' was originally introduced in cryptography 1.8.\r\nhttps://github.com/pyca/cryptography/security/advisories/GHSA-w7pp-m8wf-vj6r",
-        "cvss_score": null
+        "cvss_score": 6.5
+      },
+      {
+        "name": "cryptography",
+        "installed_version": "39.0.0",
+        "affected_versions": ">=3.1,<41.0.6",
+        "cve": "CVE-2023-49083",
+        "vulnerability_id": "pyup.io-62556",
+        "advisory": "Cryptography 41.0.6 includes a fix for CVE-2023-49083: NULL-dereference when loading PKCS7 certificates.\r\nhttps://github.com/advisories/GHSA-jfhm-5ghh-2f97",
+        "cvss_score": 7.5
+      }
+    ],
+    "twisted": [
+      {
+        "name": "twisted",
+        "installed_version": "22.10.0",
+        "affected_versions": ">=16.3.0,<23.10.0rc1",
+        "cve": "CVE-2023-46137",
+        "vulnerability_id": "pyup.io-62105",
+        "advisory": "Twisted 23.10.0rc1 includes a fix for CVE-2023-46137: Disordered HTTP pipeline response in twisted.web. \r\n#NOTE: The data we include in this advisory differs from the publicly available on nist.nvd.gov. As indicated in the project's changelog, the vulnerability was introduced in Twisted 16.3.0.\r\nhttps://github.com/twisted/twisted/security/advisories/GHSA-xc8x-vp79-p3wm",
+        "cvss_score": 5.3
       }
     ]
   }

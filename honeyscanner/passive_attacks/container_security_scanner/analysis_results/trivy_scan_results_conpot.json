@@ -1,6 +1,6 @@
 [
   {
-    "Target": "conpot/templates/default/ssl/ssl.key",
+    "Target": "conpot/templates/kamstrup_382/ssl/ssl.key",
     "Class": "secret",
     "Secrets": [
       {
@@ -39,7 +39,7 @@
     ]
   },
   {
-    "Target": "conpot/templates/kamstrup_382/ssl/ssl.key",
+    "Target": "conpot/templates/default/ssl/ssl.key",
     "Class": "secret",
     "Secrets": [
       {
