@@ -17,7 +17,6 @@ class AttackOrchestrator:
                                      to use in the attacks.
         """
         self.honeypot = honeypot
-        # For Dionaea and Conpot, we can run the DoS attack only
         self.attacks: list[BaseAttack] = []
         if honeypot.name == "dionaea" or honeypot.name == "conpot":
             self.attacks = [
@@ -33,7 +32,7 @@ class AttackOrchestrator:
             ]
         self.total_attacks: int = len(self.attacks)
         self.successful_attacks: int = 0
-        self.results: AttackResults = []
+        self.results: AttackResults
 
     def run_attacks(self) -> None:
         """

@@ -9,7 +9,8 @@ from colorama import Fore, Style
 from nmap3 import Nmap
 from typing import TypeAlias
 
-AttackPorts: TypeAlias = dict[str, dict[str, str]]
+AttackPorts: TypeAlias = dict[str, str]
+HostInfo: TypeAlias = dict[str, str | list[dict[str, str | dict]]]
 PortList: TypeAlias = list[int]
 Report: TypeAlias = dict[str, str | list | dict[str, dict[str, dict[str, str | list]]]]
 
@@ -24,6 +25,7 @@ class HoneypotPortScanner:
         """
         self.ip_address = ip_address
         self.report: Report = {}
+        self.report['ip_address'] = self.ip_address
         curr_dir: str = os.path.dirname(os.path.abspath(__file__))
         self.output_folder: str = os.path.join(curr_dir, 'analysis_results')
         self.scanning: bool = True
@@ -31,11 +33,9 @@ class HoneypotPortScanner:
         self.ports: PortList = []
 
     def scan_honeypot(self):
-        HostInfo: TypeAlias = dict[str, str | list[dict[str, str | dict]]]
-
         nmap = Nmap()
         scan_result: dict = nmap.nmap_version_detection(self.ip_address,
-                                                        args='-A -O -sC -T4')
+                                                        args='-p-')
         self.report['ip_address'] = self.ip_address
         host_info: HostInfo = scan_result[self.ip_address]
         if 'error' not in host_info:
@@ -53,7 +53,7 @@ class HoneypotPortScanner:
             report_ports: Report = {}
             attack_ports: AttackPorts = {}
             for port_info in host_info['ports']:
-                port = port_info['portid']
+                port: str = port_info['portid']
                 report_ports[port] = {
                     'name': port_info['service']['name'] if 'name' in port_info['service'] else '',
                     'product': port_info['service']['product'] if 'product' in port_info['service'] else '',
@@ -61,9 +61,7 @@ class HoneypotPortScanner:
                     'cpe': port_info['service']['cpe'] if 'cpe' in port_info['service'] else [],
                     'script': port_info['service']['script'] if 'script' in port_info['service'] else []
                 }
-                attack_ports[port] = {
-                    'name': port_info['service']['name'] if 'name' in port_info['service'] else ''
-                }
+                attack_ports[port] = port_info['service']['name']
             self.report['ports'] = report_ports
             self.attack_ports = attack_ports
         else:

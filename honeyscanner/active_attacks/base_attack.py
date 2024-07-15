@@ -3,11 +3,11 @@ import socket
 import time
 
 from honeypots import BaseHoneypot
-from .honeypot_port_scanner.honeypot_port_scanner import AttackPorts
 from typing import TypeAlias
+from .honeypot_port_scanner.honeypot_port_scanner import AttackPorts
 
 AttackData: TypeAlias = dict[str, str | AttackPorts]
-AttackResults: TypeAlias = list[tuple[bool, str, float, str | int | None]]
+AttackResults: TypeAlias = tuple[bool, str, float, str | int | None]
 
 
 class BaseAttack:

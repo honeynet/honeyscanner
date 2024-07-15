@@ -7,13 +7,6 @@ from art import ascii_art_honeyscanner
 from core import Honeyscanner
 
 
-def check_go_exists() -> bool:
-    if os.path.exists("/usr/local/go/bin/go"):
-        return True
-    else:
-        return False
-
-
 def sanitize_string(s: str) -> str:
     """
     Remove special characters from a string and convert it to lowercase.
@@ -86,9 +79,6 @@ def main() -> None:
     Main entry point of the program.
     """
     print(ascii_art_honeyscanner())
-    if not check_go_exists():
-        print("[-] Go is not installed, please install go before running honeyscanner...")
-        return
     args: argparse.Namespace = parse_arguments()
     honeyscanner = Honeyscanner(args.honeypot,
                                 args.honeypot_version,

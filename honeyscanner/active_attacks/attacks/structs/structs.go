@@ -1,6 +1,6 @@
 package structs
 
-type ports = map[string]map[string]string
+type ports = map[string]string
 
 type Data struct {
 	Attack string `json:"attack"`

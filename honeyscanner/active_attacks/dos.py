@@ -15,12 +15,7 @@ DoSResults: TypeAlias = dict[str, bool | float]
 
 PIPE_PATH: str = "/tmp/data"
 ATTACKS_PATH = Path(".") / "active_attacks" / "attacks"
-RUN_ATTACKS: list[str] = ["./attacks"]
-BUILD_ATTACKS: list[str] = ["/usr/local/go/bin/go",
-                            "build",
-                            "-o",
-                            "attacks",
-                            "main.go"]
+RUN_ATTACKS: str = "go run main.go"
 
 
 class DoS(BaseAttack):
@@ -36,7 +31,7 @@ class DoS(BaseAttack):
         self.honeypot_ports: AttackPorts = {}
         self.honeypot_rejecting_connections: bool = False
 
-    def run_HoneypotPortScanner(self) -> None:
+    def run_scanner(self) -> None:
         """
         Run the HoneypotPortScanner to get the open ports of the honeypot.
         """
@@ -44,19 +39,11 @@ class DoS(BaseAttack):
         honeypot_scanner.run_scanner()
         self.honeypot_ports = honeypot_scanner.get_open_ports()
 
-    def compile_attacks(self) -> bool:
-        """
-        Compiles the attacks.
-
-        Returns:
-            bool: Whether the compilation was successful or not.
-        """
-        compile: CompletedProcess = subprocess.run(BUILD_ATTACKS,
-                                                   cwd=ATTACKS_PATH)
-        if compile.returncode != 0:
-            print(f"[-] Failed to compile attacks: {compile.stderr}")
+    def check_go_exists(self) -> bool:
+        if os.path.exists("/usr/local/go/bin/go"):
+            return True
+        else:
             return False
-        return True
 
     def make_pipe(self) -> None:
         """
@@ -105,9 +92,7 @@ class DoS(BaseAttack):
         Returns:
             Attack: Popen object that is running the attacks.
         """
-        if not self.compile_attacks():
-            return None
-        print("[+] Compiled, running attacks now")
+        print("[+] Running attacks now")
         running = Popen(RUN_ATTACKS,
                         shell=True,
                         cwd=ATTACKS_PATH)
@@ -123,7 +108,17 @@ class DoS(BaseAttack):
         Returns:
             AttackResults: The results of the attack.
         """
-        self.run_HoneypotPortScanner()
+        if not self.check_go_exists():
+            print("[-] Go not found in $PATH. Cancelling DoS attack...")
+            return (
+                False,
+                "[-] Failed to run attack",
+                0,
+                0
+            )
+        print("[+] Go was found in PATH, running DoS attack")
+        self.run_scanner()
+        time.sleep(.5)
         print(f"Running DoS attack on {self.honeypot.ip} and "
               f"ports: {list(self.honeypot_ports.keys())}")
         attack: Attack = self.create_attack_process()
@@ -143,9 +138,10 @@ class DoS(BaseAttack):
         }
         self.make_pipe()
         print("[+] Sending data to attack program")
+        time.sleep(2)
         self.write_data(program_data)
         time.sleep(.5)
-        results = self.read_data()
+        results: DoSResults = self.read_data()
         attack.wait()
         print("[+] Attack finished running")
         self.cleanup_pipe()

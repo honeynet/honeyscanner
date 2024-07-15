@@ -19,6 +19,7 @@ build/
 # IDE files
 .idea/
 .vscode/
+.zed/
 *.swp
 *.swo
 *.swn
@@ -31,4 +32,3 @@ Thumbs.db
 *.json
 *.db
 *.txt
-honeyscanner/active_attacks/attacks/attacks

