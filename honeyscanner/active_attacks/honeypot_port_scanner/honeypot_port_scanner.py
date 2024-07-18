@@ -121,5 +121,5 @@ class HoneypotPortScanner:
         self.save_report()
         self.print_summary()
         self.scanning = False
-        loading_thread.join(timeout=0.1)
+        loading_thread.join()
         print("\rFinished HoneypotPortScanner!         ")

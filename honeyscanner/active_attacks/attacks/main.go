@@ -16,7 +16,6 @@ func main() {
 		return
 	}
 	defer pipe.Close()
-	fmt.Println("[+] Reading attack data")
 	var results *structs.Results
 	data, err := piping.ReadData(pipe)
 	if err != nil {
