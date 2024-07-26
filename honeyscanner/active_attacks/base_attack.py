@@ -4,9 +4,7 @@ import time
 
 from honeypots import BaseHoneypot
 from typing import TypeAlias
-from .honeypot_port_scanner.honeypot_port_scanner import AttackPorts
 
-AttackData: TypeAlias = dict[str, str | AttackPorts]
 AttackResults: TypeAlias = tuple[bool, str, float, str | int | None]
 
 

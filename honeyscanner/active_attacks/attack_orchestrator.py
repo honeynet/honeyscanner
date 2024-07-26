@@ -1,9 +1,7 @@
 from math import floor
-
 from .base_attack import AttackResults, BaseAttack, BaseHoneypot
 from .dos import DoS
 from .fuzzing import Fuzzing
-# from .software_exploit import SoftwareExploit
 from .tar_bomb import TarBomb
 
 
@@ -26,8 +24,6 @@ class AttackOrchestrator:
             self.attacks = [
                 Fuzzing(honeypot),
                 TarBomb(honeypot),
-                # TODO: SoftwareExploit still is slow
-                # SoftwareExploit(honeypot),
                 DoS(honeypot)
             ]
         self.total_attacks: int = len(self.attacks)
@@ -69,8 +65,6 @@ class AttackOrchestrator:
                 report += f"  Number of threads used: {result[3]}\n\n"
             elif attack_name == "Fuzzing":
                 report += f"  Test cases executed: {result[3]}\n\n"
-            elif attack_name == "SoftwareExploit":
-                report += f"  Exploits used are saved in: {result[3]}\n\n"
             elif attack_name == "TarBomb":
                 report += f"  Number of bombs used: {result[3]}\n\n"
             elif attack_name == "DoSAllOpenPorts":

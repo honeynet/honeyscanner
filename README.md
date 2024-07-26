@@ -127,6 +127,11 @@ Honeyscanner does not have any release yet.
 
 Please use [Github issues](https://github.com/honeynet/honeyscanner/issues) to report any issues or for questions.
 
+## FAQ
+
+In case of troubles with running python on a specific version we suggest that you install the latest version of anaconda from [here](https://www.anaconda.com/download/success) and use Python3.10.
+If you still face problems with pipenv install, try emptying your virtualenvs folder and trying again.
+
 ## License
 
 Distributed under the **MIT license**. See [LICENSE](./LICENSE) for more information.
