@@ -9,6 +9,7 @@ from colorama import Fore, Style
 from nmap3 import Nmap
 from typing import TypeAlias
 
+HostInfo: TypeAlias = dict[str, str | list[dict[str, str | dict]]]
 PortList: TypeAlias = list[int]
 Report: TypeAlias = dict[str, str | list | dict[str, dict[str, dict[str, str | list]]]]
 
@@ -23,17 +24,16 @@ class HoneypotPortScanner:
         """
         self.ip_address = ip_address
         self.report: Report = {}
+        self.report['ip_address'] = self.ip_address
         curr_dir: str = os.path.dirname(os.path.abspath(__file__))
         self.output_folder: str = os.path.join(curr_dir, 'analysis_results')
         self.scanning: bool = True
         self.ports: PortList = []
 
     def scan_honeypot(self):
-        HostInfo: TypeAlias = dict[str, str | list[dict[str, str | dict]]]
-
         nmap = Nmap()
         scan_result: dict = nmap.nmap_version_detection(self.ip_address,
-                                                        args='-A -O -sC -T4')
+                                                        args='-p-')
         self.report['ip_address'] = self.ip_address
         host_info: HostInfo = scan_result[self.ip_address]
         if 'error' not in host_info:
@@ -48,17 +48,18 @@ class HoneypotPortScanner:
             else:
                 self.report['os'] = []
 
-            ports: Report = {}
+            report_ports: Report = {}
             for port_info in host_info['ports']:
-                port = port_info['portid']
-                ports[port] = {
+                port: str = port_info['portid']
+                self.ports.append(int(port))
+                report_ports[port] = {
                     'name': port_info['service']['name'] if 'name' in port_info['service'] else '',
                     'product': port_info['service']['product'] if 'product' in port_info['service'] else '',
                     'version': port_info['service']['version'] if 'version' in port_info['service'] else '',
                     'cpe': port_info['service']['cpe'] if 'cpe' in port_info['service'] else [],
                     'script': port_info['service']['script'] if 'script' in port_info['service'] else []
                 }
-            self.report['ports'] = ports
+            self.report['ports'] = report_ports
         else:
             self.report['status'] = 'offline'
 
@@ -89,7 +90,6 @@ class HoneypotPortScanner:
             print(Fore.YELLOW + "Ports:" + Style.RESET_ALL)
             for port, data in self.report['ports'].items():
                 print(f"  - Port {port}: {data['name']} ({data['product']} {data['version']})")
-                self.ports = self.ports + [int(port)]
         else:
             print(Fore.RED + f"[-] IP Address {self.report['ip_address']} is offline" + Style.RESET_ALL)
 
@@ -100,8 +100,7 @@ class HoneypotPortScanner:
         chars = "⠋⠙⠹⠸⠼⠴⠦⠧⠇⠏"
         while self.scanning:
             for char in chars:
-                sys.stdout.write(f"\rScanning with nmap in progress...{char}")
-                sys.stdout.flush()
+                print(f"\rScanning with nmap in progress...{char}", end="")
                 time.sleep(0.1)
 
     def get_open_ports(self) -> PortList:
@@ -116,6 +115,5 @@ class HoneypotPortScanner:
         self.save_report()
         self.print_summary()
         self.scanning = False
-        loading_thread.join(timeout=0.1)
-        sys.stdout.write("\rFinished HoneypotPortScanner!      \n")
-        sys.stdout.flush()
+        loading_thread.join()
+        print("\rFinished HoneypotPortScanner!         ")

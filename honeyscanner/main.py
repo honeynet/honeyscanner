@@ -1,4 +1,5 @@
 import argparse
+import os
 import re
 import time
 
@@ -77,8 +78,8 @@ def main() -> None:
     """
     Main entry point of the program.
     """
-    args: argparse.Namespace = parse_arguments()
     print(ascii_art_honeyscanner())
+    args: argparse.Namespace = parse_arguments()
     honeyscanner = Honeyscanner(args.honeypot,
                                 args.honeypot_version,
                                 args.target_ip,
@@ -104,5 +105,4 @@ def main() -> None:
 
 
 if __name__ == "__main__":
-    # TODO: fix the report
     main()

@@ -105,10 +105,10 @@ python3 main.py --honeypot cowrie --honeypot_version 2.5.0 --target_ip 127.0.0.1
 python3 main.py --honeypot kippo --honeypot_version 0.9 --target_ip 127.0.0.1 --port 2222
 ```
 ```bash
-sudo python3 main.py --honeypot dionaea --honeypot_version 0.11.0 --target_ip 127.0.0.1 --port 2323
+python3 main.py --honeypot dionaea --honeypot_version 0.11.0 --target_ip 127.0.0.1 --port 2323
 ```
 ```bash
-sudo python3 main.py --honeypot conpot --honeypot_version 0.6.0 --target_ip 127.0.0.1 --port 2323
+python3 main.py --honeypot conpot --honeypot_version 0.6.0 --target_ip 127.0.0.1 --port 2323
 ```
 
 ## Contributors
@@ -126,6 +126,11 @@ Honeyscanner does not have any release yet.
 ## Contact
 
 Please use [Github issues](https://github.com/honeynet/honeyscanner/issues) to report any issues or for questions.
+
+## FAQ
+
+In case of troubles with running python on a specific version we suggest that you install the latest version of anaconda from [here](https://www.anaconda.com/download/success) and use Python3.10.
+If you still face problems with pipenv install, try emptying your virtualenvs folder and trying again.
 
 ## License
 
