@@ -12,6 +12,8 @@ packaging = "*"
 paramiko = "*"
 pygithub = "*"
 python3-nmap = "*"
+socket = "*"
+ssl = "*"
 
 [dev-packages]
 
