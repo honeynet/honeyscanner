@@ -4,6 +4,7 @@ import time
 
 from art import ascii_art_honeyscanner
 from core import Honeyscanner
+from detect_honeypot.detect_honeypot import detect_honeypot
 
 
 def sanitize_string(s: str) -> str:
@@ -35,7 +36,7 @@ def parse_arguments() -> argparse.Namespace:
     parser.add_argument(
         "--honeypot",
         type=sanitize_string,
-        required=True,
+        required=False,
         choices=["cowrie", "kippo", "dionaea", "conpot"],
         help="Honeypot to analyze, currently supported: \
             (cowrie, kippo, dionaea and conpot)",
@@ -43,7 +44,7 @@ def parse_arguments() -> argparse.Namespace:
     parser.add_argument(
         "--honeypot_version",
         type=sanitize_string,
-        required=True,
+        required=False,
         help="The version of the honeypot to analyze",
     )
     parser.add_argument(
@@ -55,7 +56,7 @@ def parse_arguments() -> argparse.Namespace:
     parser.add_argument(
         "--port",
         type=int,
-        required=True,
+        required=False,
         help="The port to connect to the honeypot to analyze",
     )
     parser.add_argument(
@@ -70,6 +71,11 @@ def parse_arguments() -> argparse.Namespace:
         required=False,
         help="The password to connect to the honeypot",
     )
+    parser.add_argument(
+        "--detect",
+        action='store_true',
+        help="Detect honeypot and version on provided ip",
+    )
     return parser.parse_args()
 
 
@@ -79,28 +85,31 @@ def main() -> None:
     """
     args: argparse.Namespace = parse_arguments()
     print(ascii_art_honeyscanner())
-    honeyscanner = Honeyscanner(args.honeypot,
-                                args.honeypot_version,
-                                args.target_ip,
-                                args.port,
-                                args.username,
-                                args.password)
+    if args.detect:
+        detect_honeypot(args.target_ip)
+    else:
+        honeyscanner = Honeyscanner(args.honeypot,
+                                    args.honeypot_version,
+                                    args.target_ip,
+                                    args.port,
+                                    args.username,
+                                    args.password)
 
-    sleep_time = 5
-    print(f"Starting in {sleep_time} seconds...")
-    time.sleep(sleep_time)
+        sleep_time = 5
+        print(f"Starting in {sleep_time} seconds...")
+        time.sleep(sleep_time)
 
-    try:
-        honeyscanner.run_all_attacks()
-    except Exception as e:
-        print(f"An error occurred during the attacks: {e}")
-        return
+        try:
+            honeyscanner.run_all_attacks()
+        except Exception as e:
+            print(f"An error occurred during the attacks: {e}")
+            return
 
-    try:
-        honeyscanner.generate_evaluation_report()
-    except Exception as e:
-        print(f"An error occurred during report generation: {e}")
-        return
+        try:
+            honeyscanner.generate_evaluation_report()
+        except Exception as e:
+            print(f"An error occurred during report generation: {e}")
+            return
 
 
 if __name__ == "__main__":
