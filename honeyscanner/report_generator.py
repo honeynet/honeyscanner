@@ -62,7 +62,7 @@ class ReportGenerator:
                         name=self.honeypot.name,
                         version=self.honeypot.version,
                         ip=self.honeypot.ip,
-                        port=self.honeypot.port,
+                        port=self.honeypot.ports,
                         date=report_date,
                         passive_results=passive_results,
                         active_results=active_results[0],

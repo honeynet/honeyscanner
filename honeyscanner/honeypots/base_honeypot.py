@@ -11,7 +11,7 @@ class BaseHoneypot:
                  name: str,
                  version: str,
                  ip: str,
-                 port: int,
+                 ports: set[int],
                  username: str,
                  password: str) -> None:
         """
@@ -21,13 +21,13 @@ class BaseHoneypot:
             name (str): Name of the Honeypot
             version (str): Version number of the Honeypot
             ip (str): IP address of the Honeypot
-            port (int): Port number of the Honeypot
+            ports (set[int]): Set of ports to run a DoS against
             username (str): Username to authenticate with
             password (str): Password to authenticate with
         """
         self.name = name
         self.ip = ip
-        self.port = port
+        self.ports = ports
         self.username = username
         self.password = password
         self.version: str = self._set_version(version)

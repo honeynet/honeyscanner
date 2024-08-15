@@ -2,9 +2,10 @@ import socket
 import time
 
 from threading import Thread
+from typing import TypeAlias
 from .base_attack import AttackResults, BaseAttack, BaseHoneypot
-from .honeypot_port_scanner.honeypot_port_scanner import (HoneypotPortScanner,
-                                                          PortList)
+
+PortSet: TypeAlias = set[int]
 
 
 class DoS(BaseAttack):
@@ -17,17 +18,9 @@ class DoS(BaseAttack):
                                      for performing the DoS on the honeypot.
         """
         super().__init__(honeypot)
-        self.honeypot_ports: PortList = []
         self.honeypot_rejecting_connections: bool = False
+        self.honeypot_ports: PortSet = honeypot.ports
         self.num_threads: int = 40
-
-    def run_scanner(self) -> None:
-        """
-        Run the HoneypotPortScanner to get the open ports of the honeypot.
-        """
-        honeypot_scanner = HoneypotPortScanner(self.honeypot.ip)
-        honeypot_scanner.run_scanner()
-        self.honeypot_ports = honeypot_scanner.get_open_ports()
 
     def start_connections(self) -> None:
         """
@@ -70,15 +63,21 @@ class DoS(BaseAttack):
         Returns:
             AttackResults: The results of the attack.
         """
-        self.run_scanner()
-        time.sleep(.5)
         print(f"Running DoS attack on {self.honeypot.ip} and "
               f"ports: {self.honeypot_ports}")
         start_time: float = time.time()
         self.manage_attack()
         end_time: float = time.time()
         time_taken: float = end_time - start_time
-        return (True,
-                "Vulnerability found: DoS attack made the honeypot reject connections",
-                time_taken,
-                self.num_threads)
+        if self.honeypot_rejecting_connections:
+            return (True,
+                    "Vulnerability found: DoS attack made the honeypot "
+                    "reject connections",
+                    time_taken,
+                    self.num_threads)
+        else:
+            return (False,
+                    "Vulnerability not found: DoS attack did not make the "
+                    "honeypot reject connections",
+                    time_taken,
+                    self.num_threads)

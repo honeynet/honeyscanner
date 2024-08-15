@@ -33,11 +33,14 @@ class AttackOrchestrator:
         Run VulnAnalyzer, StaticHoney, and TrivyScanner on the Honeypot.
         """
         Lookup: TypeAlias = dict[str, str]
+
         # Run VulnAnalyzer
         print(art.ascii_art_vulnanalyzer())
         analyzer = VulnerableLibrariesAnalyzer(self.honeypot.name,
                                                self.honeypot.owner)
         version: str = self.honeypot.version
+        # if version[0] == "v" and self.honeypot.name == "dionaea":
+        #     version = version[1:]
         versions_list: list[dict] = self.honeypot.versions_list
         version_lookup: Lookup = {item["version"]: item["requirements_url"]
                                   for item in versions_list}
@@ -77,7 +80,7 @@ class AttackOrchestrator:
         """
         report: str = "Honeypot Passive Attack Report\n"
         report += "==============================\n\n"
-        report += f"Target: {self.honeypot.ip}:{self.honeypot.port}\n\n"
+        report += f"Target: {self.honeypot.ip}\n\n"
 
         for attack in self.attacks:
             report += f"{attack}:\n"

@@ -5,7 +5,7 @@ class Kippo(BaseHoneypot):
     def __init__(self,
                  version: str,
                  ip: str,
-                 port: int,
+                 ports: set[int],
                  username: str | None = 'root',
                  password: str | None = '123456') -> None:
         """
@@ -24,7 +24,7 @@ class Kippo(BaseHoneypot):
             username = 'root'
         if password is None:
             password = '123456'
-        super().__init__("kippo", version, ip, port, username, password)
+        super().__init__("kippo", version, ip, ports, username, password)
         self.kex_algorithms = ['diffie-hellman-group1-sha1']
         self.host_key_algorithms = ['ssh-dss', 'ssh-rsa']
 

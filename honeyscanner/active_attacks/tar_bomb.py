@@ -111,7 +111,7 @@ class TarBomb(BaseAttack):
         Returns:
             AttackResults: The results of the attack.
         """
-        print(f"Running tar bomb attack on {self.honeypot.ip}:{self.honeypot.port}...")
+        print(f"Running tar bomb attack on {self.honeypot.ip}...")
         start_time: float = time.time()
 
         for bomb_size in TAR_URL_FILEIDS.keys():

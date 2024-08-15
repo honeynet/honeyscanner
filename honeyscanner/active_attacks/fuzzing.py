@@ -1,6 +1,6 @@
 import time
 
-from .base_attack import AttackResults, BaseAttack, BaseHoneypot
+from .base_attack import AttackResults, BaseAttack, BaseHoneypot, TypeAlias
 from boofuzz import (Session,
                      Target,
                      SocketConnection,
@@ -8,6 +8,8 @@ from boofuzz import (Session,
                      s_string,
                      s_delim,
                      s_get)
+
+FuzzerResults: TypeAlias = tuple[bool, str, int]
 
 """
 Notes:
@@ -31,29 +33,33 @@ class Fuzzing(BaseAttack):
         self.max_banner_length: int = 512
         self.max_terminal_length: int = 1024
 
-    def run_connection_fuzzing(self) -> AttackResults:
+    def run_connection_fuzzing(self) -> FuzzerResults:
         """
         Perform connection fuzzing by sending fuzzed ssh banners
         to the honeypot.
 
         Returns:
-            AttackResults: Results of the attack.
+            FuzzerResults: Results of the attack.
         """
         try:
-            s_initialize("fuzz_banner")
-            s_string("SSH", fuzzable=True, max_len=self.max_banner_length)
-            s_delim(":", fuzzable=True)
+            test_cases_executed: int = 0
 
-            target = Target(connection=SocketConnection(self.honeypot.ip,
-                                                        self.honeypot.port,
-                                                        proto='tcp'))
-            session = Session(target=target, web_port=None, sleep_time=0)
-            session.auto_free_clear = True
+            for port in self.honeypot.ports:
+                if port != 2222:
+                    continue
+                s_initialize("fuzz_banner")
+                s_string("SSH", fuzzable=True, max_len=self.max_banner_length)
+                s_delim(":", fuzzable=True)
+                target = Target(connection=SocketConnection(self.honeypot.ip,
+                                                            port,
+                                                            proto='tcp'))
+                session = Session(target=target, web_port=None, sleep_time=0)
+                session.auto_free_clear = True
 
-            session.connect(s_get("fuzz_banner"))
-            session.fuzz()
+                session.connect(s_get("fuzz_banner"))
+                session.fuzz()
 
-            test_cases_executed: int = session.total_mutant_index
+                test_cases_executed += session.total_mutant_index
 
             if self.is_honeypot_alive():
                 return (False,
@@ -68,29 +74,33 @@ class Fuzzing(BaseAttack):
                     f"Banner fuzzing failed: {e}",
                     0)
 
-    def run_terminal_fuzzing(self) -> AttackResults:
+    def run_terminal_fuzzing(self) -> FuzzerResults:
         """
         Perform terminal fuzzing by sending fuzzed terminal commands
         to the honeypot.
 
         Returns:
-            AttackResults: Results of the attack.
+            FuzzerResults: Results of the attack.
         """
         try:
-            s_initialize("fuzz_command")
-            s_string("A", fuzzable=True, max_len=self.max_terminal_length)
-            s_delim(":", fuzzable=True)
+            test_cases_executed: int = 0
 
-            target = Target(connection=SocketConnection(self.honeypot.ip,
-                                                        self.honeypot.port,
-                                                        proto='tcp'))
-            session = Session(target=target, web_port=None, sleep_time=0)
-            session.auto_free_clear = True
+            for port in self.honeypot.ports:
+                if port != 2222:
+                    continue
+                s_initialize("fuzz_command")
+                s_string("A", fuzzable=True, max_len=self.max_terminal_length)
+                s_delim(":", fuzzable=True)
+                target = Target(connection=SocketConnection(self.honeypot.ip,
+                                                            port,
+                                                            proto='tcp'))
+                session = Session(target=target, web_port=None, sleep_time=0)
+                session.auto_free_clear = True
 
-            session.connect(s_get("fuzz_command"))
-            session.fuzz()
+                session.connect(s_get("fuzz_command"))
+                session.fuzz()
 
-            test_cases_executed: int = session.total_mutant_index
+                test_cases_executed += session.total_mutant_index
 
             if self.is_honeypot_alive():
                 return (False,
@@ -112,7 +122,7 @@ class Fuzzing(BaseAttack):
         Returns:
             AttackResults: Results of the attack.
         """
-        print(f"Running fuzzing attack on {self.honeypot.ip}:{self.honeypot.port}...")
+        print(f"Running fuzzing attack on {self.honeypot.ip}...")
         start_time: float = time.time()
 
         # terminal fuzzing
@@ -128,7 +138,8 @@ class Fuzzing(BaseAttack):
 
         total_cases: int = test_cases_terminal + test_cases_connection
 
-        success: str = success_connection or success_terminal
-        message: str = f"{message_connection} - {message_terminal} - {total_cases} test cases executed"
+        success: bool = success_connection or success_terminal
+        message: str = f"{message_connection} - {message_terminal} -" \
+                       f" {total_cases} test cases executed"
 
         return (success, message, time_taken, total_cases)

@@ -52,7 +52,7 @@ class AttackOrchestrator:
         """
         report = "Honeypot Active Attack Report\n"
         report += "=============================\n\n"
-        report += f"Target: {self.honeypot.ip}:{self.honeypot.port}\n\n"
+        report += f"Target: {self.honeypot.ip}\n\n"
 
         for idx, result in enumerate(self.results):
             attack = self.attacks[idx]
