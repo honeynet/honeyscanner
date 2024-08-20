@@ -1,31 +1,15 @@
-import socket
 import requests
+import socket
 import ssl
+import yaml
 
+from colorama import Fore
 from core import Honeyscanner
+from pathlib import Path
 from typing import TypeAlias
-from .sshconnect import SSHConnectCowrie
+from .sshconnect import CowrieInteract
 
 PortSet: TypeAlias = set[int]
-
-COWRIE_KIPPO_PORT: PortSet = {2222}
-CONPOT_PORTS: PortSet = {2121, 5020, 10201, 44818}
-DIONAEA_PORTS: PortSet = {21,
-                          23,
-                          42,
-                          53,
-                          80,
-                          135,
-                          443,
-                          445,
-                          1433,
-                          1723,
-                          1883,
-                          3306,
-                          5060,
-                          9100,
-                          11211,
-                          27017}
 
 
 class HoneypotDetector:
@@ -38,10 +22,39 @@ class HoneypotDetector:
             ip (str): IP address of the host to check.
         """
         self.ip = ip
-        self.honeypot_ports: PortSet = set()
-        self.honeypot_name: str = ""
+        signatures_path = Path(__file__).parent / "signatures.yaml"
+        with open(signatures_path, "r") as stream:
+            self.signatures: dict = yaml.safe_load(stream)
 
-    def connect_to_socket(self, port, message=None) -> bytes | None:
+    def get_input(self, step: dict) -> bytes:
+        """
+        Returns the input for the given step.
+
+        Args:
+            step (dict): The step to get the input from.
+
+        Returns:
+            bytes: The input for the given step to send over a socket.
+        """
+        return step["input"].encode()
+
+    def get_ouput(self, step: dict) -> bytes:
+        """
+        Returns the output for the given step.
+
+        Args:
+            step (dict): The step to get the output from.
+
+        Returns:
+            bytes: The output for the given step depending on the type.
+        """
+        return step["output"].encode()
+
+    def connect_to_socket(
+            self,
+            port: int,
+            message: bytes | None = None
+            ) -> bytes | None:
         """
         Connects to a specific port on a given IP address.
 
@@ -51,26 +64,26 @@ class HoneypotDetector:
                                        connecting. Default is None.
 
         Returns:
-            str: The response received from the server, or None if
-                 an error occurs.
+            bytes: The response received from the server, or None if
+                   an error occurs.
         """
         try:
             with socket.socket(socket.AF_INET, socket.SOCK_STREAM) as s:
+                # s.settimeout(60)
                 s.connect((self.ip, port))
                 if message:
                     s.sendall(message)
                 resp = s.recv(1024)
                 return resp
         except socket.error as e:
-            print(f'Socket error {e}')
-            return None
+            print(f"{Fore.RED}[-]{Fore.RESET} Socket Error: {e}")
+            return
 
-    def check_port(self, ip, port) -> bool:
+    def check_port(self, port: int) -> bool:
         """
         Checks if a specific port is open.
 
         Args:
-            ip (str): The IP address of the host to check.
             port (int): The port number to check.
 
         Returns:
@@ -80,14 +93,14 @@ class HoneypotDetector:
         try:
             with socket.socket(socket.AF_INET, socket.SOCK_STREAM) as s:
                 s.settimeout(3)
-                s.connect((ip, port))
+                s.connect((self.ip, port))
                 return True
         except socket.timeout:
             return False
         except socket.error:
             return False
 
-    def check_open_ports(self, ip: str) -> PortSet:
+    def check_open_ports(self) -> PortSet:
         """
         Scans a given IP address to get set of open ports.
 
@@ -99,18 +112,16 @@ class HoneypotDetector:
         """
         ports: PortSet = {port for port in range(1, 65536)}
         open_ports = set()
-
-        print(f'Start scanning ports on {ip}')
+        print(f"{Fore.GREEN}[+]{Fore.RESET} Starting port scan on {self.ip}")
 
         for port in ports:
-            if self.check_port(ip, port):
+            if self.check_port(port):
                 open_ports.add(port)
 
-        print(f'Open ports: {open_ports}')
-        self.honeypot_ports = open_ports
+        print(f"{Fore.GREEN}[+]{Fore.RESET} Open ports: {open_ports}")
         return open_ports
 
-    def get_latest_version(self, honeypot) -> str:
+    def get_latest_version(self, honeypot: str) -> str:
         """
         Retrieves the latest version of a specified honeypot.
 
@@ -138,155 +149,59 @@ class HoneypotDetector:
         response = requests.get(url)
 
         if response.status_code == 200:
-            latest_release = response.json()
-            return latest_release['tag_name']
+            latest_release = response.json()["tag_name"]
+            if honeypot == "conpot":
+                latest_release = latest_release.split('_')[1]
+            return latest_release
         else:
             print("Failed to find the latest version.")
             return ""
 
-    def port_2222(self) -> str | None:
+    def signature_check(self, port: int, steps: list[dict]) -> bool:
         """
-        Checks if the SSH service on port 2222 of the given IP address is
-        running a Cowrie or Kippo honeypot.
-
-        Returns:
-            str: cowrie if the banner matches the default Cowrie banner,
-                 kippo if the banner matches the default Kippo banner,
-                 None if neither banner matches.
-        """
-        print('Connecting to port 2222')
-        response: bytes | None = self.connect_to_socket(2222)
-        if response:
-            data: str = response.decode().strip()
-        else:
-            return
-        banner_cowrie: str = "SSH-2.0-OpenSSH_6.0p1 Debian-4+deb7u2"
-        banner_kippo: str = "SSH-2.0-OpenSSH_5.1p1 Debian-5"
-        if data == banner_cowrie:
-            print("[\033[92m+\033[00m] Found default Cowrie banner")
-            return "cowrie"
-        elif data == banner_kippo:
-            print("[\033[92m+\033[00m] Found default Kippo banner")
-            return "kippo"
-        else:
-            print("[\033[91m-\033[00m] Didn't find default banner")
-            return
-
-    def port_21(self) -> bool:
-        """
-        Checks if the running service on port 21 is a specific FTP server.
+        Checks if any of the inputs that we have for a port will give a
+        recognizable output.
 
         Args:
-            ip (str): The IP address of the host to check.
+            steps (list[dict]): The list of steps to check.
 
         Returns:
-            bool: True if the FTP banner matches the default expected banner,
-                  False otherwise.
+            True: True if a signature match is found, False otherwise.
         """
-        print('Connecting to port 21')
-        response: bytes | None = self.connect_to_socket(21)
-        if response:
-            data: str = response.decode().strip()
-        else:
-            return False
-        default_banner = '220 DiskStation FTP server ready.'
-        if data == default_banner:
-            print('[\033[92m+\033[00m] Found default FTP banner')
-            return True
-        else:
-            print('[\033[91m-\033[00m] Didn\'t find default FTP banner')
-            return False
+        for step in steps:
+            input: bytes = self.get_input(step)
+            output: bytes | str = self.get_ouput(step)
+            if port == 443:
+                data = self.check_ssl()
+            else:
+                data = self.connect_to_socket(port, input)
+            if not data:
+                return False
+            if output in data:
+                print(f"{Fore.GREEN}[+]{Fore.RESET} Found signature match!")
+                return True
+        return False
 
-    def port_443(self):
+    def check_ssl(self) -> bytes | None:
         """
-        Checks if the running service on port 443 has Dionaea honeypot
+        Checks if the running service on port 443 has a honeypot signature
         SSL cert.
 
         Returns:
-            bool: True if the SSL certificate indicates a Dionaea SSL server,
+            bool: True if the response contains the default SSL cert,
                   False otherwise.
         """
-        print('Connecting to port 443')
+        try:
+            context = ssl.create_default_context()
+            context.check_hostname = False
+            context.verify_mode = ssl.CERT_NONE
 
-        context = ssl.create_default_context()
-        context.check_hostname = False
-        context.verify_mode = ssl.CERT_NONE
-
-        with socket.create_connection((self.ip, 443)) as sock:
-            with context.wrap_socket(sock, server_hostname=self.ip) as ssock:
-                cert = ssock.getpeercert(True)
-                cert = str(cert)
-                if "dionaea.carnivore.it1" in cert:
-                    print("[\033[92m+\033[00m] Found dionaea ssl-cert")
-                    return True
-                else:
-                    print("[\033[91m-\033[00m] Didn't find default dionaea ssl-cert")
-                    return False
-
-    def port_445(self) -> bool:
-        """
-        Checks if running service on port 445 is Dionaea SMB server.
-
-        Returns:
-            bool: True if the response indicates a Dionaea SMB server,
-                  False otherwise.
-        """
-        print('Connecting to port 445')
-        message: bytes = b"\x00\x00\x00\xa4\xff\x53\x4d\x42\x72\x00\x00" \
-                         b"\x00\x00\x08\x01\x40\x00\x00\x00\x00\x00\x00" \
-                         b"\x00\x00\x00\x00\x00\x00\x00\x00\x40\x06\x00" \
-                         b"\x00\x01\x00\x00\x81\x00\x02PC NETWORK PROGR" \
-                         b"AM 1.0\x00\x02MICROSOFT NETWORKS 1.03\x00\x02" \
-                         b"MICROSOFT NETWORKS 3.0\x00\x02LANMAN1.0\x00\x02" \
-                         b"LM1.2X002\x00\x02Samba\x00\x02NT LANMAN 1.0\x00" \
-                         b"\x02NT LM 0.12\x00"
-        response: bytes | None = self.connect_to_socket(445, message=message)
-        if not response:
-            return False
-        default_banner = b'SMBr'
-        if default_banner in response:
-            print("[\033[92m+\033[00m] Found dionaea smb server")
-            return True
-        else:
-            print("[\033[91m-\033[00m] Didn\'t find dionaea smb server")
-            return False
-
-    def check_cowrie(self):
-        """
-        Checks if a given IP address is running a Cowrie honeypot by
-        connecting via SSH and performing tests.
-
-        Returns:
-            None: This function performs checks and does not return a value.
-        """
-        ssh_conn = SSHConnectCowrie(ip=self.ip,
-                                    port=2222,
-                                    username="root",
-                                    password="1234")
-        ssh_conn.connect()
-        ssh_conn.check_os_version()
-        ssh_conn.check_meminfo()
-        ssh_conn.check_mounts()
-        ssh_conn.check_cpu()
-        ssh_conn.check_group()
-        ssh_conn.check_shadow()
-        ssh_conn.check_passwd()
-        ssh_conn.check_hostname()
-        ssh_conn.close()
-
-    def check_dionaea(self) -> bool:
-        """
-        Checks if a given IP address is running a Dionaea honeypot by
-        checking specific ports.
-
-        Returns:
-            bool: True if the responses from the ports indicate a Dionaea
-                  honeypot, False otherwise.
-        """
-        res_21 = self.port_21()
-        res_443 = self.port_443()
-        res_445 = self.port_445()
-        return res_21 and res_443 and res_445
+            with socket.create_connection((self.ip, 443)) as sock:
+                with context.wrap_socket(sock, server_hostname=self.ip) as ssock:
+                    cert: bytes | None = ssock.getpeercert(True)
+                    return cert
+        except Exception as e:
+            print(f"{Fore.RED}[-]{Fore.RESET} SSL Socket Error: {e}")
 
     def detect_honeypot(
             self,
@@ -298,65 +213,70 @@ class HoneypotDetector:
         open ports and responses.
 
         Args:
-            ip (str): The IP address of the host to check.
+            username (str, optional): The username to use for authentication.
+                                      Defaults to "".
+            password (str, optional): The password to use for authentication.
+                                      Defaults to "".
 
         Returns:
             Honeyscanner: A Honeyscanner object representing the detected
                           honeypot.
         """
-        open_ports: PortSet = self.check_open_ports(self.ip)
-        version: str = ""
-
-        if open_ports == COWRIE_KIPPO_PORT:
-            resp = self.port_2222()
-            if resp == "cowrie":
-                self.check_cowrie()
-                print("This host is probably Cowrie honeypot")
-                version = self.get_latest_version("cowrie")
-                self.honeypot_name = "cowrie"
-                print(f"Cowrie version {version}")
-            elif resp == "kippo":
-                print("This host is probably Kippo honeypot")
-                version = self.get_latest_version("kippo")
-                self.honeypot_name = "kippo"
-                print(f"Kippo version {version}")
-        elif open_ports <= DIONAEA_PORTS:
-            print("The same open ports as in Dionaea honeypot")
-            if self.check_dionaea():
-                print("This host is probably Dionaea honeypot")
-                version = self.get_latest_version("dionaea")
-                self.honeypot_name = "dionaea"
-                print(f"Dionaea version {version}")
-            else:
-                print("This host might be Dionaea")
-        elif open_ports <= CONPOT_PORTS:
-            print("This host is probably Conpot honeypot")
-            version = self.get_latest_version("conpot")
-            self.honeypot_name = "conpot"
-            print(f"Conpot version {version}")
-        else:
-            print("Unsupported honeypot detected")
+        open_ports: PortSet = self.check_open_ports()
+        if not open_ports:
             return
+        version: str = ""
+        current_suspect: tuple[str, int] = ("unsupported", 0)
+        honeypots_suspected: dict[str, int] = {
+            "conpot": 0,
+            "cowrie": 0,
+            "dionaea": 0,
+            "kippo": 0,
+            "unsupported": 0
+        }
 
-        if self.honeypot_name == "cowrie" or self.honeypot_name == "kippo":
+        for port in open_ports:
+            print(f"{Fore.YELLOW}[~]{Fore.RESET} Matching signatures for port {port}...")
+            for signature in self.signatures.get(port, []):
+                name: str = signature["name"]
+                if self.signature_check(port, signature["steps"]):
+                    if name == "cowrie":
+                        if CowrieInteract(
+                                self.ip,
+                                port,
+                                username,
+                                password).ssh_signatures():
+                            honeypots_suspected[name] += 1
+                    else:
+                        honeypots_suspected[name] += 1
+                if honeypots_suspected[name] > current_suspect[1]:
+                    current_suspect = (name, honeypots_suspected[name])
+        if current_suspect[0] == "unsupported":
+            print(f"{Fore.RED}[-]{Fore.RESET} Didn't find any signature matches")
+            return
+        name: str = current_suspect[0]
+        version: str = self.get_latest_version(name)
+        print(f"{Fore.GREEN}[+]{Fore.RESET} This is most likely {name} {version}")
+
+        if name == "cowrie" or name == "kippo":
             if not username:
-                username = 'root'
+                username = "root"
             if not password:
-                password = '1234'
+                password = "1234"
             return Honeyscanner(
-                self.honeypot_name,
+                name,
                 version,
                 self.ip,
-                self.honeypot_ports,
+                open_ports,
                 username,
                 password
             )
         else:
             return Honeyscanner(
-                self.honeypot_name,
+                name,
                 version,
                 self.ip,
-                self.honeypot_ports,
+                open_ports,
                 "",
                 ""
             )

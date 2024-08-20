@@ -11,6 +11,7 @@ jinja2 = "*"
 requests = "*"
 packaging = "*"
 paramiko = "*"
+pyyaml = "*"
 pygithub = "*"
 
 [dev-packages]

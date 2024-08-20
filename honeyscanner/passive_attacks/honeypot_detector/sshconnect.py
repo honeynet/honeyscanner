@@ -1,27 +1,51 @@
 import paramiko
 
+from colorama import Fore
 
-class SSHConnectCowrie:
-    def __init__(self, ip, port, username, password):
+
+class SSHConnect:
+    def __init__(
+            self,
+            ip: str,
+            port: int,
+            username: str,
+            password: str
+            ) -> None:
+        """
+        Initializes a new SSHConnect object.
+
+        Args:
+            ip (str): The IP address of the Honeypot.
+            port (int): The port number of the Honeypot.
+            username (str): The username to authenticate with.
+            password (str): The password to authenticate with.
+        """
         self.ip = ip
         self.port = port
-        self.username = username
-        self.password = password
-        self.ssh = None
-        self.channel = None
+        if username:
+            self.username = username
+        else:
+            self.username = "root"
+        if password:
+            self.password = password
+        else:
+            self.password: str = "1234"
+        self.ssh: paramiko.SSHClient
+        self.channel: paramiko.Channel
 
     def connect(self):
         try:
             self.ssh = paramiko.SSHClient()
             self.ssh.set_missing_host_key_policy(paramiko.AutoAddPolicy())
-            self.ssh.connect(self.ip, port=self.port, username=self.username, password=self.password)
+            self.ssh.connect(self.ip,
+                             port=self.port,
+                             username=self.username,
+                             password=self.password)
             self.channel = self.ssh.invoke_shell()
-            print('Connected')
-            print('Start scanning ...')
         except paramiko.BadHostKeyException as e:
             print(f"Server’s host key could not be verified: {e}")
         except paramiko.AuthenticationException:
-            print('Authentication failed')
+            print("Authentication failed")
         except paramiko.SSHException as e:
             print(f"Can't establish SSH connection: {e}")
         except Exception as e:
@@ -43,30 +67,96 @@ class SSHConnectCowrie:
                     break
         return buffer
 
-    def check_os_version(self):
-        print('Checking OS version')
+    def close(self):
+        """
+        Closes the SSH connection.
+        """
+        if self.channel:
+            self.channel.close()
+        if self.ssh:
+            self.ssh.close()
+
+
+class CowrieInteract(SSHConnect):
+
+    def __init__(
+            self,
+            ip: str,
+            port: int,
+            username: str,
+            password: str
+            ) -> None:
+        """
+        Initializes a new CowrieInteract object.
+
+        Args:
+            ip (str): The IP address of the Honeypot.
+            port (int): The port number of the Honeypot.
+            username (str): The username to authenticate with.
+            password (str): The password to authenticate with.
+        """
+        super().__init__(ip, port, username, password)
+
+    def ssh_signatures(self) -> bool:
+        """
+        Checks Cowrie instance for more signatures.
+
+        Returns:
+            bool: True if the confidence is high or medium, False if the
+                  confidence is low.
+        """
+        print(f"\t{Fore.YELLOW}[~]{Fore.RESET} Connecting to Cowrie instance")
+        self.connect()
+        print(f"\t{Fore.GREEN}[+]{Fore.RESET} Connected to Cowrie instance")
+        curr_confidence: str = "low"
+        max_score: int = 8
+        confidence_score: int = 0
+
+        print(f"\t{Fore.GREEN}[+]{Fore.RESET} Checking SSH service for more "
+              f"Cowrie signatures")
+        for check_func in [self.check_os_version,
+                           self.check_meminfo,
+                           self.check_mounts,
+                           self.check_cpu,
+                           self.check_group,
+                           self.check_hostname,
+                           self.check_shadow,
+                           self.check_passwd]:
+            if check_func():
+                confidence_score += 1
+
+        if confidence_score == max_score:
+            curr_confidence = "high"
+        elif confidence_score >= (max_score // 2):
+            curr_confidence = "medium"
+        else:
+            curr_confidence = "low"
+        print(f"\t{Fore.YELLOW}[~]{Fore.RESET} Closing Cowrie instance")
+        self.close()
+        print(f"\t{Fore.GREEN}[+]{Fore.RESET} Cowrie Instance closed")
+        print(f"\t{Fore.CYAN}[@]{Fore.RESET} Cowrie Instance Confidence: {curr_confidence}")
+        if curr_confidence == "low":
+            return False
+        return True
+
+    def check_os_version(self) -> bool:
+        print(f"\t{Fore.YELLOW}[~]{Fore.RESET} Checking OS version")
         end_marker = '~# '
         resp = self.execute_command('cat /proc/version', end_marker, ignore_first=True)
         version = resp.split('\n')[1].strip('\x1b[4l').strip('\r')
         default_version = 'Linux version 3.2.0-4-amd64 (debian-kernel@lists.debian.org) (gcc version 4.6.3 (Debian 4.6.3-14) ) #1 SMP Debian 3.2.68-1+deb7u1'
-        if version == default_version:
-            print('[\033[92m+\033[00m] Found the same OS version')
-        else:
-            print('[\033[91m-\033[00m] OS version is different')
+        return version == default_version
 
-    def check_meminfo(self):
-        print('Checking memory info')
+    def check_meminfo(self) -> bool:
+        print(f"\t{Fore.YELLOW}[~]{Fore.RESET} Checking memory info")
         end_marker = '~# '
         resp = self.execute_command('cat /proc/meminfo', end_marker)
         memory = resp.split('\n')[2].strip('\r')
         default_memory = 'MemFree:          997740 kB'
-        if memory == default_memory:
-            print('[\033[92m+\033[00m] Found static memory information')
-        else:
-            print('[\033[91m-\033[00m] Memory is different than default value')
+        return memory == default_memory
 
-    def check_mounts(self):
-        print('Checking mounts file')
+    def check_mounts(self) -> bool:
+        print(f"\t{Fore.YELLOW}[~]{Fore.RESET} Checking mounts file")
         end_marker = '~# '
         resp = self.execute_command('cat /proc/mounts', end_marker)
         mounts = '\n'.join(resp.split('\n')[1:-1]).strip('\x1b[4l').replace('\r', '')
@@ -85,64 +175,40 @@ fusectl /sys/fs/fuse/connections fusectl rw,relatime 0 0
 /dev/mapper/home /home ext3 rw,relatime,data=ordered 0 0
 binfmt_misc /proc/sys/fs/binfmt_misc binfmt_misc rw,relatime 0 0"""
         default_mounts = default_mounts.replace('    ', '')
-        if mounts == default_mounts:
-            print('[\033[92m+\033[00m] Found default mounted file systems')
-        else:
-            print('[\033[91m-\033[00m] Mounted file systems are different')
+        return mounts == default_mounts
 
-    def check_cpu(self):
-        print('Checking CPU')
+    def check_cpu(self) -> bool:
+        print(f"\t{Fore.YELLOW}[~]{Fore.RESET} Checking CPU info")
         end_marker = '~# '
         resp = self.execute_command('cat /proc/cpuinfo', end_marker)
         cpu = resp.split('\n')[5].strip('\r')
         default_cpu = 'model name\t: Intel(R) Core(TM)2 Duo CPU     E8200  @ 2.66GHz'
-        if cpu == default_cpu:
-            print('[\033[92m+\033[00m] Found default CPU')
-        else:
-            print('[\033[91m-\033[00m] CPUs are different')
+        return cpu == default_cpu
 
-    def check_group(self):
-        print('Checking group')
+    def check_group(self) -> bool:
+        print(f"\t{Fore.YELLOW}[~]{Fore.RESET} Checking group info")
         end_marker = '~# '
         resp = self.execute_command('cat /etc/group', end_marker)
         group = resp.split('\n')[-2].split(':')[0]
         default_group = 'phil'
-        if group == default_group:
-            print('[\033[92m+\033[00m] Found phil in group')
-        else:
-            print('[\033[91m-\033[00m] Didn\'t find phil in group')
+        return group == default_group
 
-    def check_shadow(self):
-        print('Checking shadow file')
+    def check_shadow(self) -> bool:
+        print(f"\t{Fore.YELLOW}[~]{Fore.RESET} Checking shadow file")
         end = '~# '
         resp = self.execute_command('cat /etc/shadow', end)
         default_user = 'phil'
-        if default_user in resp:
-            print('[\033[92m+\033[00m] Found user phil in shadow file')
-        else:
-            print('[\033[91m-\033[00m] Didn\'t find user phil in shadow file')
+        return default_user in resp
 
-    def check_passwd(self):
-        print('Checking passwd file')
+    def check_passwd(self) -> bool:
+        print(f"\t{Fore.YELLOW}[~]{Fore.RESET} Checking passwd file")
         end = '~# '
         resp = self.execute_command('cat /etc/passwd', end)
         default_user = 'phil'
-        if default_user in resp:
-            print('[\033[92m+\033[00m] Found user phil in passwd file')
-        else:
-            print('[\033[91m-\033[00m] Didn\'t find user phil in passwd file')
+        return default_user in resp
 
-    def check_hostname(self):
-        print('Checking hostname')
+    def check_hostname(self) -> bool:
+        print(f"\t{Fore.YELLOW}[~]{Fore.RESET} Checking hostname")
         end_marker = '~# '
         resp = self.execute_command('hostname', end_marker)
-        if 'svr04' in resp:
-            print('[\033[92m+\033[00m] Found default hostname')
-        else:
-            print('[\033[91m-\033[00m] Didn\'t find default hostname')
-
-    def close(self):
-        if self.channel:
-            self.channel.close()
-        if self.ssh:
-            self.ssh.close()
+        return 'svr04' in resp

@@ -1,0 +1,40 @@
+21:
+  - name: "dionaea"
+    steps:
+      - input: "USER root\r\nPASS \r\n"
+        output: "220 DiskStation FTP server ready.\r\n"
+
+102:
+  - name: "conpot"
+    steps:
+      - input: "0300001611e00000000400c1020100c2020102c0010a"
+        output: "030000130ed00000000000c1020000c2020000"
+
+443:
+  - name: "dionaea"
+    steps:
+      - input: ""
+        output: "dionaea.carnivore.it1"
+
+445:
+  - name: "dionaea"
+    steps:
+      - input: "\x00\x00\x00\xa4\xff\x53\x4d\x42\x72\x00\x00\x00\x00\x08\x01\x40\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x40\x06\x00\x00\x01\x00\x00\x81\x00\x02PC NETWORK PROGRAM 1.0\x00\x02MICROSOFT NETWORKS 1.03\x00\x02MICROSOFT NETWORKS 3.0\x00\x02LANMAN1.0\x00\x02LM1.2X002\x00\x02Samba\x00\x02NT LANMAN 1.0\x00\x02NT LM 0.12\x00"
+        output: "SMBr"
+
+2222:
+  - name: "cowrie"
+    steps:
+     - input: ""
+       output: "SSH-2.0-OpenSSH_6.0p1 Debian-4+deb7u2\r\n"
+
+  - name: "kippo"
+    steps:
+     - input: ""
+       output: "SSH-2.0-OpenSSH_5.1p1 Debian-5\r\n"
+
+8800:
+  - name: "conpot"
+    steps:
+     - input: "GET /index.html HTTP/1.1\n\n"
+       output: "Overview - Siemens, SIMATIC, S7-200"
