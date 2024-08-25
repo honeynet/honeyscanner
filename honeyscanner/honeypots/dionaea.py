@@ -5,7 +5,7 @@ class Dionaea(BaseHoneypot):
     def __init__(self,
                  version: str,
                  ip: str,
-                 port: int,
+                 ports: set[int],
                  username: str | None = '',
                  password: str | None = '') -> None:
         """
@@ -25,7 +25,7 @@ class Dionaea(BaseHoneypot):
             username = ''
         if password is None:
             password = ''
-        super().__init__("dionaea", version, ip, port, username, password)
+        super().__init__("dionaea", version, ip, ports, username, password)
 
     def _set_source_code_url(self) -> str:
         """
@@ -36,21 +36,21 @@ class Dionaea(BaseHoneypot):
         """
         return "https://github.com/DinoTools/dionaea/archive/refs/tags"
 
-    """
-    I manually inspected the Dockerfile provided from T-pot
-    (https://github.com/telekom-security/tpotce/blob/master/docker/dionaea/Dockerfile)
-    and I found all the python3 dependencies, then I inspected the date of
-    the last release tag 30 Nov 2020 I could manually create the
-    requirements file for all the versions, it could change just the
-    packages version. But as there only 3 packages I figured out that is
-    probably not worth the time.
-    """
     def _set_versions_list(self) -> Versions:
         """
         Sets the list of versions of the Dionaea Honeypot
 
         Returns:
             list[dict]: List of versions of the Dionaea Honeypot
+
+        Notes:
+            I manually inspected the Dockerfile provided from T-pot
+            (https://github.com/telekom-security/tpotce/blob/master/docker/dionaea/Dockerfile)
+            and I found all the python3 dependencies, then I inspected the date of
+            the last release tag 30 Nov 2020 I could manually create the
+            requirements file for all the versions, it could change just the
+            packages version. But as there only 3 packages I figured out that is
+            probably not worth the time.
         """
         return [
             {

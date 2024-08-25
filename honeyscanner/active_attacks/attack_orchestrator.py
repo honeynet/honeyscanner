@@ -1,10 +1,7 @@
 from math import floor
-
 from .base_attack import AttackResults, BaseAttack, BaseHoneypot
 from .dos import DoS
-from .dos_all_open_ports import DoSAllOpenPorts
 from .fuzzing import Fuzzing
-# from .software_exploit import SoftwareExploit
 from .tar_bomb import TarBomb
 
 
@@ -18,23 +15,20 @@ class AttackOrchestrator:
                                      to use in the attacks.
         """
         self.honeypot = honeypot
-        # for dionaea and conpot, we can run the DoSAllOpenPorts attack only
         self.attacks: list[BaseAttack] = []
         if honeypot.name == "dionaea" or honeypot.name == "conpot":
             self.attacks = [
-                DoSAllOpenPorts(honeypot)
+                DoS(honeypot)
             ]
         else:
             self.attacks = [
                 Fuzzing(honeypot),
                 TarBomb(honeypot),
-                # TODO: SoftwareExploit still is slow
-                # SoftwareExploit(honeypot),
                 DoS(honeypot)
             ]
         self.total_attacks: int = len(self.attacks)
         self.successful_attacks: int = 0
-        self.results: AttackResults = []
+        self.results: AttackResults
 
     def run_attacks(self) -> None:
         """
@@ -58,7 +52,7 @@ class AttackOrchestrator:
         """
         report = "Honeypot Active Attack Report\n"
         report += "=============================\n\n"
-        report += f"Target: {self.honeypot.ip}:{self.honeypot.port}\n\n"
+        report += f"Target: {self.honeypot.ip}\n\n"
 
         for idx, result in enumerate(self.results):
             attack = self.attacks[idx]
@@ -71,8 +65,6 @@ class AttackOrchestrator:
                 report += f"  Number of threads used: {result[3]}\n\n"
             elif attack_name == "Fuzzing":
                 report += f"  Test cases executed: {result[3]}\n\n"
-            elif attack_name == "SoftwareExploit":
-                report += f"  Exploits used are saved in: {result[3]}\n\n"
             elif attack_name == "TarBomb":
                 report += f"  Number of bombs used: {result[3]}\n\n"
             elif attack_name == "DoSAllOpenPorts":

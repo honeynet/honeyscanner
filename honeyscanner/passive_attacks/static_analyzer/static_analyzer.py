@@ -84,9 +84,6 @@ class StaticAnalyzer:
         CompletedProc: TypeAlias = subprocess.CompletedProcess
 
         output_filename: Path = self.output_folder / f"{self.honeypot_name}_{version}_analysis.json"
-        CompletedProc: TypeAlias = subprocess.CompletedProcess
-
-        output_filename: Path = self.output_folder / f"{self.honeypot_name}_{version}_analysis.json"
 
         # Run Bandit via subprocess
         cmd: str = f"bandit -r '{honeypot_folder}' -f json -o '{output_filename}'"
@@ -234,7 +231,6 @@ class StaticAnalyzer:
         """
         if not self.output_folder.exists():
             os.makedirs(self.output_folder)
-
         print(f"Analyzing {self.honeypot_name} {self.honeypot_version}")
         honeypot_folder: Path = self.fetch_honeypot_version(self.honeypot_version)
         output_filename: Path = self.analyze_honeypot_version(honeypot_folder,

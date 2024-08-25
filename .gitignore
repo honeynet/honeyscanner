@@ -19,6 +19,7 @@ build/
 # IDE files
 .idea/
 .vscode/
+.zed/
 *.swp
 *.swo
 *.swn
@@ -28,6 +29,7 @@ build/
 Thumbs.db
 
 # misc
-*.json
 *.db
+*.db-journal
+*.json
 *.txt

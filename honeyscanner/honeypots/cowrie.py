@@ -5,7 +5,7 @@ class Cowrie(BaseHoneypot):
     def __init__(self,
                  version: str,
                  ip: str,
-                 port: int,
+                 ports: set[int],
                  username: str | None = 'root',
                  password: str | None = '12345') -> None:
         """
@@ -23,8 +23,8 @@ class Cowrie(BaseHoneypot):
         if username is None:
             username = 'root'
         if password is None:
-            password = '12345'
-        super().__init__("cowrie", version, ip, port, username, password)
+            password = '1234'
+        super().__init__("cowrie", version, ip, ports, username, password)
 
     def _set_version(self, version: str) -> str:
         """

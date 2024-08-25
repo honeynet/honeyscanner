@@ -164,6 +164,8 @@ class VulnerableLibrariesAnalyzer:
             bool: True if the requirements were downloaded successfully,
                   False otherwise.
         """
+        if not requirements_url:
+            return False
         release_date: datetime.date = self.get_release_date(version)
         response: requests.Response = requests.get(requirements_url)
         if response.status_code == 200:
@@ -188,6 +190,7 @@ class VulnerableLibrariesAnalyzer:
         Returns:
             datetime.date: The release date of the specified version tag.
         """
+        print(f"Getting release date for tag: {version_tag}")
         try:
             if self.honeypot_name == "conpot" and version_tag > "0.2.2":
                 version_tag: str = f"Release_{version_tag}"
@@ -337,7 +340,6 @@ class VulnerableLibrariesAnalyzer:
             str: The summary of the vulnerabilities found in the
                  specified version of the honeypot.
         """
-        success: bool = self.download_requirements(version, requirements_url)
         VulnOutputMap: TypeAlias = dict[str, Vulnerability.VulnDict]
         VulnJSON: TypeAlias = dict[str, VulnOutputMap]
 
@@ -392,10 +394,12 @@ class VulnerableLibrariesAnalyzer:
                         severity_color = Fore.YELLOW
                     else:
                         severity_color = Fore.RED
-                print(f"  - {severity_color}{vuln.vulnerability_id} - {vuln.affected_versions} - {vuln.cve} - CVSS: {vuln.cvss_score}{Style.RESET_ALL}")
-            print()
+                print(f"  - {severity_color}{vuln.vulnerability_id} - {vuln.affected_versions} - {vuln.cve} - CVSS: {vuln.cvss_score}{Style.RESET_ALL}\n")
 
-    def generate_summary(self, vulnerabilities: VulnLibs) -> str:
+    def generate_summary(
+            self,
+            vulnerabilities: VulnLibs
+            ) -> tuple[str, str]:
         """
         Generate a summary of the found vulnerabilities as a string.
 

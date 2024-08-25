@@ -5,7 +5,7 @@ class Conpot(BaseHoneypot):
     def __init__(self,
                  version: str,
                  ip: str,
-                 port: int,
+                 ports: set[int],
                  username: str | None = '',
                  password: str | None = '') -> None:
         """
@@ -24,7 +24,7 @@ class Conpot(BaseHoneypot):
             username = ''
         if password is None:
             password = ''
-        super().__init__("conpot", version, ip, port, username, password)
+        super().__init__("conpot", version, ip, ports, username, password)
 
     def _set_source_code_url(self) -> str:
         """

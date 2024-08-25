@@ -5,7 +5,7 @@ import time
 from honeypots import BaseHoneypot
 from typing import TypeAlias
 
-AttackResults: TypeAlias = list[tuple[bool, str, float, str | int | None]]
+AttackResults: TypeAlias = tuple[bool, str, float, str | int | None]
 
 
 class BaseAttack:
@@ -29,9 +29,10 @@ class BaseAttack:
         Returns:
             bool: True if the Honeypot is alive, False otherwise.
         """
+        check_port: int = list(self.honeypot.ports)[0]
         try:
             honeypot_addr: tuple[str, int] = (self.honeypot.ip,
-                                              self.honeypot.port)
+                                              check_port)
             sock: socket.socket = socket.create_connection(honeypot_addr,
                                                            timeout=10)
             sock.close()
@@ -59,39 +60,40 @@ class BaseAttack:
                                      Honeypot the Channel object is
                                      returned. Otherwise None is returned.
         """
-        try:
-            s = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
-            s.connect((self.honeypot.ip, self.honeypot.port))
-            transport = paramiko.Transport(s)
+        for port in self.honeypot.ports:
+            try:
+                s = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
+                s.connect((self.honeypot.ip, port))
+                transport = paramiko.Transport(s)
 
-            if self.honeypot.name == "kippo":
-                # Set the key exchange and host key algorithms to
-                # the ones supported by the honeypot
-                sec_opts: paramiko.SecurityOptions = transport.get_security_options()
-                sec_opts.kex = self.honeypot.kex_algorithms
-                sec_opts.key_types = self.honeypot.host_key_algorithms
+                if self.honeypot.name == "kippo":
+                    # Set the key exchange and host key algorithms to
+                    # the ones supported by the honeypot
+                    sec_opts: paramiko.SecurityOptions = transport.get_security_options()
+                    sec_opts.kex = self.honeypot.kex_algorithms
+                    sec_opts.key_types = self.honeypot.host_key_algorithms
 
-            # Start the client
-            transport.start_client()
+                # Start the client
+                transport.start_client()
 
-            # Wait for the transport to become active
-            transport.auth_password(self.honeypot.username,
-                                    self.honeypot.password)
+                # Wait for the transport to become active
+                transport.auth_password(self.honeypot.username,
+                                        self.honeypot.password)
 
-            # Wait for authentication to succeed
-            while not transport.is_authenticated():
-                time.sleep(1)
+                # Wait for authentication to succeed
+                while not transport.is_authenticated():
+                    time.sleep(1)
 
-            chan: paramiko.Channel = transport.open_session()
-            chan.get_pty()
-            chan.invoke_shell()
+                chan: paramiko.Channel = transport.open_session()
+                chan.get_pty()
+                chan.invoke_shell()
 
-            self.transports.append(transport)
+                self.transports.append(transport)
 
-            return chan
-        except Exception as e:
-            print(f"Error while connecting socket: {e}")
-            return None
+                return chan
+            except Exception as e:
+                print(f"Error while connecting socket: {e}")
+                return None
 
     def run_attack(self):
         raise NotImplementedError(

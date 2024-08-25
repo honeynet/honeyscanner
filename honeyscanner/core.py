@@ -1,22 +1,20 @@
 from active_attacks import AttackOrchestrator as ActiveAttackOrchestrator
 from honeypots import BaseHoneypot, Cowrie, Conpot, Dionaea, Kippo
-from active_attacks import AttackOrchestrator as ActiveAttackOrchestrator
-from honeypots import BaseHoneypot, Cowrie, Conpot, Dionaea, Kippo
 from passive_attacks import AttackOrchestrator as PassiveAttackOrchestrator
 from report_generator import ReportGenerator
-from typing import TypeAlias
 
-from typing import TypeAlias
+from typing import Type, TypeAlias
+
+HoneypotMap: TypeAlias = dict[str, Type[BaseHoneypot]]
 
 
 class Honeyscanner:
-    _HoneypotMap: TypeAlias = dict[str, BaseHoneypot]
 
     def __init__(self,
                  honeypot_type: str,
                  honeypot_version: str,
                  honeypot_ip: str,
-                 honeypot_port: int,
+                 honeypot_ports: set[int],
                  honeypot_username: str,
                  honeypot_password: str) -> None:
         """
@@ -26,14 +24,14 @@ class Honeyscanner:
             honeypot_type (str): Type of the Honeypot to analyze
             honeypot_version (str): Version of the Honeypot
             honeypot_ip (str): IP address of the Honeypot
-            honeypot_port (int): Port number of the Honeypot
+            honeypot_ports (int): Open ports on the Honeypot
             honeypot_username (str): Username to authenticate with
             honeypot_password (str): Password to authenticate with
         """
         self.honeypot: BaseHoneypot = self.create_honeypot(honeypot_type,
                                                            honeypot_version,
                                                            honeypot_ip,
-                                                           honeypot_port,
+                                                           honeypot_ports,
                                                            honeypot_username,
                                                            honeypot_password)
         self.passive_attack_orchestrator: PassiveAttackOrchestrator = (
@@ -44,14 +42,14 @@ class Honeyscanner:
         )
         self.recommendations: dict[str, str]
         self.passive_attack_results: str = ""
-        self.active_attack_results: str = ""
+        self.active_attack_results: tuple[str, int, int]
         self.report_generator: ReportGenerator = ReportGenerator(self.honeypot)
 
     def create_honeypot(self,
                         honeypot_type: str,
                         honeypot_version: str,
                         honeypot_ip: str,
-                        honeypot_port: int,
+                        honeypot_ports: set[int],
                         honeypot_username: str,
                         honeypot_password: str) -> BaseHoneypot:
         """
@@ -61,7 +59,7 @@ class Honeyscanner:
             honeypot_type (str): Type of Honeypot to analyze
             honeypot_version (str): Version of the Honeypot
             honeypot_ip (str): IP address of the Honeypot
-            honeypot_port (int): Port number of the Honeypot
+            honeypot_ports (int): Open ports on the Honeypot
             honeypot_username (str): Username to authenticate with
             honeypot_password (str): Password to authenticate with
 
@@ -72,7 +70,7 @@ class Honeyscanner:
             BaseHoneypot: An instance of the specified Honeypot to
             analyze data from
         """
-        honeypot_class_map: self._HoneypotMap = {
+        honeypot_class_map: HoneypotMap = {
             'cowrie': Cowrie,
             'kippo': Kippo,
             'dionaea': Dionaea,
@@ -84,7 +82,7 @@ class Honeyscanner:
                 Supported honeypots are: {supported_honeypots}")
         return honeypot_class_map[honeypot_type](honeypot_version,
                                                  honeypot_ip,
-                                                 honeypot_port,
+                                                 honeypot_ports,
                                                  honeypot_username,
                                                  honeypot_password)
 
