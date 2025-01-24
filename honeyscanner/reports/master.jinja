@@ -14,6 +14,11 @@ Date of Assessment: {{date}}
 Report Summary
 =================================================
 
+Scan Duration: {{ scan_duration }} seconds
+{% if timed_out %}
+Status: Timed out
+{% endif %}
+
 Passive Attacks Results:
 ========================
 {{passive_results}}

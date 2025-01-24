@@ -23,6 +23,9 @@ class ReportGenerator:
         self.report_path: Path = self.parent_path / "reports"
         env = Environment(loader=FileSystemLoader(self.report_path))
         self.template: Template = env.get_template("master.jinja")
+        # Added timeout tracking
+        self.scan_duration = 0
+        self.timed_out = False
 
     def count_all_cves(self) -> int:
         """
@@ -44,13 +47,17 @@ class ReportGenerator:
     def generate(self,
                  recommendations: list[str],
                  passive_results: str,
-                 active_results: ReportResults) -> None:
+                 active_results: ReportResults,
+                 scan_duration: int = 0,  # Added parameter
+                 timed_out: bool = False) -> None:  # Added parameter
         """
         Generate the report.
 
         Args:
             passive_results (str): Passive detection results.
             active_results (ReportResults): Active attacks results.
+            scan_duration (int): Duration of scan in seconds
+            timed_out (bool): Whether scan timed out
         """
         date: str = datetime.now().strftime("%Y-%m-%d_%H-%M-%S")
         report_date: str = datetime.now().strftime("%Y-%m-%d %H:%M:%S")
@@ -70,7 +77,10 @@ class ReportGenerator:
                         success=attack_success,
                         failed=total_attacks - attack_success,
                         rating=success_rate,
-                        recommendations=recommendations)
+                        recommendations=recommendations,
+                        # Added timeout information
+                        scan_duration=scan_duration,
+                        timed_out=timed_out)
         new_report_path: Path = self.report_path / f"report_{date}.txt"
         new_report_path.write_text(report)
         print(f"Report generated successfully at {new_report_path}")
