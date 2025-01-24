@@ -2,7 +2,7 @@ from active_attacks import AttackOrchestrator as ActiveAttackOrchestrator
 from honeypots import BaseHoneypot, Cowrie, Conpot, Dionaea, Kippo
 from passive_attacks import AttackOrchestrator as PassiveAttackOrchestrator
 from report_generator import ReportGenerator
-
+from timeout_manager import TimeoutManager
 from typing import Type, TypeAlias
 
 HoneypotMap: TypeAlias = dict[str, Type[BaseHoneypot]]
@@ -16,7 +16,8 @@ class Honeyscanner:
                  honeypot_ip: str,
                  honeypot_ports: set[int],
                  honeypot_username: str,
-                 honeypot_password: str) -> None:
+                 honeypot_password: str,
+                 timeout: int = 300) -> None:
         """
         Initializes a new instance of a Honeyscanner object.
 
@@ -27,6 +28,7 @@ class Honeyscanner:
             honeypot_ports (int): Open ports on the Honeypot
             honeypot_username (str): Username to authenticate with
             honeypot_password (str): Password to authenticate with
+            timeout (int): Scan timeout in seconds (default: 300)
         """
         self.honeypot: BaseHoneypot = self.create_honeypot(honeypot_type,
                                                            honeypot_version,
@@ -44,6 +46,9 @@ class Honeyscanner:
         self.passive_attack_results: str = ""
         self.active_attack_results: tuple[str, int, int]
         self.report_generator: ReportGenerator = ReportGenerator(self.honeypot)
+        self.timeout_manager = TimeoutManager(timeout)
+        self.scan_duration = 0
+        self.timed_out = False
 
     def create_honeypot(self,
                         honeypot_type: str,
@@ -86,20 +91,31 @@ class Honeyscanner:
                                                  honeypot_username,
                                                  honeypot_password)
 
-    def run_all_attacks(self) -> None:
-        """
-        Run all attacks on the Honeypot and save the attack findings.
-        """
+def run_all_attacks(self) -> None:
+    """
+    Run all attacks on the Honeypot and save the attack findings.
+    """
+    try:
+        # Start timeout tracking
+        self.timeout_manager.start_timeout()
+        
         # Passive attacks
         self.passive_attack_orchestrator.run_attacks()
         self.passive_attack_results, self.recommendations = (
             self.passive_attack_orchestrator.generate_report()
         )
+        
         # Active attacks
         self.active_attack_orchestrator.run_attacks()
         self.active_attack_results: tuple[str, int, int] = (
             self.active_attack_orchestrator.generate_report()
         )
+    finally:
+        # Stop timeout tracking
+        self.timeout_manager.stop_timeout()
+        self.scan_duration = self.timeout_manager.elapsed_time
+        self.timed_out = self.timeout_manager.timed_out
+
 
     def generate_evaluation_report(self) -> None:
         """
@@ -108,4 +124,6 @@ class Honeyscanner:
         """
         self.report_generator.generate(list(self.recommendations.values()),
                                        self.passive_attack_results,
-                                       self.active_attack_results)
+                                       self.active_attack_results,
+                                       scan_duration=self.scan_duration,
+                                       timed_out=self.timed_out)

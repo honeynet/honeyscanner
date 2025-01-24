@@ -52,6 +52,13 @@ def parse_arguments() -> argparse.Namespace:
         default="",
         help="The password to connect to the honeypot",
     )
+    # Added timeout argument
+    parser.add_argument(
+        "--timeout",
+        type=int,
+        default=300,
+        help="Scan timeout in seconds (default: 300)"
+    )
     return parser.parse_args()
 
 
@@ -67,7 +74,8 @@ def main() -> None:
         return
 
     try:
-        honeyscanner.run_all_attacks()
+        # Updated to pass timeout argument
+        honeyscanner.run_all_attacks(timeout=args.timeout)
     except Exception:
         issue: str = traceback.format_exc()
         print(f"An error occurred during the attacks: {issue}")
