@@ -4,6 +4,7 @@ from passive_attacks import AttackOrchestrator as PassiveAttackOrchestrator
 from report_generator import ReportGenerator
 from timeout_manager import TimeoutManager
 from typing import Type, TypeAlias
+from error_handler import ErrorHandler
 
 HoneypotMap: TypeAlias = dict[str, Type[BaseHoneypot]]
 
@@ -30,12 +31,18 @@ class Honeyscanner:
             honeypot_password (str): Password to authenticate with
             timeout (int): Scan timeout in seconds (default: 300)
         """
-        self.honeypot: BaseHoneypot = self.create_honeypot(honeypot_type,
+        self.error_handler = ErrorHandler()
+
+        try:
+            self.honeypot: BaseHoneypot = self.create_honeypot(honeypot_type,
                                                            honeypot_version,
                                                            honeypot_ip,
                                                            honeypot_ports,
                                                            honeypot_username,
                                                            honeypot_password)
+        except ValueError as e:
+            self.error_handler.handle_error('invalid_honeypot', type=honeypot_type)
+            raise
         self.passive_attack_orchestrator: PassiveAttackOrchestrator = (
             PassiveAttackOrchestrator(self.honeypot)
         )
@@ -83,8 +90,10 @@ class Honeyscanner:
         }
         if honeypot_type not in honeypot_class_map:
             supported_honeypots: str = ', '.join(honeypot_class_map.keys())
-            raise ValueError(f"Unsupported honeypot type: {honeypot_type}. \
-                Supported honeypots are: {supported_honeypots}")
+            self.error_handler.handle_error('unsupported_honeypot', 
+                                          type=honeypot_type, 
+                                          supported=supported_honeypots)
+            raise ValueError(f"Unsupported honeypot type: {honeypot_type}")
         return honeypot_class_map[honeypot_type](honeypot_version,
                                                  honeypot_ip,
                                                  honeypot_ports,
@@ -99,17 +108,26 @@ def run_all_attacks(self) -> None:
         # Start timeout tracking
         self.timeout_manager.start_timeout()
         
-        # Passive attacks
-        self.passive_attack_orchestrator.run_attacks()
-        self.passive_attack_results, self.recommendations = (
-            self.passive_attack_orchestrator.generate_report()
-        )
+        try:
+            # Passive attacks
+            self.passive_attack_orchestrator.run_attacks()
+            self.passive_attack_results, self.recommendations = (
+                self.passive_attack_orchestrator.generate_report()
+            )
+        except Exception as e:
+            self.error_handler.handle_error('passive_attack_failed', error=str(e))
+            raise
         
-        # Active attacks
-        self.active_attack_orchestrator.run_attacks()
-        self.active_attack_results: tuple[str, int, int] = (
-            self.active_attack_orchestrator.generate_report()
-        )
+        try:
+            # Active attacks
+            self.active_attack_orchestrator.run_attacks()
+            self.active_attack_results: tuple[str, int, int] = (
+                self.active_attack_orchestrator.generate_report()
+            )
+        except Exception as e:
+            self.error_handler.handle_error('active_attack_failed', error=str(e))
+            raise
+
     finally:
         # Stop timeout tracking
         self.timeout_manager.stop_timeout()
@@ -117,13 +135,17 @@ def run_all_attacks(self) -> None:
         self.timed_out = self.timeout_manager.timed_out
 
 
-    def generate_evaluation_report(self) -> None:
-        """
-        Generate the evaluation report for the Honeypot off of
-        the attack results.
-        """
+def generate_evaluation_report(self) -> None:
+    """
+    Generate the evaluation report for the Honeypot off of
+    the attack results.
+    """
+    try:
         self.report_generator.generate(list(self.recommendations.values()),
                                        self.passive_attack_results,
                                        self.active_attack_results,
                                        scan_duration=self.scan_duration,
                                        timed_out=self.timed_out)
+    except Exception as e:
+        self.error_handler.habdle_error('report_generation_failed', error=str(e))
+        raise
