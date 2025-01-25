@@ -8,11 +8,11 @@ bandit = "*"
 boofuzz = "*"
 colorama = "*"
 jinja2 = "*"
-requests = "*"
 packaging = "*"
 paramiko = "*"
 pyyaml = "*"
 pygithub = "*"
+requests = "*"
 
 [dev-packages]
 
