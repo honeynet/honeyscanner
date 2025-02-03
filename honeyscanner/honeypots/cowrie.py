@@ -36,7 +36,7 @@ class Cowrie(BaseHoneypot):
         Returns:
             str: The version of the Cowire Honeypot
         """
-        if version in ["2.1.0", "2.4.0", "2.5.0"]:
+        if version in ["2.1.0", "2.4.0", "2.5.0","2.6.1"]: #-----------
             return 'v' + version
         else:
             return version
@@ -57,28 +57,8 @@ class Cowrie(BaseHoneypot):
         Returns:
             list[dict]: List of versions of the Cowire Honeypot
         """
-        return [
-            {
-                "version": "1.5.1",
-                "requirements_url": "https://raw.githubusercontent.com/cowrie/cowrie/1.5.1/requirements.txt",
-            },
-            {
-                "version": "1.5.3",
-                "requirements_url": "https://raw.githubusercontent.com/cowrie/cowrie/1.5.3/requirements.txt",
-            },
-            {
-                "version": "v2.1.0",
-                "requirements_url": "https://raw.githubusercontent.com/cowrie/cowrie/v2.1.0/requirements.txt",
-            },
-            {
-                "version": "v2.4.0",
-                "requirements_url": "https://raw.githubusercontent.com/cowrie/cowrie/v2.4.0/requirements.txt",
-            },
-            {
-                "version": "v2.5.0",
-                "requirements_url": "https://raw.githubusercontent.com/cowrie/cowrie/v2.5.0/requirements.txt",
-            }
-        ]
+        version_list = super().get_requirements('cowrie/cowrie')
+        return version_list
 
     def _set_owner(self) -> str:
         """
@@ -88,3 +68,4 @@ class Cowrie(BaseHoneypot):
             str: The owner of the Cowire Honeypot
         """
         return "cowrie"
+    
