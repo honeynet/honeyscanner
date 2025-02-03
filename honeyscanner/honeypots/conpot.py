@@ -42,53 +42,8 @@ class Conpot(BaseHoneypot):
         Returns:
             list[dict]: List of versions of the Conpot Honeypot
         """
-        return [
-            {
-                "version": "0.6.0",
-                "requirements_url": "https://raw.githubusercontent.com/mushorg/conpot/Release_0.6.0/requirements.txt",
-            },
-            {
-                "version": "0.5.2",
-                "requirements_url": "https://raw.githubusercontent.com/mushorg/conpot/Release_0.5.2/requirements.txt",
-            },
-            {
-                "version": "0.5.1",
-                "requirements_url": "https://raw.githubusercontent.com/mushorg/conpot/Release_0.5.1/requirements.txt",
-            },
-            {
-                "version": "0.5.0",
-                "requirements_url": "https://raw.githubusercontent.com/mushorg/conpot/Release_0.5.0/requirements.txt",
-            },
-            {
-                "version": "0.4.0",
-                "requirements_url": "https://raw.githubusercontent.com/mushorg/conpot/Release_0.4.0/requirements.txt",
-            },
-            {
-                "version": "0.3.1",
-                "requirements_url": "https://raw.githubusercontent.com/mushorg/conpot/Release_0.3.1/requirements.txt",
-            },
-            {
-                "version": "0.3.0",
-                "requirements_url": "https://raw.githubusercontent.com/mushorg/conpot/Release_0.3.0/requirements.txt",
-            },
-            # NO Release_ used in front of the version from here on
-            {
-                "version": "0.2.2",
-                "requirements_url": "https://raw.githubusercontent.com/mushorg/conpot/0.2.2/requirements.txt",
-            },
-            {
-                "version": "0.2.2",
-                "requirements_url": "https://raw.githubusercontent.com/mushorg/conpot/0.2.2/requirements.txt",
-            },
-            {
-                "version": "0.2.1",
-                "requirements_url": "https://raw.githubusercontent.com/mushorg/conpot/0.2.1/requirements.txt",
-            },
-            {
-                "version": "0.2",
-                "requirements_url": "https://raw.githubusercontent.com/mushorg/conpot/0.2/requirements.txt",
-            }
-        ]
+        version_list = super().get_requirements('mushorg/conpot')
+        return version_list
 
     def _set_owner(self) -> str:
         """

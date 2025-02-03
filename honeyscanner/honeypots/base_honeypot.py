@@ -1,5 +1,5 @@
 from typing import TypeAlias
-
+import requests
 
 Versions: TypeAlias = list[dict[str, str]]
 
@@ -46,3 +46,28 @@ class BaseHoneypot:
 
     def _set_versions_list(self) -> Versions:
         raise NotImplementedError(self._impl_err)
+    
+    def get_requirements(self,repo):
+        #repos = ['cowrie/cowrie','mushorg/conpot','DinoTools/dionaea','desaster/kippo']
+        headers = {
+            "X-GitHub-Api-Version": "2022-11-28",
+            "Accept": "application/vnd.github.v3+json"
+        }
+        response_ver = requests.get(f'https://api.github.com/repos/{repo}/tags',headers=headers).json()
+
+        versions = []
+        for el in response_ver:
+            versions.append(el["name"])
+
+        return_data = []
+        for version in versions:
+            data = {
+                "version" :'',
+                "requirements_url" : ''
+            }
+            data["version"] = version
+            data["requirements_url"] = f'https://raw.githubusercontent.com/{repo}/{version}/requirements.txt'
+
+            return_data.append(data)
+        
+        return return_data
