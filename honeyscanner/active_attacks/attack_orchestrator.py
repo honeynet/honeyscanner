@@ -30,6 +30,35 @@ class AttackOrchestrator:
         self.successful_attacks: int = 0
         self.results: AttackResults
 
+    #individual attacks
+    def run_fuzzing(self) -> None:
+        """
+        Runs Fuzzing attack on the specified honeypot.
+        """
+        result = [self.attacks[0].run_attack()]
+        if result[0]:
+            self.successful_attacks += 1
+        self.results = result
+
+    def run_tarbomb(self) -> None:
+        """
+        Runs TarBomb attack on the specified honeypot.
+        """
+        result = [self.attacks[1].run_attack()]
+        if result[0]:
+            self.successful_attacks += 1
+        self.results = result
+
+    def run_dos(self) -> None:
+        """
+        Runs DoS attack on the specified honeypot.
+        """
+        result = [self.attacks[2].run_attack()]
+        if result[0]:
+            self.successful_attacks += 1
+        self.results = result
+
+    #all attacks
     def run_attacks(self) -> None:
         """
         Runs all attacks that can be ran on the specified honeypot.

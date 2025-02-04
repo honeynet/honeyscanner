@@ -54,11 +54,41 @@ class ReportGenerator:
         """
         date: str = datetime.now().strftime("%Y-%m-%d_%H-%M-%S")
         report_date: str = datetime.now().strftime("%Y-%m-%d %H:%M:%S")
-        total_attacks: int = active_results[1]
+        """total_attacks: int = active_results[1]
         attack_success: int = active_results[2]
-        success_rate: str = f"{(attack_success / total_attacks) * 100:.2f}%"
+        success_rate: str = f"{(attack_success / total_attacks) * 100:.2f}%
+        """
+        ########
+        total_attacks: int = active_results[1] if active_results else 0
+        attack_success: int = active_results[2] if active_results else 0
+        success_rate: str = f"{(attack_success / total_attacks) * 100:.2f}%" if total_attacks > 0 else "N/A"
+
         print("Generating report...")
-        report: str = self.template.render(
+
+        # Build the context dictionary
+        context = {
+            "name": self.honeypot.name,
+            "version": self.honeypot.version,
+            "ip": self.honeypot.ip,
+            "port": self.honeypot.ports,
+            "date": report_date,
+            "all_cves": self.count_all_cves(),
+            "success": attack_success,
+            "failed": total_attacks - attack_success,
+            "rating":success_rate
+        }
+
+        # Conditionally add active_results and passive_results
+        if active_results:
+            context["active_results"] = active_results[0]
+        if passive_results:
+            context["passive_results"] = passive_results
+            context["recommendations"] = recommendations
+
+        report: str = self.template.render(**context)
+
+        #print("Generating report...")
+        """report: str = self.template.render(
                         name=self.honeypot.name,
                         version=self.honeypot.version,
                         ip=self.honeypot.ip,
@@ -70,7 +100,7 @@ class ReportGenerator:
                         success=attack_success,
                         failed=total_attacks - attack_success,
                         rating=success_rate,
-                        recommendations=recommendations)
+                        recommendations=recommendations)"""
         new_report_path: Path = self.report_path / f"report_{date}.txt"
         new_report_path.write_text(report)
         print(f"Report generated successfully at {new_report_path}")

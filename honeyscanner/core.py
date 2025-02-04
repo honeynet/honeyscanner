@@ -85,7 +85,72 @@ class Honeyscanner:
                                                  honeypot_ports,
                                                  honeypot_username,
                                                  honeypot_password)
+    #Passive Attacks
+    def run_vulnanalyzer(self) -> None:
+        """
+        Run VulnAnalyzer on the Honeypot and save the attack findings.
+        """
+        self.passive_attack_orchestrator.run_vulnanalyzer()
+        self.passive_attack_results, self.recommendations = (
+            self.passive_attack_orchestrator.generate_report()
+        )
+        self.active_attack_results = None
 
+    def run_statichoney(self) -> None:
+        """
+        Run StaticHoney on the Honeypot and save the attack findings.
+        """
+        self.passive_attack_orchestrator.run_statichoney()
+        self.passive_attack_results, self.recommendations = (
+            self.passive_attack_orchestrator.generate_report()
+        )
+        self.active_attack_results = None
+    
+    def run_trivyscanner(self) -> None:
+        """
+        Run TrivyScanner on the Honeypot and save the attack findings.
+        """
+        self.passive_attack_orchestrator.run_trivyscanner()
+        self.passive_attack_results, self.recommendations = (
+            self.passive_attack_orchestrator.generate_report()
+        )
+        self.active_attack_results = None
+
+    #Active attacks
+    def run_fuzzing(self) -> None:
+        """
+        Run Fuzzing on the Honeypot and save the attack findings.
+        """
+        self.active_attack_orchestrator.run_fuzzing()
+        self.active_attack_results: tuple[str, int, int] = (
+            self.active_attack_orchestrator.generate_report()
+        )
+        self.passive_attack_results = None
+        self.recommendations = None
+
+    def run_tarbomb(self) -> None:
+        """
+        Run TarBomb on the Honeypot and save the attack findings.
+        """
+        self.active_attack_orchestrator.run_tarbomb()
+        self.active_attack_results: tuple[str, int, int] = (
+            self.active_attack_orchestrator.generate_report()
+        )
+        self.passive_attack_results = None
+        self.recommendations = None
+
+    def run_dos(self) -> None:
+        """
+        Run DoS on the Honeypot and save the attack findings.
+        """
+        self.active_attack_orchestrator.run_dos()
+        self.active_attack_results: tuple[str, int, int] = (
+            self.active_attack_orchestrator.generate_report()
+        )
+        self.passive_attack_results = None
+        self.recommendations = None
+
+    #for all attacks 
     def run_all_attacks(self) -> None:
         """
         Run all attacks on the Honeypot and save the attack findings.
@@ -106,6 +171,6 @@ class Honeyscanner:
         Generate the evaluation report for the Honeypot off of
         the attack results.
         """
-        self.report_generator.generate(list(self.recommendations.values()),
-                                       self.passive_attack_results,
-                                       self.active_attack_results)
+        self.report_generator.generate(list(self.recommendations.values()) if self.recommendations else [],
+                                    self.passive_attack_results,
+                                    self.active_attack_results)

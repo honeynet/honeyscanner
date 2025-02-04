@@ -30,7 +30,8 @@ def parse_arguments() -> argparse.Namespace:
         argparse.Namespace: Parsed arguments object.
     """
     parser = argparse.ArgumentParser(
-        description="Honeyscanner: A vulnerability analyzer for honeypots"
+        description="Honeyscanner: A vulnerability analyzer for honeypots",
+        formatter_class=argparse.RawTextHelpFormatter
     )
     parser.add_argument(
         "--target-ip",
@@ -52,6 +53,13 @@ def parse_arguments() -> argparse.Namespace:
         default="",
         help="The password to connect to the honeypot",
     )
+    parser.add_argument(
+        "--attack",
+        type=str,
+        required=False,
+        default="all",
+        help="The attack to perform on the honeypot.\nVulnAnalyzer:vulnanalyze\nStaticHoney:statichoney\nTrivyScanner:trivyscanner\nDoS:dos\nFuzzing:fuzz\nTarBomb:tarbomb"
+    )
     return parser.parse_args()
 
 
@@ -63,11 +71,30 @@ def main() -> None:
     print(ascii_art_honeyscanner())
     detector = HoneypotDetector(args.target_ip)
     honeyscanner = detector.detect_honeypot(args.username, args.password)
+
+    #attack to perform
+    attack = args.attack
+
     if not honeyscanner:
         return
 
     try:
-        honeyscanner.run_all_attacks()
+        if attack=="vulnanalyze":
+            honeyscanner.run_vulnanalyzer()
+        elif attack=="statichoney":
+            honeyscanner.run_statichoney()
+        elif attack=="trivyscanner":
+            honeyscanner.run_trivyscanner()
+        elif attack=="dos":
+            honeyscanner.run_dos()
+        elif attack=="fuzz":
+            honeyscanner.run_fuzzing()
+        elif attack=="tarbomb":
+            honeyscanner.run_tarbomb()
+        elif attack=="all":
+            honeyscanner.run_all_attacks()
+        else:
+            honeyscanner.run_all_attacks()
     except Exception:
         issue: str = traceback.format_exc()
         print(f"An error occurred during the attacks: {issue}")
