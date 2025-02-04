@@ -28,6 +28,55 @@ class AttackOrchestrator:
         self.container_sec_report: str = ""
         self.recs: dict[str, str] = {"vuln": "", "static": "", "container": ""}
 
+    def run_vulnanalyzer(self) -> None:
+        """
+        Run VulnAnalyzer on the honeypot
+        """
+        Lookup: TypeAlias = dict[str, str]
+
+        # Run VulnAnalyzer
+        print(art.ascii_art_vulnanalyzer())
+        analyzer = VulnerableLibrariesAnalyzer(self.honeypot.name,
+                                               self.honeypot.owner)
+        version: str = self.honeypot.version
+        # if version[0] == "v" and self.honeypot.name == "dionaea":
+        #     version = version[1:]
+        versions_list: list[dict] = self.honeypot.versions_list
+        version_lookup: Lookup = {item["version"]: item["requirements_url"]
+                                  for item in versions_list}
+        self.analyze_vulns_report, self.recs["vuln"] = (
+            analyzer.analyze_vulnerabilities(version,
+                                             version_lookup.get(version))
+        )
+        print("Finished VulnAnalyzer!")
+
+    def run_statichoney(self) -> None:
+        """
+        Run StaticHoney on the Honeypot.
+        """
+        Lookup: TypeAlias = dict[str, str]
+
+        print(art.ascii_art_statichoney())
+        analyzer = StaticAnalyzer(self.honeypot.name,
+                                  self.honeypot.source_code_url,
+                                  self.honeypot.version)
+        self.static_analysis_report, self.recs["static"] = analyzer.run()
+        print("Finished StaticHoney!")
+
+    def run_trivyscanner(self) -> None:
+        """
+        Run TrivyScanner on the Honeypot.
+        """
+        print(art.ascii_art_trivyscanner())
+        owner: str = self.honeypot.owner
+        # kippo doesn't have official Docker images, so I am using my own
+        if self.honeypot.name == "kippo":
+            owner = "aristofanischionis"
+        scanner = ContainerSecurityScanner(owner, self.honeypot.name)
+        self.container_sec_report, self.recs["container"] = scanner.scan_repository()
+        print("Finished Trivy!")
+
+    #for all attacks
     def run_attacks(self) -> None:
         """
         Run VulnAnalyzer, StaticHoney, and TrivyScanner on the Honeypot.
