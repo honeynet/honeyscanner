@@ -1,6 +1,7 @@
 from math import floor
 from .base_attack import AttackResults, BaseAttack, BaseHoneypot
 from .dos import DoS
+from .dos_cowrie import DoSCowrie
 from .fuzzing import Fuzzing
 from .tar_bomb import TarBomb
 
@@ -20,6 +21,8 @@ class AttackOrchestrator:
             self.attacks = [
                 DoS(honeypot)
             ]
+        elif honeypot.name == "cowrie": 
+            self.attacks.append(DoSCowrie(honeypot))
         else:
             self.attacks = [
                 Fuzzing(honeypot),
@@ -62,6 +65,8 @@ class AttackOrchestrator:
             report += f"  Message: {result[1]}\n\n"
             report += f"  Time to execute: {floor(result[2])} seconds\n\n"
             if attack_name == "DoS":
+                report += f"  Number of threads used: {result[3]}\n\n"
+            elif attack_name == "DoSCowrie":
                 report += f"  Number of threads used: {result[3]}\n\n"
             elif attack_name == "Fuzzing":
                 report += f"  Test cases executed: {result[3]}\n\n"
