@@ -20,6 +20,11 @@ class AttackOrchestrator:
             self.attacks = [
                 DoS(honeypot)
             ]
+        elif honeypot.name == "glastopf":
+            self.attacks = [
+                Fuzzing(honeypot),
+                DoS(honeypot)
+            ]
         else:
             self.attacks = [
                 Fuzzing(honeypot),
