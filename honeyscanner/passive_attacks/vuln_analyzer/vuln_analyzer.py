@@ -257,7 +257,15 @@ class VulnerableLibrariesAnalyzer:
         vulnerable_libraries_dict: VulnLibs = {}
         vulnerable_libraries_dict: VulnLibs = {}
         for package in packages:
-            name, installed_version = package.split("==")
+            # Handle packages with '==' or '>='
+            if "==" in package:
+                name, installed_version = package.split("==")
+            elif ">=" in package:
+                name, installed_version = package.split(">=")
+            else:
+                print(f"[WARNING] Package '{package}' has no version, assuming latest.")
+                name, installed_version = package, "latest"  # Assign latest if no version
+
             if name in vuln_data:
                 for vuln in vuln_data[name]:
                     vuln_id: str | None = vuln["id"]
@@ -301,8 +309,10 @@ class VulnerableLibrariesAnalyzer:
                                      for line in f.readlines()]
 
         # Convert Requirement objects to strings in the format "name==version"
-        packages: list[str] = [f"{req.name}=={req.specs[0][1]}"
-                               for req in requirements]
+        packages: list[str] = [
+            f"{req.name}=={req.specs[0][1]}" if req.specs else req.name  # Handle missing versions
+            for req in requirements
+        ]
 
         # Process the packages to check for vulnerabilities
         return self.process_vulnerabilities(packages)

@@ -4,6 +4,12 @@
       - input: "USER root\r\nPASS \r\n"
         output: "220 DiskStation FTP server ready.\r\n"
 
+80:
+  - name: "glastopf"
+    steps:
+      - input: "GET / HTTP/1.1\nHost: 127.0.0.1\n\n"
+        output: "Server: Apache/2.0.48"
+
 102:
   - name: "conpot"
     steps:

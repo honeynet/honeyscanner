@@ -145,6 +145,8 @@ class HoneypotDetector:
             return "0.11.0"
         elif honeypot == "conpot":
             url = "https://api.github.com/repos/mushorg/conpot/releases/latest"
+        elif honeypot == "glastopf":
+            url = "https://api.github.com/repos/mushorg/glastopf/releases/latest"
 
         response = requests.get(url)
 
@@ -232,6 +234,7 @@ class HoneypotDetector:
             "cowrie": 0,
             "dionaea": 0,
             "kippo": 0,
+            "glastopf":0,
             "unsupported": 0
         }
 
