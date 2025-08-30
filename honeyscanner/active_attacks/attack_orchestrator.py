@@ -43,30 +43,46 @@ class AttackOrchestrator:
             results.append(result)
         self.results = results
 
-    def generate_report(self) -> tuple[str, int, int]:
+    def generate_report(self) -> tuple[dict, int, int]:
         """
         Generates a report of the attack results.
 
         Returns:
-            str: Report of the attack results to be saved for later.
+            tuple[dict, int, int]: Dictionary report of attack results, total attacks, successful attacks
         """
-        report = "Honeypot Active Attack Report\n"
-        report += "=============================\n\n"
-        report += f"Target: {self.honeypot.ip}\n\n"
+        report = {
+            "report_title": "Honeypot Active Attack Report",
+            "target_ip": self.honeypot.ip,
+            "attacks": [],
+            "summary": {
+                "total_attacks": self.total_attacks,
+                "successful_attacks": self.successful_attacks,
+                "success_rate": round((self.successful_attacks / self.total_attacks * 100), 2) if self.total_attacks > 0 else 0
+            }
+        }
 
         for idx, result in enumerate(self.results):
             attack = self.attacks[idx]
             attack_name = attack.__class__.__name__
-            report += f"{attack_name}:\n"
-            report += f"  Vulnerability found: {result[0]}\n"
-            report += f"  Message: {result[1]}\n\n"
-            report += f"  Time to execute: {floor(result[2])} seconds\n\n"
+            
+            attack_data = {
+                "attack_name": attack_name,
+                "vulnerability_found": result[0],
+                "message": result[1],
+                "execution_time_seconds": int(result[2]),  # Using int instead of floor for cleaner code
+                "additional_metrics": {}
+            }
+            
+            # Add attack-specific metrics
             if attack_name == "DoS":
-                report += f"  Number of threads used: {result[3]}\n\n"
+                attack_data["additional_metrics"]["threads_used"] = result[3]
             elif attack_name == "Fuzzing":
-                report += f"  Test cases executed: {result[3]}\n\n"
+                attack_data["additional_metrics"]["test_cases_executed"] = result[3]
             elif attack_name == "TarBomb":
-                report += f"  Number of bombs used: {result[3]}\n\n"
+                attack_data["additional_metrics"]["bombs_used"] = result[3]
             elif attack_name == "DoSAllOpenPorts":
-                report += f"  Number of threads used: {result[3]}\n\n"
+                attack_data["additional_metrics"]["threads_used"] = result[3]
+            
+            report["attacks"].append(attack_data)
+
         return (report, self.total_attacks, self.successful_attacks)
