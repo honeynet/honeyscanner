@@ -77,6 +77,10 @@ class Cowrie(BaseHoneypot):
             {
                 "version": "v2.5.0",
                 "requirements_url": "https://raw.githubusercontent.com/cowrie/cowrie/v2.5.0/requirements.txt",
+            }, 
+            {
+                "version": "v2.6.1",
+                "requirements_url": "https://raw.githubusercontent.com/cowrie/cowrie/v2.6.1/requirements.txt",
             }
         ]
 
