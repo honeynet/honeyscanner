@@ -246,18 +246,18 @@ class StaticAnalyzer:
 
         return self.generate_summary(self.honeypot_version)
 
-    def generate_summary(self, version: str) -> tuple[str, str]:
+    def generate_summary(self, version: str) -> dict:
         """
         Generate the summary of the analysis results for the specified version
-        as a string.
+        as a dictionary.
 
         Args:
             version (str): The version of the honeypot to generate
                            the summary for.
 
         Returns:
-            str: The summary of the analysis results for the specified
-                 version as a string.
+            dict: A dictionary containing the summary of the analysis results
+                  and actionable recommendations.
         """
         output_filename: Path = self.output_folder / f"{self.honeypot_name}_{version}_analysis.json"
 
@@ -268,19 +268,26 @@ class StaticAnalyzer:
         results: list[dict] = data[version]["results"]
         high_count: int = summary["high_severity"]
         medium_count: int = summary["medium_severity"]
-        medium_issues: str = ""
-        high_issues: str = ""
+        medium_issues: list[dict] = []
+        high_issues: list[dict] = []
+
         for result in results:
             severity: str = result.get("issue_severity", [])
+            issue_details = {
+                "filename": result['filename'].split('static_analyzer/')[1],
+                "line_number": result['line_number'],
+                "issue_text": result['issue_text']
+            }
             if severity == "HIGH":
-                high_issues += f"• In file {result['filename'].split('static_analyzer/')[1]} at line {result['line_number']}:\n\t{result['issue_text']}\n"
-            elif result["issue_severity"] == "MEDIUM":
-                medium_issues += f"• In file {result['filename'].split('static_analyzer/')[1]} at line {result['line_number']}:\n\t{result['issue_text']}\n"
+                high_issues.append(issue_details)
+            elif severity == "MEDIUM":
+                medium_issues.append(issue_details)
 
-        # summary_text = f"Version: {version}\n"
-        summary_text: str = f"High Severity: {high_count}\n"
-        summary_text += high_issues
-        summary_text += f"Medium Severity: {medium_count}\n"
-        summary_text += medium_issues
-
-        return (summary_text, self.actionable_rec)
+        return {
+            "version": version,
+            "high_severity_count": high_count,
+            "medium_severity_count": medium_count,
+            "high_severity_issues": high_issues,
+            "medium_severity_issues": medium_issues,
+            "actionable_recommendation": self.actionable_rec
+        }

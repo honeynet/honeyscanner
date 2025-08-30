@@ -231,40 +231,48 @@ class ContainerSecurityScanner:
             if results.get("Results", [])[0].get("Vulnerabilities", []):
                 self.recommendations = "Trivy found vulnerabilities in the source code repository. Check the TrivyScanner section for more info and inform the developer(s) of the security issue."
             return (self.generate_summary(results), self.recommendations)
+   
 
-    def generate_summary(self, results: dict) -> str:
+    def generate_summary(self, results: dict) -> dict:
         """
-        Generate a summary of the scan results as a string.
+        Generate a summary of the scan results as a dictionary.
 
         Args:
             results (dict): The scan results.
         Returns:
-            str: The summary of the scan results.
+            dict: A dictionary containing the summary of vulnerabilities and secrets.
         """
-        summary_text = "Scan Summary\n"
+        summary_dict = {
+            "targets": []
+        }
+        
         for target in results.get('Results', []):
-            summary_text += self._generate_target_summary(target,
-                                                          'Vulnerabilities')
-            summary_text += self._generate_target_summary(target,
-                                                          'Secrets')
+            target_summary = {
+                "target": target['Target'],
+                "vulnerabilities": self._generate_target_summary(target, 'Vulnerabilities'),
+                "secrets": self._generate_target_summary(target, 'Secrets')
+            }
+            summary_dict["targets"].append(target_summary)
 
-        return summary_text
+        return summary_dict
 
     @staticmethod
-    def _generate_target_summary(target: dict, key: str) -> str:
+    def _generate_target_summary(target: dict, key: str) -> dict:
         """
-        Generate a summary of either vulnerabilities or secrets for a target
-        as a string.
+        Generate a summary of either vulnerabilities or secrets for a target as a dictionary.
 
         Args:
             target (dict): The target to generate the summary for.
-            key (str): The key to generate the summary for.
+            key (str): The key to generate the summary for (Vulnerabilities or Secrets).
         Returns:
-            str: The summary of the target.
+            dict: A dictionary summarizing the severity counts for the target.
         """
-        summary_text = f"\n{key} in {target['Target']}:\n"
+        summary_dict = {
+            "counts": {}
+        }
+        
         for severity in SEVERITY_LEVELS.split(','):
             count = sum(1 for v in target.get(key, []) if v['Severity'] == severity)
-            summary_text += f"{severity}: {count}\n"
+            summary_dict["counts"][severity] = count
 
-        return summary_text
+        return summary_dict

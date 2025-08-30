@@ -45,8 +45,8 @@ class AttackOrchestrator:
         version_lookup: Lookup = {item["version"]: item["requirements_url"]
                                   for item in versions_list}
         result = analyzer.analyze_vulnerabilities(version, version_lookup.get(version))
-        self.analyze_vulns_report = result["vulnerabilities"]
-        self.recs["vuln"] = result["actions"]
+        self.analyze_vulns_report = result["vulnerability_analysis"]
+        self.recs["vuln"] = result["vulnerability_analysis"]["action_required"]
         print("Finished VulnAnalyzer!")
 
         # Run Static Analyzer
@@ -54,7 +54,9 @@ class AttackOrchestrator:
         analyzer = StaticAnalyzer(self.honeypot.name,
                                   self.honeypot.source_code_url,
                                   self.honeypot.version)
-        self.static_analysis_report, self.recs["static"] = analyzer.run()
+        result = analyzer.run()
+        self.static_analysis_report = result
+        self.recs["static"] = result["actionable_recommendation"] 
         print("Finished StaticHoney!")
 
         # Run Trivy Scanner
@@ -64,7 +66,9 @@ class AttackOrchestrator:
         if self.honeypot.name == "kippo":
             owner = "aristofanischionis"
         scanner = ContainerSecurityScanner(owner, self.honeypot.name)
-        self.container_sec_report, self.recs["container"] = scanner.scan_repository()
+        result, self.recs["container"] = scanner.scan_repository()
+        self.container_sec_report = result
+        self.container_sec_report["actionable_recommendation"] = self.recs["container"]
         print("Finished Trivy!")
 
         print("Finished all passive attacks successfully!")
@@ -92,21 +96,18 @@ class AttackOrchestrator:
                     "attack_type": "Vulnerable Libraries Analysis",
                     "description": "Analysis of vulnerable libraries and dependencies",
                     "report_content": self.analyze_vulns_report,
-                    "raw_report": self.analyze_vulns_report  # Keep raw for backward compatibility
                 }
             elif attack == "StaticAnalyzer":
                 report["attack_results"]["StaticAnalyzer"] = {
                     "attack_type": "Static Code Analysis",
                     "description": "Static analysis of honeypot codebase and configuration",
                     "report_content": self.static_analysis_report,
-                    "raw_report": self.static_analysis_report  # Keep raw for backward compatibility
                 }
             elif attack == "ContainerSecurityScanner":
                 report["attack_results"]["ContainerSecurityScanner"] = {
                     "attack_type": "Container Security Scan",
                     "description": "Security analysis of container configuration and vulnerabilities",
                     "report_content": self.container_sec_report,
-                    "raw_report": self.container_sec_report  # Keep raw for backward compatibility
                 }
 
         # Add summary information

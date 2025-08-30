@@ -42,35 +42,40 @@ class ReportGenerator:
         return len(unique_lines)
 
     def generate(self,
-                 recommendations: list[str],
-                 passive_results: str,
-                 active_results: ReportResults) -> None:
+             recommendations: list[str],
+             passive_results: str,
+             active_results: ReportResults) -> dict:
         """
-        Generate the report.
+        Generate the report as a dictionary.
 
         Args:
+            recommendations (list[str]): List of recommendations.
             passive_results (str): Passive detection results.
             active_results (ReportResults): Active attacks results.
+
+        Returns:
+            dict: A dictionary containing the report details and content.
         """
         date: str = datetime.now().strftime("%Y-%m-%d_%H-%M-%S")
         report_date: str = datetime.now().strftime("%Y-%m-%d %H:%M:%S")
-        total_attacks: int = active_results[1]
-        attack_success: int = active_results[2]
-        success_rate: str = f"{(attack_success / total_attacks) * 100:.2f}%"
-        print("Generating report...")
-        report: str = self.template.render(
-                        name=self.honeypot.name,
-                        version=self.honeypot.version,
-                        ip=self.honeypot.ip,
-                        port=self.honeypot.ports,
-                        date=report_date,
-                        passive_results=passive_results,
-                        active_results=active_results[0],
-                        all_cves=self.count_all_cves(),
-                        success=attack_success,
-                        failed=total_attacks - attack_success,
-                        rating=success_rate,
-                        recommendations=recommendations)
-        new_report_path: Path = self.report_path / f"report_{date}.txt"
-        new_report_path.write_text(report)
-        print(f"Report generated successfully at {new_report_path}")
+        
+        report_dict = {
+            "metadata": {
+                "report_date": report_date,
+                "filename": f"report_{date}.txt",
+                "honeypot": {
+                    "name": self.honeypot.name,
+                    "version": self.honeypot.version,
+                    "ip": self.honeypot.ip,
+                    "ports": self.honeypot.ports
+                }
+            },
+            "results": {
+                "passive": passive_results,
+                "active": active_results[0],
+                "cves": self.count_all_cves(),
+            },
+            "recommendations": recommendations,
+        }
+        
+        return report_dict

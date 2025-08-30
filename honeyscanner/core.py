@@ -101,11 +101,11 @@ class Honeyscanner:
             self.active_attack_orchestrator.generate_report()
         )
 
-    def generate_evaluation_report(self) -> None:
+    def generate_evaluation_report(self) -> dict:
         """
         Generate the evaluation report for the Honeypot off of
         the attack results.
         """
-        self.report_generator.generate(list(self.recommendations.values()),
+        return self.report_generator.generate(list(self.recommendations.values()),
                                        self.passive_attack_results,
                                        self.active_attack_results)

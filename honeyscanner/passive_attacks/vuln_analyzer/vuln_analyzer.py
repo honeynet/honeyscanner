@@ -369,7 +369,7 @@ class VulnerableLibrariesAnalyzer:
 
             # Print summary of vulnerabilities
             self.print_summary(vulnerabilities)
-            return self.generate_summary(vulnerabilities)
+            return self.generate_summary_dict(vulnerabilities)
         else:
             logging.error("\nFailed to download requirements.txt\n")
 
@@ -428,3 +428,93 @@ class VulnerableLibrariesAnalyzer:
             summary_text += "\n"
         actions_text = f"All of these modules need to be updated:\n{actions_text[0:-2]}"
         return (summary_text, actions_text)
+    
+    def generate_summary_dict(self, vulnerabilities: VulnLibs) -> dict:
+        """
+        Generate a structured dictionary summary of the found vulnerabilities.
+
+        Args:
+            vulnerabilities (VulnLibs): A dictionary of vulnerable libraries
+                                        and their associated vulnerabilities.
+        
+        Returns:
+            dict: Structured vulnerability summary with detailed breakdown
+        """
+        summary = {
+            "vulnerability_analysis": {
+                "total_vulnerable_libraries": len(vulnerabilities),
+                "libraries": {},
+                "severity_breakdown": {
+                    "critical": 0,    # CVSS >= 9.0
+                    "high": 0,        # CVSS 7.0-8.9
+                    "medium": 0,      # CVSS 4.0-6.9
+                    "low": 0,         # CVSS < 4.0
+                    "no_score": 0     # No CVSS score
+                },
+                "total_vulnerabilities": 0,
+                "modules_to_update": [],
+                "action_required": "",
+            }
+        }
+        
+        total_vulns = 0
+        actions_text = ""
+
+        for name, vuln_list in vulnerabilities.items():
+            # Add to modules that need updating
+            summary["vulnerability_analysis"]["modules_to_update"].append(name)
+            actions_text += f"{name}, "
+            
+            # Process each vulnerability in this library
+            library_vulns = []
+            for vuln in vuln_list:
+                total_vulns += 1
+                
+                # Determine severity category
+                if vuln.cvss_score:
+                    if vuln.cvss_score >= 9.0:
+                        severity_category = "critical"
+                    elif vuln.cvss_score >= 7.0:
+                        severity_category = "high" 
+                    elif vuln.cvss_score >= 4.0:
+                        severity_category = "medium"
+                    else:
+                        severity_category = "low"
+                    
+                    # Update severity breakdown
+                    summary["vulnerability_analysis"]["severity_breakdown"][severity_category] += 1
+                else:
+                    severity_category = "no_score"
+                    summary["vulnerability_analysis"]["severity_breakdown"]["no_score"] += 1
+                
+                # Add vulnerability details
+                vuln_details = {
+                    "vulnerability_id": vuln.vulnerability_id,
+                    "cve": vuln.cve,
+                    "affected_versions": vuln.affected_versions,
+                    "cvss_score": vuln.cvss_score,
+                    "severity_category": severity_category
+                }
+                library_vulns.append(vuln_details)
+            
+            # Add library information
+            summary["vulnerability_analysis"]["libraries"][name] = {
+                "library_name": name,
+                "vulnerability_count": len(vuln_list),
+                "vulnerabilities": library_vulns
+            }
+        
+        # Update total count
+        summary["vulnerability_analysis"]["total_vulnerabilities"] = total_vulns
+        
+        # Generate action text
+        if summary["vulnerability_analysis"]["modules_to_update"]:
+            modules_list = ", ".join(summary["vulnerability_analysis"]["modules_to_update"])
+            summary["vulnerability_analysis"]["action_required"] = f"All of these modules need to be updated: {modules_list}"
+        else:
+            summary["vulnerability_analysis"]["action_required"] = "No vulnerable libraries found - no action required"
+
+        # Add actions_text
+        summary["vulnerability_analysis"]["actions_text"] = f"All of these modules need to be updated:\n{actions_text[:-2]}"
+
+        return summary

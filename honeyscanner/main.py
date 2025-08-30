@@ -68,17 +68,17 @@ def main() -> None:
 
     try:
         honeyscanner.run_all_attacks()
-    except Exception:
+    except Exception as e:
         issue: str = traceback.format_exc()
         print(f"An error occurred during the attacks: {issue}")
-        return
+        return f"Error Occurred: {e}"
 
     try:
-        honeyscanner.generate_evaluation_report()
-    except Exception:
+        return honeyscanner.generate_evaluation_report()
+    except Exception as e:
         issue: str = traceback.format_exc()
         print(f"An error occurred during report generation: {issue}")
-        return
+        return f"Error Occurred : {e}"
 
 
 if __name__ == "__main__":
