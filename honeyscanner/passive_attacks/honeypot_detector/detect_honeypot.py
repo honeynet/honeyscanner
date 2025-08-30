@@ -1,3 +1,4 @@
+import asyncio
 import requests
 import socket
 import ssl
@@ -50,76 +51,186 @@ class HoneypotDetector:
         """
         return step["output"].encode()
 
-    def connect_to_socket(
+    async def connect_to_socket_async(
             self,
             port: int,
-            message: bytes | None = None
+            message: bytes | None = None,
+            timeout: float = 3.0
             ) -> bytes | None:
         """
-        Connects to a specific port on a given IP address.
+        Asynchronously connects to a specific port on a given IP address.
 
         Args:
             port (int): The port number to connect to.
             message (bytes, optional): A message to send to the server after
                                        connecting. Default is None.
+            timeout (float): Connection timeout in seconds. Default is 3.0.
 
         Returns:
             bytes: The response received from the server, or None if
                    an error occurs.
         """
         try:
-            with socket.socket(socket.AF_INET, socket.SOCK_STREAM) as s:
-                # s.settimeout(60)
-                s.connect((self.ip, port))
-                if message:
-                    s.sendall(message)
-                resp = s.recv(1024)
-                return resp
-        except socket.error as e:
-            print(f"{Fore.RED}[-]{Fore.RESET} Socket Error: {e}")
-            return
+            reader, writer = await asyncio.wait_for(
+                asyncio.open_connection(self.ip, port),
+                timeout=timeout
+            )
+            
+            if message:
+                writer.write(message)
+                await writer.drain()
+            
+            # Read response with timeout
+            resp = await asyncio.wait_for(reader.read(1024), timeout=2.0)
+            
+            writer.close()
+            await writer.wait_closed()
+            return resp
+            
+        except (asyncio.TimeoutError, ConnectionRefusedError, OSError) as e:
+            return None
+        except Exception as e:
+            print(f"{Fore.RED}[-]{Fore.RESET} Socket Error on port {port}: {e}")
+            return None
 
-    def check_port(self, port: int) -> bool:
+    def connect_to_socket(
+            self,
+            port: int,
+            message: bytes | None = None
+            ) -> bytes | None:
         """
-        Checks if a specific port is open.
+        Synchronous wrapper for connect_to_socket_async to maintain compatibility.
+        """
+        return asyncio.run(self.connect_to_socket_async(port, message))
+
+    async def check_port_async(self, port: int, timeout: float = 1.0) -> bool:
+        """
+        Asynchronously checks if a specific port is open.
 
         Args:
             port (int): The port number to check.
+            timeout (float): Connection timeout in seconds. Default is 1.0.
 
         Returns:
-            bool: True if the port is open and accepting connections, False
-                  otherwise.
+            bool: True if the port is open and accepting connections, False otherwise.
         """
         try:
-            with socket.socket(socket.AF_INET, socket.SOCK_STREAM) as s:
-                s.settimeout(3)
-                s.connect((self.ip, port))
-                return True
-        except socket.timeout:
+            reader, writer = await asyncio.wait_for(
+                asyncio.open_connection(self.ip, port),
+                timeout=timeout
+            )
+            writer.close()
+            await writer.wait_closed()
+            return True
+        except (asyncio.TimeoutError, ConnectionRefusedError, OSError):
             return False
-        except socket.error:
+        except Exception:
             return False
 
-    def check_open_ports(self) -> PortSet:
+    def check_port(self, port: int) -> bool:
         """
-        Scans a given IP address to get set of open ports.
+        Synchronous wrapper for check_port_async to maintain compatibility.
+        """
+        return asyncio.run(self.check_port_async(port))
+
+    async def check_open_ports_async(
+            self,
+            port_range: tuple[int, int] = (1, 1025),
+            max_concurrent: int = 100,
+            timeout: float = 1.0,
+            verbose: bool = True,
+            show_closed: bool = False
+            ) -> PortSet:
+        """
+        Asynchronously scans a given IP address to get set of open ports.
 
         Args:
-            ip (str): The IP address of the host to scan.
+            port_range (tuple): Range of ports to scan (start, end). Default is (1, 1025).
+            max_concurrent (int): Maximum number of concurrent connections. Default is 100.
+            timeout (float): Connection timeout per port in seconds. Default is 1.0.
+            verbose (bool): Show progress during scanning. Default is True.
+            show_closed (bool): Show closed/filtered ports. Default is False.
 
         Returns:
             PortSet: A set of open ports on the given IP address.
         """
-        ports: PortSet = {port for port in range(1, 65536)}
+        start_port, end_port = port_range
+        total_ports = end_port - start_port + 1
         open_ports = set()
-        print(f"{Fore.GREEN}[+]{Fore.RESET} Starting port scan on {self.ip}")
+        completed_count = 0
+        last_progress_shown = -1
+        
+        print(f"{Fore.GREEN}[+]{Fore.RESET} Starting async port scan on {self.ip} "
+              f"(ports {start_port}-{end_port}, {total_ports} total)")
 
-        for port in ports:
-            if self.check_port(port):
-                open_ports.add(port)
+        # Create semaphore to limit concurrent connections
+        semaphore = asyncio.Semaphore(max_concurrent)
+        
+        async def check_single_port(port: int) -> None:
+            nonlocal completed_count, last_progress_shown
+            async with semaphore:
+                if await self.check_port_async(port, timeout):
+                    open_ports.add(port)
+                    print(f"{Fore.GREEN}[+]{Fore.RESET} Port {port} is OPEN")
+                elif show_closed:
+                    print(f"{Fore.RED}[-]{Fore.RESET} Port {port} is closed/filtered")
+                
+                # Update progress after completing port check
+                completed_count += 1
+                current_progress = int((completed_count / total_ports) * 100)
+                
+                # Show progress every 10% or every 500 ports, whichever is more frequent
+                progress_interval = min(500, max(50, total_ports // 10))
+                
+                if verbose and (completed_count % progress_interval == 0 or 
+                              (current_progress > last_progress_shown and 
+                               current_progress % 10 == 0)):
+                    last_progress_shown = current_progress
+                    print(f"{Fore.CYAN}[~]{Fore.RESET} Progress: {current_progress}% "
+                          f"({completed_count}/{total_ports}) ports completed, "
+                          f"{len(open_ports)} open ports found so far")
 
-        print(f"{Fore.GREEN}[+]{Fore.RESET} Open ports: {open_ports}")
+        # Create tasks for all ports
+        tasks = [
+            check_single_port(port) 
+            for port in range(start_port, end_port + 1)
+        ]
+        
+        # Run all tasks concurrently
+        await asyncio.gather(*tasks, return_exceptions=True)
+        
+        print(f"{Fore.GREEN}[+]{Fore.RESET} Async scan complete. "
+              f"Found {len(open_ports)} open ports out of {total_ports} scanned.")
+        if open_ports:
+            print(f"{Fore.GREEN}[+]{Fore.RESET} Open ports: {sorted(open_ports)}")
+        else:
+            print(f"{Fore.YELLOW}[!]{Fore.RESET} No open ports found in the specified range.")
         return open_ports
+
+    def check_open_ports(
+            self,
+            port_range: tuple[int, int] = (1, 1025),
+            max_concurrent: int = 100,
+            timeout: float = 1.0,
+            verbose: bool = True,
+            show_closed: bool = False
+            ) -> PortSet:
+        """
+        Scans a given IP address to get set of open ports (synchronous wrapper).
+
+        Args:
+            port_range (tuple): Range of ports to scan (start, end). Default is (1, 1025).
+            max_concurrent (int): Maximum number of concurrent connections. Default is 100.
+            timeout (float): Connection timeout per port in seconds. Default is 1.0.
+            verbose (bool): Show progress during scanning. Default is True.
+            show_closed (bool): Show closed/filtered ports. Default is False.
+
+        Returns:
+            PortSet: A set of open ports on the given IP address.
+        """
+        return asyncio.run(self.check_open_ports_async(
+            port_range, max_concurrent, timeout, verbose, show_closed
+        ))
 
     def get_latest_version(self, honeypot: str) -> str:
         """
@@ -169,12 +280,12 @@ class HoneypotDetector:
             True: True if a signature match is found, False otherwise.
         """
         for step in steps:
-            input: bytes = self.get_input(step)
+            input_data: bytes = self.get_input(step)
             output: bytes | str = self.get_ouput(step)
             if port == 443:
                 data = self.check_ssl()
             else:
-                data = self.connect_to_socket(port, input)
+                data = self.connect_to_socket(port, input_data)
             if not data:
                 return False
             if output in data:
@@ -188,8 +299,7 @@ class HoneypotDetector:
         SSL cert.
 
         Returns:
-            bool: True if the response contains the default SSL cert,
-                  False otherwise.
+            bytes: The SSL certificate data, or None if an error occurs.
         """
         try:
             context = ssl.create_default_context()
@@ -202,11 +312,16 @@ class HoneypotDetector:
                     return cert
         except Exception as e:
             print(f"{Fore.RED}[-]{Fore.RESET} SSL Socket Error: {e}")
+            return None
 
     def detect_honeypot(
             self,
             username: str = "",
-            password: str = ""
+            password: str = "",
+            port_range: tuple[int, int] = (1, 6000),
+            max_concurrent: int = 100,
+            verbose: bool = True,
+            show_closed: bool = False
             ) -> Honeyscanner | None:
         """
         Detects if a given IP address is running a known honeypot based on
@@ -217,14 +332,21 @@ class HoneypotDetector:
                                       Defaults to "".
             password (str, optional): The password to use for authentication.
                                       Defaults to "".
+            port_range (tuple): Range of ports to scan. Default is (1, 1025).
+            max_concurrent (int): Maximum concurrent connections. Default is 100.
+            verbose (bool): Show progress during scanning. Default is True.
+            show_closed (bool): Show closed/filtered ports. Default is False.
 
         Returns:
             Honeyscanner: A Honeyscanner object representing the detected
-                          honeypot.
+                          honeypot, or None if no honeypot is detected.
         """
-        open_ports: PortSet = self.check_open_ports()
+        open_ports: PortSet = self.check_open_ports(
+            port_range, max_concurrent, 1.0, verbose, show_closed
+        )
         if not open_ports:
-            return
+            return None
+            
         version: str = ""
         current_suspect: tuple[str, int] = ("unsupported", 0)
         honeypots_suspected: dict[str, int] = {
@@ -251,9 +373,11 @@ class HoneypotDetector:
                         honeypots_suspected[name] += 1
                 if honeypots_suspected[name] > current_suspect[1]:
                     current_suspect = (name, honeypots_suspected[name])
+        
         if current_suspect[0] == "unsupported":
             print(f"{Fore.RED}[-]{Fore.RESET} Didn't find any signature matches")
-            return
+            return None
+            
         name: str = current_suspect[0]
         version: str = self.get_latest_version(name)
         print(f"{Fore.GREEN}[+]{Fore.RESET} This is most likely {name} {version}")
