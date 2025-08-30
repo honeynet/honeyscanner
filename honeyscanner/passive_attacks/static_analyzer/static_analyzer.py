@@ -4,6 +4,7 @@ import re
 import requests
 import shutil
 import subprocess
+import tempfile
 
 from colorama import Fore, init
 from pathlib import Path
@@ -30,11 +31,23 @@ class StaticAnalyzer:
         # Check for Conpot's condition
         if honeypot_name == "conpot" and honeypot_version > "0.2.2":
             self.honeypot_version = f"Release_{honeypot_version}"
-        self.parent_path: Path = Path(__file__).resolve().parent
-        self.output_folder: Path = self.parent_path / "analysis_results"
-        passive_root: Path = self.parent_path.parent
+        # self.parent_path: Path = Path(__file__).resolve().parent
+        # self.output_folder: Path = self.parent_path / "analysis_results"
+        # passive_root: Path = self.parent_path.parent
+        # self.all_cves_path: Path = passive_root / "results" / "all_cves.txt"
+        # self.recommendation: str = ""
+
+        base_temp = Path(tempfile.gettempdir())
+        self.parent_path: Path = base_temp / "honeyscanner"
+        self.output_folder: Path = self.parent_path / "static_analyzer" / "analysis_results"
+        passive_root: Path = self.parent_path  # Changed to stay within temp dir
         self.all_cves_path: Path = passive_root / "results" / "all_cves.txt"
         self.recommendation: str = ""
+
+        # Ensure directories exist
+        self.output_folder.mkdir(parents=True, exist_ok=True)
+        self.all_cves_path.parent.mkdir(parents=True, exist_ok=True)
+
 
     def fetch_honeypot_version(self, version: str) -> Path:
         """
@@ -47,14 +60,13 @@ class StaticAnalyzer:
         Returns:
             Path: BytesPath object
         """
+
         url: str = f"{self.honeypot_url}/{version}.zip"
-        zip_filename: Path = self.parent_path / f"{self.honeypot_name}-{version}.zip"
-        url: str = f"{self.honeypot_url}/{version}.zip"
-        zip_filename: Path = self.parent_path / f"{self.honeypot_name}-{version}.zip"
+        zip_filename: Path = self.parent_path / "static_analyzer" / f"{self.honeypot_name}-{version}.zip"
         urlretrieve(url, zip_filename)
 
         with ZipFile(zip_filename, 'r') as zip_ref:
-            zip_ref.extractall(self.parent_path)
+            zip_ref.extractall(self.parent_path / "static_analyzer")
 
         os.remove(zip_filename)
         # this is cowrie specific
@@ -64,7 +76,7 @@ class StaticAnalyzer:
         if self.honeypot_name == "kippo" and version.startswith("v"):
             version = version[1:]
 
-        return self.parent_path / f"{self.honeypot_name}-{version}"
+        return self.parent_path / "static_analyzer" / f"{self.honeypot_name}-{version}"
 
     def analyze_honeypot_version(self,
                                  honeypot_folder: Path,

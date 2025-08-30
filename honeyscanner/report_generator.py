@@ -3,6 +3,7 @@ from honeypots import BaseHoneypot
 from jinja2 import Environment, FileSystemLoader, Template
 from pathlib import Path
 from typing import TypeAlias
+import tempfile
 
 # add actionable recommendations, overall score, read from thesis report
 ReportResults: TypeAlias = tuple[str, int, int]
@@ -19,10 +20,15 @@ class ReportGenerator:
                                      the report.
         """
         self.honeypot = honeypot
-        self.parent_path = Path(__file__).resolve().parent
-        self.report_path: Path = self.parent_path / "reports"
-        env = Environment(loader=FileSystemLoader(self.report_path))
-        self.template: Template = env.get_template("master.jinja")
+
+        base_temp = Path(tempfile.gettempdir())
+        self.parent_path: Path = base_temp / "honeyscanner"
+
+
+        
+        # self.report_path: Path = self.parent_path / "reports"
+        # env = Environment(loader=FileSystemLoader(self.report_path))
+        # self.template: Template = env.get_template("master.jinja")
 
     def count_all_cves(self) -> int:
         """
@@ -31,7 +37,7 @@ class ReportGenerator:
         Returns:
             int: The number of unique CVEs.
         """
-        path_to_all_cves: Path = self.parent_path / "passive_attacks" / "results" / "all_cves.txt"
+        path_to_all_cves: Path = self.parent_path / "results" / "all_cves.txt"
         lines_seen: set[str] = set()
         unique_lines: list[str] = []
         with open(path_to_all_cves, "r") as f:

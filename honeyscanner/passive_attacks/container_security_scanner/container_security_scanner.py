@@ -4,7 +4,8 @@ import subprocess
 
 from colorama import Fore, Style, init
 from pathlib import Path
-from shutil import rmtree
+from shutil import rmtree, which
+import tempfile
 
 SEVERITY_LEVELS = 'MEDIUM,HIGH,CRITICAL'
 # explore the documentation of trivy and see if you can add more features to
@@ -26,12 +27,29 @@ class ContainerSecurityScanner:
         self.honeypot_owner = honeypot_owner.lower()
         self.honeypot_name = honeypot_name
         self.github_repo_url = f"https://github.com/{honeypot_owner}/{honeypot_name}"
-        self.local_repo_path = None
-        self.base_path = Path(__file__).resolve().parent
-        self.output_folder = self.base_path / "analysis_results"
-        self.all_cves_path = self.base_path.parent / "results" / "all_cves.txt"
-        self.trivy_path = self.base_path.parent.parent / "bin" / "trivy"
-        self.report_name = self.output_folder / f"trivy_scan_results_{self.honeypot_name}.json"
+        # self.local_repo_path = None
+        # self.base_path = Path(__file__).resolve().parent
+        # self.output_folder = self.base_path / "analysis_results"
+        # self.all_cves_path = self.base_path.parent / "results" / "all_cves.txt"
+        # self.trivy_path = self.base_path.parent.parent / "bin" / "trivy"
+        # self.report_name = self.output_folder / f"trivy_scan_results_{self.honeypot_name}.json"
+
+
+        base_temp = Path(tempfile.gettempdir())
+        self.base_path: Path = base_temp / "honeyscanner"
+        self.output_folder: Path = self.base_path / "container_security_scanner" / "analysis_results"
+        self.all_cves_path: Path = self.base_path / "results" / "all_cves.txt"
+        self.trivy_install_path: Path =  self.base_path / "trivy"
+        self.trivy_binary_path: Path = self.trivy_install_path / "trivy"
+        self.report_name: Path = self.output_folder / f"trivy_scan_results_{self.honeypot_name}.json"
+        self.local_repo_path: Path = None
+
+        # Ensure directories exist
+        # self.local_repo_path.mkdir(parents=True, exist_ok=True)
+        self.output_folder.mkdir(parents=True, exist_ok=True)
+        self.all_cves_path.parent.mkdir(parents=True, exist_ok=True)
+
+
         self.results = None
         self.recommendations: str = ""
 
@@ -43,19 +61,18 @@ class ContainerSecurityScanner:
             bool: True if Trivy is installed, False otherwise.
         """
         try:
-            subprocess.check_output([str(self.trivy_path), '--version'])
+            subprocess.check_output([str(self.trivy_binary_path), '--version'])
             return True
         except FileNotFoundError:
             return False
 
-    @staticmethod
-    def install_trivy() -> None:
+    def install_trivy(self) -> None:
         """
         Install Trivy.
         """
         print(f"{Fore.GREEN}Installing Trivy...{Style.RESET_ALL}")
         curl_command = ["curl", "-sfL", "https://raw.githubusercontent.com/aquasecurity/trivy/main/contrib/install.sh"]
-        sh_command = ["sh"]
+        sh_command = ["sh", "-s", "--", "-b", self.trivy_install_path]
 
         try:
             curl_process = subprocess.Popen(curl_command,
@@ -73,12 +90,12 @@ class ContainerSecurityScanner:
         Clone the GitHub repository.
         """
         print(f"{Fore.GREEN}Cloning repository...{Style.RESET_ALL}")
-        self.local_repo_path = Path.cwd() / self.github_repo_url.split("/")[-1].replace(".git", "")
+        self.local_repo_path: Path = self.base_path / self.github_repo_url.split("/")[-1].replace(".git", "")
 
         if self.local_repo_path.exists():
             rmtree(self.local_repo_path)
 
-        clone_command = ['git', 'clone', self.github_repo_url]
+        clone_command = ['git', 'clone', self.github_repo_url, str(self.local_repo_path)]
         try:
             subprocess.run(clone_command, check=True)
         except subprocess.CalledProcessError as e:
@@ -169,7 +186,7 @@ class ContainerSecurityScanner:
             rmtree(self.local_repo_path)
 
         if self.check_trivy_installed():
-            rmtree(Path(__file__).resolve().parent.parent.parent / "bin")
+            rmtree(self.trivy_install_path)
 
     def scan_repository(self) -> tuple[str, str]:
         """
@@ -193,7 +210,7 @@ class ContainerSecurityScanner:
 
         if self.get_dockerhub_image(image_name):
             print(f"{Fore.GREEN}Docker image found on Docker Hub. I will scan the image.{Style.RESET_ALL}")
-            scan_command_image = [self.trivy_path,
+            scan_command_image = [self.trivy_binary_path,
                                   'image',
                                   image_name,
                                   '--exit-code',
@@ -205,7 +222,7 @@ class ContainerSecurityScanner:
             scan_command = scan_command_image
         else:
             print(f"{Fore.YELLOW}Docker image not found on Docker Hub. I will just search for secrets.{Style.RESET_ALL}")
-            scan_command_fs = [self.trivy_path,
+            scan_command_fs = [self.trivy_binary_path,
                                'fs',
                                str(self.local_repo_path),
                                '--exit-code',

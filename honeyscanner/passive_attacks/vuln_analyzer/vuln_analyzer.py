@@ -4,6 +4,7 @@ import pkg_resources
 import os
 import requests
 import time
+import tempfile
 
 from .models import Vulnerability
 from collections import defaultdict
@@ -27,15 +28,30 @@ class VulnerableLibrariesAnalyzer:
         self.honeypot_name: str = honeypot_name
         self.owner: str = owner
         self.repo: Repository = self.get_repo()
-        parent_path: Path = Path(__file__).resolve().parent
-        self.insecure_full_path: Path = (
-            parent_path / "vuln_database" / "insecure_full.json"
-        )
-        self.analysis_results_path: Path = parent_path / "analysis_results"
+        # parent_path: Path = Path(__file__).resolve().parent
+        # self.insecure_full_path: Path = (
+        #     parent_path / "vuln_database" / "insecure_full.json"
+        # )
+        # self.analysis_results_path: Path = parent_path / "analysis_results"
+        # self.requirements_files_path: Path = parent_path / "requirements_files"
+        # self.all_cves_path: Path = (
+        #     parent_path.parent / "results" / "all_cves.txt"
+        # )
+
+        base_temp = Path(tempfile.gettempdir())
+        parent_path: Path = base_temp / "honeyscanner"
+        self.insecure_full_path: Path = parent_path / "vuln_database" / "insecure_full.json"
+        self.analysis_results_path: Path = parent_path / "vuln_analyzer" / "analysis_results"
         self.requirements_files_path: Path = parent_path / "requirements_files"
-        self.all_cves_path: Path = (
-            parent_path.parent / "results" / "all_cves.txt"
-        )
+        self.all_cves_path: Path = parent_path / "results" / "all_cves.txt"
+
+        # Ensure directories exist
+        self.insecure_full_path.parent.mkdir(parents=True, exist_ok=True)
+        self.analysis_results_path.mkdir(parents=True, exist_ok=True)
+        self.requirements_files_path.mkdir(parents=True, exist_ok=True)
+        self.all_cves_path.parent.mkdir(parents=True, exist_ok=True)
+
+
         self.download_insecure_full_json()
         self.vuln_data_cache = defaultdict(dict)
 
