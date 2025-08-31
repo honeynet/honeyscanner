@@ -4,23 +4,21 @@ build-backend = "setuptools.build_meta"
 
 [project]
 name = "honeyscanner"
-version = "1.0.0"
+version = "0.0.1"
 description = "A comprehensive security research tool for honeypot analysis and vulnerability scanning"
 readme = "README.md"
 license = {file = "LICENSE"}
 authors = [
-    {name = "Honeyscanner Contributors", email = "contributors@honeyscanner.dev"}
+    {name = "Aristofanis"}
 ]
 maintainers = [
-    {name = "Honeyscanner Team", email = "maintainers@honeyscanner.dev"}
+    {name = "Honeyscanner Contributors", email = "akshitmaheshwary@gmail.com"}
 ]
 keywords = [
     "honeypot",
-    "security",
     "vulnerability-scanner",
-    "penetration-testing",
     "cybersecurity",
-    "network-security"
+    "threat-intelligence"
 ]
 classifiers = [
     "Development Status :: 4 - Beta",
@@ -61,16 +59,10 @@ docs = [
 ]
 
 [project.urls]
-Homepage = "https://github.com/your-username/honeyscanner"
-Documentation = "https://honeyscanner.readthedocs.io"
-Repository = "https://github.com/your-username/honeyscanner"
-"Bug Tracker" = "https://github.com/your-username/honeyscanner/issues"
-Changelog = "https://github.com/your-username/honeyscanner/blob/main/CHANGELOG.md"
+Repository = "https://github.com/honeynet/honeyscanner"
 
 [project.scripts]
 honeyscanner = "honeyscanner.main:main"
-hscan = "honeyscanner.main:main"
-honeyscanner-cli = "honeyscanner.main:cli_entry"
 
 [tool.setuptools]
 package-dir = {"" = "."}
