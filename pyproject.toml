@@ -1,0 +1,168 @@
+[build-system]
+requires = ["setuptools>=45", "wheel"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "honeyscanner"
+version = "1.0.0"
+description = "A comprehensive security research tool for honeypot analysis and vulnerability scanning"
+readme = "README.md"
+license = {file = "LICENSE"}
+authors = [
+    {name = "Honeyscanner Contributors", email = "contributors@honeyscanner.dev"}
+]
+maintainers = [
+    {name = "Honeyscanner Team", email = "maintainers@honeyscanner.dev"}
+]
+keywords = [
+    "honeypot",
+    "security",
+    "vulnerability-scanner",
+    "penetration-testing",
+    "cybersecurity",
+    "network-security"
+]
+classifiers = [
+    "Development Status :: 4 - Beta",
+    "Intended Audience :: Information Technology",
+    "Intended Audience :: System Administrators",
+    "License :: OSI Approved :: MIT License",
+    "Operating System :: OS Independent",
+    "Programming Language :: Python :: 3",
+    "Programming Language :: Python :: 3.8",
+    "Programming Language :: Python :: 3.9",
+    "Programming Language :: Python :: 3.10",
+    "Programming Language :: Python :: 3.11",
+    "Programming Language :: Python :: 3.12",
+    "Topic :: Security",
+    "Topic :: System :: Networking :: Monitoring",
+    "Topic :: System :: Systems Administration"
+]
+requires-python = ">=3.8"
+dynamic = ["dependencies"]
+
+[tool.setuptools.dynamic]
+dependencies = { file = ["requirements.txt"] }
+
+[project.optional-dependencies]
+dev = [
+    "pytest>=6.0.0",
+    "pytest-cov>=2.10.0",
+    "black>=22.0.0",
+    "flake8>=4.0.0",
+    "mypy>=0.910",
+    "pre-commit>=2.15.0",
+    "bandit>=1.7.0"
+]
+docs = [
+    "sphinx>=4.0.0",
+    "sphinx-rtd-theme>=1.0.0",
+    "myst-parser>=0.15.0"
+]
+
+[project.urls]
+Homepage = "https://github.com/your-username/honeyscanner"
+Documentation = "https://honeyscanner.readthedocs.io"
+Repository = "https://github.com/your-username/honeyscanner"
+"Bug Tracker" = "https://github.com/your-username/honeyscanner/issues"
+Changelog = "https://github.com/your-username/honeyscanner/blob/main/CHANGELOG.md"
+
+[project.scripts]
+honeyscanner = "honeyscanner.main:main"
+hscan = "honeyscanner.main:main"
+honeyscanner-cli = "honeyscanner.main:cli_entry"
+
+[tool.setuptools]
+package-dir = {"" = "."}
+
+[tool.setuptools.packages.find]
+where = ["."]
+include = ["honeyscanner*"]
+exclude = ["tests*", "docs*", "images*", "ddos_honeypots_attack_in_Go*"]
+
+[tool.setuptools.package-data]
+honeyscanner = [
+    "reports/*.jinja",
+    "passive_attacks/honeypot_detector/*.yaml",
+    "active_attacks/tarbombs/*.zip",
+    "*.txt",
+    "*.yaml",
+    "*.yml"
+]
+
+[tool.black]
+line-length = 88
+target-version = ['py38']
+include = '\.pyi?$'
+extend-exclude = '''
+/(
+  # directories
+  \.eggs
+  | \.git
+  | \.hg
+  | \.mypy_cache
+  | \.tox
+  | \.venv
+  | build
+  | dist
+)/
+'''
+
+[tool.pytest.ini_options]
+minversion = "6.0"
+addopts = "-ra -q --strict-markers --strict-config"
+testpaths = ["tests"]
+python_files = ["test_*.py", "*_test.py"]
+python_classes = ["Test*"]
+python_functions = ["test_*"]
+
+[tool.mypy]
+python_version = "3.8"
+warn_return_any = true
+warn_unused_configs = true
+disallow_untyped_defs = true
+disallow_incomplete_defs = true
+check_untyped_defs = true
+disallow_untyped_decorators = true
+no_implicit_optional = true
+warn_redundant_casts = true
+warn_unused_ignores = true
+warn_no_return = true
+warn_unreachable = true
+strict_equality = true
+
+[tool.flake8]
+max-line-length = 88
+extend-ignore = ["E203", "W503"]
+exclude = [
+    ".git",
+    "__pycache__",
+    "dist",
+    "build",
+    "*.egg-info"
+]
+
+[tool.bandit]
+exclude_dirs = ["tests", "ddos_honeypots_attack_in_Go"]
+skips = ["B101", "B601"]  # Skip assert_used and shell=True warnings for security tools
+
+[tool.coverage.run]
+source = ["honeyscanner"]
+omit = [
+    "*/tests/*",
+    "*/test_*",
+    "setup.py",
+    "ddos_honeypots_attack_in_Go/*"
+]
+
+[tool.coverage.report]
+exclude_lines = [
+    "pragma: no cover",
+    "def __repr__",
+    "if self.debug:",
+    "if settings.DEBUG",
+    "raise AssertionError",
+    "raise NotImplementedError",
+    "if 0:",
+    "if __name__ == .__main__.:"
+]
