@@ -5,7 +5,7 @@ import ssl
 import yaml
 
 from colorama import Fore
-from core import Honeyscanner
+from honeyscanner.core import Honeyscanner
 from pathlib import Path
 from typing import TypeAlias
 from .sshconnect import CowrieInteract
@@ -318,7 +318,7 @@ class HoneypotDetector:
             self,
             username: str = "",
             password: str = "",
-            port_range: tuple[int, int] = (1, 6000),
+            port_range: tuple[int, int] = (1, 65535),
             max_concurrent: int = 100,
             verbose: bool = True,
             show_closed: bool = False

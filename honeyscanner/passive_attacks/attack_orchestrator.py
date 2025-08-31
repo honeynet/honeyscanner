@@ -1,6 +1,6 @@
-import art
+import honeyscanner.art as art
 
-from honeypots import BaseHoneypot
+from honeyscanner.honeypots import BaseHoneypot
 from .container_security_scanner import ContainerSecurityScanner
 from .static_analyzer import StaticAnalyzer
 from typing import TypeAlias

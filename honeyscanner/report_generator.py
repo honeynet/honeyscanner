@@ -1,5 +1,5 @@
 from datetime import datetime
-from honeypots import BaseHoneypot
+from honeyscanner.honeypots import BaseHoneypot
 from jinja2 import Environment, FileSystemLoader, Template
 from pathlib import Path
 from typing import TypeAlias
@@ -73,7 +73,7 @@ class ReportGenerator:
                     "name": self.honeypot.name,
                     "version": self.honeypot.version,
                     "ip": self.honeypot.ip,
-                    "ports": self.honeypot.ports
+                    "ports": list(self.honeypot.ports)
                 }
             },
             "results": {

@@ -1,7 +1,7 @@
-from active_attacks import AttackOrchestrator as ActiveAttackOrchestrator
-from honeypots import BaseHoneypot, Cowrie, Conpot, Dionaea, Kippo
-from passive_attacks import AttackOrchestrator as PassiveAttackOrchestrator
-from report_generator import ReportGenerator
+from honeyscanner.active_attacks import AttackOrchestrator as ActiveAttackOrchestrator
+from honeyscanner.honeypots import BaseHoneypot, Cowrie, Conpot, Dionaea, Kippo
+from honeyscanner.passive_attacks import AttackOrchestrator as PassiveAttackOrchestrator
+from honeyscanner.report_generator import ReportGenerator
 
 from typing import Type, TypeAlias
 

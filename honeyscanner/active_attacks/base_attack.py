@@ -2,7 +2,7 @@ import paramiko
 import socket
 import time
 
-from honeypots import BaseHoneypot
+from honeyscanner.honeypots import BaseHoneypot
 from typing import TypeAlias
 
 AttackResults: TypeAlias = tuple[bool, str, float, str | int | None]
