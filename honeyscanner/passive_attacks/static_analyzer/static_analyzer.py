@@ -4,6 +4,7 @@ import re
 import requests
 import shutil
 import subprocess
+import tempfile
 
 from colorama import Fore, init
 from pathlib import Path
@@ -30,11 +31,23 @@ class StaticAnalyzer:
         # Check for Conpot's condition
         if honeypot_name == "conpot" and honeypot_version > "0.2.2":
             self.honeypot_version = f"Release_{honeypot_version}"
-        self.parent_path: Path = Path(__file__).resolve().parent
-        self.output_folder: Path = self.parent_path / "analysis_results"
-        passive_root: Path = self.parent_path.parent
+        # self.parent_path: Path = Path(__file__).resolve().parent
+        # self.output_folder: Path = self.parent_path / "analysis_results"
+        # passive_root: Path = self.parent_path.parent
+        # self.all_cves_path: Path = passive_root / "results" / "all_cves.txt"
+        # self.recommendation: str = ""
+
+        base_temp = Path(tempfile.gettempdir())
+        self.parent_path: Path = base_temp / "honeyscanner"
+        self.output_folder: Path = self.parent_path / "static_analyzer" / "analysis_results"
+        passive_root: Path = self.parent_path  # Changed to stay within temp dir
         self.all_cves_path: Path = passive_root / "results" / "all_cves.txt"
         self.recommendation: str = ""
+
+        # Ensure directories exist
+        self.output_folder.mkdir(parents=True, exist_ok=True)
+        self.all_cves_path.parent.mkdir(parents=True, exist_ok=True)
+
 
     def fetch_honeypot_version(self, version: str) -> Path:
         """
@@ -47,14 +60,13 @@ class StaticAnalyzer:
         Returns:
             Path: BytesPath object
         """
+
         url: str = f"{self.honeypot_url}/{version}.zip"
-        zip_filename: Path = self.parent_path / f"{self.honeypot_name}-{version}.zip"
-        url: str = f"{self.honeypot_url}/{version}.zip"
-        zip_filename: Path = self.parent_path / f"{self.honeypot_name}-{version}.zip"
+        zip_filename: Path = self.parent_path / "static_analyzer" / f"{self.honeypot_name}-{version}.zip"
         urlretrieve(url, zip_filename)
 
         with ZipFile(zip_filename, 'r') as zip_ref:
-            zip_ref.extractall(self.parent_path)
+            zip_ref.extractall(self.parent_path / "static_analyzer")
 
         os.remove(zip_filename)
         # this is cowrie specific
@@ -64,7 +76,7 @@ class StaticAnalyzer:
         if self.honeypot_name == "kippo" and version.startswith("v"):
             version = version[1:]
 
-        return self.parent_path / f"{self.honeypot_name}-{version}"
+        return self.parent_path / "static_analyzer" / f"{self.honeypot_name}-{version}"
 
     def analyze_honeypot_version(self,
                                  honeypot_folder: Path,
@@ -246,18 +258,18 @@ class StaticAnalyzer:
 
         return self.generate_summary(self.honeypot_version)
 
-    def generate_summary(self, version: str) -> tuple[str, str]:
+    def generate_summary(self, version: str) -> dict:
         """
         Generate the summary of the analysis results for the specified version
-        as a string.
+        as a dictionary.
 
         Args:
             version (str): The version of the honeypot to generate
                            the summary for.
 
         Returns:
-            str: The summary of the analysis results for the specified
-                 version as a string.
+            dict: A dictionary containing the summary of the analysis results
+                  and actionable recommendations.
         """
         output_filename: Path = self.output_folder / f"{self.honeypot_name}_{version}_analysis.json"
 
@@ -268,19 +280,26 @@ class StaticAnalyzer:
         results: list[dict] = data[version]["results"]
         high_count: int = summary["high_severity"]
         medium_count: int = summary["medium_severity"]
-        medium_issues: str = ""
-        high_issues: str = ""
+        medium_issues: list[dict] = []
+        high_issues: list[dict] = []
+
         for result in results:
             severity: str = result.get("issue_severity", [])
+            issue_details = {
+                "filename": result['filename'].split('static_analyzer/')[1],
+                "line_number": result['line_number'],
+                "issue_text": result['issue_text']
+            }
             if severity == "HIGH":
-                high_issues += f"• In file {result['filename'].split('static_analyzer/')[1]} at line {result['line_number']}:\n\t{result['issue_text']}\n"
-            elif result["issue_severity"] == "MEDIUM":
-                medium_issues += f"• In file {result['filename'].split('static_analyzer/')[1]} at line {result['line_number']}:\n\t{result['issue_text']}\n"
+                high_issues.append(issue_details)
+            elif severity == "MEDIUM":
+                medium_issues.append(issue_details)
 
-        # summary_text = f"Version: {version}\n"
-        summary_text: str = f"High Severity: {high_count}\n"
-        summary_text += high_issues
-        summary_text += f"Medium Severity: {medium_count}\n"
-        summary_text += medium_issues
-
-        return (summary_text, self.actionable_rec)
+        return {
+            "version": version,
+            "high_severity_count": high_count,
+            "medium_severity_count": medium_count,
+            "high_severity_issues": high_issues,
+            "medium_severity_issues": medium_issues,
+            "actionable_recommendation": self.actionable_rec
+        }

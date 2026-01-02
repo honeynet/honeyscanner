@@ -12,6 +12,7 @@ venv/
 *.egg-info/
 dist/
 build/
+honeyscanner-env/
 
 # Log files
 *.log
@@ -33,3 +34,4 @@ Thumbs.db
 *.db-journal
 *.json
 *.txt
+

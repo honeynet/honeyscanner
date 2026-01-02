@@ -1,7 +1,7 @@
-from active_attacks import AttackOrchestrator as ActiveAttackOrchestrator
-from honeypots import BaseHoneypot, Cowrie, Conpot, Dionaea, Kippo
-from passive_attacks import AttackOrchestrator as PassiveAttackOrchestrator
-from report_generator import ReportGenerator
+from honeyscanner.active_attacks import AttackOrchestrator as ActiveAttackOrchestrator
+from honeyscanner.honeypots import BaseHoneypot, Cowrie, Conpot, Dionaea, Kippo
+from honeyscanner.passive_attacks import AttackOrchestrator as PassiveAttackOrchestrator
+from honeyscanner.report_generator import ReportGenerator
 
 from typing import Type, TypeAlias
 
@@ -101,11 +101,11 @@ class Honeyscanner:
             self.active_attack_orchestrator.generate_report()
         )
 
-    def generate_evaluation_report(self) -> None:
+    def generate_evaluation_report(self) -> dict:
         """
         Generate the evaluation report for the Honeypot off of
         the attack results.
         """
-        self.report_generator.generate(list(self.recommendations.values()),
+        return self.report_generator.generate(list(self.recommendations.values()),
                                        self.passive_attack_results,
                                        self.active_attack_results)
