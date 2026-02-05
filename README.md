@@ -67,7 +67,7 @@ The following instructions will guide you through the process of setting up Hone
 2. Navigate to the Honeyscanner's folder, install the required Python packages and activate the virtual environment.
 
     ```bash
-    cd Honeyscanner/honeyscanner
+    cd honeyscanner/honeyscanner
     pipenv install
     pipenv shell
     ```
@@ -99,7 +99,7 @@ The following instructions will guide you through the process of setting up Hone
 Use the following examples as a reference for how to run `Honeyscanner`:
 
 ```bash
-python3 main.py --target-ip 127.0.0.1
+python3 honeyscanner/main.py --target-ip 127.0.0.1
 ```
 
 ```bash
