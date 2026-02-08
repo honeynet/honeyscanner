@@ -1,6 +1,13 @@
 import json
 import logging
-import pkg_resources
+try:
+
+   import pkg_resources
+except ModuleNotFoundError:
+    raise RuntimeError(
+          "Missing dependency 'setuptools'.\n"
+           "Fix: run `pip install setuptools` inside your Honeyscanner environment."
+    )
 import os
 import requests
 import time
