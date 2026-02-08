@@ -3,7 +3,8 @@ import re
 import traceback
 import json
 import sys
-
+import ipaddress
+import socket
 from honeyscanner.art import ascii_art_honeyscanner
 from honeyscanner.passive_attacks import HoneypotDetector
 
@@ -22,6 +23,20 @@ def sanitize_string(s: str) -> str:
     s = s.lower()
     s = re.sub(r'[^a-z0-9._\- ]', '', s)
     return s
+def is_valid_target(target: str) -> bool:
+    # Check if valid IP
+    try:
+        ipaddress.ip_address(target)
+        return True
+    except ValueError:
+        pass
+
+    # Check if resolvable hostname
+    try:
+        socket.gethostbyname(target)
+        return True
+    except socket.error:
+        return False
 
 
 def parse_arguments() -> argparse.Namespace:
@@ -70,6 +85,12 @@ def run_honeyscanner(target_ip: str, username: str = "", password: str = "") -> 
         dict: The evaluation report as a dictionary, or error information
     """
     target_ip = sanitize_string(target_ip)
+    if not is_valid_target(target_ip):
+        return {
+            "error": f"Invalid target IP or hostname: {target_ip}",
+            "hint": "Use a valid IPv4, IPv6, or DNS hostname"
+        }
+
     
     print(ascii_art_honeyscanner())
     detector = HoneypotDetector(target_ip)
@@ -114,3 +135,4 @@ def main() -> None:
 
 if __name__ == "__main__":
     main()
+
