@@ -20,7 +20,7 @@ def sanitize_string(s: str) -> str:
     """
     s = s.strip()
     s = s.lower()
-    s = re.sub(r'[^a-z0-9._\- ]', '', s)
+    s = re.sub(r'[^a-z0-9:._\- ]', '', s)
     return s
 
 
