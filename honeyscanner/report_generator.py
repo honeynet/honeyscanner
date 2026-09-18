@@ -1,9 +1,11 @@
+import copy
 from datetime import datetime
-from honeyscanner.honeypots import BaseHoneypot
-from jinja2 import Environment, FileSystemLoader, Template
+import json
 from pathlib import Path
-from typing import TypeAlias
 import tempfile
+from typing import TypeAlias
+
+from honeyscanner.honeypots import BaseHoneypot
 
 # add actionable recommendations, overall score, read from thesis report
 ReportResults: TypeAlias = tuple[str, int, int]
@@ -24,12 +26,6 @@ class ReportGenerator:
         base_temp = Path(tempfile.gettempdir())
         self.parent_path: Path = base_temp / "honeyscanner"
 
-
-        
-        # self.report_path: Path = self.parent_path / "reports"
-        # env = Environment(loader=FileSystemLoader(self.report_path))
-        # self.template: Template = env.get_template("master.jinja")
-
     def count_all_cves(self) -> int:
         """
         Counts the number of unique CVEs in the all_cves.txt file.
@@ -38,6 +34,8 @@ class ReportGenerator:
             int: The number of unique CVEs.
         """
         path_to_all_cves: Path = self.parent_path / "results" / "all_cves.txt"
+        if not path_to_all_cves.exists():
+            return 0
         lines_seen: set[str] = set()
         unique_lines: list[str] = []
         with open(path_to_all_cves, "r") as f:
@@ -47,10 +45,12 @@ class ReportGenerator:
                     lines_seen.add(line)
         return len(unique_lines)
 
-    def generate(self,
-             recommendations: list[str],
-             passive_results: str,
-             active_results: ReportResults) -> dict:
+    def generate(
+        self,
+        recommendations: list[str],
+        passive_results: str,
+        active_results: ReportResults,
+    ) -> dict:
         """
         Generate the report as a dictionary.
 
@@ -64,7 +64,7 @@ class ReportGenerator:
         """
         date: str = datetime.now().strftime("%Y-%m-%d_%H-%M-%S")
         report_date: str = datetime.now().strftime("%Y-%m-%d %H:%M:%S")
-        
+
         report_dict = {
             "metadata": {
                 "report_date": report_date,
@@ -73,8 +73,8 @@ class ReportGenerator:
                     "name": self.honeypot.name,
                     "version": self.honeypot.version,
                     "ip": self.honeypot.ip,
-                    "ports": list(self.honeypot.ports)
-                }
+                    "ports": list(self.honeypot.ports),
+                },
             },
             "results": {
                 "passive": passive_results,
@@ -83,5 +83,44 @@ class ReportGenerator:
             },
             "recommendations": recommendations,
         }
-        
+
         return report_dict
+
+    def save_json(
+        self,
+        report_dict: dict,
+        output_dir: Path | None = None,
+    ) -> Path:
+        """
+        Save the generated report dictionary as a JSON file.
+
+        Args:
+            report_dict (dict): The report dict returned by generate().
+            output_dir (Path | None): Optional directory path to save to.
+                Defaults to self.parent_path ("<temp>/honeyscanner").
+
+        Returns:
+            Path: The path to the saved JSON file.
+        """
+        target_dir = output_dir if output_dir is not None else self.parent_path
+        target_dir.mkdir(parents=True, exist_ok=True)
+
+        meta = report_dict.get("metadata", {})
+        raw_filename = meta.get("filename", "report.json")
+        filename = str(raw_filename)
+        if filename.endswith(".txt"):
+            filename = filename[:-4] + ".json"
+        elif not filename.endswith(".json"):
+            filename = f"{filename}.json"
+
+        filepath: Path = target_dir / filename
+        report_to_save = copy.deepcopy(report_dict)
+        if "metadata" in report_to_save and isinstance(
+            report_to_save["metadata"], dict
+        ):
+            report_to_save["metadata"]["filename"] = filename
+
+        with open(filepath, "w", encoding="utf-8") as f:
+            json.dump(report_to_save, f, indent=4, ensure_ascii=False)
+
+        return filepath

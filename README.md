@@ -106,6 +106,12 @@ python3 main.py --target-ip 127.0.0.1
 python3 main.py --target-ip 127.0.0.1 --username root --password 1234
 ```
 
+To save the evaluation report as a machine-readable JSON file:
+
+```bash
+python3 main.py --target-ip 127.0.0.1 --report-format json --output-dir ./reports
+```
+
 ## Contributors
 
 For information on Contributors and How to contribute see our [Contributors file](./CONTRIBUTORS.md).

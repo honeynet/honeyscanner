@@ -1,8 +1,9 @@
 import argparse
-import re
-import traceback
 import json
+from pathlib import Path
+import re
 import sys
+import traceback
 
 from honeyscanner.art import ascii_art_honeyscanner
 from honeyscanner.passive_attacks import HoneypotDetector
@@ -20,7 +21,7 @@ def sanitize_string(s: str) -> str:
     """
     s = s.strip()
     s = s.lower()
-    s = re.sub(r'[^a-z0-9._\- ]', '', s)
+    s = re.sub(r"[^a-z0-9._\- ]", "", s)
     return s
 
 
@@ -54,27 +55,48 @@ def parse_arguments() -> argparse.Namespace:
         default="",
         help="The password to connect to the honeypot",
     )
+    parser.add_argument(
+        "--report-format",
+        type=str,
+        choices=["json", "stdout"],
+        default="stdout",
+        help="Report output format: 'json' (save to file) or 'stdout'",
+    )
+    parser.add_argument(
+        "--output-dir",
+        type=str,
+        default="",
+        help="Directory to save report file (used with --report-format json)",
+    )
     return parser.parse_args()
 
 
-def run_honeyscanner(target_ip: str, username: str = "", password: str = "") -> dict:
+def run_honeyscanner(
+    target_ip: str,
+    username: str = "",
+    password: str = "",  # nosec B107
+    report_format: str = "stdout",
+    output_dir: str = "",
+) -> dict:
     """
     Run honeyscanner programmatically with given parameters.
-    
+
     Args:
         target_ip (str): The IP address of the honeypot to analyze
         username (str): The username to connect to the honeypot (optional)
         password (str): The password to connect to the honeypot (optional)
-    
+        report_format (str): Output format ('stdout' or 'json')
+        output_dir (str): Directory to save JSON report file (optional)
+
     Returns:
         dict: The evaluation report as a dictionary, or error information
     """
     target_ip = sanitize_string(target_ip)
-    
+
     print(ascii_art_honeyscanner())
     detector = HoneypotDetector(target_ip)
     honeyscanner = detector.detect_honeypot(username, password)
-    
+
     if not honeyscanner:
         return {"error": "Failed to detect honeypot", "target_ip": target_ip}
 
@@ -83,15 +105,27 @@ def run_honeyscanner(target_ip: str, username: str = "", password: str = "") -> 
     except Exception as e:
         issue: str = traceback.format_exc()
         print(f"An error occurred during the attacks: {issue}")
-        return {"error": f"Attack execution failed: {e}", "target_ip": target_ip}
+        return {
+            "error": f"Attack execution failed: {e}",
+            "target_ip": target_ip,
+        }
 
     try:
         report = honeyscanner.generate_evaluation_report()
+        if report_format == "json":
+            out_path = Path(output_dir) if output_dir else None
+            saved_path = honeyscanner.report_generator.save_json(
+                report, output_dir=out_path
+            )
+            print(f"Report successfully saved to {saved_path}")
         return report
     except Exception as e:
-        issue: str = traceback.format_exc()
-        print(f"An error occurred during report generation: {issue}")
-        return {"error": f"Report generation failed: {e}", "target_ip": target_ip}
+        err_detail: str = traceback.format_exc()
+        print(f"An error occurred during report generation: {err_detail}")
+        return {
+            "error": f"Report generation failed: {e}",
+            "target_ip": target_ip,
+        }
 
 
 def main() -> None:
@@ -99,12 +133,18 @@ def main() -> None:
     Main entry point of the program - maintains CLI compatibility.
     """
     args: argparse.Namespace = parse_arguments()
-    
-    result = run_honeyscanner(args.target_ip, args.username, args.password)
-    
+
+    result = run_honeyscanner(
+        args.target_ip,
+        args.username,
+        args.password,
+        args.report_format,
+        args.output_dir,
+    )
+
     # Print result as JSON for capture by subprocess
     print(json.dumps(result))
-    
+
     # Exit with appropriate code
     if isinstance(result, dict) and "error" in result:
         sys.exit(1)
