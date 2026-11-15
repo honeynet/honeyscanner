@@ -58,16 +58,16 @@ The following instructions will guide you through the process of setting up Hone
 
 ---
 
-1. Download the Honeyscanner source code from GitHub. Open a tarminal and introduce the following command.
+1. Download the Honeyscanner source code from GitHub. Open a terminal and run the following command.
 
     ```bash
     git clone https://github.com/honeynet/honeyscanner.git
     ```
 
-2. Navigate to the Honeyscanner's folder, install the required Python packages and activate the virtual environment.
+2. Navigate to the Honeyscanner directory, install the required Python packages and activate the virtual environment.
 
     ```bash
-    cd Honeyscanner/honeyscanner
+    cd honeyscanner
     pipenv install
     pipenv shell
     ```
