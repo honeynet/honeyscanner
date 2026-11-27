@@ -34,4 +34,6 @@ Thumbs.db
 *.db-journal
 *.json
 *.txt
+!requirements.txt
+
 

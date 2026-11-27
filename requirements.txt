@@ -1,0 +1,10 @@
+bandit
+boofuzz
+colorama
+jinja2
+requests
+packaging
+paramiko
+pyyaml
+PyGithub
+rich>=12.0.0

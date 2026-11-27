@@ -3,6 +3,7 @@ import time
 import socket
 from typing import List, Tuple
 
+from honeyscanner.progress import progress_manager
 from .base_attack import AttackResults, BaseAttack, BaseHoneypot, TypeAlias
 from boofuzz import (Session,
                      Target,
@@ -196,33 +197,43 @@ class Fuzzing(BaseAttack):
                 return await self.send_payload_async(port, payload, timeout)
         
         # Process payloads in batches for better control
-        for i in range(0, len(payloads), self.batch_size):
-            batch = payloads[i:i + self.batch_size]
-            
-            # Send batch concurrently
-            results = await asyncio.gather(
-                *[send_with_semaphore(payload) for payload in batch],
-                return_exceptions=True
-            )
-            
-            successful_sends += sum(1 for r in results if r is True)
-            
-            # Progress update
-            progress = ((i + len(batch)) / len(payloads)) * 100
-            print(f"[~] {payload_type.title()} fuzzing progress: {progress:.1f}% "
-                  f"({successful_sends} successful sends)")
-            
-            # Early termination check every few batches
-            if i % (self.batch_size * self.early_termination_checks) == 0:
-                if not self.is_honeypot_alive():
-                    print(f"[+] Honeypot appears to have crashed during {payload_type} fuzzing!")
-                    return (True, 
-                           f"Honeypot crashed during {payload_type} fuzzing at {progress:.1f}%", 
-                           successful_sends)
-            
-            # Small delay between batches for external networks
-            if self.is_external_network():
-                await asyncio.sleep(0.1)
+        total_payloads = len(payloads)
+        with progress_manager.task_progress(f"Fuzzing {payload_type.title()} (port {port})", total=total_payloads) as task_id:
+            for i in range(0, total_payloads, self.batch_size):
+                batch = payloads[i:i + self.batch_size]
+                
+                # Send batch concurrently
+                results = await asyncio.gather(
+                    *[send_with_semaphore(payload) for payload in batch],
+                    return_exceptions=True
+                )
+                
+                successful_sends += sum(1 for r in results if r is True)
+                
+                # Progress update
+                if task_id is not None:
+                    progress_manager.update_task(
+                        task_id,
+                        advance=len(batch),
+                        description=f"Fuzzing {payload_type.title()} ({successful_sends} hits)"
+                    )
+                else:
+                    progress = ((i + len(batch)) / total_payloads) * 100
+                    progress_manager.log(f"[~] {payload_type.title()} fuzzing progress: {progress:.1f}% "
+                                         f"({successful_sends} successful sends)")
+                
+                # Early termination check every few batches
+                if i % (self.batch_size * self.early_termination_checks) == 0:
+                    if not self.is_honeypot_alive():
+                        progress = ((i + len(batch)) / total_payloads) * 100
+                        progress_manager.log(f"[+] Honeypot appears to have crashed during {payload_type} fuzzing!")
+                        return (True, 
+                               f"Honeypot crashed during {payload_type} fuzzing at {progress:.1f}%", 
+                               successful_sends)
+                
+                # Small delay between batches for external networks
+                if self.is_external_network():
+                    await asyncio.sleep(0.1)
         
         return (False, f"{payload_type.title()} fuzzing completed", successful_sends)
 

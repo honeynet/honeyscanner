@@ -1,4 +1,5 @@
 import honeyscanner.art as art
+from honeyscanner.progress import progress_manager
 
 from honeyscanner.honeypots import BaseHoneypot
 from .container_security_scanner import ContainerSecurityScanner
@@ -35,43 +36,49 @@ class AttackOrchestrator:
         Lookup: TypeAlias = dict[str, str]
 
         # Run VulnAnalyzer
-        print(art.ascii_art_vulnanalyzer())
-        analyzer = VulnerableLibrariesAnalyzer(self.honeypot.name,
-                                               self.honeypot.owner)
-        version: str = self.honeypot.version
-        # if version[0] == "v" and self.honeypot.name == "dionaea":
-        #     version = version[1:]
-        versions_list: list[dict] = self.honeypot.versions_list
-        version_lookup: Lookup = {item["version"]: item["requirements_url"]
-                                  for item in versions_list}
-        result = analyzer.analyze_vulnerabilities(version, version_lookup.get(version))
-        self.analyze_vulns_report = result["vulnerability_analysis"]
-        self.recs["vuln"] = result["vulnerability_analysis"]["action_required"]
-        print("Finished VulnAnalyzer!")
+        progress_manager.log(art.ascii_art_vulnanalyzer())
+        with progress_manager.spinner(f"Analyzing {self.honeypot.name} dependency vulnerabilities (Safety DB)..."):
+            analyzer = VulnerableLibrariesAnalyzer(self.honeypot.name,
+                                                   self.honeypot.owner)
+            version: str = self.honeypot.version
+            # if version[0] == "v" and self.honeypot.name == "dionaea":
+            #     version = version[1:]
+            versions_list: list[dict] = self.honeypot.versions_list
+            version_lookup: Lookup = {item["version"]: item["requirements_url"]
+                                      for item in versions_list}
+            result = analyzer.analyze_vulnerabilities(version, version_lookup.get(version))
+            self.analyze_vulns_report = result["vulnerability_analysis"]
+            self.recs["vuln"] = result["vulnerability_analysis"]["action_required"]
+        progress_manager.log("Finished VulnAnalyzer!")
+        progress_manager.advance_overall(description="Static Code Analysis")
 
         # Run Static Analyzer
-        print(art.ascii_art_statichoney())
-        analyzer = StaticAnalyzer(self.honeypot.name,
-                                  self.honeypot.source_code_url,
-                                  self.honeypot.version)
-        result = analyzer.run()
-        self.static_analysis_report = result
-        self.recs["static"] = result["actionable_recommendation"] 
-        print("Finished StaticHoney!")
+        progress_manager.log(art.ascii_art_statichoney())
+        with progress_manager.spinner(f"Running Bandit static code analysis on {self.honeypot.name} {self.honeypot.version}..."):
+            analyzer = StaticAnalyzer(self.honeypot.name,
+                                      self.honeypot.source_code_url,
+                                      self.honeypot.version)
+            result = analyzer.run()
+            self.static_analysis_report = result
+            self.recs["static"] = result["actionable_recommendation"] 
+        progress_manager.log("Finished StaticHoney!")
+        progress_manager.advance_overall(description="Container Security Scan")
 
         # Run Trivy Scanner
-        print(art.ascii_art_trivyscanner())
+        progress_manager.log(art.ascii_art_trivyscanner())
         owner: str = self.honeypot.owner
         # kippo doesn't have official Docker images, so I am using my own
         if self.honeypot.name == "kippo":
             owner = "aristofanischionis"
-        scanner = ContainerSecurityScanner(owner, self.honeypot.name)
-        result, self.recs["container"] = scanner.scan_repository()
-        self.container_sec_report = result
-        self.container_sec_report["actionable_recommendation"] = self.recs["container"]
-        print("Finished Trivy!")
+        with progress_manager.spinner(f"Running Trivy container scan on {owner}/{self.honeypot.name}..."):
+            scanner = ContainerSecurityScanner(owner, self.honeypot.name)
+            result, self.recs["container"] = scanner.scan_repository()
+            self.container_sec_report = result
+            self.container_sec_report["actionable_recommendation"] = self.recs["container"]
+        progress_manager.log("Finished Trivy!")
 
-        print("Finished all passive attacks successfully!")
+        progress_manager.log("Finished all passive attacks successfully!")
+        progress_manager.advance_overall(description="Passive Attacks Complete")
 
     def generate_report(self) -> tuple[dict, dict[str, str]]:
         """

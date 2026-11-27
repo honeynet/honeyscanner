@@ -6,6 +6,7 @@ import yaml
 
 from colorama import Fore
 from honeyscanner.core import Honeyscanner
+from honeyscanner.progress import progress_manager
 from pathlib import Path
 from typing import TypeAlias
 from .sshconnect import CowrieInteract
@@ -160,51 +161,57 @@ class HoneypotDetector:
         completed_count = 0
         last_progress_shown = -1
         
-        print(f"{Fore.GREEN}[+]{Fore.RESET} Starting async port scan on {self.ip} "
-              f"(ports {start_port}-{end_port}, {total_ports} total)")
+        progress_manager.log(
+            f"{Fore.GREEN}[+]{Fore.RESET} Starting async port scan on {self.ip} "
+            f"(ports {start_port}-{end_port}, {total_ports} total)"
+        )
 
         # Create semaphore to limit concurrent connections
         semaphore = asyncio.Semaphore(max_concurrent)
         
-        async def check_single_port(port: int) -> None:
-            nonlocal completed_count, last_progress_shown
-            async with semaphore:
-                if await self.check_port_async(port, timeout):
-                    open_ports.add(port)
-                    print(f"{Fore.GREEN}[+]{Fore.RESET} Port {port} is OPEN")
-                elif show_closed:
-                    print(f"{Fore.RED}[-]{Fore.RESET} Port {port} is closed/filtered")
-                
-                # Update progress after completing port check
-                completed_count += 1
-                current_progress = int((completed_count / total_ports) * 100)
-                
-                # Show progress every 10% or every 500 ports, whichever is more frequent
-                progress_interval = min(500, max(50, total_ports // 10))
-                
-                if verbose and (completed_count % progress_interval == 0 or 
-                              (current_progress > last_progress_shown and 
-                               current_progress % 10 == 0)):
-                    last_progress_shown = current_progress
-                    print(f"{Fore.CYAN}[~]{Fore.RESET} Progress: {current_progress}% "
-                          f"({completed_count}/{total_ports}) ports completed, "
-                          f"{len(open_ports)} open ports found so far")
+        with progress_manager.task_progress(f"Scanning ports ({start_port}-{end_port})", total=total_ports) as task_id:
+            async def check_single_port(port: int) -> None:
+                nonlocal completed_count, last_progress_shown
+                async with semaphore:
+                    if await self.check_port_async(port, timeout):
+                        open_ports.add(port)
+                        progress_manager.log(f"{Fore.GREEN}[+]{Fore.RESET} Port {port} is OPEN")
+                    elif show_closed:
+                        progress_manager.log(f"{Fore.RED}[-]{Fore.RESET} Port {port} is closed/filtered")
+                    
+                    completed_count += 1
+                    if task_id is not None:
+                        progress_manager.update_task(task_id, advance=1)
+                    else:
+                        current_progress = int((completed_count / total_ports) * 100)
+                        progress_interval = min(500, max(50, total_ports // 10))
+                        if verbose and (completed_count % progress_interval == 0 or 
+                                      (current_progress > last_progress_shown and 
+                                       current_progress % 10 == 0)):
+                            last_progress_shown = current_progress
+                            progress_manager.log(
+                                f"{Fore.CYAN}[~]{Fore.RESET} Progress: {current_progress}% "
+                                f"({completed_count}/{total_ports}) ports completed, "
+                                f"{len(open_ports)} open ports found so far"
+                            )
 
-        # Create tasks for all ports
-        tasks = [
-            check_single_port(port) 
-            for port in range(start_port, end_port + 1)
-        ]
+            # Create tasks for all ports
+            tasks = [
+                check_single_port(port) 
+                for port in range(start_port, end_port + 1)
+            ]
+            
+            # Run all tasks concurrently
+            await asyncio.gather(*tasks, return_exceptions=True)
         
-        # Run all tasks concurrently
-        await asyncio.gather(*tasks, return_exceptions=True)
-        
-        print(f"{Fore.GREEN}[+]{Fore.RESET} Async scan complete. "
-              f"Found {len(open_ports)} open ports out of {total_ports} scanned.")
+        progress_manager.log(
+            f"{Fore.GREEN}[+]{Fore.RESET} Async scan complete. "
+            f"Found {len(open_ports)} open ports out of {total_ports} scanned."
+        )
         if open_ports:
-            print(f"{Fore.GREEN}[+]{Fore.RESET} Open ports: {sorted(open_ports)}")
+            progress_manager.log(f"{Fore.GREEN}[+]{Fore.RESET} Open ports: {sorted(open_ports)}")
         else:
-            print(f"{Fore.YELLOW}[!]{Fore.RESET} No open ports found in the specified range.")
+            progress_manager.log(f"{Fore.YELLOW}[!]{Fore.RESET} No open ports found in the specified range.")
         return open_ports
 
     def check_open_ports(
@@ -357,30 +364,32 @@ class HoneypotDetector:
             "unsupported": 0
         }
 
-        for port in open_ports:
-            print(f"{Fore.YELLOW}[~]{Fore.RESET} Matching signatures for port {port}...")
-            for signature in self.signatures.get(port, []):
-                name: str = signature["name"]
-                if self.signature_check(port, signature["steps"]):
-                    if name == "cowrie":
-                        if CowrieInteract(
-                                self.ip,
-                                port,
-                                username,
-                                password).ssh_signatures():
+        with progress_manager.spinner("Matching honeypot signatures across open ports..."):
+            for port in open_ports:
+                progress_manager.log(f"{Fore.YELLOW}[~]{Fore.RESET} Matching signatures for port {port}...")
+                for signature in self.signatures.get(port, []):
+                    name: str = signature["name"]
+                    if self.signature_check(port, signature["steps"]):
+                        if name == "cowrie":
+                            if CowrieInteract(
+                                    self.ip,
+                                    port,
+                                    username,
+                                    password).ssh_signatures():
+                                honeypots_suspected[name] += 1
+                        else:
                             honeypots_suspected[name] += 1
-                    else:
-                        honeypots_suspected[name] += 1
-                if honeypots_suspected[name] > current_suspect[1]:
-                    current_suspect = (name, honeypots_suspected[name])
+                    if honeypots_suspected[name] > current_suspect[1]:
+                        current_suspect = (name, honeypots_suspected[name])
         
         if current_suspect[0] == "unsupported":
-            print(f"{Fore.RED}[-]{Fore.RESET} Didn't find any signature matches")
+            progress_manager.log(f"{Fore.RED}[-]{Fore.RESET} Didn't find any signature matches")
             return None
             
         name: str = current_suspect[0]
         version: str = self.get_latest_version(name)
-        print(f"{Fore.GREEN}[+]{Fore.RESET} This is most likely {name} {version}")
+        progress_manager.log(f"{Fore.GREEN}[+]{Fore.RESET} This is most likely {name} {version}")
+        progress_manager.advance_overall(description=f"Identified Honeypot: {name}")
 
         if name == "cowrie" or name == "kippo":
             if not username:

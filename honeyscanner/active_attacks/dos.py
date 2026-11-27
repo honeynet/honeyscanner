@@ -3,6 +3,7 @@ import time
 
 from threading import Thread
 from typing import TypeAlias
+from honeyscanner.progress import progress_manager
 from .base_attack import AttackResults, BaseAttack, BaseHoneypot
 
 PortSet: TypeAlias = set[int]
@@ -63,10 +64,11 @@ class DoS(BaseAttack):
         Returns:
             AttackResults: The results of the attack.
         """
-        print(f"Running DoS attack on {self.honeypot.ip} and "
-              f"ports: {self.honeypot_ports}")
+        progress_manager.log(f"Running DoS attack on {self.honeypot.ip} and "
+                             f"ports: {self.honeypot_ports}")
         start_time: float = time.time()
-        self.manage_attack()
+        with progress_manager.spinner(f"Flooding {self.honeypot.ip} ({self.num_threads} threads)..."):
+            self.manage_attack()
         end_time: float = time.time()
         time_taken: float = end_time - start_time
         if self.honeypot_rejecting_connections:
