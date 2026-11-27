@@ -11,6 +11,7 @@ from collections import defaultdict
 from colorama import Fore, Style, init
 from datetime import datetime
 from github import Github, GitRelease, NamedUser, Repository
+from honeyscanner.progress import progress_manager
 from packaging.version import parse as pkg_version_parse
 from packaging.specifiers import SpecifierSet
 from pathlib import Path
@@ -72,7 +73,8 @@ class VulnerableLibrariesAnalyzer:
         Download the insecure_full.json file containing vulnerability data.
         """
         url: str = "https://raw.githubusercontent.com/pyupio/safety-db/master/data/insecure_full.json"
-        response: requests.Response = requests.get(url)
+        with progress_manager.spinner("Downloading safety vulnerability database (safety-db)..."):
+            response: requests.Response = requests.get(url)
         if response.status_code == 200:
             if not self.insecure_full_path.parent.is_dir():
                 self.insecure_full_path.parent.mkdir()

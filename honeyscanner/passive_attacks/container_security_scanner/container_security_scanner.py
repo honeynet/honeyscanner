@@ -3,6 +3,7 @@ import requests
 import subprocess
 
 from colorama import Fore, Style, init
+from honeyscanner.progress import progress_manager
 from pathlib import Path
 from shutil import rmtree, which
 import tempfile
@@ -70,26 +71,27 @@ class ContainerSecurityScanner:
         """
         Install Trivy.
         """
-        print(f"{Fore.GREEN}Installing Trivy...{Style.RESET_ALL}")
+        progress_manager.log(f"{Fore.GREEN}Installing Trivy...{Style.RESET_ALL}")
         curl_command = ["curl", "-sfL", "https://raw.githubusercontent.com/aquasecurity/trivy/main/contrib/install.sh"]
         sh_command = ["sh", "-s", "--", "-b", self.trivy_install_path]
 
         try:
-            curl_process = subprocess.Popen(curl_command,
-                                            stdout=subprocess.PIPE)
-            subprocess.run(sh_command,
-                           stdin=curl_process.stdout,
-                           check=True)
-            curl_process.stdout.close()
+            with progress_manager.spinner("Downloading and installing Trivy binary..."):
+                curl_process = subprocess.Popen(curl_command,
+                                                stdout=subprocess.PIPE)
+                subprocess.run(sh_command,
+                               stdin=curl_process.stdout,
+                               check=True)
+                curl_process.stdout.close()
         except subprocess.CalledProcessError as e:
-            print(f"{Fore.RED}Error installing Trivy: {e.output}")
+            progress_manager.log(f"{Fore.RED}Error installing Trivy: {e.output}")
             raise
 
     def clone_repository(self) -> None:
         """
         Clone the GitHub repository.
         """
-        print(f"{Fore.GREEN}Cloning repository...{Style.RESET_ALL}")
+        progress_manager.log(f"{Fore.GREEN}Cloning repository...{Style.RESET_ALL}")
         self.local_repo_path: Path = self.base_path / self.github_repo_url.split("/")[-1].replace(".git", "")
 
         if self.local_repo_path.exists():
@@ -97,9 +99,10 @@ class ContainerSecurityScanner:
 
         clone_command = ['git', 'clone', self.github_repo_url, str(self.local_repo_path)]
         try:
-            subprocess.run(clone_command, check=True)
+            with progress_manager.spinner(f"Cloning {self.github_repo_url}..."):
+                subprocess.run(clone_command, check=True)
         except subprocess.CalledProcessError as e:
-            print(f"{Fore.RED}Error cloning repository: {e.output}")
+            progress_manager.log(f"{Fore.RED}Error cloning repository: {e.output}")
             raise
 
     @staticmethod

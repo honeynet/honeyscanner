@@ -1,4 +1,5 @@
 from math import floor
+from honeyscanner.progress import progress_manager
 from .base_attack import AttackResults, BaseAttack, BaseHoneypot
 from .dos import DoS
 from .fuzzing import Fuzzing
@@ -37,6 +38,9 @@ class AttackOrchestrator:
         # Then run the attacks
         results = []
         for attack in self.attacks:
+            attack_name = attack.__class__.__name__
+            progress_manager.advance_overall(description=f"Active Attack: {attack_name}")
+            progress_manager.log(f"[bold cyan][*][/bold cyan] Starting active attack: {attack_name}")
             result = attack.run_attack()
             if result[0]:
                 self.successful_attacks += 1

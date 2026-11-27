@@ -106,6 +106,12 @@ python3 main.py --target-ip 127.0.0.1
 python3 main.py --target-ip 127.0.0.1 --username root --password 1234
 ```
 
+To disable interactive progress bars and spinners (for automated pipelines or non-interactive terminals):
+
+```bash
+python3 main.py --target-ip 127.0.0.1 --no-progress
+```
+
 ## Contributors
 
 For information on Contributors and How to contribute see our [Contributors file](./CONTRIBUTORS.md).

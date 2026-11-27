@@ -7,6 +7,7 @@ import subprocess
 import tempfile
 
 from colorama import Fore, init
+from honeyscanner.progress import progress_manager
 from pathlib import Path
 from typing import TypeAlias
 from urllib.request import urlretrieve
@@ -63,7 +64,8 @@ class StaticAnalyzer:
 
         url: str = f"{self.honeypot_url}/{version}.zip"
         zip_filename: Path = self.parent_path / "static_analyzer" / f"{self.honeypot_name}-{version}.zip"
-        urlretrieve(url, zip_filename)
+        with progress_manager.spinner(f"Downloading source code for {self.honeypot_name} {version}..."):
+            urlretrieve(url, zip_filename)
 
         with ZipFile(zip_filename, 'r') as zip_ref:
             zip_ref.extractall(self.parent_path / "static_analyzer")
@@ -100,8 +102,9 @@ class StaticAnalyzer:
         # Run Bandit via subprocess
         cmd: str = f"bandit -r '{honeypot_folder}' -f json -o '{output_filename}'"
 
-        with open(os.devnull, 'w'):
-            process: CompletedProc = subprocess.run(cmd, shell=True)
+        with progress_manager.spinner(f"Running Bandit AST security analysis on {self.honeypot_name}..."):
+            with open(os.devnull, 'w'):
+                process: CompletedProc = subprocess.run(cmd, shell=True)
 
         if process.returncode != 0 and process.stderr:
             print(f"Error running Bandit for {self.honeypot_name}-{version}:")
